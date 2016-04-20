@@ -89,7 +89,7 @@ public class BasicServerTest {
     /**
      * A Thread that contains a BasicServer. Used because the server is blocking.
      */
-    private class BasicServerThread implements Runnable {
+    private static class BasicServerThread implements Runnable {
         private BasicServer basicServer;
 
         BasicServerThread(BasicServer basicServer) {
