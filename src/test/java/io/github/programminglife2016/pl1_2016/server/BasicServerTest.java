@@ -78,7 +78,7 @@ public class BasicServerTest {
      */
     private String httpRequest(URL url) throws IOException {
         InputStream is = url.openStream();
-        Scanner s = new Scanner(is).useDelimiter("\\A");
+        Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
         if (s.hasNext()) {
             return s.next();
         } else {

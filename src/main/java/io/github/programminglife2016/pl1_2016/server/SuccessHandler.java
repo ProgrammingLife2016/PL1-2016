@@ -39,7 +39,7 @@ class SuccessHandler implements MessageHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length());
         OutputStream os = httpExchange.getResponseBody();
-        os.write(message.getBytes());
+        os.write(message.getBytes("UTF-8"));
         os.close();
     }
 }
