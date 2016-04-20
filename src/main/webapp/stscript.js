@@ -3,7 +3,8 @@ var width = 960,
 
 var force = d3.layout.force()
     .size([width, height])
-    .charge(-400)
+    .charge(-200).linkStrength(10)
+    .gravity(0).alpha(0).theta(0).friction(0.5)
     .linkDistance(40)
     .on("tick", tick);
 
@@ -19,12 +20,12 @@ var link = svg.selectAll(".link"),
 
 d3.json("graph.json", function(error, graph) {
   if (error) throw error;
-
+//   var nodes = graph.nodes
+   graph.fixed = true
   force
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
-
   link = link.data(graph.links)
     .enter().append("line").attr('marker-end','url(#arrowhead)')
       .attr("class", "link");

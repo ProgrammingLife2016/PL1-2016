@@ -7,7 +7,7 @@
     var dataset = {
 
     nodes: [
-    {name: "ATGTAUG"},
+    {name: "ary"},
     {name: "Bob"},
     {name: "Carrie"},
     {name: "Donovan"},
