@@ -1,8 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +21,7 @@ public class SimpleParser implements Parser, JsonSerializable {
     }
 
     public JsonSerializable parse(InputStream inputStream) {
+        read(inputStream);
         return this;
     }
 
@@ -38,13 +39,13 @@ public class SimpleParser implements Parser, JsonSerializable {
     }
 
     /**
-     * Read lines of the file and parse data to data structure.
-     * @param filename fileName of .gfa file.
+     * Parse data from inputStream.
+     * @param inputStream stream of data.
      */
-    private void readFile(String filename) {
+    private void read(InputStream inputStream) {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(filename));
+            reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
