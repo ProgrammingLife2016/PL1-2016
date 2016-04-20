@@ -12,4 +12,9 @@ public interface Server {
      * @throws IOException thrown if the server cannot obtain resources (e.g. ports).
      */
     void startServer() throws IOException;
+
+    /**
+     * Stop the server.
+     */
+    void stopServer();
 }

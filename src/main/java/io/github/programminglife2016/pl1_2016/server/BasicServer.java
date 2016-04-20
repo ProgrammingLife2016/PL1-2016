@@ -9,9 +9,11 @@ import java.net.InetSocketAddress;
  * A simple server that listens to /nodes at port 8080, outputting the message.
  */
 public class BasicServer implements Server {
-    private static final int PORT = 8080;
+    public static final int PORT = 8080;
 
     private MessageHandler messageHandler;
+    private HttpServer server;
+
 
     /**
      * Create a server that - once started - will initially output the message.
@@ -36,9 +38,16 @@ public class BasicServer implements Server {
      * @throws IOException thrown if the port is in use
      */
     public void startServer() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/nodes", messageHandler);
         server.setExecutor(null);
         server.start();
+    }
+
+    /**
+     * Stop the server (immediately).
+     */
+    public void stopServer() {
+        server.stop(0);
     }
 }
