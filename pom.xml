@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>github.programminglife2016.pl1-2016</groupId>
-    <artifactId>dna-visualizer</artifactId>
+    <groupId>io.github.programminglife2016.pl1-2016</groupId>
+    <artifactId>byzantinegenerals</artifactId>
     <version>0.0.1-alpha</version>
 
     <build>
