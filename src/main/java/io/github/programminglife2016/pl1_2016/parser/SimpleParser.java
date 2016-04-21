@@ -3,13 +3,16 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Temporary simple parser for parsing .gfa files.
  */
 public class SimpleParser implements Parser {
     private static final int SIZE = 9000;
+    private static final String ATTR_ZINDEX = "START:Z:";
 
     /**
      * Map containing the DNA seqments.
@@ -30,13 +33,12 @@ public class SimpleParser implements Parser {
      */
     public JsonSerializable parse(InputStream inputStream) {
         read(inputStream);
-        printSegments();
         return segmentMap;
     }
 
     private void printSegments() {
         for (Map.Entry<Integer, Segment> entry: segmentMap.entrySet()) {
-            System.out.println("segment.id = " + entry.getValue().getId());
+            System.out.println("segment.id = " + entry.getValue().getId() + " | " + entry.getValue().getColumn());
             for (Segment link: entry.getValue().getLinks()) {
                 System.out.println("\tlink = " + link.getId());
             }
@@ -100,13 +102,17 @@ public class SimpleParser implements Parser {
      * @param data contents of line separated by whitespace.
      */
     private void parseSegmentLine(String[] data) {
-        //S	4	G	*	ORI:Z:MT_H37RV_BRD_V5.
         int id = Integer.parseInt(data[1]);
         String seq = data[2];
+        int column = 0;
+        if (data[data.length - 1].contains(ATTR_ZINDEX)) {
+            column = Integer.parseInt(data[data.length - 1].split(":")[2]);
+        }
         if (!segmentMap.containsKey(id)) {
-            segmentMap.put(id, new Segment(id, seq));
+            segmentMap.put(id, new Segment(id, seq, column));
         } else {
             segmentMap.get(id).setData(seq);
+            segmentMap.get(id).setColumn(column);
         }
     }
 
@@ -116,7 +122,6 @@ public class SimpleParser implements Parser {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     private void parseLinkLine(String[] data) {
-        //L	1	+	2	+	0M
         int from = Integer.parseInt(data[1]);
         String fromOrient = data[2];
         int to = Integer.parseInt(data[3]);

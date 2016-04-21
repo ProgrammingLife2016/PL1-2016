@@ -18,6 +18,11 @@ public class Segment {
     private String data;
 
     /**
+     * z-index of Segment in graph.
+     */
+    private int column;
+
+    /**
      * Links to other DNA segments in the graph.
      */
     private List<Segment> links;
@@ -27,9 +32,10 @@ public class Segment {
      * @param id identifier of this segment.
      * @param data sequence data of this segment.
      */
-    public Segment(int id, String data) {
+    public Segment(int id, String data, int column) {
         this.id = id;
         this.data = data;
+        this.column = column;
         this.links = new ArrayList<Segment>();
     }
 
@@ -80,5 +86,13 @@ public class Segment {
      */
     public int getId() {
         return id;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 }
