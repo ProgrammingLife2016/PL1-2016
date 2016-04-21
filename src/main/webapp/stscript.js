@@ -1,8 +1,19 @@
 var width = 960,
     height = 500;
 
+var baseYmin = 295,
+    baseYmax = 305,
+    baseLinkDist = 80,
+    shiftDist = 30;
+
 var force =
-d3.layout.force().alpha(0).gravity(0).charge(0).linkDistance(50).start()
+d3.layout.force().alpha(0).gravity(0).charge(0)
+.linkDistance(function(d){
+        h = d.target.y - d.source.y;
+        w = d.target.x - d.source.x;
+        return Math.sqrt(h*h + w*w);
+    })
+.start()
 //d3.layout.force()
 //    .size([width, height])
 //    .charge(-200).linkStrength(10)
@@ -18,6 +29,7 @@ var svg = d3.select("body").append("svg")
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
+
 //var nodelabels = svg.selectAll(".nodelabel")
 //         .data(dataset.nodes)
 //         .enter()
@@ -47,6 +59,7 @@ d3.json("graph.json", function(error, graph) {
   node = node.data(graph.nodes)
     .enter().append("circle")
       .attr("class", "node")
+      .attr("label", "node")
       .attr("r", 12)
       .attr("id", "node" + i++)
       .on("dblclick", dblclick)
@@ -66,12 +79,15 @@ d3.json("graph.json", function(error, graph) {
 
 force.on("tick", function() {
   link.attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
+      .attr("y1", function(d) { return d.source.y;})
       .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
+      .attr("y2", function(d) { return d.target.y;  });
 
-  node.attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; });
+  node
+      .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y;  });
+
+
 //  console.log(node)
 //  console.log(nodelabels)
 //  nodelabels.attr("x", function(d) { return d.x; })
