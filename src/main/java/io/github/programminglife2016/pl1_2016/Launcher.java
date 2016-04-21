@@ -2,12 +2,9 @@ package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
-import io.github.programminglife2016.pl1_2016.parser.SimpleParser;
 import io.github.programminglife2016.pl1_2016.server.BasicServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
