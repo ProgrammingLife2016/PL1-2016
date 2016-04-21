@@ -18,13 +18,6 @@ var svg = d3.select("body").append("svg")
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-
-//$.ajax({
-//    url: "graph.json",
-//    success: function (data) {
-//        var obj = JSON.parse(data);
-//    }
-//});
 //var nodelabels = svg.selectAll(".nodelabel")
 //         .data(dataset.nodes)
 //         .enter()
@@ -34,6 +27,9 @@ var link = svg.selectAll(".link"),
 //                "class":"nodelabel",
 //                "stroke":"black"})
 //         .text(function(d){return d.name;});
+
+var notyList = new Array();
+
 var nodelabels;
 var dataset;
 var i = 0;
