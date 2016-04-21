@@ -31,6 +31,7 @@ public class Segment {
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
      * @param data sequence data of this segment.
+     * @param column index of this segment.
      */
     public Segment(int id, String data, int column) {
         this.id = id;
@@ -88,10 +89,18 @@ public class Segment {
         return id;
     }
 
+    /**
+     * Get index of column in graph of this DNA segment.
+     * @return index of column starting at 0.
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * Set column index if this DNA segment.
+     * @param column index in graph.
+     */
     public void setColumn(int column) {
         this.column = column;
     }
