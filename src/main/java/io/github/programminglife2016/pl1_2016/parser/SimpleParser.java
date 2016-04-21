@@ -3,30 +3,26 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Temporary simple parser for parsing .gfa files.
  */
-public class SimpleParser implements Parser, JsonSerializable {
+public class SimpleParser implements Parser {
 
     /**
      * Map containing the DNA seqments.
      */
-    private Map<Integer, Segment> segmentMap;
+    private SegmentMap segmentMap;
 
     public SimpleParser() {
-        segmentMap = new HashMap<Integer, Segment>(9000);
+        segmentMap = new SegmentMap(9000);
     }
 
     public JsonSerializable parse(InputStream inputStream) {
         read(inputStream);
-        return this;
-    }
-
-    public String toJson() {
-        return "";
+        printSegments();
+        return segmentMap;
     }
 
     private void printSegments() {
