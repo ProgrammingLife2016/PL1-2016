@@ -84,10 +84,25 @@ force.on("tick", function() {
 
 function dblclick(d) {
   d3.select(this).classed("fixed", d.fixed = false);
+    notyList[d.name].close();
+    notyList[d.name] = undefined;
 }
 
 function dragstart(d) {
-  d3.select(this).classed("fixed", d.fixed = true);
+    d3.select(this).classed("fixed", d.fixed = true);
+
+    if(notyList[d.name] == undefined){
+        var n = noty({
+            text: d.name,
+            animation: {
+                open: {height: 'toggle'}, // jQuery animate function property object
+                close: {height: 'toggle'}, // jQuery animate function property object
+                easing: 'swing', // easing
+                speed: 500 // opening & closing animation speed
+            }
+        });
+        notyList[d.name] = n;
+    }
 }
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
