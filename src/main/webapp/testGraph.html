@@ -76,12 +76,19 @@ $('#cy').cytoscape({
   
   ready: function(){
     window.cy = this;
-    
     // giddy up
   }
 });
 
 }); // on dom ready
+
+    function zoomLogger()
+      {console.log("zoom level: " + window.cy.zoom())};
+
+
+    window.scroll(function() {
+        alert("zoomLogger()")
+    });
   </script>
   <style type="text/css">
   body { 
