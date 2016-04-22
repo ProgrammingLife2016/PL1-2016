@@ -58,13 +58,17 @@ public class SimpleParserTest {
         assertTrue(segment3.getLinks().isEmpty());
     }
 
+    /**
+     * Test if the z-index of a segment is parsed correctly.
+     */
     @Test
     public void testParseZIndex() {
-        final String gfaFile = "H	VN:Z:1.0\n" +
-                "S 1 AGAT\n" +
-                "S 2 TTGC\n" +
-                "S	3	C	*	ORI:Z:TKK_02_0008.fasta	CRD:Z:TKK_02_0008.fasta	CRDCTG:Z:NZ_KK327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n" +
-                "L	1	+	2	+	0M";
+        final String gfaFile = "H	VN:Z:1.0\n"
+                + "S 1 AGAT\n"
+                + "S 2 TTGC\n"
+                + "S	3	C	*	ORI:Z:TKK_02_0008.fasta	CRD:Z:TKK_02_0008.fasta	CRDCTG:Z:NZ_KK"
+                + "327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n"
+                + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         SegmentMap segmentMap = parser.getSegmentMap();
         Segment segment3 = segmentMap.get(3);
