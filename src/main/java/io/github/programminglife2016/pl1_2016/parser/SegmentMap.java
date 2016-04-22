@@ -1,5 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.HashMap;
 
 /**
@@ -20,8 +23,7 @@ public class SegmentMap extends HashMap<Integer, Segment> implements JsonSeriali
      * @return hashmap converted to JSON string.
      */
     public String toJson() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{}");
-        return sb.toString();
+        Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer()).create();
+        return gson.toJson(this);
     }
 }

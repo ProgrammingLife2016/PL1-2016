@@ -126,7 +126,6 @@ public class SimpleParser implements Parser {
             segmentMap.put(to, new Segment(to));
         }
         segmentMap.get(from).addLink(segmentMap.get(to));
-        segmentMap.get(to).addLink(segmentMap.get(from));
     }
 
     /**
