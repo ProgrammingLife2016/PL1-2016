@@ -1,0 +1,36 @@
+{
+  "nodes": [
+    {"id": "n0", "x": 50, "y": 200, "label": "A","size": 3},
+    {"id": "n1", "x": 50, "y": 400, "label": "T","size": 3},
+    {"id": "n2", "x": 100, "y": 300, "label": "TCGG","size": 3},
+    {"id": "n3", "x": 150, "y": 200, "label": "AAC","size": 3},
+    {"id": "n4", "x": 150, "y": 400, "label": "GTT","size": 3},
+    {"id": "n5", "x": 200, "y": 300, "label": "TAGT","size": 3},
+    {"id": "n6", "x": 250, "y": 200, "label": "none","size": 3},
+    {"id": "n7", "x": 250, "y": 400, "label": "C","size": 3},
+    {"id": "n8", "x": 300, "y": 300, "label": "CAC","size": 3},
+    {"id": "n9", "x": 350, "y": 200, "label": "G","size": 3},
+    {"id": "n10", "x": 350, "y": 400, "label": "none","size": 3},
+    {"id": "n11", "x": 400, "y": 300, "label": "TTGA","size": 3},
+    {"id": "n12", "x": 450, "y": 200, "label": "T","size": 3},
+    {"id": "n13", "x": 450, "y": 400, "label": "C","size": 3}
+  ],
+  "links": [
+    {"id": "l0","source":  "n0", "target":  "n2"},
+    {"id": "l1","source":  "n1", "target":  "n2"},
+    {"id": "l2","source":  "n2", "target":  "n3"},
+    {"id": "l3","source":  "n2", "target":  "n4"},
+    {"id": "l4","source":  "n4", "target":  "n5"},
+    {"id": "l5","source":  "n3", "target":  "n5"},
+    {"id": "l6","source":  "n5", "target":  "n6"},
+    {"id": "l7","source":  "n5", "target":  "n7"},
+    {"id": "l8","source":  "n6", "target":  "n8"},
+    {"id": "l9","source":  "n7", "target":  "n8"},
+    {"id": "l10","source":  "n8", "target":  "n9"},
+    {"id": "l11","source":  "n8", "target":  "n10"},
+    {"id": "l12","source":  "n9", "target":  "n11"},
+    {"id": "l13","source":  "n10", "target":  "n11"},
+    {"id": "l14","source":  "n11", "target":  "n13"},
+    {"id": "l15","source":  "n11", "target":  "n12"}
+  ]
+}
