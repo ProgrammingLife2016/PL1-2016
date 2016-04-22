@@ -3,7 +3,6 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Map;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -30,17 +29,7 @@ public class SimpleParser implements Parser {
      */
     public JsonSerializable parse(InputStream inputStream) {
         read(inputStream);
-        printSegments();
         return segmentMap;
-    }
-
-    private void printSegments() {
-        for (Map.Entry<Integer, Segment> entry: segmentMap.entrySet()) {
-            System.out.println("segment.id = " + entry.getValue().getId());
-            for (Segment link: entry.getValue().getLinks()) {
-                System.out.println("\tlink = " + link.getId());
-            }
-        }
     }
 
     /**
