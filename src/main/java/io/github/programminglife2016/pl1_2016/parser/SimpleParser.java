@@ -39,7 +39,7 @@ public class SimpleParser implements Parser {
     private void read(InputStream inputStream) {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
