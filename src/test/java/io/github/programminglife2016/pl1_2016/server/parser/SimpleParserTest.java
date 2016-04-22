@@ -48,10 +48,8 @@ public class SimpleParserTest {
         parser.parse(stringToInputStream(gfaFile));
         SegmentMap segmentMap = parser.getSegmentMap();
         Segment segment1 = segmentMap.get(1);
-        Segment segment2 = segmentMap.get(2);
         Segment segment3 = segmentMap.get(3);
         assertEquals(2, segment1.getLinks().get(0).getId());
-        assertEquals(1, segment2.getLinks().get(0).getId());
         assertTrue(segment3.getLinks().isEmpty());
     }
 
