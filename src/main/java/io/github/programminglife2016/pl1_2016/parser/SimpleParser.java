@@ -76,7 +76,7 @@ public class SimpleParser implements Parser {
        line = line.trim();
        String[] data = line.split("\\s+");
        switch (data[0].charAt(0)) {
-       case 'H': parseHeaderLine(data);
+       case 'H':
            break;
        case 'S': parseSegmentLine(data);
            break;
@@ -85,14 +85,6 @@ public class SimpleParser implements Parser {
        default:
            break;
        }
-    }
-
-    /**
-     * Parse a header line according to the GFA specification.
-     * @param data contents of line separated by whitespace.
-     */
-    private void parseHeaderLine(String[] data) {
-        return;
     }
 
     /**
@@ -118,10 +110,7 @@ public class SimpleParser implements Parser {
     private void parseLinkLine(String[] data) {
         //L	1	+	2	+	0M
         int from = Integer.parseInt(data[1]);
-        String fromOrient = data[2];
         int to = Integer.parseInt(data[3]);
-        String toOrient = data[4];
-        String overlap = data[5];
         if (!segmentMap.containsKey(to)) {
             segmentMap.put(to, new Segment(to));
         }
