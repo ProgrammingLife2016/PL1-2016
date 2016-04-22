@@ -3,7 +3,6 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Map;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -34,16 +33,6 @@ public class SimpleParser implements Parser {
         return segmentMap;
     }
 
-    private void printSegments() {
-        for (Map.Entry<Integer, Segment> entry: segmentMap.entrySet()) {
-            System.out.println("segment.id = "
-                    + entry.getValue().getId() + " | " + entry.getValue().getColumn());
-            for (Segment link: entry.getValue().getLinks()) {
-                System.out.println("\tlink = " + link.getId());
-            }
-        }
-    }
-
     /**
      * Parse data from inputStream.
      * @param inputStream stream of data.
@@ -51,7 +40,7 @@ public class SimpleParser implements Parser {
     private void read(InputStream inputStream) {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
@@ -77,7 +66,7 @@ public class SimpleParser implements Parser {
        line = line.trim();
        String[] data = line.split("\\s+");
        switch (data[0].charAt(0)) {
-       case 'H': parseHeaderLine(data);
+       case 'H':
            break;
        case 'S': parseSegmentLine(data);
            break;
@@ -86,14 +75,6 @@ public class SimpleParser implements Parser {
        default:
            break;
        }
-    }
-
-    /**
-     * Parse a header line according to the GFA specification.
-     * @param data contents of line separated by whitespace.
-     */
-    private void parseHeaderLine(String[] data) {
-        return;
     }
 
     /**
@@ -122,15 +103,11 @@ public class SimpleParser implements Parser {
     @SuppressWarnings("checkstyle:magicnumber")
     private void parseLinkLine(String[] data) {
         int from = Integer.parseInt(data[1]);
-        String fromOrient = data[2];
         int to = Integer.parseInt(data[3]);
-        String toOrient = data[4];
-        String overlap = data[5];
         if (!segmentMap.containsKey(to)) {
             segmentMap.put(to, new Segment(to));
         }
         segmentMap.get(from).addLink(segmentMap.get(to));
-        segmentMap.get(to).addLink(segmentMap.get(from));
     }
 
     /**
