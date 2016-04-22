@@ -13,6 +13,7 @@ d3.layout.force().alpha(0).gravity(0).charge(0)
         w = d.target.x - d.source.x;
         return Math.sqrt(h*h + w*w);
     })
+    .linkStrength(0.1)
 .start()
 //d3.layout.force()
 //    .size([width, height])
@@ -45,9 +46,19 @@ var notyList = new Array();
 var nodelabels;
 var dataset;
 var i = 0;
+
+function setDataset(val, callback){
+    dataset = val;
+    callback();
+}
+
+function printDataset(){
+    console.log("Dataset: " + dataset);
+}
+
 d3.json("graph.json", function(error, graph) {
   if (error) throw error;
-  dataset = clone(graph)
+  setDataset(clone(graph), printDataset);
   force
       .nodes(graph.nodes)
       .links(graph.links)
@@ -75,7 +86,8 @@ d3.json("graph.json", function(error, graph) {
 //          "stroke":"black"})
 //   .text(function(d){return d.name;});
 //   console.log(nodelabels)
-});
+})
+
 
 force.on("tick", function() {
   link.attr("x1", function(d) { return d.source.x; })
