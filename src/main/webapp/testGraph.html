@@ -86,6 +86,7 @@ $('#cy').cytoscape({
       {console.log("zoom level: " + window.cy.zoom())};
 
     document.addEventListener("wheel", function(){
+        $.ajax("/zoom", {zoom: window.cy.zoom()});
         zoomLogger();
     });
   </script>
