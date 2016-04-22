@@ -20,7 +20,8 @@ public final class Launcher {
      */
     public static void main(String[] args) throws IOException {
         Parser parser = new SimpleParser();
-        String json = parser.parse(Launcher.class.getResourceAsStream("/genomes/TB10_.gfa")).toJson();
+        String json = parser.parse(Launcher.class.getResourceAsStream("/genomes/TB10_.gfa"))
+                .toJson();
         Server server = new BasicServer(json);
         server.startServer();
     }

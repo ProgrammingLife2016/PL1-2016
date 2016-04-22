@@ -23,7 +23,8 @@ public class SegmentMap extends HashMap<Integer, Segment> implements JsonSeriali
      * @return hashmap converted to JSON string.
      */
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer())
+                .create();
         return gson.toJson(this);
     }
 }
