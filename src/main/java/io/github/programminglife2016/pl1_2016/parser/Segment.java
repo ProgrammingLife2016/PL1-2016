@@ -28,6 +28,16 @@ public class Segment {
     private List<Segment> links;
 
     /**
+     * x position of the segment in the graph.
+     */
+    private int x;
+
+    /**
+     * y position of the segment in the graph.
+     */
+    private int y;
+
+    /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
      * @param data sequence data of this segment.
@@ -103,5 +113,45 @@ public class Segment {
      */
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    /**
+     * Set the x value of the segment in the graph.
+     * @param x x coordinate of segment.
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * Set the y value of the segment in the graph
+     * @param y y coordinate of segment
+     */
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    /**
+     * Set both the x and the y position of the segment.
+     * @param x x-position of the segment.
+     * @param y y-position of the segment.
+     */
+    public void setXY(int x, int y) {
+        this.y = y;
+    }
+
+    /**
+     * Return string representation of segment.
+     * @return string representing segment.
+     */
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", data='" + data + '\n' +
+                ", column=" + column +
+                '}' + '\n' + "---------";
     }
 }
