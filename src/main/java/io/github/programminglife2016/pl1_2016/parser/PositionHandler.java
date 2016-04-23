@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,9 @@ public class PositionHandler {
      */
     private SegmentMap segmentMap;
 
+    /**
+     * Map containing columns of based on Z-index and the segments it contains.
+     */
     private Map<Integer, List<Integer>> columns;
 
     /**
@@ -45,11 +47,6 @@ public class PositionHandler {
                 boundary = boundary - spacing;
             }
             currx = currx + spacing;
-        }
-        for (Map.Entry<Integer, Segment> entry:
-        segmentMap.entrySet()){
-            Segment val = entry.getValue();
-            System.out.println(val.getId() + " " + val.getX() + " " + val.getY());
         }
     }
 }
