@@ -114,7 +114,7 @@ public class Segment {
     public void setColumn(int column) {
         this.column = column;
     }
-    
+
     /**
      * Set both the x and the y position of the segment.
      * @param x x-position of the segment.
@@ -131,12 +131,13 @@ public class Segment {
      */
     @Override
     public String toString() {
-        return "Segment{" +
-                "id=" + id +
-                ", x=" + x +
-                ", y=" + y +
-                ", data='" + data + '\n' +
-                ", column=" + column +
-                '}' + '\n' + "---------";
+        return "Segment{"
+                + "id=" + id
+                + ", x=" + x
+                + ", y=" + y
+                + ", column=" + column
+                + '}'
+                + '\n'
+                + "---------";
     }
 }

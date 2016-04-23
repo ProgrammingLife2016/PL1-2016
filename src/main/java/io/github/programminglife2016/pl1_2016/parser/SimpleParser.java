@@ -3,7 +3,10 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -94,7 +97,7 @@ public class SimpleParser implements Parser {
         int id = Integer.parseInt(data[1]);
         String seq = data[2];
         int column = 0;
-        if (data[data.length - 1].contains(ATTR_ZINDEX)) {
+        if(data[data.length - 1].contains(ATTR_ZINDEX)){
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
             if(!columns.containsKey(column)){
                 columns.put(column, new ArrayList<Integer>());

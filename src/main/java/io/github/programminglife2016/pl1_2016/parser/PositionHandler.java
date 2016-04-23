@@ -30,12 +30,13 @@ public class PositionHandler {
     /**
      * Calculate the positions of the segments in the segmentMap.
      */
-    public void calculatePositions(){
+    @SuppressWarnings("checkstyle:magicnumber")
+    public void calculatePositions() {
         int currx = 0;
         int spacing = 10;
         for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
             List<Integer> segments = entry.getValue();
-            if(segments.size()==1){
+            if (segments.size() == 1) {
                 segmentMap.get(segments.get(0)).setXY(currx,0);
                 currx = currx + spacing;
                 continue;
