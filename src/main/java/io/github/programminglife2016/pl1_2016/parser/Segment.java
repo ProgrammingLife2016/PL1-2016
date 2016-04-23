@@ -114,23 +114,7 @@ public class Segment {
     public void setColumn(int column) {
         this.column = column;
     }
-
-    /**
-     * Set the x value of the segment in the graph.
-     * @param x x coordinate of segment.
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * Set the y value of the segment in the graph
-     * @param y y coordinate of segment
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-
+    
     /**
      * Set both the x and the y position of the segment.
      * @param x x-position of the segment.
@@ -139,14 +123,6 @@ public class Segment {
     public void setXY(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     /**
