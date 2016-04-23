@@ -37,13 +37,13 @@ public class PositionHandler {
         for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
             List<Integer> segments = entry.getValue();
             if (segments.size() == 1) {
-                segmentMap.get(segments.get(0)).setXY(currx,0);
+                segmentMap.get(segments.get(0)).setXY(currx, 0);
                 currx = currx + spacing;
                 continue;
             }
-            int boundary = (segments.size()-1)*5;
-            for (Integer index :
-                    segments) {
+            int boundary = (segments.size() - 1) * 5;
+            for (Integer index
+                    : segments) {
                 segmentMap.get(index).setXY(currx, boundary);
                 boundary = boundary - spacing;
             }

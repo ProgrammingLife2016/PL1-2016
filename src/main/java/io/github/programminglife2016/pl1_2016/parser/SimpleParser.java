@@ -97,13 +97,15 @@ public class SimpleParser implements Parser {
         int id = Integer.parseInt(data[1]);
         String seq = data[2];
         int column = 0;
-        if(data[data.length - 1].contains(ATTR_ZINDEX)){
+        if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
-            if(!columns.containsKey(column)){
+            if (!columns.containsKey(column)) {
                 columns.put(column, new ArrayList<Integer>());
                 columns.get(column).add(id);
             }
-            else columns.get(column).add(id);
+            else {
+                columns.get(column).add(id);
+            }
         }
         if (!segmentMap.containsKey(id)) {
             segmentMap.put(id, new Segment(id, seq, column));
