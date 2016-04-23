@@ -20,7 +20,7 @@ public class PositionHandler {
      * @param segmentMap Map containing all the segments which positions need to be calculated.
      * @param columns All the columns based on Z-index with the segments they contain.
      */
-    public PositionHandler(SegmentMap segmentMap, HashMap<Integer, List<Integer>> columns) {
+    public PositionHandler(SegmentMap segmentMap, Map<Integer, List<Integer>> columns) {
         this.columns = columns;
         this.segmentMap = segmentMap;
     }
@@ -29,21 +29,27 @@ public class PositionHandler {
      * Calculate the positions of the segments in the segmentMap.
      */
     public void calculatePositions(){
-        int currx = 0, spacing = 10;
+        int currx = 0;
+        int spacing = 10;
         for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
             List<Integer> segments = entry.getValue();
             if(segments.size()==1){
                 segmentMap.get(segments.get(0)).setXY(currx,0);
-                currx += spacing;
+                currx = currx + spacing;
                 continue;
             }
             int boundary = (segments.size()-1)*5;
             for (Integer index :
                     segments) {
                 segmentMap.get(index).setXY(currx, boundary);
-                boundary =- spacing;
+                boundary = boundary - spacing;
             }
-            currx += spacing;
+            currx = currx + spacing;
+        }
+        for (Map.Entry<Integer, Segment> entry:
+        segmentMap.entrySet()){
+            Segment val = entry.getValue();
+            System.out.println(val.getId() + " " + val.getX() + " " + val.getY());
         }
     }
 }

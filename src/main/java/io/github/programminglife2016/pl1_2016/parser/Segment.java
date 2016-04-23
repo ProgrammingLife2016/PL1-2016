@@ -137,7 +137,16 @@ public class Segment {
      * @param y y-position of the segment.
      */
     public void setXY(int x, int y) {
+        this.x = x;
         this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     /**

@@ -3,9 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -17,7 +15,7 @@ public class SimpleParser implements Parser {
     /**
      * Map containing each column and how many segments the column contains.
      */
-    private HashMap<Integer, List<Integer>> columns;
+    private Map<Integer, List<Integer>> columns;
 
     /**
      * Map containing the DNA seqments.
@@ -37,7 +35,7 @@ public class SimpleParser implements Parser {
      * @return Data structure with parsed data.
      */
     public JsonSerializable parse(InputStream inputStream) {
-        columns = new HashMap<Integer, List<Integer>>();
+        columns = new TreeMap<Integer, List<Integer>>();
         read(inputStream);
         return segmentMap;
     }
