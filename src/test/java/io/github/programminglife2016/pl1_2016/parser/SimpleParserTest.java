@@ -92,7 +92,7 @@ public class SimpleParserTest {
     }
 
     /**
-     * Test if position of multiple nodes in column are calculated correctly.
+     * Test if position of multiple nodes is calculated correctly on the other axis.
      */
     @Test
     public void testCalculateMultipleNodeOnOtherAxis() {
@@ -107,6 +107,24 @@ public class SimpleParserTest {
         SegmentMap segmentMap = parser.getSegmentMap();
         assertEquals(-5, segmentMap.get(2).getY());
     }
+
+    /**
+     * Test if position of single node in column is calculated correctly.
+     */
+    @Test
+    public void testOneNodeInColumn() {
+        final String gfaFile = "H	VN:Z:1.0\n"
+                + "S    1   T   *   CTG:Z:NZ_KK327777.1;NZ_KK327775.1;MT_H37RV_BRD_V5;NZ_KK350895.1 START:Z:0 \n"
+                + "S    2   T   *   CTG:Z:NZ_KK327777.1;NZ_KK327775.1;MT_H37RV_BRD_V5;NZ_KK350895.1 START:Z:0 \n"
+                + "S	3	C	*	ORI:Z:TKK_02_0008.fasta	CRD:Z:TKK_02_0008.fasta	CRDCTG:Z:NZ_KK \n"
+                + "327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n"
+                + "L	1	+	3	+	0M \n"
+                + "L	2	+	3	+	0M";
+        parser.parse(stringToInputStream(gfaFile));
+        SegmentMap segmentMap = parser.getSegmentMap();
+        assertEquals(0, segmentMap.get(3).getY());
+    }
+
     /**
      * Converts a String to an InputStream
      * @param s String
