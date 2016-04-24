@@ -126,6 +126,22 @@ public class Segment {
     }
 
     /**
+     * Get the x value of the segment.
+     * @return x value of the segment.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Get the y value of the segment.
+     * @return y value of the segment
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
      * Return string representation of segment.
      * @return string representing segment.
      */
