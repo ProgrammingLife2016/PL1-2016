@@ -3,6 +3,10 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -10,6 +14,11 @@ import java.io.InputStreamReader;
 public class SimpleParser implements Parser {
     private static final int SIZE = 9000;
     private static final String ATTR_ZINDEX = "START:Z:";
+
+    /**
+     * Map containing each column and how many segments the column contains.
+     */
+    private Map<Integer, List<Integer>> columns;
 
     /**
      * Map containing the DNA seqments.
@@ -29,6 +38,7 @@ public class SimpleParser implements Parser {
      * @return Data structure with parsed data.
      */
     public JsonSerializable parse(InputStream inputStream) {
+        columns = new TreeMap<Integer, List<Integer>>();
         read(inputStream);
         return segmentMap;
     }
@@ -45,6 +55,8 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
+            PositionManager positionHandler = new PositionHandler(this.segmentMap, this.columns);
+            positionHandler.calculatePositions();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -87,6 +99,13 @@ public class SimpleParser implements Parser {
         int column = 0;
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
+            if (!columns.containsKey(column)) {
+                columns.put(column, new ArrayList<Integer>());
+                columns.get(column).add(id);
+            }
+            else {
+                columns.get(column).add(id);
+            }
         }
         if (!segmentMap.containsKey(id)) {
             segmentMap.put(id, new Segment(id, seq, column));
