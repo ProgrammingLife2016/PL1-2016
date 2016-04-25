@@ -147,13 +147,6 @@ public class Segment {
      */
     @Override
     public String toString() {
-        return "Segment{"
-                + "id=" + id
-                + ", x=" + x
-                + ", y=" + y
-                + ", column=" + column
-                + '}'
-                + '\n'
-                + "---------";
+        return String.format("Segment{id=%d, x=%d, y=%d, column=%d}", id, x, y, column);
     }
 }
