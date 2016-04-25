@@ -1,7 +1,7 @@
 package io.github.programminglife2016.pl1_2016.server.parser;
 
 import io.github.programminglife2016.pl1_2016.parser.Segment;
-import io.github.programminglife2016.pl1_2016.parser.SegmentMap;
+import io.github.programminglife2016.pl1_2016.parser.SegmentCollection;
 import io.github.programminglife2016.pl1_2016.parser.SimpleParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class SimpleParserTest {
     @Test
     public void testSegmentLine() {
         parser.parse(stringToInputStream("S	1	TTGA	*	ORI:Z:MT_H37RV_BRD_V5.ref.fasta;"));
-        SegmentMap segmentMap = parser.getSegmentMap();
+        SegmentCollection segmentMap = parser.getSegmentCollection();
         Segment segment = segmentMap.get(1);
         assertEquals(1, segment.getId());
         assertEquals("TTGA", segment.getData());
@@ -51,7 +51,7 @@ public class SimpleParserTest {
                                + "S 3 ATGC\n"
                                + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentMap segmentMap = parser.getSegmentMap();
+        SegmentCollection segmentMap = parser.getSegmentCollection();
         Segment segment1 = segmentMap.get(1);
         Segment segment3 = segmentMap.get(3);
         assertEquals(2, segment1.getLinks().get(0).getId());
@@ -70,7 +70,7 @@ public class SimpleParserTest {
                 + "327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n"
                 + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentMap segmentMap = parser.getSegmentMap();
+        SegmentCollection segmentMap = parser.getSegmentCollection();
         Segment segment3 = segmentMap.get(3);
         assertEquals(1451, segment3.getColumn());
     }
