@@ -8,6 +8,11 @@ import java.util.Map;
  */
 public class PositionHandler {
     /**
+     * Spacing between segments in the graph
+     */
+    private static int SPACING = 10;
+    
+    /**
      * Map containing the DNA seqments.
      */
     private SegmentMap segmentMap;
@@ -30,24 +35,22 @@ public class PositionHandler {
     /**
      * Calculate the positions of the segments in the segmentMap.
      */
-    @SuppressWarnings("checkstyle:magicnumber")
     public void calculatePositions() {
         int currx = 0;
-        int spacing = 10;
         for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
             List<Integer> segments = entry.getValue();
             if (segments.size() == 1) {
                 segmentMap.get(segments.get(0)).setXY(currx, 0);
-                currx = currx + spacing;
+                currx = currx + SPACING;
                 continue;
             }
             int boundary = (segments.size() - 1) * 5;
             for (Integer index
                     : segments) {
                 segmentMap.get(index).setXY(currx, boundary);
-                boundary = boundary - spacing;
+                boundary = boundary - SPACING;
             }
-            currx = currx + spacing;
+            currx = currx + SPACING;
         }
     }
 }
