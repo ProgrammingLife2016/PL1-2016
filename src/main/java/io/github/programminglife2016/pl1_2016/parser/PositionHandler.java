@@ -11,7 +11,7 @@ public class PositionHandler {
      * Spacing between segments in the graph
      */
     private static int SPACING = 10;
-    
+
     /**
      * Map containing the DNA seqments.
      */
