@@ -3,12 +3,20 @@ package io.github.programminglife2016.pl1_2016.parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
-
 /**
- * Represent segments as a list. Warning: the size of the SegmentList must be set beforehand.
+ * Represent segments as a list.
  */
-public class SegmentList extends ArrayList<Segment> implements SegmentCollection {
+public class SegmentList implements SegmentCollection {
+    private Segment[] array;
+
+    /**
+     * Initialize SegmentList with an initial capacity.
+     *
+     * @param initialCapacity the initial capacity
+     */
+    public SegmentList(int initialCapacity) {
+        array = new Segment[initialCapacity];
+    }
     /**
      * Add a segment to the collection.
      *
@@ -17,19 +25,19 @@ public class SegmentList extends ArrayList<Segment> implements SegmentCollection
      * @return the segment parameter
      */
     public Segment put(Integer id, Segment segment) {
-        add(id, segment);
+        array[id - 1] = segment;
         return segment;
     }
 
     /**
      * Get a segment by id.
      *
-     * @param id id of the segment
+     * @param id id of the segment. IllegalArgumentException if id is not an integer
      * @return segment
      */
     public Segment get(Object id) {
         if (id instanceof Integer) {
-            return get((Integer) id);
+            return array[((Integer) id) - 1];
         } else {
             throw new IllegalArgumentException("The index must be an integer");
         }
