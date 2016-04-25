@@ -55,7 +55,7 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-            PositionHandler positionHandler = new PositionHandler(this.segmentMap, this.columns);
+            PositionManager positionHandler = new PositionHandler(this.segmentMap, this.columns);
             positionHandler.calculatePositions();
         } catch (Exception e) {
             e.printStackTrace();
