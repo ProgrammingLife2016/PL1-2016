@@ -8,9 +8,15 @@ import java.util.Map;
  */
 public class PositionHandler {
     /**
-     * Spacing between segments in the graph
+     * Spacing between segments in the graph.
      */
-    private static int SPACING = 10;
+    private static final int SPACING = 10;
+
+    /**
+     * Factor used to determine node positions.
+     */
+    private static final int FACTOR = 5;
+
 
     /**
      * Map containing the DNA seqments.
@@ -44,7 +50,7 @@ public class PositionHandler {
                 currx = currx + SPACING;
                 continue;
             }
-            int boundary = (segments.size() - 1) * 5;
+            int boundary = (segments.size() - 1) * FACTOR;
             for (Integer index
                     : segments) {
                 segmentMap.get(index).setXY(currx, boundary);
