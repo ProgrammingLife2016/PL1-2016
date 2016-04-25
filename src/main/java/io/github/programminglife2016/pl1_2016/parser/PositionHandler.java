@@ -3,10 +3,11 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.util.List;
 import java.util.Map;
 
-/**
+/** Handler for nodes to calculate positions on the graph.
+ *
  * Created by ravishivam on 23-4-16.
  */
-public class PositionHandler {
+public class PositionHandler implements PositionManager{
     /**
      * Spacing between segments in the graph.
      */
