@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * Created by ravishivam on 23-4-16.
  */
-public class PositionHandler implements PositionManager{
+public class PositionHandler implements PositionManager {
     /**
      * Spacing between segments in the graph.
      */
