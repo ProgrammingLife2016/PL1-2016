@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * Adapter for segment hashmap
  */
-public class SegmentMap extends HashMap<Integer, Segment> implements JsonSerializable {
+public class SegmentMap extends HashMap<Integer, Segment> implements SegmentCollection {
 
     /**
      * Create segment hashmap.
