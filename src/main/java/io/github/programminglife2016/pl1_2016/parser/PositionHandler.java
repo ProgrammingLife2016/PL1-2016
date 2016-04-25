@@ -22,7 +22,7 @@ public class PositionHandler implements PositionManager{
     /**
      * Map containing the DNA seqments.
      */
-    private SegmentMap segmentMap;
+    private SegmentCollection segmentMap;
 
     /**
      * Map containing columns of based on Z-index and the segments it contains.
@@ -34,7 +34,7 @@ public class PositionHandler implements PositionManager{
      * @param segmentMap Map containing all the segments which positions need to be calculated.
      * @param columns All the columns based on Z-index with the segments they contain.
      */
-    public PositionHandler(SegmentMap segmentMap, Map<Integer, List<Integer>> columns) {
+    public PositionHandler(SegmentCollection segmentMap, Map<Integer, List<Integer>> columns) {
         this.columns = columns;
         this.segmentMap = segmentMap;
     }
