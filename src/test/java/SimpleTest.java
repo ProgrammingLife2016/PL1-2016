@@ -10,8 +10,7 @@ public class SimpleTest {
      * Assert that true == true.
      */
     @Test
-    @SuppressWarnings("checkstyle:magicnumber")
     public void test() {
-        assertTrue(0 == -0);
+        assertTrue(true);
     }
 }
