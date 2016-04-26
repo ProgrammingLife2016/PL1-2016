@@ -2,7 +2,6 @@ $(function(){ // on dom ready
 
 var cy = cytoscape({
   container: $('#cy')[0],
-
   boxSelectionEnabled: false,
   autounselectify: true,
 
@@ -89,6 +88,7 @@ var cy = cytoscape({
 
 // Initialize mini map
 $('#cy').cytoscapeNavigator();
+var serverConnection = new ServerConnection();
 
 //cy.on('tap', 'node', function(){
 //  try { // your browser may block popups
@@ -98,4 +98,41 @@ $('#cy').cytoscapeNavigator();
 //  }
 //});
 
+  $("#connect").click(function(){
+    console.log("Connecting to server...");
+    serverConnection.getDataFromServer();
+  });
+
+  /*
+      Adapter for converting JSON data from server to correct format for cytoscape
+  */
+  function JSONAdapter() {
+      this.load(data) = function(){}
+      this.convert() = function(){}
+  }
+
+  /*
+      Class for connection with the server
+  */
+  function ServerConnection() {
+
+     this.getDataFromServer = function() {
+        $.ajax({
+           url: "/nodes",
+           dataType: 'json',
+           success : this.loadData,
+           error: function(){ console.log("AJAX request error: '/nodes'"); },
+           statusCode: {
+             200: function(){ console.log("304: Not modified"); },
+             304: function(){ console.log("200: Modified"); }
+           }
+        });
+     }
+
+     this.loadData = function(elements) {
+         console.log(elements);
+         window.elements = elements;
+         cy.load(elements);
+     }
+  }
 }); // on dom ready
