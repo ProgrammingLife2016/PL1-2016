@@ -28,4 +28,23 @@ public interface NodeCollection extends JsonSerializable {
      * @return true if the collection contains an item with this id, otherwise false
      */
     boolean containsKey(Object id);
+
+    /**
+     * Return size of the list.
+     * @return size of the list.
+     */
+    int size();
+
+    /**
+     * Make the object cloneable.
+     * @return A deep clone of the collection.
+     *
+     */
+    NodeCollection clone() throws CloneNotSupportedException;
+
+    /**
+     * Returns the datastucture that is containing the nodes.
+     * @return The collection of the nodes.
+     */
+    Object getCollection();
 }

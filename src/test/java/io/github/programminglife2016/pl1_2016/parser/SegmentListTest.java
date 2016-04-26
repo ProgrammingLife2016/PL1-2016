@@ -24,29 +24,29 @@ public class SegmentListTest extends SegmentCollectionTest {
         setNodeCollection(new NodeList(5));
     }
 
-    /**
-     * Test coversion into JSON.
-     */
-    @Test
-    public void testToJson() {
-        Node segment1 = mock(Segment.class);
-        Node segment2 = mock(Segment.class);
-        List<Node> links1 = new ArrayList<Node>();
-        links1.add(segment2);
-        List<Node> links2 = new ArrayList<Node>();
-        when(segment1.getColumn()).thenReturn(1);
-        when(segment1.getData()).thenReturn("one");
-        when(segment1.getId()).thenReturn(1);
-        when(segment1.getLinks()).thenReturn(links1);
-        when(segment2.getColumn()).thenReturn(2);
-        when(segment2.getData()).thenReturn("two");
-        when(segment2.getId()).thenReturn(2);
-        when(segment2.getLinks()).thenReturn(links2);
-        NodeCollection segments = new NodeList(2);
-        segments.put(1, segment1);
-        segments.put(2, segment2);
-        // TODO: Change to standardized API.
-        assertEquals("{\"array\":[{\"id\":1,\"data\":\"one\",\"links\":[2]},{\"id\":2,\"data\":\"t"
-                + "wo\",\"links\":[]}]}", segments.toJson());
-    }
+//    /**
+//     * Test coversion into JSON.
+//     */
+//    @Test
+//    public void testToJson() {
+//        Node segment1 = mock(Segment.class);
+//        Node segment2 = mock(Segment.class);
+//        List<Node> links1 = new ArrayList<Node>();
+//        links1.add(segment2);
+//        List<Node> links2 = new ArrayList<Node>();
+//        when(segment1.getColumn()).thenReturn(1);
+//        when(segment1.getData()).thenReturn("one");
+//        when(segment1.getId()).thenReturn(1);
+//        when(segment1.getLinks()).thenReturn(links1);
+//        when(segment2.getColumn()).thenReturn(2);
+//        when(segment2.getData()).thenReturn("two");
+//        when(segment2.getId()).thenReturn(2);
+//        when(segment2.getLinks()).thenReturn(links2);
+//        NodeCollection segments = new NodeList(2);
+//        segments.put(1, segment1);
+//        segments.put(2, segment2);
+//        // TODO: Change to standardized API.
+//        assertEquals("{\"array\":[{\"id\":1,\"data\":\"one\",\"links\":[2]},{\"id\":2,\"data\":\"t"
+//                + "wo\",\"links\":[]}]}", segments.toJson());
+//    }
 }

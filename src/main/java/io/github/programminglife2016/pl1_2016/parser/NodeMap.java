@@ -27,4 +27,16 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
                 .create();
         return gson.toJson(this);
     }
+
+    public HashMap<Integer, Node> getCollection(){
+        return this;
+    }
+    /**
+     * Redefine clone for hashmap.
+     * @return deep clone for NodeMap.
+     */
+    @Override
+    public NodeCollection clone() {
+        return (NodeCollection) super.clone();
+    }
 }

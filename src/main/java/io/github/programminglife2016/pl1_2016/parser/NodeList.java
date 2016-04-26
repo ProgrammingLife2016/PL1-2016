@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 /**
  * Represent segments as a list.
  */
-public class NodeList implements NodeCollection {
+public class NodeList implements NodeCollection, Cloneable {
     private Node[] array;
 
     /**
@@ -54,6 +54,14 @@ public class NodeList implements NodeCollection {
     }
 
     /**
+     * Return size of the list.
+     * @return size of the list.
+     */
+    public int size() {
+        return this.array.length;
+    }
+
+    /**
      * Convert the representation to JSON.
      *
      * @return JSON representation of this object.
@@ -62,5 +70,19 @@ public class NodeList implements NodeCollection {
         Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer())
                 .create();
         return gson.toJson(this);
+    }
+
+    /**
+     * Return a deep cloned object of the collection
+     * @return Deep cloned object of node collection
+     * @throws CloneNotSupportedException Not a cloneable object
+     */
+    public NodeCollection clone() throws CloneNotSupportedException {
+            return (NodeCollection) super.clone();
+    }
+
+
+    public Node[] getCollection(){
+        return array;
     }
 }

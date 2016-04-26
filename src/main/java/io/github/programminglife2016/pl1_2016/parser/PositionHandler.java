@@ -5,7 +5,7 @@ import java.util.Map;
 
 /** Handler for nodes to calculate positions on the graph.
  *
- * Created by ravishivam on 23-4-16.
+ * Created by Ravi Autar on 23-4-16.
  */
 public class PositionHandler implements PositionManager {
     /**
