@@ -6,16 +6,16 @@ import com.google.gson.GsonBuilder;
 /**
  * Represent segments as a list.
  */
-public class SegmentList implements SegmentCollection {
-    private Segment[] array;
+public class NodeList implements NodeCollection {
+    private Node[] array;
 
     /**
-     * Initialize SegmentList with an initial capacity.
+     * Initialize NodeList with an initial capacity.
      *
      * @param initialCapacity the initial capacity
      */
-    public SegmentList(int initialCapacity) {
-        array = new Segment[initialCapacity];
+    public NodeList(int initialCapacity) {
+        array = new Node[initialCapacity];
     }
     /**
      * Add a segment to the collection.
@@ -24,7 +24,7 @@ public class SegmentList implements SegmentCollection {
      * @param segment the actual segment
      * @return the segment parameter
      */
-    public Segment put(Integer id, Segment segment) {
+    public Node put(Integer id, Node segment) {
         array[id - 1] = segment;
         return segment;
     }
@@ -35,14 +35,13 @@ public class SegmentList implements SegmentCollection {
      * @param id id of the segment. IllegalArgumentException if id is not an integer
      * @return segment
      */
-    public Segment get(Object id) {
+    public Node get(Object id) {
         if (id instanceof Integer) {
             return array[((Integer) id) - 1];
         } else {
             throw new IllegalArgumentException("The index must be an integer");
         }
     }
-
 
     /**
      * Checks if the collection contains a particular key.

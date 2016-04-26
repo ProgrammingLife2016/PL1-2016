@@ -23,13 +23,13 @@ public class SimpleParser implements Parser {
     /**
      * Map containing the DNA seqments.
      */
-    private SegmentCollection segmentMap;
+    private NodeCollection segmentMap;
 
     /**
      * Create parser object.
      */
     public SimpleParser() {
-        segmentMap = new SegmentMap(SIZE);
+        segmentMap = new NodeMap(SIZE);
     }
 
     /**
@@ -133,7 +133,7 @@ public class SimpleParser implements Parser {
      * Get the segmentMap containing all the segments.
      * @return hashmap of segments.
      */
-    public SegmentCollection getSegmentCollection() {
+    public NodeCollection getSegmentCollection() {
         return segmentMap;
     }
 }

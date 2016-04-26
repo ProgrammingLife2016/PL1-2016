@@ -11,18 +11,18 @@ public class PositionHandler implements PositionManager {
     /**
      * Spacing between segments in the graph.
      */
-    private static final int SPACING = 10;
+    private static final int SPACING = 30;
 
     /**
      * Factor used to determine node positions.
      */
-    private static final int FACTOR = 5;
+    private static final int FACTOR = SPACING/2;
 
 
     /**
      * Map containing the DNA seqments.
      */
-    private SegmentCollection segmentMap;
+    private NodeCollection segmentMap;
 
     /**
      * Map containing columns of based on Z-index and the segments it contains.
@@ -34,7 +34,7 @@ public class PositionHandler implements PositionManager {
      * @param segmentMap Map containing all the segments which positions need to be calculated.
      * @param columns All the columns based on Z-index with the segments they contain.
      */
-    public PositionHandler(SegmentCollection segmentMap, Map<Integer, List<Integer>> columns) {
+    public PositionHandler(NodeCollection segmentMap, Map<Integer, List<Integer>> columns) {
         this.columns = columns;
         this.segmentMap = segmentMap;
     }

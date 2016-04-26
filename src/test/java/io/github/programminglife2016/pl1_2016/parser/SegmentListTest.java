@@ -13,15 +13,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Test class for SegmentList, using the tests in SegmentCollectionTest.
+ * Test class for NodeList, using the tests in SegmentCollectionTest.
  */
 public class SegmentListTest extends SegmentCollectionTest {
     /**
-     * Pass an instance of SegmentList to the superclass.
+     * Pass an instance of NodeList to the superclass.
      */
     @Before
     public void setUp() {
-        setSegmentCollection(new SegmentList(5));
+        setNodeCollection(new NodeList(5));
     }
 
     /**
@@ -42,7 +42,7 @@ public class SegmentListTest extends SegmentCollectionTest {
         when(segment2.getData()).thenReturn("two");
         when(segment2.getId()).thenReturn(2);
         when(segment2.getLinks()).thenReturn(links2);
-        SegmentCollection segments = new SegmentList(2);
+        NodeCollection segments = new NodeList(2);
         segments.put(1, segment1);
         segments.put(2, segment2);
         // TODO: Change to standardized API.

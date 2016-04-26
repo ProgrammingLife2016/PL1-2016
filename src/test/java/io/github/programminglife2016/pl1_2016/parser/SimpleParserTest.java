@@ -31,7 +31,7 @@ public class SimpleParserTest {
     @Test
     public void testSegmentLine() {
         parser.parse(stringToInputStream("S	1	TTGA	*	ORI:Z:MT_H37RV_BRD_V5.ref.fasta;"));
-        SegmentCollection segmentMap = parser.getSegmentCollection();
+        NodeCollection segmentMap = parser.getSegmentCollection();
         Segment segment = segmentMap.get(1);
         assertEquals(1, segment.getId());
         assertEquals("TTGA", segment.getData());
@@ -48,7 +48,7 @@ public class SimpleParserTest {
                                + "S 3 ATGC\n"
                                + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentCollection segmentMap = parser.getSegmentCollection();
+        NodeCollection segmentMap = parser.getSegmentCollection();
         Segment segment1 = segmentMap.get(1);
         Segment segment3 = segmentMap.get(3);
         assertEquals(2, segment1.getLinks().get(0).getId());
@@ -67,7 +67,7 @@ public class SimpleParserTest {
                 + "327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n"
                 + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentCollection segmentMap = parser.getSegmentCollection();
+        NodeCollection segmentMap = parser.getSegmentCollection();
         Segment segment3 = segmentMap.get(3);
         assertEquals(1451, segment3.getColumn());
     }
@@ -87,8 +87,8 @@ public class SimpleParserTest {
                 + "L	1	+	3	+	0M \n"
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentCollection segmentCollection = parser.getSegmentCollection();
-        assertEquals(5, segmentCollection.get(1).getY());
+        NodeCollection nodeCollection = parser.getSegmentCollection();
+        assertEquals(5, nodeCollection.get(1).getY());
     }
 
     /**
@@ -107,8 +107,8 @@ public class SimpleParserTest {
                 + "L	1	+	3	+	0M \n"
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentCollection segmentCollection = parser.getSegmentCollection();
-        assertEquals(-5, segmentCollection.get(2).getY());
+        NodeCollection nodeCollection = parser.getSegmentCollection();
+        assertEquals(-5, nodeCollection.get(2).getY());
     }
 
     /**
@@ -127,8 +127,8 @@ public class SimpleParserTest {
                 + "L	1	+	3	+	0M \n"
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
-        SegmentCollection segmentCollection = parser.getSegmentCollection();
-        assertEquals(0, segmentCollection.get(3).getY());
+        NodeCollection nodeCollection = parser.getSegmentCollection();
+        assertEquals(0, nodeCollection.get(3).getY());
     }
 
     /**

@@ -8,13 +8,13 @@ import java.util.HashMap;
 /**
  * Adapter for segment hashmap
  */
-public class SegmentMap extends HashMap<Integer, Segment> implements SegmentCollection {
+public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
 
     /**
      * Create segment hashmap.
      * @param initialCapacity capacity of the hashmap.
      */
-    public SegmentMap(int initialCapacity) {
+    public NodeMap(int initialCapacity) {
         super(initialCapacity);
     }
 
@@ -23,7 +23,7 @@ public class SegmentMap extends HashMap<Integer, Segment> implements SegmentColl
      * @return hashmap converted to JSON string.
      */
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer())
+        Gson gson = new GsonBuilder().registerTypeAdapter(Node.class, new SegmentSerializer())
                 .create();
         return gson.toJson(this);
     }

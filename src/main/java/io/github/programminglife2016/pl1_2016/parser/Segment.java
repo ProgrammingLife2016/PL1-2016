@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Data structure for representing a DNA sequence
  */
-public class Segment {
+public class Segment implements Node {
     /**
      * Id of DNA segment.
      */

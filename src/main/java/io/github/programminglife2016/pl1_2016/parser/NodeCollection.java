@@ -3,15 +3,15 @@ package io.github.programminglife2016.pl1_2016.parser;
 /**
  * A data structure that represents the segments.
  */
-public interface SegmentCollection extends JsonSerializable {
+public interface NodeCollection extends JsonSerializable {
     /**
      * Add a segment to the collection.
      *
      * @param id      id of the segment
-     * @param segment the actual segment
+     * @param node the actual segment
      * @return the segment parameter
      */
-    Segment put(Integer id, Segment segment);
+    Node put(Integer id, Node node);
 
     /**
      * Get a segment by id.
@@ -19,7 +19,7 @@ public interface SegmentCollection extends JsonSerializable {
      * @param id id of the segment
      * @return segment
      */
-    Segment get(Object id);
+    Node get(Object id);
 
     /**
      * Checks if the collection contains a particular key.
