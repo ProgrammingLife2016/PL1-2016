@@ -32,9 +32,9 @@ public class SimpleParserTest {
     public void testSegmentLine() {
         parser.parse(stringToInputStream("S	1	TTGA	*	ORI:Z:MT_H37RV_BRD_V5.ref.fasta;"));
         NodeCollection segmentMap = parser.getSegmentCollection();
-        Segment segment = segmentMap.get(1);
-        assertEquals(1, segment.getId());
-        assertEquals("TTGA", segment.getData());
+        Node node = segmentMap.get(1);
+        assertEquals(1, node.getId());
+        assertEquals("TTGA", node.getData());
     }
 
     /**
@@ -49,8 +49,8 @@ public class SimpleParserTest {
                                + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection segmentMap = parser.getSegmentCollection();
-        Segment segment1 = segmentMap.get(1);
-        Segment segment3 = segmentMap.get(3);
+        Node segment1 = segmentMap.get(1);
+        Node segment3 = segmentMap.get(3);
         assertEquals(2, segment1.getLinks().get(0).getId());
         assertTrue(segment3.getLinks().isEmpty());
     }
@@ -68,7 +68,7 @@ public class SimpleParserTest {
                 + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection segmentMap = parser.getSegmentCollection();
-        Segment segment3 = segmentMap.get(3);
+        Node segment3 = segmentMap.get(3);
         assertEquals(1451, segment3.getColumn());
     }
     /**
@@ -88,7 +88,7 @@ public class SimpleParserTest {
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection nodeCollection = parser.getSegmentCollection();
-        assertEquals(5, nodeCollection.get(1).getY());
+        assertEquals(15, nodeCollection.get(1).getY());
     }
 
     /**
@@ -108,7 +108,7 @@ public class SimpleParserTest {
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection nodeCollection = parser.getSegmentCollection();
-        assertEquals(-5, nodeCollection.get(2).getY());
+        assertEquals(-15, nodeCollection.get(2).getY());
     }
 
     /**

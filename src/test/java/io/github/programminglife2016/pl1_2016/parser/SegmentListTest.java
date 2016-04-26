@@ -29,11 +29,11 @@ public class SegmentListTest extends SegmentCollectionTest {
      */
     @Test
     public void testToJson() {
-        Segment segment1 = mock(Segment.class);
-        Segment segment2 = mock(Segment.class);
-        List<Segment> links1 = new ArrayList<Segment>();
+        Node segment1 = mock(Segment.class);
+        Node segment2 = mock(Segment.class);
+        List<Node> links1 = new ArrayList<Node>();
         links1.add(segment2);
-        List<Segment> links2 = new ArrayList<Segment>();
+        List<Node> links2 = new ArrayList<Node>();
         when(segment1.getColumn()).thenReturn(1);
         when(segment1.getData()).thenReturn("one");
         when(segment1.getId()).thenReturn(1);

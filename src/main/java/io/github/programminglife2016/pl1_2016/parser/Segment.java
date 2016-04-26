@@ -25,7 +25,7 @@ public class Segment implements Node {
     /**
      * Links to other DNA segments in the graph.
      */
-    private List<Segment> links;
+    private List<Node> links;
 
     /**
      * x position of the segment in the graph.
@@ -47,7 +47,7 @@ public class Segment implements Node {
         this.id = id;
         this.data = data;
         this.column = column;
-        this.links = new ArrayList<Segment>();
+        this.links = new ArrayList<Node>();
     }
 
     /**
@@ -56,14 +56,14 @@ public class Segment implements Node {
      */
     public Segment(int id) {
         this.id = id;
-        this.links = new ArrayList<Segment>();
+        this.links = new ArrayList<Node>();
     }
 
     /**
      * Add a link from this segment to other segment.
      * @param other segment to link to.
      */
-    public void addLink(Segment other) {
+    public void addLink(Node other) {
         this.links.add(other);
     }
 
@@ -87,7 +87,7 @@ public class Segment implements Node {
      * Get links to other segments in the graph.
      * @return list of links.
      */
-    public List<Segment> getLinks() {
+    public List<Node> getLinks() {
         return links;
     }
 

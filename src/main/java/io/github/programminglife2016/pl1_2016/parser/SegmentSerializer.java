@@ -34,7 +34,7 @@ public class SegmentSerializer implements JsonSerializer<Segment> {
             jsonObject.add("data", new JsonPrimitive(segment.getData()));
         }
         JsonArray links = new JsonArray();
-        for (Segment link : segment.getLinks()) {
+        for (Node link : segment.getLinks()) {
             links.add(new JsonPrimitive(link.getId()));
         }
         jsonObject.add("links", links);
