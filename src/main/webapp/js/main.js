@@ -1,4 +1,10 @@
 $(function() { // on dom ready
+  $("#logo").stop().animate({opacity: 1}, 800,"swing");
+  //$(".cytoscape-navigator").stop().animate({opacity: 1}, 800,"swing");
+//  var h = $("#nav").height();
+//  $("#nav").css("height", 0);
+//  $("#nav").stop().animate({height: h}, 200,"swing");
+
   $("#cy").css("top", $("#nav").height());
 
   /*
@@ -14,6 +20,7 @@ $(function() { // on dom ready
         id: node.id,
         name: getName(node.data),
         weight: node.bubble ? 100 : 50,
+        score: 0.006769776522008331,
         faveColor: '#6FB1FC',
         faveShape: 'ellipse'
       },
@@ -46,15 +53,10 @@ $(function() { // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-    var nodes = data.nodes.map(node => GraphFactory.prototype.createNode(node));
+    var nodes = data.nodes.map(GraphFactory.prototype.createNode);
     console.log(nodes);
-    var edges = data.edges.map(edge => GraphFactory.prototype.createEdge(edge));
-    var elements = { nodes, edges };
-    return elements;
-  }
-
-  function getName(name){
-    return name.length > 3 ? name.substring(0, 3)+"..." : name;
+    var edges = data.edges.map(GraphFactory.prototype.createEdge);
+    return { nodes, edges };
   }
 
   /*
@@ -89,7 +91,8 @@ $(function() { // on dom ready
   ServerConnection.prototype.bindUIEvents = function() {
       $("#connect").click(() => {
         console.log("Connecting to server...");
-        this.retrieveDataFromServer();
+//        this.retrieveDataFromServer();
+        graphHandler.pan();
       });
   }
 
@@ -131,6 +134,7 @@ $(function() { // on dom ready
         container: $('#cy')[0],
         boxSelectionEnabled: false,
         autounselectify: true,
+        minZoom: 1,
 
         style: [{"selector":"core",
                    "style":
@@ -231,9 +235,14 @@ $(function() { // on dom ready
                          }
                        ]
                      };
+      $('#cy').cytoscapeNavigator(); // Initialize mini map
       cy.add(JSONAdapter.prototype.convert(testJson));
-
       this.bindUIEvents();
+  }
+
+  GraphHandler.prototype.pan = function() {
+     console.log("panning");
+     cy.pan({x: 100, y: 0});
   }
 
   /*
@@ -244,10 +253,8 @@ $(function() { // on dom ready
          totalWidth: cy.width(),
          totalHeight: cy.height(),
          zoomLocation: {
-            minX: 0,
-            maxX: 0,
-            minY: 0,
-            maxY: 0
+            minX: 0, maxX: 0,
+            minY: 0, maxY: 0
          }
      };
   }
@@ -259,6 +266,12 @@ $(function() { // on dom ready
     $("#zoomButton").click(() => {
         //console.log(cy.cytoscapeNavigator.getZoomDim());
         console.log(graphHandler.getDimensions());
+        var {x, y} = cy.pan();
+        console.log("Pan:");
+        console.log("x, y = " + x + ", " + y);
+        console.log("Zoom:");
+        console.log(cy.zoom());
+        console.log(cy.viewport());
 //        $.ajax({
 //           url: "/api",
 //           data: {},
@@ -298,7 +311,6 @@ $(function() { // on dom ready
   PhyloGeneticTree.prototype.hideTree = function() { cy.css("display", "none"); }
   PhyloGeneticTree.prototype.showTree = function() { cy.css("display", "block"); }
 
-  $('#cy').cytoscapeNavigator(); // Initialize mini map
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
 }); // on dom ready

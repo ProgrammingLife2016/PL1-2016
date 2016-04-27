@@ -1,4 +1,4 @@
-.cytoscape-navigator{
+.cytoscape-navigator {
 	position: fixed;
 	background: #222;
 	z-index: 99999;
@@ -23,7 +23,7 @@
 	cursor: move;
 	background: #111;
 	-moz-opacity: 0.50;
-	opacity: 0.50;
+	opacity: 0.5;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=50);
 	z-index: 102;
 }
