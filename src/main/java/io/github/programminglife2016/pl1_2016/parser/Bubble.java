@@ -1,17 +1,22 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ravishivam on 26-4-16.
  */
-public class Bubble implements Node {
+public class Bubble extends ArrayList<Node> implements Node {
+    private boolean changed;
     private int id;
     private int x;
     private int y;
     private int column;
     private List<Node> links;
-    private List<Node> container;
+
+    public Bubble() {
+        changed = false;
+    }
 
     public void setXY(int x, int y) {
         this.x = x;
@@ -19,10 +24,16 @@ public class Bubble implements Node {
     }
 
     public int getX() {
+        if (changed) {
+            computeCentroid();
+        }
         return this.x;
     }
 
     public int getY() {
+        if (changed) {
+            computeCentroid();
+        }
         return this.y;
     }
 
@@ -52,5 +63,39 @@ public class Bubble implements Node {
 
     public int getColumn() {
         return this.column;
+    }
+
+    @Override
+    /**
+     * Overrides List.add, in order to set the changed variable.
+     */
+    public boolean add(Node fv) {
+        changed = true;
+        return super.add(fv);
+    }
+
+    /**
+     * If the bubble did not change since it has calculated its previous centroid,
+     * it will return the buffered centroid point. Otherwise it will recalculate the
+     * centroid and return that point.
+     * @return The centroid of the cluster.
+     */
+    public void computeCentroid() {
+        if (size() == 0) {
+            return;
+        }
+
+        if (changed == true) {
+            double sumX = 0;
+            double sumY = 0;
+            for (Node node
+                    : this) {
+                sumX += node.getX();
+                sumY += node.getY();
+            }
+            this.x = (int) sumX/size();
+            this.y = (int) sumY/size();
+            changed = false;
+        }
     }
 }
