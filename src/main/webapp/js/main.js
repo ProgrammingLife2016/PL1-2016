@@ -12,7 +12,7 @@ $(function() { // on dom ready
     return {
       data: {
         id: node.id,
-        name: getName(node),
+        name: getName(node.data),
         weight: node.bubble ? 100 : 50,
         faveColor: '#6FB1FC',
         faveShape: 'ellipse'
@@ -47,6 +47,7 @@ $(function() { // on dom ready
   */
   JSONAdapter.prototype.convert = function(data) {
     var nodes = data.nodes.map(node => GraphFactory.prototype.createNode(node));
+    console.log(nodes);
     var edges = data.edges.map(edge => GraphFactory.prototype.createEdge(edge));
     var elements = { nodes, edges };
     return elements;
@@ -201,8 +202,8 @@ $(function() { // on dom ready
                            "id": 1,
                            "bubble": false,
                            "data": "ACGGT",
-                           "x": 0,
-                           "y": 0
+                           "x": 300,
+                           "y": 500
                          },
                          {
                            "id": 2,
@@ -215,8 +216,8 @@ $(function() { // on dom ready
                            "id": 3,
                            "bubble": false,
                            "data": "GCCAGT",
-                           "x": -100,
-                           "y": -100
+                           "x": 200,
+                           "y": 200
                          }
                        ],
                        "edges": [
