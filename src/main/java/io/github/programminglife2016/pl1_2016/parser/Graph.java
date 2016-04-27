@@ -7,5 +7,5 @@ public interface Graph {
 
     NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy);
 
-    NodeCollection determineBubbles(NodeCollection collection);
+    NodeCollection generateGraph(NodeCollection collection);
 }

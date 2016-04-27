@@ -15,7 +15,7 @@ public class BubbleGraph implements Graph {
         Parser parser = new SimpleParser();
         parser.parse(Launcher.class.getResourceAsStream("/genomes/TB10_.gfa"));
         this.fullgraph = parser.getSegmentCollection();
-        this.currentGraph =  determineBubbles(fullgraph.clone());
+        this.currentGraph =  generateGraph(fullgraph.clone());
     }
 
     public NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy) {
@@ -31,11 +31,11 @@ public class BubbleGraph implements Graph {
                 boundedGraph.put(node.getId(), node);
             }
         }
-        this.currentGraph = determineBubbles(boundedGraph);
+        this.currentGraph = generateGraph(boundedGraph);
         return boundedGraph;
     }
 
-    private NodeCollection determineBubbles(NodeCollection graph) {
+    public NodeCollection generateGraph(NodeCollection graph) {
 
         return null;
     }
