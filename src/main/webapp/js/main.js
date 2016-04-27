@@ -1,4 +1,38 @@
-$(function(){ // on dom ready
+$(function() { // on dom ready
+
+  /*
+    Factory for creating Graph objects.
+  */
+  function GraphFactory() {
+  }
+
+  GraphFactory.prototype.createNode = function(node) {
+    var getName = name => name.length > 3 ? name.substring(0, 3) + "..." : name;
+    return {
+      data: {
+        id: node.id,
+        name: getName(node),
+        weight: node.bubble ? 100 : 50,
+        faveColor: '#6FB1FC',
+        faveShape: 'ellipse'
+      },
+      position: {
+        x: node.x,
+        y: node.y
+      }
+    };
+  }
+
+  GraphFactory.prototype.createEdge = function(edge) {
+    var edgeWeight = edge.bubble ? 100 : 50;
+    return {
+      data: {
+        source: edge.from,
+        target: edge.to
+      }
+    };
+  }
+
   /*
 
       Adapter for converting JSON data from server to correct format for cytoscape
@@ -11,19 +45,19 @@ $(function(){ // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-	var nodes = [];
-    for(var i = 0; i < data.nodes.length; i++) {
-        var tempNode = data.nodes[i];
-        var nodeWeight = tempNode.bubble? 100 : 50;
-        nodes.push({ data: { id: tempNode.id, name: getName(tempNode.data), weight: nodeWeight, faveColor: '#6FB1FC', faveShape: 'ellipse' }, position: {x: tempNode.x, y: tempNode.y} });
-    }
-
-	var edges = [];
-    for(var i = 0; i < data.edges.length; i++) {
-        var tempEdge = data.edges[i];
-        var edgeWeight = tempNode.bubble? 100 : 50;
-        edges.push({ data: { source: tempEdge.from, target: tempEdge.to}});
-    }
+//    for(var i = 0; i < data.nodes.length; i++) {
+//        var tempNode = data.nodes[i];
+//        var nodeWeight = tempNode.bubble? 100 : 50;
+//        nodes.push({ data: { id: tempNode.id, name: getName(tempNode.data), weight: nodeWeight, faveColor: '#6FB1FC', faveShape: 'ellipse' }, position: {x: tempNode.x, y: tempNode.y} });
+//    }
+//	var edges = [];
+//    for(var i = 0; i < data.edges.length; i++) {
+//        var tempEdge = data.edges[i];
+//        var edgeWeight = tempNode.bubble? 100 : 50;
+//        edges.push({ data: { source: tempEdge.from, target: tempEdge.to}});
+//    }
+    var nodes = data.nodes.map(node => GraphFactory.prototype.createNode(node));
+    var edges = data.edges.map(edge => GraphFactory.prototype.createEdge(edge));
     var elements = { nodes, edges };
     return elements;
   }
