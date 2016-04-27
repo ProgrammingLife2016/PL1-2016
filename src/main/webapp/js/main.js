@@ -1,4 +1,5 @@
 $(function() { // on dom ready
+  $("#cy").css("top", $("#nav").height());
 
   /*
     Factory for creating Graph objects.
@@ -45,17 +46,6 @@ $(function() { // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-//    for(var i = 0; i < data.nodes.length; i++) {
-//        var tempNode = data.nodes[i];
-//        var nodeWeight = tempNode.bubble? 100 : 50;
-//        nodes.push({ data: { id: tempNode.id, name: getName(tempNode.data), weight: nodeWeight, faveColor: '#6FB1FC', faveShape: 'ellipse' }, position: {x: tempNode.x, y: tempNode.y} });
-//    }
-//	var edges = [];
-//    for(var i = 0; i < data.edges.length; i++) {
-//        var tempEdge = data.edges[i];
-//        var edgeWeight = tempNode.bubble? 100 : 50;
-//        edges.push({ data: { source: tempEdge.from, target: tempEdge.to}});
-//    }
     var nodes = data.nodes.map(node => GraphFactory.prototype.createNode(node));
     var edges = data.edges.map(edge => GraphFactory.prototype.createEdge(edge));
     var elements = { nodes, edges };
@@ -96,9 +86,9 @@ $(function() { // on dom ready
     Add UI events concerning communicating with the server.
   */
   ServerConnection.prototype.bindUIEvents = function() {
-      $("#connect").click(function() {
+      $("#connect").click(() => {
         console.log("Connecting to server...");
-        serverConnection.retrieveDataFromServer();
+        this.retrieveDataFromServer();
       });
   }
 
@@ -265,10 +255,19 @@ $(function() { // on dom ready
     Add UI events concerning the graph view.
   */
   GraphHandler.prototype.bindUIEvents = function() {
-    $("#zoomButton").click(function() {
+    $("#zoomButton").click(() => {
         //console.log(cy.cytoscapeNavigator.getZoomDim());
         console.log(graphHandler.getDimensions());
+//        $.ajax({
+//           url: "/api",
+//           data: {},
+//           dataType: 'json',
+//           success : (data) => cy.add(JSONAdapter.prototype.convert(data)),
+//           error: () => console.log("#error"),
+//        });
     });
+
+    cy.on('tap', event => console.log(event.cyPosition));
   }
 
   /*
@@ -302,30 +301,3 @@ $(function() { // on dom ready
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
 }); // on dom ready
-
-//cy.on('tap', 'node', function(){
-//  try { // your browser may block popups
-//    window.open( this.data('href') );
-//  } catch(e){ // fall back on url change
-//    window.location.href = this.data('href');
-//  }
-//});
-
-//  style: cytoscape.stylesheet()
-//    .selector('node')
-//      .css({
-//        'content': 'data(name)',
-//        'text-valign': 'center',
-//        'color': 'white',
-//        'text-outline-width': 2,
-//        'text-outline-color': '#888'
-//      })
-//    .selector(':selected')
-//      .css({
-//        'background-color': 'black',
-//        'line-color': 'black',
-//        'target-arrow-color': 'black',
-//        'source-arrow-color': 'black',
-//        'text-outline-color': 'black'
-//      }),
-
