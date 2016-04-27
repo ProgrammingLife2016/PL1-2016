@@ -6,12 +6,12 @@ import java.util.List;
  * Created by ravishivam on 26-4-16.
  */
 public class Bubble implements Node {
-    int id;
-    int x;
-    int y;
-    int column;
-    List<Node> links;
-    List<Node> container;
+    private int id;
+    private int x;
+    private int y;
+    private int column;
+    private List<Node> links;
+    private List<Node> container;
 
     public void setXY(int x, int y) {
         this.x = x;
