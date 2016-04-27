@@ -608,6 +608,13 @@ function initialize($ /* = window.jQuery */, $$ /* = window.cytoscape */){
       });
     },
 
+    getZoomDim: function() {
+      return {minX: this.viewX,
+              minY: this.viewY,
+              maxX: this.viewX + this.viewBorderHorizontal,
+              maxY: this.viewY + this.viewBorderVertical};
+    },
+
   /**
    * Zooms graph.
    *
