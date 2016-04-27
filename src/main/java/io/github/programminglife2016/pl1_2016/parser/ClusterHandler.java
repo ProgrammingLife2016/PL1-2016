@@ -7,4 +7,6 @@ public interface ClusterHandler {
 
     NodeCollection determineClusters();
 
+    int getNumClusters();
+
 }

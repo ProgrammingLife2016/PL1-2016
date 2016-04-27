@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,6 +17,22 @@ public class Bubble extends ArrayList<Node> implements Node {
 
     public Bubble() {
         changed = false;
+    }
+
+    /**
+     * Calculates the Euclidean distance between the two nodes.
+     * @param other The other node to which the distance is calculated.
+     * @return The distance between this node and the other node.
+     */
+    public double distanceTo(Node other) {
+        double dist = 0.0;
+
+        double xval = Math.pow(this.x + other.getX(), 2);
+        double yval = Math.pow(this.y + other.getY(), 2);
+
+        dist = Math.sqrt(xval + yval);
+
+        return dist;
     }
 
     public void setXY(int x, int y) {

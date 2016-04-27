@@ -18,9 +18,34 @@ public class HierarchicalClustering implements ClusterHandler {
     }
 
     public NodeCollection determineClusters() {
-        return null;
+        while(clusteredGraph.size()!=this.clusters) {
+            update();
+        }
+        return clusteredGraph;
     }
 
+    /**
+     * Performs one update step of the algorithm.
+     */
+    public void update() {
+        if (clusteredGraph.size() == this.clusters)
+            return;
+        double smallestDistance = Double.POSITIVE_INFINITY;
+        Node a = new Bubble();
+        Node b = new Bubble();
+        for (int i = 0; i < clusteredGraph.size(); i++) {
+            for (int j = i + 1; j < clusteredGraph.size(); j++) {
+                double distance = clusteredGraph.get(i).distanceTo(clusteredGraph.get(j));
+                if (distance < smallestDistance) {
+                    smallestDistance = distance;
+                    a = clusteredGraph.get(i);
+                    b = clusteredGraph.get(j);
+                }
+            }
+        }
+        ((Bubble) a).addAll((Bubble) b);
+//        clusteredGraph.remove(b);
+    }
     private void initClusters() {
         for (Node node :
                 (Node[]) this.fullgraph.getCollection()) {
@@ -33,5 +58,17 @@ public class HierarchicalClustering implements ClusterHandler {
                 this.clusteredGraph.put(this.clusteredGraph.size(), node);
             }
         }
+    }
+
+    public int getNumClusters() {
+        return this.clusters;
+    }
+
+    public NodeCollection getFullgraph() {
+        return fullgraph;
+    }
+
+    public NodeCollection getClusteredGraph() {
+        return clusteredGraph;
     }
 }

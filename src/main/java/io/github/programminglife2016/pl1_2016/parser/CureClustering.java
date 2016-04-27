@@ -16,4 +16,8 @@ public class CureClustering implements ClusterHandler{
     public NodeCollection determineClusters() {
         return null;
     }
+
+    public int getNumClusters() {
+        return this.clusters;
+    }
 }

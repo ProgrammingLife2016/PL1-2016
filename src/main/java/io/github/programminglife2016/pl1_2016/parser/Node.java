@@ -7,6 +7,8 @@ import java.util.List;
  */
 public interface Node {
 
+    double distanceTo(Node other);
+
     void setXY(int x, int y);
 
     int getX();

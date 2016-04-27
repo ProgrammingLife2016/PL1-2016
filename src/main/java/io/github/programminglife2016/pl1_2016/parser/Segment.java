@@ -142,6 +142,22 @@ public class Segment implements Node {
     }
 
     /**
+     * Calculates the Euclidean distance between the two nodes.
+     * @param other The other node to which the distance is calculated.
+     * @return The distance between this node and the other node.
+     */
+    public double distanceTo(Node other) {
+        double dist = 0.0;
+
+        double xval = Math.pow(this.x + other.getX(), 2);
+        double yval = Math.pow(this.y + other.getY(), 2);
+
+        dist = Math.sqrt(xval + yval);
+
+        return dist;
+    }
+
+    /**
      * Return string representation of segment.
      * @return string representing segment.
      */
