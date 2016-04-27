@@ -72,7 +72,7 @@ public class SegmentList implements SegmentCollection {
      * @return JSON representation of this object.
      */
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(SegmentMap.class,
+        Gson gson = new GsonBuilder().registerTypeAdapter(SegmentList.class,
                 new SegmentCollectionSerializer()).create();
         return gson.toJson(this);
     }
