@@ -11,8 +11,26 @@ $(function(){ // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
+	var nodes = [];
+    for(var i = 0; i < data.nodes.length; i++) {
+        var tempNode = data.nodes[i];
+        var nodeWeight = tempNode.bubble? 100 : 50;
+        nodes.push({ data: { id: tempNode.id, name: getName(tempNode.data), weight: nodeWeight, faveColor: '#6FB1FC', faveShape: 'ellipse' }, position: {x: tempNode.x, y: tempNode.y} });
+    }
+
+	var edges = [];
+    for(var i = 0; i < data.edges.length; i++) {
+        var tempEdge = data.edges[i];
+        var edgeWeight = tempNode.bubble? 100 : 50;
+        edges.push({ data: { source: tempEdge.from, target: tempEdge.to}});
+    }
+    var elements = { nodes, edges };
+    return elements;
   }
 
+  function getName(name){
+    return name.length > 3 ? name.substring(0, 3)+"..." : name;
+  }
 
   /*
 
@@ -127,30 +145,69 @@ $(function(){ // on dom ready
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
 
-        elements: {
-          nodes: [
-            { data: { id: '1', name: 'A', "score":0.006769776522008331 } },
-            { data: { id: '2', name: 'T', "score": 0.006769776522008331 } },
-            { data: { id: '3', name: 'TCGG', "score": 0.006769776522008331 } },
-            { data: { id: '4', name: 'AAC', "score": 0.006769776522008331 } },
-            { data: { id: '5', name: 'GTT', "score": 0.006769776522008331 } },
-            { data: { id: '6', name: 'TAGTC', "score": 0.006769776522008331 } }
-          ],
-          edges: [
-            { data: { source: '1', target: '3', group: "pi" } },
-            { data: { source: '2', target: '3', group: "pi" } },
-            { data: { source: '3', target: '4', group: "predict" } },
-            { data: { source: '3', target: '5', group: "reg" } },
-            { data: { source: '4', target: '6', group: "spd" } },
-            { data: { source: '5', target: '6', group: "coloc" } }
-          ]
-        },
+//        elements: {
+//          nodes: [
+//            { data: { id: '1', name: 'A', "score":0.006769776522008331 } },
+//            { data: { id: '2', name: 'T', "score": 0.006769776522008331 } },
+//            { data: { id: '3', name: 'TCGG', "score": 0.006769776522008331 } },
+//            { data: { id: '4', name: 'AAC', "score": 0.006769776522008331 } },
+//            { data: { id: '5', name: 'GTT', "score": 0.006769776522008331 } },
+//            { data: { id: '6', name: 'TAGTC', "score": 0.006769776522008331 } }
+//          ],
+//          edges: [
+//            { data: { source: '1', target: '3', group: "pi" } },
+//            { data: { source: '2', target: '3', group: "pi" } },
+//            { data: { source: '3', target: '4', group: "predict" } },
+//            { data: { source: '3', target: '5', group: "reg" } },
+//            { data: { source: '4', target: '6', group: "spd" } },
+//            { data: { source: '5', target: '6', group: "coloc" } }
+//          ]
+//        },
 
         layout: {
           name: 'grid',
           padding: 10
         }
       });
+
+      var testJson = {
+                       "status": "success",
+                       "nodes": [
+                         {
+                           "id": 1,
+                           "bubble": false,
+                           "data": "ACGGT",
+                           "x": 0,
+                           "y": 0
+                         },
+                         {
+                           "id": 2,
+                           "bubble": true,
+                           "data": "bubble",
+                           "x": 100,
+                           "y": 100
+                         },
+                         {
+                           "id": 3,
+                           "bubble": false,
+                           "data": "GCCAGT",
+                           "x": -100,
+                           "y": -100
+                         }
+                       ],
+                       "edges": [
+                         {
+                           "from": 1,
+                           "to": 2
+                         },
+                         {
+                           "from": 2,
+                           "to": 3
+                         }
+                       ]
+                     };
+      cy.add(JSONAdapter.prototype.convert(testJson));
+
       this.bindUIEvents();
   }
 
