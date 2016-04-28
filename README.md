@@ -11,6 +11,23 @@ Kamran Tadzjibov.
 
 ## Build information
 
+### Required packages
+
+Git, Maven and JDK8 are required for building and running this project.
+
+#### Arch Linux
+
+    pacman -S git maven jdk8-openjdk
+
+#### Ubuntu
+
+    apt-get update
+    apt-get install git maven openjdk-8-jdk
+
+#### Windows
+
+Not officially supported.
+
 ### First time running
 
     git clone https://github.com/ProgrammingLife2016/PL1-2016.git
