@@ -26,8 +26,7 @@ public class HierarchicalClustering implements ClusterHandler {
             update();
         }
         NodeCollection currentGraph = new NodeList(clusteredGraph.size());
-        for (Node node :
-                clusteredGraph) {
+        for (Node node : clusteredGraph) {
             currentGraph.put(node.getId(), node);
         }
         return currentGraph;
@@ -58,7 +57,7 @@ public class HierarchicalClustering implements ClusterHandler {
     
     private void initClusters(NodeCollection collection) {
         for (Node node :
-                collection.getSegments()) {
+                collection.getNodes()) {
             if(node instanceof Segment) {
                 Bubble cluster = new Bubble();
                 cluster.add(node);
@@ -69,12 +68,4 @@ public class HierarchicalClustering implements ClusterHandler {
             }
         }
     }
-
-    public int getNumClusters() {
-        return this.clusters;
-    }
-
-//    public NodeCollection getClusteredGraph() {
-//        return clusteredGraph;
-//    }
 }

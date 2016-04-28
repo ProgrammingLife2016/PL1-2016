@@ -34,7 +34,7 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
      *
      * @return all segments
      */
-    public Collection<Node> getSegments() {
+    public Collection<Node> getNodes() {
         return values();
     }
 

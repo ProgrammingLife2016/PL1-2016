@@ -10,7 +10,6 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * Custom serializer for SegmentCollection. Conforms API.
@@ -31,12 +30,12 @@ public class SegmentCollectionSerializer implements JsonSerializer<NodeCollectio
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("status", new JsonPrimitive("success"));
         JsonArray nodes = new JsonArray();
-        segmentCollection.getSegments().stream()
+        segmentCollection.getNodes().stream()
                 .map(segmentBuilder::toJsonTree)
                 .forEach(nodes::add);
         jsonObject.add("nodes", nodes);
         JsonArray edges = new JsonArray();
-        for (Node node : segmentCollection.getSegments()) {
+        for (Node node : segmentCollection.getNodes()) {
             for (Node link : node.getLinks()) {
                 JsonObject edge = new JsonObject();
                 edge.add("from", new JsonPrimitive(node.getId()));
