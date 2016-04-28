@@ -12,7 +12,7 @@ public class PositionHandler implements PositionManager {
     /**
      * Spacing between segments in the graph.
      */
-    private static final int SPACING = 200;
+    private static final int SPACING = 250;
 
     /**
      * Factor used to determine node positions.
