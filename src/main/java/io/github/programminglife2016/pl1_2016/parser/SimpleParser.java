@@ -70,37 +70,6 @@ public class SimpleParser implements Parser {
         }
     }
 
-    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
-        int currentColumn = 1;
-        Map<Integer, List<Integer>> revisedGraph = new HashMap<>();
-        for (Map.Entry<Integer, List<Integer>> entry :
-                columns.entrySet()) {
-            revisedGraph.put(currentColumn, new ArrayList<>());
-            for (Integer node : entry.getValue()) {
-                int correctColumn = currentColumn + findDeltaColumn(node, columns, reversedLinks);
-                revisedGraph.get(correctColumn).add(node);
-            }
-            currentColumn++;
-        }
-        return revisedGraph;
-    }
-
-    public int findDeltaColumn(int node, Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
-        List<Integer> incomingLinks = reversedLinks.get(node);
-        if(incomingLinks == null) return 0;
-        if (incomingLinks.size() >= 2) {
-            for (int i = 0; i < incomingLinks.size(); i++) {
-                int firstcol = this.segmentMap.get(incomingLinks.get(i)).getColumn();
-                for (int j = i+1; j < incomingLinks.size() ; j++) {
-                    int secondcol = this.segmentMap.get(incomingLinks.get(j)).getColumn();
-                    if (firstcol != secondcol) {
-                        return -1;
-                    }
-                }
-            }
-        }
-        return 0;
-    }
 
     /**
      * Parse one line of a .gfa file.
@@ -167,6 +136,50 @@ public class SimpleParser implements Parser {
         segmentMap.get(from).addLink(segmentMap.get(to));
     }
 
+    /**
+     * Reassigns the nodes to columns resolving overlapping nodes.
+     * @param columns columns with the nodes they are containing
+     * @param reversedLinks nodes with their corresponding incoming edges
+     * @return collumns with their reassigned nodes.
+     */
+    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
+        int currentColumn = 1;
+        Map<Integer, List<Integer>> revisedGraph = new HashMap<>();
+        for (Map.Entry<Integer, List<Integer>> entry :
+                columns.entrySet()) {
+            revisedGraph.put(currentColumn, new ArrayList<>());
+            for (Integer node : entry.getValue()) {
+                int correctColumn = currentColumn + findDeltaColumn(node, reversedLinks);
+                revisedGraph.get(correctColumn).add(node);
+            }
+            currentColumn++;
+        }
+        return revisedGraph;
+    }
+
+    /**
+     * Determines how many columns needs to be switched for a given node.
+     * @param node the node the new column need to be found for
+     * @param reversedLinks nodes with their corresponding incoming edges
+     * @return how many columns need to be switched
+     */
+    public int findDeltaColumn(int node, Map<Integer, List<Integer>> reversedLinks) {
+        List<Integer> incomingLinks = reversedLinks.get(node);
+        if(incomingLinks == null) return 0;
+        if (incomingLinks.size() >= 2) {
+            for (int i = 0; i < incomingLinks.size(); i++) {
+                int firstcol = this.segmentMap.get(incomingLinks.get(i)).getColumn();
+                for (int j = i+1; j < incomingLinks.size() ; j++) {
+                    int secondcol = this.segmentMap.get(incomingLinks.get(j)).getColumn();
+                    if (firstcol != secondcol) {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    
     /**
      * Get the segmentMap containing all the segments.
      * @return hashmap of segments.
