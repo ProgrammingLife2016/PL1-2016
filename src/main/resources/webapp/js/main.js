@@ -2,6 +2,7 @@ $(function() { // on dom ready
   $("#cy").css("top", $("#nav").height() + $("#options").height());
   $("#logo").stop().animate({opacity: 1},800,"swing");
   $("#options").css("top", $("#nav").height());
+  $("#options").css("height", $(document).height() - $("#nav").height());
 
   /*
     Factory for creating Graph objects.
@@ -80,7 +81,7 @@ $(function() { // on dom ready
 
   */
   function ServerConnection() {
-     nodesDir = "/api/nodes";
+     nodesDir = "/api/nodes/";
      this.req = {
                    url: "",
                    data: {},
@@ -98,7 +99,24 @@ $(function() { // on dom ready
     Create AJAX to server
   */
   ServerConnection.prototype.retrieveDataFromServer = function() {
-      this.req["url"] = nodesDir;
+//      this.req["url"] = nodesDir;
+      var dim = graphHandler.getDimensions();
+//         totalWidth: cy.width(),
+//         totalHeight: cy.height(),
+//         zoomLocation: {
+//            minX: 0,
+//            maxX: cy.width(),
+//            minY: 0,
+//            maxY: cy.height()
+//         }
+      // /api/nodes/<xmin>/<xmax>/<ymin>/<ymax>/<totalx>/<totaly>
+      this.req["url"] = nodesDir +
+                        dim["zoomLocation"]["minX"] + "/" +
+                        dim["zoomLocation"]["maxX"] + "/" +
+                        dim["zoomLocation"]["minY"] + "/" +
+                        dim["zoomLocation"]["maxX"] + "/" +
+                        dim["totalWidth"] + "/" +
+                        dim["totalHeight"] + "/";
       console.log("Request");
       console.log(this.req);
       $.ajax(this.req);
@@ -115,11 +133,14 @@ $(function() { // on dom ready
 
       $("#startConnection").click(() => {
         $("#options").stop().animate({height: 0}, 500, "swing");
+        $("#container").stop().animate({height: 0}, 500, "swing");
+        $("#startConnection").stop().animate({opacity: 0}, 500, "swing");
         $("#cy").stop().animate({
           top: $("#nav").height(),
           opacity: 1
           }, 500, "swing");
         $(".cytoscape-navigator").stop().animate({opacity: 1}, 500, "swing");
+
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
       });
@@ -227,9 +248,9 @@ $(function() { // on dom ready
          totalHeight: cy.height(),
          zoomLocation: {
             minX: 0,
-            maxX: 0,
+            maxX: cy.width(),
             minY: 0,
-            maxY: 0
+            maxY: cy.height()
          }
      };
   }
@@ -282,6 +303,4 @@ $(function() { // on dom ready
   var graphFactory = new GraphFactory();
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
-
-  //serverConnection.retrieveDataFromServer();
 }); // on dom ready
