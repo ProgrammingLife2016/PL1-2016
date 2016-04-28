@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <!-- External dependencies -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- Mini map dependencies -->
+    <link href="css/cytoscape.js-navigator-light.css" rel="stylesheet" type="text/css" />
+    <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+    <script src="lib/cytoscape.js-navigator.js"></script>
+    <script type="text/javascript" src="file.json"></script>
+
+    <link rel="stylesheet" href="css/light-theme.css">
+    <script type="text/javascript" src="js/main.js"></script>
+    <title>DNA Visualizer</title>
+</head>
+<body>
+    <!--
+         Navigation bar
+    -->
+    <nav id="nav">
+        <div id="nav_wrapper">
+            <div id="logo">
+                <h1>DNA Visualizer</h1>
+            </div>
+            <ul>
+                <li>
+                <a id="viewlist">View</a>
+                    <ul>
+                        <li><a href="#" class="dnaGraph">DNA Graph</a>
+                        </li>
+                        <li><a href="#" class="phylogeneticTree">Phylogenetic Tree</a>
+                        </li>
+                    </ul>
+                </li><li>
+                <a>Settings</a>
+                    <ul>
+                        <li><a href="#" id="connect">Connect to server</a>
+                        </li>
+                        <li><a href="#" id="zoomButton">Reload data</a>
+                        </li>
+                    </ul>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--
+         Graph view
+    -->
+    <div id="cy"></div>
+
+</body>
+</html>
