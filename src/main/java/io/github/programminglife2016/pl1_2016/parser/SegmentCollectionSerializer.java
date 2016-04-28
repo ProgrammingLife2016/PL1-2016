@@ -37,7 +37,6 @@ public class SegmentCollectionSerializer implements JsonSerializer<NodeCollectio
         jsonObject.add("nodes", nodes);
         JsonArray edges = new JsonArray();
         for (Node node : segmentCollection.getSegments()) {
-            if(node==null) continue;
             for (Node link : node.getLinks()) {
                 JsonObject edge = new JsonObject();
                 edge.add("from", new JsonPrimitive(node.getId()));

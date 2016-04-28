@@ -29,7 +29,7 @@ public class SimpleParser implements Parser {
      * Create parser object.
      */
     public SimpleParser() {
-        segmentMap = new NodeList(SIZE);
+        segmentMap = new NodeMap(SIZE);
     }
 
     /**

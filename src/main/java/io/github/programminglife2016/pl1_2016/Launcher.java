@@ -23,12 +23,11 @@ public final class Launcher {
     public static void main(String[] args) throws IOException {
         Parser parser = new SimpleParser();
         JsonSerializable jsonSerializable = parser.parse(Launcher.class
-                .getResourceAsStream("/genomes/TB10_.gfa"));
-        System.out.println(jsonSerializable.toJson());
-//        Server server = new BasicServer(jsonSerializable.toJson());
-//        server.startServer();
-//        Server server2 = new RestServer(jsonSerializable);
-//        server2.startServer();
+                .getResourceAsStream("/genomes/TB10.gfa"));
+        Server server = new BasicServer(jsonSerializable.toJson());
+        server.startServer();
+        Server server2 = new RestServer(jsonSerializable);
+        server2.startServer();
     }
 }
 
