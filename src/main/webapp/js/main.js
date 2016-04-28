@@ -199,42 +199,8 @@ $(function() { // on dom ready
         }
       });
 
-      var testJson = {
-                       "status": "success",
-                       "nodes": [
-                         {
-                           "id": 1,
-                           "bubble": false,
-                           "data": "ACGGT",
-                           "x": 300,
-                           "y": 500
-                         },
-                         {
-                           "id": 2,
-                           "bubble": true,
-                           "data": "bubble",
-                           "x": 100,
-                           "y": 100
-                         },
-                         {
-                           "id": 3,
-                           "bubble": false,
-                           "data": "GCCAGT",
-                           "x": 200,
-                           "y": 200
-                         }
-                       ],
-                       "edges": [
-                         {
-                           "from": 1,
-                           "to": 2
-                         },
-                         {
-                           "from": 2,
-                           "to": 3
-                         }
-                       ]
-                     };
+      var testJson = data;
+      console.log(testJson);
       $('#cy').cytoscapeNavigator(); // Initialize mini map
       cy.add(JSONAdapter.prototype.convert(testJson));
       this.bindUIEvents();
