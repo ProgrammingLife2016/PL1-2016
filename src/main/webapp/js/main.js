@@ -1,10 +1,4 @@
 $(function() { // on dom ready
-  $("#logo").stop().animate({opacity: 1}, 800,"swing");
-  //$(".cytoscape-navigator").stop().animate({opacity: 1}, 800,"swing");
-//  var h = $("#nav").height();
-//  $("#nav").css("height", 0);
-//  $("#nav").stop().animate({height: h}, 200,"swing");
-
   $("#cy").css("top", $("#nav").height());
 
   /*
@@ -20,7 +14,6 @@ $(function() { // on dom ready
         id: node.id,
         name: getName(node.data),
         weight: node.bubble ? 100 : 50,
-        score: 0.006769776522008331,
         faveColor: '#6FB1FC',
         faveShape: 'ellipse'
       },
@@ -54,11 +47,21 @@ $(function() { // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-    var nodes = data.nodes.map(GraphFactory.prototype.createNode);
+    var nodes = data.nodes.map(node => GraphFactory.prototype.createNode(node));
     console.log(nodes);
+<<<<<<< HEAD
     var edges = data.edges.map(GraphFactory.prototype.createEdge);
     console.log(edges);
     return { nodes, edges };
+=======
+    var edges = data.edges.map(edge => GraphFactory.prototype.createEdge(edge));
+    var elements = { nodes, edges };
+    return elements;
+  }
+
+  function getName(name){
+    return name.length > 3 ? name.substring(0, 3)+"..." : name;
+>>>>>>> parent of 329115f... Code for changing viewport
   }
 
   /*
@@ -93,7 +96,11 @@ $(function() { // on dom ready
   ServerConnection.prototype.bindUIEvents = function() {
       $("#connect").click(function() {
         console.log("Connecting to server...");
+<<<<<<< HEAD
         serverConnection.retrieveDataFromServer();
+=======
+        this.retrieveDataFromServer();
+>>>>>>> parent of 329115f... Code for changing viewport
       });
   }
 
@@ -135,7 +142,6 @@ $(function() { // on dom ready
         container: $('#cy')[0],
         boxSelectionEnabled: false,
         autounselectify: true,
-        minZoom: 1,
 
         style: [{"selector":"core",
                    "style":
@@ -205,10 +211,50 @@ $(function() { // on dom ready
           padding: 10
         }
       });
+<<<<<<< HEAD
  
        var testJson = data;
 //      var testJson = {"status":"success","nodes":[{"id":1,"bubble":false,"data":"TTGACCGATGACCCCGGTTCAGGCTTCACCACAGTGTGGAACGCGGTCGTCTCCGAACTTAACGGCGACCCTAAGGTTGACGACGGACCCAGCAGTGATGCTAATCTCAGCGCTCCGCTGACCCCTCAGCAAAGGGCTTGGCTCAATCTCGTCCAGCCATTGACCATCGTCGAGGGGTTTGCTCTGTTATCCGTGCCGAGCAGCTTTGTCCAAAACGAAATCGAGCGCCATCTGCGGGCCCCGATTACCGACGCTCTCAGCCGCCGACTCGGACATCAGATCCAACTCGGGGTCCGCATCGCTCCGCCGGCGACCGACGAAGCCGACGACACTACCGTGCCGCCTTCCGAAAATCCTGCTACCACATCGCC","x":0,"y":0},{"id":2,"bubble":false,"data":"AGACACCACAACCGACAACGACGAGATTGATGACAGCGCTGCGGCACGGGGCGATAACCAGCACAGTTGGCCAAGTTACTTCACCGAGCGCCCGCACAATACCGATTCCGCTACCGCTGGCGTAACCAGCCTTAACCGTCGCTACACCTTTGATACGTTCGTTATCGGCGCCTCCAACCGGTTCGCGCACGCCGCCGCCTTGGCGATCGCAGAAGCACCCGCCCGCGCTTACAACCCCCTGTTCATCTGGGGCGAGTCCGGTCTCGGCAAGACACACCTGCTACACGCGGCAGGCAACTATGCCCAACGGTTGTTCCCGGGAATGCGGGTCAAATATGTCTCCACCGAGGAATTCACCAACGACTTCATTAACTCGCTCCGCGATGACCGCAAGGTCGCATTCAAACGCAGCTACCGCGACGTAGACGTGCTGTTGGTCGACGACATCCAATTCATTGAAGGCAAAGAGGGTATTCAAGAGGAGTTCTTCCACACCTTCAACACCTTGCACAATGCCAACAAGCAAATCGTCATCTCATCTGACCGCCCACCCAAGCAGCTCGCCACCCTCGAGGACCGGCTGAGAACCCGCTTTGAGTGGGGGCTGATCACTGACGTACAACCACCCGAGCTGGAGACCCGCATCGCCATCTTGCGCAAGAAAGCACAGATGGAACGGCTCGCGGTCCCCGACGATGTCCTCGAACTCATCGCCAGCAGTATCGAACGCAATATCCGTGAACTCGAGGGCGCGCTGATCCGGGTCACCGCGTTCGCCTCATTGAACAAAACACCAATCGACAAAGCGCTGGCCGAGATTGTGCTTCGCGATCTGATCGCCGACGCCAACACCATGCAAATCAGCGCGGCGACGATCATGGCTGCCACCGCCGAATACTTCGACACTACCGTCGAAGAGCTTCGCGGGCCCGGCAAGACCCGAGCACTGGCCCAGTCACGACAGATTGCGATGTACCTGTGTCGTGAGCTCACCGATCTTTCGTTGCCCAAAATCGGCCAAGCGTTCGGCCGTGATCACACAACCGTCATGTACGCCCAACGCAAGATCCTGTCCGAGAT","x":10,"y":0},{"id":3,"bubble":false,"data":"C","x":20,"y":5},{"id":4,"bubble":false,"data":"G","x":20,"y":-5},{"id":5,"bubble":false,"data":"GCCGAGCGCCGTGAGGTCTTTGATCACGTCAAAGAACTCACCACTCGCATCCGTCAGCGCTCCAAGCGCTAGCACGGCGTGTTCTTCCGACAACGTTCTT","x":30,"y":0},{"id":6,"bubble":false,"data":"A","x":40,"y":0},{"id":7,"bubble":false,"data":"AAAAAACTTCTCTCTCCCAGGTCACACCAGTCACAGAGATTGGCTGTGAGTGTCGCTGTGCACAAACCGCGCACAGACTCATACAGTCCCGGCGGTTCCGTTCACAACCCACGCCTCATCCCCACCGACCCAACACACACCCCACAG","x":50,"y":0}],"edges":[{"from":1,"to":2},{"from":2,"to":3},{"from":2,"to":4},{"from":3,"to":5},{"from":4,"to":5},{"from":5,"to":6},{"from":5,"to":7},{"from":6,"to":7}]};
       console.log(testJson)
+=======
+
+      var testJson = {
+                       "status": "success",
+                       "nodes": [
+                         {
+                           "id": 1,
+                           "bubble": false,
+                           "data": "ACGGT",
+                           "x": 300,
+                           "y": 500
+                         },
+                         {
+                           "id": 2,
+                           "bubble": true,
+                           "data": "bubble",
+                           "x": 100,
+                           "y": 100
+                         },
+                         {
+                           "id": 3,
+                           "bubble": false,
+                           "data": "GCCAGT",
+                           "x": 200,
+                           "y": 200
+                         }
+                       ],
+                       "edges": [
+                         {
+                           "from": 1,
+                           "to": 2
+                         },
+                         {
+                           "from": 2,
+                           "to": 3
+                         }
+                       ]
+                     };
+>>>>>>> parent of 329115f... Code for changing viewport
       cy.add(JSONAdapter.prototype.convert(testJson));
 
       this.bindUIEvents();
@@ -237,6 +283,16 @@ $(function() { // on dom ready
     $("#zoomButton").click(function() {
         //console.log(cy.cytoscapeNavigator.getZoomDim());
         console.log(graphHandler.getDimensions());
+<<<<<<< HEAD
+=======
+//        $.ajax({
+//           url: "/api",
+//           data: {},
+//           dataType: 'json',
+//           success : (data) => cy.add(JSONAdapter.prototype.convert(data)),
+//           error: () => console.log("#error"),
+//        });
+>>>>>>> parent of 329115f... Code for changing viewport
     });
   }
 
