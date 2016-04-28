@@ -1,12 +1,17 @@
 @font-face{
     font-family: MavenProLight;
+    src: url("MavenProLight-300.otf");
+}
+
+@font-face{
+    font-family: HelveticaNeue;
     src: url("HelveticaNeue-Thin.otf");
 }
 
 body {
   font: 18px helvetica neue, helvetica, arial, sans-serif;
-  background-color: #EEE;
-  font-family: MavenProLight;
+  background-color: #1d1d1d;
+  font-family: HelveticaNeue;
 }
 
 #cy {
@@ -35,7 +40,6 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    opacity: 1;
 }
 #nav_wrapper {
     width: 1090px;
@@ -47,20 +51,22 @@ body {
 #logo {
     display: block;
     float: left;
-    margin-top: 2px;
+    margin-top: 4px;
+    opacity: 0;
 }
 #logo h1 {
     margin: 0px;
     padding: 0px;
     color: #FFF;
     font-size: 30px;
+    font-weight: 100;
 }
 #nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     position: relative;
-    min-width: 170px;
+    min-width: 200px;
     z-index: 1000;
 }
 #nav ul li {
@@ -84,6 +90,7 @@ body {
     -ms-transition: margin 0.3s ease 0s;
     transition: margin 0.3s ease 0s;
 }
+
 #nav ul ul li a{
     padding: 15px;
 }
