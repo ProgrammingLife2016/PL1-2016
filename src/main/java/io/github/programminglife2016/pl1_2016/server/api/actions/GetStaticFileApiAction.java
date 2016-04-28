@@ -24,7 +24,7 @@ public class GetStaticFileApiAction implements ApiAction {
             String ret = IOUtils.toString(is, "UTF-8");
             return ret;
         } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+            System.err.println(args.get(0));
             return "404";
         }
     }
