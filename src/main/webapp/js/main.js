@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(function() { // on dom ready
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
   //$(".cytoscape-navigator").stop().animate({opacity: 1}, 800,"swing");
@@ -42,9 +41,6 @@ $(function() { // on dom ready
     };
   }
 
-=======
-$(function(){ // on dom ready
->>>>>>> e4131686c0ac6fd1f194ab9af56660104450f11e
   /*
 
       Adapter for converting JSON data from server to correct format for cytoscape
@@ -57,33 +53,11 @@ $(function(){ // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-<<<<<<< HEAD
     var nodes = data.nodes.map(GraphFactory.prototype.createNode);
     console.log(nodes);
     var edges = data.edges.map(GraphFactory.prototype.createEdge);
     console.log(edges);
     return { nodes, edges };
-=======
-	var nodes = [];
-    for(var i = 0; i < data.nodes.length; i++) {
-        var tempNode = data.nodes[i];
-        var nodeWeight = tempNode.bubble? 100 : 50;
-        nodes.push({ data: { id: tempNode.id, name: getName(tempNode.data), weight: nodeWeight, faveColor: '#6FB1FC', faveShape: 'ellipse' }, position: {x: tempNode.x*100, y: tempNode.y*100} });
-    }
-
-	var edges = [];
-    for(var i = 0; i < data.edges.length; i++) {
-        var tempEdge = data.edges[i];
-        var edgeWeight = tempNode.bubble? 100 : 50;
-        edges.push({ data: { source: tempEdge.from, target: tempEdge.to}});
-    }
-    var elements = { nodes, edges };
-    return elements;
-  }
-
-  function getName(name){
-    return name.length > 3 ? name.substring(0, 3)+"..." : name;
->>>>>>> e4131686c0ac6fd1f194ab9af56660104450f11e
   }
 
   /*
@@ -229,10 +203,8 @@ $(function(){ // on dom ready
           padding: 10
         }
       });
-    var request = new XMLHttpRequest();
-       request.open("GET", "js/graph.json", false);
-       request.send(null)
-       var testJson = JSON.parse(request.responseText);
+ 
+       var testJson = data;
 //      var testJson = {"status":"success","nodes":[{"id":1,"bubble":false,"data":"TTGACCGATGACCCCGGTTCAGGCTTCACCACAGTGTGGAACGCGGTCGTCTCCGAACTTAACGGCGACCCTAAGGTTGACGACGGACCCAGCAGTGATGCTAATCTCAGCGCTCCGCTGACCCCTCAGCAAAGGGCTTGGCTCAATCTCGTCCAGCCATTGACCATCGTCGAGGGGTTTGCTCTGTTATCCGTGCCGAGCAGCTTTGTCCAAAACGAAATCGAGCGCCATCTGCGGGCCCCGATTACCGACGCTCTCAGCCGCCGACTCGGACATCAGATCCAACTCGGGGTCCGCATCGCTCCGCCGGCGACCGACGAAGCCGACGACACTACCGTGCCGCCTTCCGAAAATCCTGCTACCACATCGCC","x":0,"y":0},{"id":2,"bubble":false,"data":"AGACACCACAACCGACAACGACGAGATTGATGACAGCGCTGCGGCACGGGGCGATAACCAGCACAGTTGGCCAAGTTACTTCACCGAGCGCCCGCACAATACCGATTCCGCTACCGCTGGCGTAACCAGCCTTAACCGTCGCTACACCTTTGATACGTTCGTTATCGGCGCCTCCAACCGGTTCGCGCACGCCGCCGCCTTGGCGATCGCAGAAGCACCCGCCCGCGCTTACAACCCCCTGTTCATCTGGGGCGAGTCCGGTCTCGGCAAGACACACCTGCTACACGCGGCAGGCAACTATGCCCAACGGTTGTTCCCGGGAATGCGGGTCAAATATGTCTCCACCGAGGAATTCACCAACGACTTCATTAACTCGCTCCGCGATGACCGCAAGGTCGCATTCAAACGCAGCTACCGCGACGTAGACGTGCTGTTGGTCGACGACATCCAATTCATTGAAGGCAAAGAGGGTATTCAAGAGGAGTTCTTCCACACCTTCAACACCTTGCACAATGCCAACAAGCAAATCGTCATCTCATCTGACCGCCCACCCAAGCAGCTCGCCACCCTCGAGGACCGGCTGAGAACCCGCTTTGAGTGGGGGCTGATCACTGACGTACAACCACCCGAGCTGGAGACCCGCATCGCCATCTTGCGCAAGAAAGCACAGATGGAACGGCTCGCGGTCCCCGACGATGTCCTCGAACTCATCGCCAGCAGTATCGAACGCAATATCCGTGAACTCGAGGGCGCGCTGATCCGGGTCACCGCGTTCGCCTCATTGAACAAAACACCAATCGACAAAGCGCTGGCCGAGATTGTGCTTCGCGATCTGATCGCCGACGCCAACACCATGCAAATCAGCGCGGCGACGATCATGGCTGCCACCGCCGAATACTTCGACACTACCGTCGAAGAGCTTCGCGGGCCCGGCAAGACCCGAGCACTGGCCCAGTCACGACAGATTGCGATGTACCTGTGTCGTGAGCTCACCGATCTTTCGTTGCCCAAAATCGGCCAAGCGTTCGGCCGTGATCACACAACCGTCATGTACGCCCAACGCAAGATCCTGTCCGAGAT","x":10,"y":0},{"id":3,"bubble":false,"data":"C","x":20,"y":5},{"id":4,"bubble":false,"data":"G","x":20,"y":-5},{"id":5,"bubble":false,"data":"GCCGAGCGCCGTGAGGTCTTTGATCACGTCAAAGAACTCACCACTCGCATCCGTCAGCGCTCCAAGCGCTAGCACGGCGTGTTCTTCCGACAACGTTCTT","x":30,"y":0},{"id":6,"bubble":false,"data":"A","x":40,"y":0},{"id":7,"bubble":false,"data":"AAAAAACTTCTCTCTCCCAGGTCACACCAGTCACAGAGATTGGCTGTGAGTGTCGCTGTGCACAAACCGCGCACAGACTCATACAGTCCCGGCGGTTCCGTTCACAACCCACGCCTCATCCCCACCGACCCAACACACACCCCACAG","x":50,"y":0}],"edges":[{"from":1,"to":2},{"from":2,"to":3},{"from":2,"to":4},{"from":3,"to":5},{"from":4,"to":5},{"from":5,"to":6},{"from":5,"to":7},{"from":6,"to":7}]};
       console.log(testJson)
       cy.add(JSONAdapter.prototype.convert(testJson));
