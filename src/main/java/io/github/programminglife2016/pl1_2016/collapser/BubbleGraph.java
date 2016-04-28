@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.Launcher;
 import io.github.programminglife2016.pl1_2016.parser.*;
 
 import java.io.InputStream;

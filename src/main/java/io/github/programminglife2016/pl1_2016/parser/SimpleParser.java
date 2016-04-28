@@ -179,7 +179,7 @@ public class SimpleParser implements Parser {
         }
         return 0;
     }
-    
+
     /**
      * Get the segmentMap containing all the segments.
      * @return hashmap of segments.
