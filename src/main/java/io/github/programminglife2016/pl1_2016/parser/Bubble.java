@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by ravishivam on 26-4-16.
  */
-public class Bubble extends ArrayList<Node> implements Node {
+public class Bubble extends ArrayList<Node> implements Node, Cloneable {
     private boolean changed;
 
     /**
@@ -108,6 +108,13 @@ public class Bubble extends ArrayList<Node> implements Node {
         changed = true;
         return super.add(fv);
     }
+    /**
+     * Return a deep cloned object of the bubble
+     * @return Deep cloned object of node bubble
+     */
+    public Bubble clone() {
+        return (Bubble) super.clone();
+    }
 
     /**
      * If the bubble did not change since it has calculated its previous centroid,
@@ -118,7 +125,6 @@ public class Bubble extends ArrayList<Node> implements Node {
         if (size() == 0) {
             return;
         }
-
         if (changed == true) {
             double sumX = 0;
             double sumY = 0;

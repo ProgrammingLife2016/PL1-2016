@@ -25,7 +25,7 @@ public class BubbleGraph implements Graph {
         this.currentGraph = clusterGraph(bubbles, fullgraph.clone());
     }
 
-    public NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy) {
+    public NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy) throws CloneNotSupportedException {
         NodeCollection boundedGraph = new NodeList(currentGraph.size());
         for (Node node : currentGraph) {
             int thisx = node.getX();
@@ -38,7 +38,7 @@ public class BubbleGraph implements Graph {
         return currentGraph;
     }
 
-    public NodeCollection generateZoomedGraph(NodeCollection graph) {
+    public NodeCollection generateZoomedGraph(NodeCollection graph) throws CloneNotSupportedException {
         List<Node> nonnulls = new ArrayList<Node>(graph.size());
         for (Node node : currentGraph) {
             nonnulls.add(node);
@@ -50,13 +50,12 @@ public class BubbleGraph implements Graph {
             i++;
         }
         curr = clusterGraph(bubbles, curr);
-
         return curr;
     }
 
-    public NodeCollection clusterGraph(int k, NodeCollection collection) {
-        HierarchicalClustering hierarchicalClustering = new HierarchicalClustering(k, collection);
-        return hierarchicalClustering.determineClusters();
+    public NodeCollection clusterGraph(int k, NodeCollection collection) throws CloneNotSupportedException {
+        ClusterHandler cureClustering = new CureClustering(k, collection);
+        return cureClustering.retrieveClusters();
     }
 
     public NodeCollection getFullGraph() {

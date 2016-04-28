@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Data structure for representing a DNA sequence
  */
-public class Segment implements Node {
+public class Segment implements Node,Cloneable {
     /**
      * Id of DNA segment.
      */
@@ -156,6 +156,15 @@ public class Segment implements Node {
         dist = Math.sqrt(xval + yval);
 
         return dist;
+    }
+
+    /**
+     * Return a deep cloned object of the segment
+     * @return Deep cloned object of node segment
+     * @throws CloneNotSupportedException Not a cloneable object
+     */
+    public Segment clone() throws CloneNotSupportedException {
+        return (Segment) this;
     }
 
     /**

@@ -6,7 +6,9 @@ import java.util.List;
 /**
  * Created by ravishivam on 26-4-16.
  */
-public interface Node {
+public interface Node extends Cloneable {
+
+    Node clone() throws CloneNotSupportedException;
 
     double distanceTo(Node other);
 
