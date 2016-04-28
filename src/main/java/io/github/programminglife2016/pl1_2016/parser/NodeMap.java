@@ -20,16 +20,6 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     }
 
     /**
-     * Convert hashmap to JSON representation and return as string.
-     * @return hashmap converted to JSON string.
-     */
-    public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class,
-                new SegmentCollectionSerializer()).create();
-        return gson.toJson(this);
-    }
-
-    /**
      * Return all segments.
      *
      * @return all segments
