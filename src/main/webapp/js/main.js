@@ -1,14 +1,32 @@
 $(function() { // on dom ready
   $("#cy").css("top", $("#nav").height());
+  $("#logo").stop().animate({opacity: 1},800,"swing");
 
   /*
     Factory for creating Graph objects.
   */
   function GraphFactory() {
+    this.nodeTemplate = {
+      data: {
+        id: -1,
+        name: "-",
+        weight: 0,
+        faveColor: '#6FB1FC',
+        faveShape: 'ellipse'
+      },
+      position: { x: 0, y: 0 }
+    };
+
+    console.log(this.nodeTemplate);
   }
 
   GraphFactory.prototype.createNode = function(node) {
-    var getName = name => name.length > 3 ? name.substring(0, 3) + "..." : name;
+    var getName = name => name.length > 4 ? name.substring(0, 4) + "..." : name;
+    this.nodeTemplate["data"]["id"] = node.id;
+    this.nodeTemplate["data"]["name"] = getName(node.data);
+    this.nodeTemplate["data"]["weight"] = node.bubble ? 100 : 50;
+    this.nodeTemplate["position"]["x"] = node.x + 550;
+    this.nodeTemplate["position"]["y"] = node.y + 450;
     return {
       data: {
         id: node.id,
@@ -22,6 +40,7 @@ $(function() { // on dom ready
         y: node.y + 450
       }
     };
+//     return this.nodeTemplate;
   }
 
   GraphFactory.prototype.createEdge = function(edge) {
@@ -47,21 +66,9 @@ $(function() { // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-    var nodes = data.nodes.map(node => GraphFactory.prototype.createNode(node));
-    console.log(nodes);
-<<<<<<< HEAD
-    var edges = data.edges.map(GraphFactory.prototype.createEdge);
-    console.log(edges);
+    var nodes = data.nodes.map(n => graphFactory.createNode(n));
+    var edges = data.edges.map(e => graphFactory.createEdge(e));
     return { nodes, edges };
-=======
-    var edges = data.edges.map(edge => GraphFactory.prototype.createEdge(edge));
-    var elements = { nodes, edges };
-    return elements;
-  }
-
-  function getName(name){
-    return name.length > 3 ? name.substring(0, 3)+"..." : name;
->>>>>>> parent of 329115f... Code for changing viewport
   }
 
   /*
@@ -71,6 +78,16 @@ $(function() { // on dom ready
   */
   function ServerConnection() {
      nodesDir = "/nodes";
+     this.req = {
+                   url: "",
+                   data: {},
+                   dataType: 'json',
+                   success : this.handleSucces,
+                   error: this.handleError,
+                   statusCode: {
+                     default: this.handleStatusCode
+                   }
+                };
      this.bindUIEvents();
   }
 
@@ -78,29 +95,18 @@ $(function() { // on dom ready
     Create AJAX to server
   */
   ServerConnection.prototype.retrieveDataFromServer = function() {
-        $.ajax({
-           url: "/nodes",
-           data: {},
-           dataType: 'json',
-           success : this.handleSucces,
-           error: this.handleError,
-           statusCode: {
-             default: this.handleStatusCode
-           }
-        });
+      this.req["url"] = nodesDir;
+      console.log(this.req);
+      $.ajax(this.req);
   }
 
   /*
     Add UI events concerning communicating with the server.
   */
   ServerConnection.prototype.bindUIEvents = function() {
-      $("#connect").click(function() {
+      $("#connect").click(() => {
         console.log("Connecting to server...");
-<<<<<<< HEAD
-        serverConnection.retrieveDataFromServer();
-=======
         this.retrieveDataFromServer();
->>>>>>> parent of 329115f... Code for changing viewport
       });
   }
 
@@ -108,27 +114,27 @@ $(function() { // on dom ready
     Load data if AJAX request was succesfull.
   */
   ServerConnection.prototype.handleSucces = function(data, textStatus, jqXHR) {
-        console.log(textStatus);
-        console.log(jqXHR);
-        graphHandler.loadDataInGraph(data);
+      console.log(textStatus);
+      console.log(jqXHR);
+      graphHandler.loadDataInGraph(data);
   }
 
   /*
     Handle error if AJAX request failed.
   */
   ServerConnection.prototype.handleError = function(jqXHR ,textStatus, errorThrown) {
-        console.log("ERROR AJAX request");
-        console.log(jqXHR);
-        console.log("- HTTP status code : " + jqXHR.status);
-        console.log("- response Text    : " + jqXHR.responseText);
-        console.log("- Error thrown     : " + errorThrown);
+      console.log("ERROR AJAX request");
+      console.log(jqXHR);
+      console.log("- HTTP status code : " + jqXHR.status);
+      console.log("- response Text    : " + jqXHR.responseText);
+      console.log("- Error thrown     : " + errorThrown);
   }
 
   /*
     Print HTTP status code of AJAX request.
   */
   ServerConnection.prototype.handleStatusCode = function(statusCode) {
-        console.log("Status code AJAX request: " + statusCode)
+      console.log("Status code AJAX request: " + statusCode)
   }
 
 
@@ -142,6 +148,9 @@ $(function() { // on dom ready
         container: $('#cy')[0],
         boxSelectionEnabled: false,
         autounselectify: true,
+        hideEdgesOnViewport : true,
+        hideLabelsOnViewport : true,
+        textureOnViewport : true,
 
         style: [{"selector":"core",
                    "style":
@@ -181,82 +190,15 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
 
-
-//        elements: {
-//          nodes: [
-//            { data: { id: '1', name: 'A', "score":0.006769776522008331 } },
-//            { data: { id: '2', name: 'T', "score": 0.006769776522008331 } },
-//            { data: { id: '3', name: 'TCGG', "score": 0.006769776522008331 } },
-//            { data: { id: '4', name: 'AAC', "score": 0.006769776522008331 } },
-//            { data: { id: '5', name: 'GTT', "score": 0.006769776522008331 } },
-//            { data: { id: '6', name: 'TAGTC', "score": 0.006769776522008331 } }
-//          ],
-//          edges: [
-//            { data: { source: '1', target: '3', group: "pi" } },
-//            { data: { source: '2', target: '3', group: "pi" } },
-//            { data: { source: '3', target: '4', group: "predict" } },
-//            { data: { source: '3', target: '5', group: "reg" } },
-//            { data: { source: '4', target: '6', group: "spd" } },
-//            { data: { source: '5', target: '6', group: "coloc" } }
-//          ]
-//        },
-
-        hideEdgesOnViewport : true,
-        hideLabelsOnViewport : true,
-        textureOnViewport : true,
-
-
         layout: {
           name: 'grid',
           padding: 10
         }
       });
-<<<<<<< HEAD
- 
-       var testJson = data;
-//      var testJson = {"status":"success","nodes":[{"id":1,"bubble":false,"data":"TTGACCGATGACCCCGGTTCAGGCTTCACCACAGTGTGGAACGCGGTCGTCTCCGAACTTAACGGCGACCCTAAGGTTGACGACGGACCCAGCAGTGATGCTAATCTCAGCGCTCCGCTGACCCCTCAGCAAAGGGCTTGGCTCAATCTCGTCCAGCCATTGACCATCGTCGAGGGGTTTGCTCTGTTATCCGTGCCGAGCAGCTTTGTCCAAAACGAAATCGAGCGCCATCTGCGGGCCCCGATTACCGACGCTCTCAGCCGCCGACTCGGACATCAGATCCAACTCGGGGTCCGCATCGCTCCGCCGGCGACCGACGAAGCCGACGACACTACCGTGCCGCCTTCCGAAAATCCTGCTACCACATCGCC","x":0,"y":0},{"id":2,"bubble":false,"data":"AGACACCACAACCGACAACGACGAGATTGATGACAGCGCTGCGGCACGGGGCGATAACCAGCACAGTTGGCCAAGTTACTTCACCGAGCGCCCGCACAATACCGATTCCGCTACCGCTGGCGTAACCAGCCTTAACCGTCGCTACACCTTTGATACGTTCGTTATCGGCGCCTCCAACCGGTTCGCGCACGCCGCCGCCTTGGCGATCGCAGAAGCACCCGCCCGCGCTTACAACCCCCTGTTCATCTGGGGCGAGTCCGGTCTCGGCAAGACACACCTGCTACACGCGGCAGGCAACTATGCCCAACGGTTGTTCCCGGGAATGCGGGTCAAATATGTCTCCACCGAGGAATTCACCAACGACTTCATTAACTCGCTCCGCGATGACCGCAAGGTCGCATTCAAACGCAGCTACCGCGACGTAGACGTGCTGTTGGTCGACGACATCCAATTCATTGAAGGCAAAGAGGGTATTCAAGAGGAGTTCTTCCACACCTTCAACACCTTGCACAATGCCAACAAGCAAATCGTCATCTCATCTGACCGCCCACCCAAGCAGCTCGCCACCCTCGAGGACCGGCTGAGAACCCGCTTTGAGTGGGGGCTGATCACTGACGTACAACCACCCGAGCTGGAGACCCGCATCGCCATCTTGCGCAAGAAAGCACAGATGGAACGGCTCGCGGTCCCCGACGATGTCCTCGAACTCATCGCCAGCAGTATCGAACGCAATATCCGTGAACTCGAGGGCGCGCTGATCCGGGTCACCGCGTTCGCCTCATTGAACAAAACACCAATCGACAAAGCGCTGGCCGAGATTGTGCTTCGCGATCTGATCGCCGACGCCAACACCATGCAAATCAGCGCGGCGACGATCATGGCTGCCACCGCCGAATACTTCGACACTACCGTCGAAGAGCTTCGCGGGCCCGGCAAGACCCGAGCACTGGCCCAGTCACGACAGATTGCGATGTACCTGTGTCGTGAGCTCACCGATCTTTCGTTGCCCAAAATCGGCCAAGCGTTCGGCCGTGATCACACAACCGTCATGTACGCCCAACGCAAGATCCTGTCCGAGAT","x":10,"y":0},{"id":3,"bubble":false,"data":"C","x":20,"y":5},{"id":4,"bubble":false,"data":"G","x":20,"y":-5},{"id":5,"bubble":false,"data":"GCCGAGCGCCGTGAGGTCTTTGATCACGTCAAAGAACTCACCACTCGCATCCGTCAGCGCTCCAAGCGCTAGCACGGCGTGTTCTTCCGACAACGTTCTT","x":30,"y":0},{"id":6,"bubble":false,"data":"A","x":40,"y":0},{"id":7,"bubble":false,"data":"AAAAAACTTCTCTCTCCCAGGTCACACCAGTCACAGAGATTGGCTGTGAGTGTCGCTGTGCACAAACCGCGCACAGACTCATACAGTCCCGGCGGTTCCGTTCACAACCCACGCCTCATCCCCACCGACCCAACACACACCCCACAG","x":50,"y":0}],"edges":[{"from":1,"to":2},{"from":2,"to":3},{"from":2,"to":4},{"from":3,"to":5},{"from":4,"to":5},{"from":5,"to":6},{"from":5,"to":7},{"from":6,"to":7}]};
+
+      var testJson = data;
       console.log(testJson)
-=======
-
-      var testJson = {
-                       "status": "success",
-                       "nodes": [
-                         {
-                           "id": 1,
-                           "bubble": false,
-                           "data": "ACGGT",
-                           "x": 300,
-                           "y": 500
-                         },
-                         {
-                           "id": 2,
-                           "bubble": true,
-                           "data": "bubble",
-                           "x": 100,
-                           "y": 100
-                         },
-                         {
-                           "id": 3,
-                           "bubble": false,
-                           "data": "GCCAGT",
-                           "x": 200,
-                           "y": 200
-                         }
-                       ],
-                       "edges": [
-                         {
-                           "from": 1,
-                           "to": 2
-                         },
-                         {
-                           "from": 2,
-                           "to": 3
-                         }
-                       ]
-                     };
->>>>>>> parent of 329115f... Code for changing viewport
       cy.add(JSONAdapter.prototype.convert(testJson));
-
       this.bindUIEvents();
   }
 
@@ -280,11 +222,9 @@ $(function() { // on dom ready
     Add UI events concerning the graph view.
   */
   GraphHandler.prototype.bindUIEvents = function() {
-    $("#zoomButton").click(function() {
+    $("#zoomButton").click(() => {
         //console.log(cy.cytoscapeNavigator.getZoomDim());
         console.log(graphHandler.getDimensions());
-<<<<<<< HEAD
-=======
 //        $.ajax({
 //           url: "/api",
 //           data: {},
@@ -292,7 +232,6 @@ $(function() { // on dom ready
 //           success : (data) => cy.add(JSONAdapter.prototype.convert(data)),
 //           error: () => console.log("#error"),
 //        });
->>>>>>> parent of 329115f... Code for changing viewport
     });
   }
 
@@ -324,33 +263,7 @@ $(function() { // on dom ready
   PhyloGeneticTree.prototype.showTree = function() { cy.css("display", "block"); }
 
   $('#cy').cytoscapeNavigator(); // Initialize mini map
+  var graphFactory = new GraphFactory();
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
 }); // on dom ready
-
-//cy.on('tap', 'node', function(){
-//  try { // your browser may block popups
-//    window.open( this.data('href') );
-//  } catch(e){ // fall back on url change
-//    window.location.href = this.data('href');
-//  }
-//});
-
-//  style: cytoscape.stylesheet()
-//    .selector('node')
-//      .css({
-//        'content': 'data(name)',
-//        'text-valign': 'center',
-//        'color': 'white',
-//        'text-outline-width': 2,
-//        'text-outline-color': '#888'
-//      })
-//    .selector(':selected')
-//      .css({
-//        'background-color': 'black',
-//        'line-color': 'black',
-//        'target-arrow-color': 'black',
-//        'source-arrow-color': 'black',
-//        'text-outline-color': 'black'
-//      }),
-
