@@ -58,6 +58,18 @@ public class RestServerTest {
     }
 
     /**
+     * Send a single GET request to a static file.
+     *
+     * @throws IOException thrown when the TCP connection refuses
+     */
+    @Test
+    public void testSingleRequestToStaticFile() throws IOException {
+        String ret = httpRequest(new URL(String.format("http://localhost:%d/static/statictestfile",
+                RestServer.PORT)));
+        assertEquals("hello-from-file", ret.trim());
+    }
+
+    /**
      * Issue a simple GET request to the url, and return the response body.
      *
      * @param url destination url
