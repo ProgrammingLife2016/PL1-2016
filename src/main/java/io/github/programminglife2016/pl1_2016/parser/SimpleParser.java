@@ -3,7 +3,11 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -21,13 +25,13 @@ public class SimpleParser implements Parser {
     /**
      * Map containing the DNA seqments.
      */
-    private NodeCollection segmentMap;
+    private NodeCollection nodeCollection;
 
     /**
      * Create parser object.
      */
     public SimpleParser() {
-        segmentMap = new NodeList(SIZE);
+        nodeCollection = new NodeList(SIZE);
     }
 
     /**
@@ -39,7 +43,7 @@ public class SimpleParser implements Parser {
         columns = new TreeMap<Integer, List<Integer>>();
         reversedLinks = new HashMap<>();
         read(inputStream);
-        return segmentMap;
+        return nodeCollection;
     }
 
     /**
@@ -55,7 +59,8 @@ public class SimpleParser implements Parser {
                 parseLine(line);
             }
             this.columns = reassignColumns(this.columns, this.reversedLinks);
-            PositionManager positionHandler = new PositionHandler(this.segmentMap, this.columns);
+            PositionManager positionHandler = new PositionHandler(this.nodeCollection,
+                    this.columns);
             positionHandler.calculatePositions();
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,11 +113,11 @@ public class SimpleParser implements Parser {
                 columns.get(column).add(id);
             }
         }
-        if (!segmentMap.containsKey(id)) {
-            segmentMap.put(id, new Segment(id, seq, column));
+        if (!nodeCollection.containsKey(id)) {
+            nodeCollection.put(id, new Segment(id, seq, column));
         } else {
-            segmentMap.get(id).setData(seq);
-            segmentMap.get(id).setColumn(column);
+            nodeCollection.get(id).setData(seq);
+            nodeCollection.get(id).setColumn(column);
         }
     }
 
@@ -130,10 +135,10 @@ public class SimpleParser implements Parser {
         }
         reversedLinks.get(to).add(from);
 
-        if (!segmentMap.containsKey(to)) {
-            segmentMap.put(to, new Segment(to));
+        if (!nodeCollection.containsKey(to)) {
+            nodeCollection.put(to, new Segment(to));
         }
-        segmentMap.get(from).addLink(segmentMap.get(to));
+        nodeCollection.get(from).addLink(nodeCollection.get(to));
     }
 
     /**
@@ -142,11 +147,12 @@ public class SimpleParser implements Parser {
      * @param reversedLinks nodes with their corresponding incoming edges
      * @return collumns with their reassigned nodes.
      */
-    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
+    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns,
+                                                        Map<Integer, List<Integer>>
+                                                                reversedLinks) {
         int currentColumn = 1;
         Map<Integer, List<Integer>> revisedGraph = new HashMap<>();
-        for (Map.Entry<Integer, List<Integer>> entry :
-                columns.entrySet()) {
+        for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
             revisedGraph.put(currentColumn, new ArrayList<>());
             for (Integer node : entry.getValue()) {
                 int correctColumn = currentColumn + findDeltaColumn(node, reversedLinks);
@@ -165,12 +171,14 @@ public class SimpleParser implements Parser {
      */
     public int findDeltaColumn(int node, Map<Integer, List<Integer>> reversedLinks) {
         List<Integer> incomingLinks = reversedLinks.get(node);
-        if(incomingLinks == null) return 0;
+        if (incomingLinks == null) {
+            return 0;
+        }
         if (incomingLinks.size() >= 2) {
             for (int i = 0; i < incomingLinks.size(); i++) {
-                int firstcol = this.segmentMap.get(incomingLinks.get(i)).getColumn();
-                for (int j = i+1; j < incomingLinks.size() ; j++) {
-                    int secondcol = this.segmentMap.get(incomingLinks.get(j)).getColumn();
+                int firstcol = this.nodeCollection.get(incomingLinks.get(i)).getColumn();
+                for (int j = i + 1; j < incomingLinks.size(); j++) {
+                    int secondcol = this.nodeCollection.get(incomingLinks.get(j)).getColumn();
                     if (firstcol != secondcol) {
                         return -1;
                     }
@@ -181,10 +189,10 @@ public class SimpleParser implements Parser {
     }
 
     /**
-     * Get the segmentMap containing all the segments.
+     * Get the nodeCollection containing all the segments.
      * @return hashmap of segments.
      */
     public NodeCollection getSegmentCollection() {
-        return segmentMap;
+        return nodeCollection;
     }
 }

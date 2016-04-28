@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Data structure for representing a DNA sequence
  */
-public class Segment implements Node,Cloneable {
+public class Segment implements Node {
     /**
      * Id of DNA segment.
      */
@@ -140,31 +140,6 @@ public class Segment implements Node,Cloneable {
      */
     public int getY() {
         return y;
-    }
-
-    /**
-     * Calculates the Euclidean distance between the two nodes.
-     * @param other The other node to which the distance is calculated.
-     * @return The distance between this node and the other node.
-     */
-    public double distanceTo(Node other) {
-        double dist = 0.0;
-
-        double xval = Math.pow(this.x + other.getX(), 2);
-        double yval = Math.pow(this.y + other.getY(), 2);
-
-        dist = Math.sqrt(xval + yval);
-
-        return dist;
-    }
-
-    /**
-     * Return a deep cloned object of the segment
-     * @return Deep cloned object of node segment
-     * @throws CloneNotSupportedException Not a cloneable object
-     */
-    public Segment clone() throws CloneNotSupportedException {
-        return (Segment) this;
     }
 
     /**

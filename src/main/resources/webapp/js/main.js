@@ -81,9 +81,8 @@ $(function() { // on dom ready
 
   */
   function ServerConnection() {
-     nodesDir = "/api/nodes/";
      this.req = {
-                   url: "",
+                   url: "/api/nodes",
                    data: {},
                    dataType: 'json',
                    success : this.handleSucces,
@@ -99,24 +98,6 @@ $(function() { // on dom ready
     Create AJAX to server
   */
   ServerConnection.prototype.retrieveDataFromServer = function() {
-//      this.req["url"] = nodesDir;
-      var dim = graphHandler.getDimensions();
-//         totalWidth: cy.width(),
-//         totalHeight: cy.height(),
-//         zoomLocation: {
-//            minX: 0,
-//            maxX: cy.width(),
-//            minY: 0,
-//            maxY: cy.height()
-//         }
-      // /api/nodes/<xmin>/<xmax>/<ymin>/<ymax>/<totalx>/<totaly>
-      this.req["url"] = nodesDir +
-                        dim["zoomLocation"]["minX"] + "/" +
-                        dim["zoomLocation"]["maxX"] + "/" +
-                        dim["zoomLocation"]["minY"] + "/" +
-                        dim["zoomLocation"]["maxY"] + "/" +
-                        dim["totalWidth"] + "/" +
-                        dim["totalHeight"] + "/";
       console.log("Request");
       console.log(this.req);
       $.ajax(this.req);
@@ -260,15 +241,7 @@ $(function() { // on dom ready
   */
   GraphHandler.prototype.bindUIEvents = function() {
     $("#zoomButton").click(() => {
-        //console.log(cy.cytoscapeNavigator.getZoomDim());
         console.log(graphHandler.getDimensions());
-//        $.ajax({
-//           url: "/api",
-//           data: {},
-//           dataType: 'json',
-//           success : (data) => cy.add(JSONAdapter.prototype.convert(data)),
-//           error: () => console.log("#error"),
-//        });
     });
   }
 
