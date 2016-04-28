@@ -22,9 +22,10 @@ public final class Launcher {
      * @throws IOException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, CloneNotSupportedException {
-        BubbleGraph graph = new BubbleGraph(Launcher.class.getResourceAsStream("/genomes/TB10.gfa"));
-        JsonSerializable jsonSerializable = graph.getCurrentGraph();
-
+//        BubbleGraph graph = new BubbleGraph("/genomes/TB10.gfa");
+        Parser parser = new SimpleParser();
+        JsonSerializable jsonSerializable = parser.parse(Launcher.class
+                .getResourceAsStream("/genomes/TB10_.gfa"));
         Server server = new BasicServer(jsonSerializable.toJson());
         server.startServer();
         Server server2 = new RestServer(jsonSerializable);

@@ -54,7 +54,7 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-//            reassignColumns(this.columns, this.reversedLinks);
+            this.columns = reassignColumns(this.columns, this.reversedLinks);
             PositionManager positionHandler = new PositionHandler(this.segmentMap, this.columns);
             positionHandler.calculatePositions();
         } catch (Exception e) {
@@ -76,27 +76,37 @@ public class SimpleParser implements Parser {
         for (Map.Entry<Integer, List<Integer>> entry :
                 columns.entrySet()) {
             revisedGraph.put(currentColumn, new ArrayList<>());
-            for (Integer node :
-                    entry.getValue()) {
-                List<Integer> incomingLinks = reversedLinks.get(node);
-                if (incomingLinks.size() >= 2) {
-                    int curr = incomingLinks.get(0);
-                    for (Integer givingNode :
-                            incomingLinks) {
-                        if (curr != givingNode) {
-
-                        }
-                    }
-                }
-                else {
-                    revisedGraph.get(currentColumn).add(node);
-                }
+            for (Integer node : entry.getValue()) {
+                int correctColumn = currentColumn + findDeltaColumn(node, columns, reversedLinks);
+                revisedGraph.get(correctColumn).add(node);
             }
             currentColumn++;
         }
         return revisedGraph;
     }
 
+    public int findDeltaColumn(int node, Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
+        List<Integer> incomingLinks = reversedLinks.get(node);
+        if(incomingLinks == null) return 0;
+        if (incomingLinks.size() >= 2) {
+            for (int i = 0; i < incomingLinks.size(); i++) {
+                int firstcol = this.segmentMap.get(incomingLinks.get(i)).getColumn();
+                for (int j = i+1; j < incomingLinks.size() ; j++) {
+                    int secondcol = this.segmentMap.get(incomingLinks.get(j)).getColumn();
+                    if (firstcol != secondcol) {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+//                        if (curr != givingNode && curr < node && givingNode < node) {
+//                            revisedGraph.get(currentColumn - 1).add(node);
+//                        }
+//                        if (curr != givingNode && curr > node && givingNode > node) {
+//                            revisedGraph.get(currentColumn + 1).add(node);
+//                        }
     /**
      * Parse one line of a .gfa file.
      * @param line contents of the specific line.
