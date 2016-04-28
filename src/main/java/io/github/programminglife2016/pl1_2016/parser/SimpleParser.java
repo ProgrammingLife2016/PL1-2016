@@ -27,7 +27,7 @@ public class SimpleParser implements Parser {
      * Create parser object.
      */
     public SimpleParser() {
-        segmentMap = new NodeMap(SIZE);
+        segmentMap = new NodeList(SIZE);
     }
 
     /**

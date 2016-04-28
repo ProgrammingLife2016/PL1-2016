@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public interface Node {
 
     String getData();
 
-    List<Node> getLinks();
+    Collection<Node> getLinks();
 
     int getColumn();
 }

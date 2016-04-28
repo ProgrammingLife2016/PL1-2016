@@ -51,7 +51,7 @@ public class SimpleParserTest {
         NodeCollection segmentMap = parser.getSegmentCollection();
         Node segment1 = segmentMap.get(1);
         Node segment3 = segmentMap.get(3);
-        assertEquals(2, segment1.getLinks().get(0).getId());
+        assertEquals(2, segment1.getLinks().iterator().next().getId());
         assertTrue(segment3.getLinks().isEmpty());
     }
 

@@ -10,19 +10,19 @@ import java.util.List;
  * Created by Ravi Autar on 26-4-16.
  */
 public class BubbleGraph implements Graph {
-    private static final int INITIAL_CLUSTERS = 100;
+    private int bubbles;
 
     private NodeCollection fullgraph;
 
     private NodeCollection currentGraph;
 
-    public BubbleGraph(InputStream is) throws CloneNotSupportedException {
+    public BubbleGraph(int numbubbles, InputStream is) throws CloneNotSupportedException {
+        this.bubbles = numbubbles;
+
         Parser parser = new SimpleParser();
         parser.parse(is);
         this.fullgraph = parser.getSegmentCollection();
-
-        //TODO not tested
-        this.currentGraph = clusterGraph(INITIAL_CLUSTERS, fullgraph.clone());
+        this.currentGraph = clusterGraph(bubbles, fullgraph.clone());
     }
 
     public NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy) {
@@ -39,7 +39,6 @@ public class BubbleGraph implements Graph {
     }
 
     public NodeCollection generateZoomedGraph(NodeCollection graph) {
-        // TODO: clean this monstrosity
         List<Node> nonnulls = new ArrayList<Node>(graph.size());
         for (Node node : currentGraph) {
             nonnulls.add(node);
@@ -50,9 +49,7 @@ public class BubbleGraph implements Graph {
             curr.put(i, node);
             i++;
         }
-
-        //Cluster the graph
-        curr = clusterGraph(INITIAL_CLUSTERS, curr);
+        curr = clusterGraph(bubbles, curr);
 
         return curr;
     }

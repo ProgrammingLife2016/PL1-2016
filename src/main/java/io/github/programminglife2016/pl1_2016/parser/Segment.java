@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -87,7 +88,7 @@ public class Segment implements Node {
      * Get links to other segments in the graph.
      * @return list of links.
      */
-    public List<Node> getLinks() {
+    public Collection<Node> getLinks() {
         return links;
     }
 

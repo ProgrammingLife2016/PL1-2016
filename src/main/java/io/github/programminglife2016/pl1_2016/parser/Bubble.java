@@ -9,14 +9,32 @@ import java.util.List;
  */
 public class Bubble extends ArrayList<Node> implements Node {
     private boolean changed;
-    private int id;
-    private int x;
-    private int y;
+
+    /**
+     * z-index of Segment in graph.
+     */
     private int column;
-    private List<Node> links;
+
+    /**
+     * Id of bubble.
+     */
+    private int id;
+
+    /**
+     * x position of the segment in the graph.
+     */
+    private int x;
+
+    /**
+     * y position of the segment in the graph.
+     */
+    private int y;
+
+    private Collection<Node> links;
 
     public Bubble() {
         changed = false;
+        links = new ArrayList<Node>();
     }
 
     /**
@@ -74,7 +92,7 @@ public class Bubble extends ArrayList<Node> implements Node {
         return Integer.toString(id);
     }
 
-    public List<Node> getLinks() {
+    public Collection<Node> getLinks() {
         return this.links;
     }
 

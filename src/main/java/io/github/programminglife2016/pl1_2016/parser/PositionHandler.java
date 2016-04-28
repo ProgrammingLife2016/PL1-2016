@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

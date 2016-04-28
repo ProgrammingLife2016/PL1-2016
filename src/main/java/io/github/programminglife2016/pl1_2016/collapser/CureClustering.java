@@ -16,6 +16,7 @@ public class CureClustering implements ClusterHandler {
     }
 
     public NodeCollection determineClusters() {
+        ClusterHandler clustering = new HierarchicalClustering(clusters, collection);
         return null;
     }
 }
