@@ -7,6 +7,7 @@
 	bottom: 0;
 	right: 0;
 	overflow: hidden;
+	opacity: 0;
 }
 
 .cytoscape-navigator > canvas{

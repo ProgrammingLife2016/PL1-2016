@@ -3,18 +3,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <!-- External dependencies -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <!-- Mini map dependencies -->
-    <link href="css/cytoscape.js-navigator-light.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/cytoscape.js-navigator-light.css" rel="stylesheet" type="text/css" />
     <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
-    <script src="lib/cytoscape.js-navigator.js"></script>
+    <script src="/static/lib/cytoscape.js-navigator.js"></script>
     <script type="text/javascript" src="file.json"></script>
 
-    <link rel="stylesheet" href="css/light-theme.css">
-    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="/static/css/light-theme.css">
+    <script type="text/javascript" src="/static/js/main.js"></script>
     <title>DNA Visualizer</title>
 </head>
 <body>
@@ -36,7 +39,7 @@
                         </li>
                     </ul>
                 </li><li>
-                <a>Settings</a>
+                <a><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings</a>
                     <ul>
                         <li><a href="#" id="connect">Connect to server</a>
                         </li>
@@ -47,6 +50,21 @@
             </ul>
         </div>
     </nav>
+
+    <div id="options">
+        <div id="container">
+             <h1>Tool for visualizing DNA genomes</h1>
+             <div id="startConnection">
+                 <h1>Connect to server</h1>
+             </div>
+        </div>
+    </div>
+
+    <!--<div style="display:table;">
+        <div style="display:table-cell;vertical-align:middle;">
+            <div style="text-align:center;">Text Content</div>
+        </div>
+    </div>-->
 
     <!--
          Graph view

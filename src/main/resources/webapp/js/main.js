@@ -1,6 +1,7 @@
 $(function() { // on dom ready
-  $("#cy").css("top", $("#nav").height());
+  $("#cy").css("top", $("#nav").height() + $("#options").height());
   $("#logo").stop().animate({opacity: 1},800,"swing");
+  $("#options").css("top", $("#nav").height());
 
   /*
     Factory for creating Graph objects.
@@ -27,6 +28,8 @@ $(function() { // on dom ready
     this.nodeTemplate["data"]["weight"] = node.bubble ? 100 : 50;
     this.nodeTemplate["position"]["x"] = node.x + 550;
     this.nodeTemplate["position"]["y"] = node.y + 450;
+    console.log("Create Node");
+    console.log(this.nodeTemplate);
     return {
       data: {
         id: node.id,
@@ -77,7 +80,7 @@ $(function() { // on dom ready
 
   */
   function ServerConnection() {
-     nodesDir = "/nodes";
+     nodesDir = "/api/nodes";
      this.req = {
                    url: "",
                    data: {},
@@ -96,6 +99,7 @@ $(function() { // on dom ready
   */
   ServerConnection.prototype.retrieveDataFromServer = function() {
       this.req["url"] = nodesDir;
+      console.log("Request");
       console.log(this.req);
       $.ajax(this.req);
   }
@@ -108,6 +112,17 @@ $(function() { // on dom ready
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
       });
+
+      $("#startConnection").click(() => {
+        $("#options").stop().animate({height: 0}, 500, "swing");
+        $("#cy").stop().animate({
+          top: $("#nav").height(),
+          opacity: 1
+          }, 500, "swing");
+        $(".cytoscape-navigator").stop().animate({opacity: 1}, 500, "swing");
+        console.log("Connecting to server...");
+        this.retrieveDataFromServer();
+      });
   }
 
   /*
@@ -116,7 +131,8 @@ $(function() { // on dom ready
   ServerConnection.prototype.handleSucces = function(data, textStatus, jqXHR) {
       console.log(textStatus);
       console.log(jqXHR);
-      graphHandler.loadDataInGraph(data);
+      console.log(data);
+      graphHandler.loadDataInGraph(JSONAdapter.prototype.convert(data));
   }
 
   /*
@@ -196,9 +212,9 @@ $(function() { // on dom ready
         }
       });
 
-      var testJson = data;
-      console.log(testJson)
-      cy.add(JSONAdapter.prototype.convert(testJson));
+//      var testJson = data;
+//      console.log(testJson)
+//      cy.add(JSONAdapter.prototype.convert(testJson));
       this.bindUIEvents();
   }
 
@@ -266,4 +282,6 @@ $(function() { // on dom ready
   var graphFactory = new GraphFactory();
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
+
+  //serverConnection.retrieveDataFromServer();
 }); // on dom ready
