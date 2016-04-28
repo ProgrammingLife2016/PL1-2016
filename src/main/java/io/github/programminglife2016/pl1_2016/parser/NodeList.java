@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Represent segments as a list.
@@ -80,8 +82,10 @@ public class NodeList implements NodeCollection, Cloneable {
      * Return all segments.
      * @return all segments
      */
-    public Collection<Node> getSegments() {
-        return Arrays.asList(array);
+    public Collection<Node> getNodes() {
+        Collection<Node> nodes = Arrays.asList(array);
+        nodes.removeIf(Objects::isNull);
+        return nodes;
     }
 
     /**
@@ -101,11 +105,6 @@ public class NodeList implements NodeCollection, Cloneable {
      * @throws CloneNotSupportedException Not a cloneable object
      */
     public NodeCollection clone() throws CloneNotSupportedException {
-            return (NodeCollection) super.clone();
-    }
-
-
-    public Node[] getCollection(){
-        return array;
+        return (NodeCollection) super.clone();
     }
 }

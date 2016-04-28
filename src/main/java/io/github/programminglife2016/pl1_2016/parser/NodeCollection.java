@@ -1,11 +1,12 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * A data structure that represents the segments.
  */
-public interface NodeCollection extends JsonSerializable {
+public interface NodeCollection extends JsonSerializable, Iterable<Node> {
     /**
      * Add a segment to the collection.
      *
@@ -45,13 +46,12 @@ public interface NodeCollection extends JsonSerializable {
     NodeCollection clone() throws CloneNotSupportedException;
 
     /**
-     * Returns the datastucture that is containing the nodes.
-     * @return The collection of the nodes.
-     */
-    Object getCollection();
-    /**
      * Return all segments.
      * @return all segments.
      */
-    Collection<Node> getSegments();
+    Collection<Node> getNodes();
+
+    default Iterator<Node> iterator() {
+        return getNodes().iterator();
+    }
 }
