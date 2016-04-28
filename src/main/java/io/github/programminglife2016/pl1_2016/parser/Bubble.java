@@ -95,7 +95,6 @@ public class Bubble extends ArrayList<Node> implements Node {
      * If the bubble did not change since it has calculated its previous centroid,
      * it will return the buffered centroid point. Otherwise it will recalculate the
      * centroid and return that point.
-     * @return The centroid of the cluster.
      */
     public void computeCentroid() {
         if (size() == 0) {
