@@ -25,8 +25,8 @@ $(function() { // on dom ready
         faveShape: 'ellipse'
       },
       position: {
-        x: node.x,
-        y: node.y
+        x: node.x + 550,
+        y: node.y + 450
       }
     };
   }
@@ -57,6 +57,7 @@ $(function() { // on dom ready
     var nodes = data.nodes.map(GraphFactory.prototype.createNode);
     console.log(nodes);
     var edges = data.edges.map(GraphFactory.prototype.createEdge);
+    console.log(edges);
     return { nodes, edges };
   }
 
@@ -90,10 +91,9 @@ $(function() { // on dom ready
     Add UI events concerning communicating with the server.
   */
   ServerConnection.prototype.bindUIEvents = function() {
-      $("#connect").click(() => {
+      $("#connect").click(function() {
         console.log("Connecting to server...");
-//        this.retrieveDataFromServer();
-        graphHandler.pan();
+        serverConnection.retrieveDataFromServer();
       });
   }
 
@@ -152,8 +152,7 @@ $(function() { // on dom ready
                 {"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},
                 {"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5",
                     "background-color":"#77828C","text-outline-color":"#77828C"}},
-                {"selector":"edge","style":{"curve-style":"haystack","haystack-radius":"0.5","opacity":"0.8",
-                    "line-color":"#bbb","width":"mapData(weight, 0, 1, 1, 8)","overlay-padding":"3px"}},
+                {"selector":"edge","style":{"target-arrow-shape": "triangle"}},
                 {"selector":"node.unhighlighted","style":{"opacity":"0.2"}},
                 {"selector":"edge.unhighlighted","style":{"opacity":"0.05"}},
                 {"selector":".highlighted","style":{"z-index":"999999"}},
@@ -176,6 +175,7 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
 
+
 //        elements: {
 //          nodes: [
 //            { data: { id: '1', name: 'A', "score":0.006769776522008331 } },
@@ -195,56 +195,23 @@ $(function() { // on dom ready
 //          ]
 //        },
 
+        hideEdgesOnViewport : true,
+        hideLabelsOnViewport : true,
+        textureOnViewport : true,
+
+
         layout: {
           name: 'grid',
           padding: 10
         }
       });
-
-      var testJson = {
-                       "status": "success",
-                       "nodes": [
-                         {
-                           "id": 1,
-                           "bubble": false,
-                           "data": "ACGGT",
-                           "x": 300,
-                           "y": 500
-                         },
-                         {
-                           "id": 2,
-                           "bubble": true,
-                           "data": "bubble",
-                           "x": 100,
-                           "y": 100
-                         },
-                         {
-                           "id": 3,
-                           "bubble": false,
-                           "data": "GCCAGT",
-                           "x": 200,
-                           "y": 200
-                         }
-                       ],
-                       "edges": [
-                         {
-                           "from": 1,
-                           "to": 2
-                         },
-                         {
-                           "from": 2,
-                           "to": 3
-                         }
-                       ]
-                     };
-      $('#cy').cytoscapeNavigator(); // Initialize mini map
+ 
+       var testJson = data;
+//      var testJson = {"status":"success","nodes":[{"id":1,"bubble":false,"data":"TTGACCGATGACCCCGGTTCAGGCTTCACCACAGTGTGGAACGCGGTCGTCTCCGAACTTAACGGCGACCCTAAGGTTGACGACGGACCCAGCAGTGATGCTAATCTCAGCGCTCCGCTGACCCCTCAGCAAAGGGCTTGGCTCAATCTCGTCCAGCCATTGACCATCGTCGAGGGGTTTGCTCTGTTATCCGTGCCGAGCAGCTTTGTCCAAAACGAAATCGAGCGCCATCTGCGGGCCCCGATTACCGACGCTCTCAGCCGCCGACTCGGACATCAGATCCAACTCGGGGTCCGCATCGCTCCGCCGGCGACCGACGAAGCCGACGACACTACCGTGCCGCCTTCCGAAAATCCTGCTACCACATCGCC","x":0,"y":0},{"id":2,"bubble":false,"data":"AGACACCACAACCGACAACGACGAGATTGATGACAGCGCTGCGGCACGGGGCGATAACCAGCACAGTTGGCCAAGTTACTTCACCGAGCGCCCGCACAATACCGATTCCGCTACCGCTGGCGTAACCAGCCTTAACCGTCGCTACACCTTTGATACGTTCGTTATCGGCGCCTCCAACCGGTTCGCGCACGCCGCCGCCTTGGCGATCGCAGAAGCACCCGCCCGCGCTTACAACCCCCTGTTCATCTGGGGCGAGTCCGGTCTCGGCAAGACACACCTGCTACACGCGGCAGGCAACTATGCCCAACGGTTGTTCCCGGGAATGCGGGTCAAATATGTCTCCACCGAGGAATTCACCAACGACTTCATTAACTCGCTCCGCGATGACCGCAAGGTCGCATTCAAACGCAGCTACCGCGACGTAGACGTGCTGTTGGTCGACGACATCCAATTCATTGAAGGCAAAGAGGGTATTCAAGAGGAGTTCTTCCACACCTTCAACACCTTGCACAATGCCAACAAGCAAATCGTCATCTCATCTGACCGCCCACCCAAGCAGCTCGCCACCCTCGAGGACCGGCTGAGAACCCGCTTTGAGTGGGGGCTGATCACTGACGTACAACCACCCGAGCTGGAGACCCGCATCGCCATCTTGCGCAAGAAAGCACAGATGGAACGGCTCGCGGTCCCCGACGATGTCCTCGAACTCATCGCCAGCAGTATCGAACGCAATATCCGTGAACTCGAGGGCGCGCTGATCCGGGTCACCGCGTTCGCCTCATTGAACAAAACACCAATCGACAAAGCGCTGGCCGAGATTGTGCTTCGCGATCTGATCGCCGACGCCAACACCATGCAAATCAGCGCGGCGACGATCATGGCTGCCACCGCCGAATACTTCGACACTACCGTCGAAGAGCTTCGCGGGCCCGGCAAGACCCGAGCACTGGCCCAGTCACGACAGATTGCGATGTACCTGTGTCGTGAGCTCACCGATCTTTCGTTGCCCAAAATCGGCCAAGCGTTCGGCCGTGATCACACAACCGTCATGTACGCCCAACGCAAGATCCTGTCCGAGAT","x":10,"y":0},{"id":3,"bubble":false,"data":"C","x":20,"y":5},{"id":4,"bubble":false,"data":"G","x":20,"y":-5},{"id":5,"bubble":false,"data":"GCCGAGCGCCGTGAGGTCTTTGATCACGTCAAAGAACTCACCACTCGCATCCGTCAGCGCTCCAAGCGCTAGCACGGCGTGTTCTTCCGACAACGTTCTT","x":30,"y":0},{"id":6,"bubble":false,"data":"A","x":40,"y":0},{"id":7,"bubble":false,"data":"AAAAAACTTCTCTCTCCCAGGTCACACCAGTCACAGAGATTGGCTGTGAGTGTCGCTGTGCACAAACCGCGCACAGACTCATACAGTCCCGGCGGTTCCGTTCACAACCCACGCCTCATCCCCACCGACCCAACACACACCCCACAG","x":50,"y":0}],"edges":[{"from":1,"to":2},{"from":2,"to":3},{"from":2,"to":4},{"from":3,"to":5},{"from":4,"to":5},{"from":5,"to":6},{"from":5,"to":7},{"from":6,"to":7}]};
+      console.log(testJson)
       cy.add(JSONAdapter.prototype.convert(testJson));
-      this.bindUIEvents();
-  }
 
-  GraphHandler.prototype.pan = function() {
-     console.log("panning");
-     cy.pan({x: 100, y: 0});
+      this.bindUIEvents();
   }
 
   /*
@@ -255,8 +222,10 @@ $(function() { // on dom ready
          totalWidth: cy.width(),
          totalHeight: cy.height(),
          zoomLocation: {
-            minX: 0, maxX: 0,
-            minY: 0, maxY: 0
+            minX: 0,
+            maxX: 0,
+            minY: 0,
+            maxY: 0
          }
      };
   }
@@ -265,25 +234,10 @@ $(function() { // on dom ready
     Add UI events concerning the graph view.
   */
   GraphHandler.prototype.bindUIEvents = function() {
-    $("#zoomButton").click(() => {
+    $("#zoomButton").click(function() {
         //console.log(cy.cytoscapeNavigator.getZoomDim());
         console.log(graphHandler.getDimensions());
-        var {x, y} = cy.pan();
-        console.log("Pan:");
-        console.log("x, y = " + x + ", " + y);
-        console.log("Zoom:");
-        console.log(cy.zoom());
-        console.log(cy.viewport());
-//        $.ajax({
-//           url: "/api",
-//           data: {},
-//           dataType: 'json',
-//           success : (data) => cy.add(JSONAdapter.prototype.convert(data)),
-//           error: () => console.log("#error"),
-//        });
     });
-
-    cy.on('tap', event => console.log(event.cyPosition));
   }
 
   /*
@@ -313,6 +267,34 @@ $(function() { // on dom ready
   PhyloGeneticTree.prototype.hideTree = function() { cy.css("display", "none"); }
   PhyloGeneticTree.prototype.showTree = function() { cy.css("display", "block"); }
 
+  $('#cy').cytoscapeNavigator(); // Initialize mini map
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
 }); // on dom ready
+
+//cy.on('tap', 'node', function(){
+//  try { // your browser may block popups
+//    window.open( this.data('href') );
+//  } catch(e){ // fall back on url change
+//    window.location.href = this.data('href');
+//  }
+//});
+
+//  style: cytoscape.stylesheet()
+//    .selector('node')
+//      .css({
+//        'content': 'data(name)',
+//        'text-valign': 'center',
+//        'color': 'white',
+//        'text-outline-width': 2,
+//        'text-outline-color': '#888'
+//      })
+//    .selector(':selected')
+//      .css({
+//        'background-color': 'black',
+//        'line-color': 'black',
+//        'target-arrow-color': 'black',
+//        'source-arrow-color': 'black',
+//        'text-outline-color': 'black'
+//      }),
+
