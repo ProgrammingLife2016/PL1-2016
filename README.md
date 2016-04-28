@@ -55,7 +55,7 @@ directly. In that case, consult the API documentation below.
 ## API documentation
 
 - `/api/nodes` returns all nodes of a dataset, without collapsion.
-- `/api/nodes/<xmin>/<xmax>/<ymin>/<ymax>/<totalx>/<totaly> returns all nodes of
+- `/api/nodes/<xmin>/<xmax>/<ymin>/<ymax>/<totalx>/<totaly>` returns all nodes of
   a dataset with coordinates between `<xmin>`, `<xmax>`, `<ymin>`, `<ymax>`.
   `<totalx>` and `<totaly>` are the dimensions of the viewport of the client.
   The server may or may not base the node coordinates on the dimensions of the
