@@ -33,19 +33,6 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
     boolean containsKey(Object id);
 
     /**
-     * Return size of the list.
-     * @return size of the list.
-     */
-    int size();
-
-    /**
-     * Make the object cloneable.
-     * @return A deep clone of the collection.
-     *
-     */
-    NodeCollection clone() throws CloneNotSupportedException;
-
-    /**
      * Return all segments.
      * @return all segments.
      */
