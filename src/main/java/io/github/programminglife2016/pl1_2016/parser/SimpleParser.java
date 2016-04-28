@@ -101,12 +101,7 @@ public class SimpleParser implements Parser {
         }
         return 0;
     }
-//                        if (curr != givingNode && curr < node && givingNode < node) {
-//                            revisedGraph.get(currentColumn - 1).add(node);
-//                        }
-//                        if (curr != givingNode && curr > node && givingNode > node) {
-//                            revisedGraph.get(currentColumn + 1).add(node);
-//                        }
+
     /**
      * Parse one line of a .gfa file.
      * @param line contents of the specific line.

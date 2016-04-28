@@ -25,7 +25,7 @@ public final class Launcher {
 //        BubbleGraph graph = new BubbleGraph("/genomes/TB10.gfa");
         Parser parser = new SimpleParser();
         JsonSerializable jsonSerializable = parser.parse(Launcher.class
-                .getResourceAsStream("/genomes/TB10_.gfa"));
+                .getResourceAsStream("/genomes/TB10.gfa"));
         Server server = new BasicServer(jsonSerializable.toJson());
         server.startServer();
         Server server2 = new RestServer(jsonSerializable);

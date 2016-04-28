@@ -51,6 +51,10 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      */
     Collection<Node> getNodes();
 
+    /**
+     * Iterator for the collection.
+     * @return iterator for the node collection
+     */
     default Iterator<Node> iterator() {
         return getNodes().iterator();
     }
