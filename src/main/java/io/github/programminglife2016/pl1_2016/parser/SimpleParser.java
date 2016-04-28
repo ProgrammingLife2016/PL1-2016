@@ -3,10 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -15,6 +12,7 @@ public class SimpleParser implements Parser {
     private static final int SIZE = 9000;
     private static final String ATTR_ZINDEX = "START:Z:";
 
+    private Map<Integer, List<Integer>> reversedLinks;
     /**
      * Map containing each column and how many segments the column contains.
      */
@@ -39,6 +37,7 @@ public class SimpleParser implements Parser {
      */
     public JsonSerializable parse(InputStream inputStream) {
         columns = new TreeMap<Integer, List<Integer>>();
+        reversedLinks = new HashMap<>();
         read(inputStream);
         return segmentMap;
     }
@@ -55,6 +54,7 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
+//            reassignColumns(this.columns, this.reversedLinks);
             PositionManager positionHandler = new PositionHandler(this.segmentMap, this.columns);
             positionHandler.calculatePositions();
         } catch (Exception e) {
@@ -68,6 +68,33 @@ public class SimpleParser implements Parser {
                 }
             }
         }
+    }
+
+    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
+        int currentColumn = 1;
+        Map<Integer, List<Integer>> revisedGraph = new HashMap<>();
+        for (Map.Entry<Integer, List<Integer>> entry :
+                columns.entrySet()) {
+            revisedGraph.put(currentColumn, new ArrayList<>());
+            for (Integer node :
+                    entry.getValue()) {
+                List<Integer> incomingLinks = reversedLinks.get(node);
+                if (incomingLinks.size() >= 2) {
+                    int curr = incomingLinks.get(0);
+                    for (Integer givingNode :
+                            incomingLinks) {
+                        if (curr != givingNode) {
+
+                        }
+                    }
+                }
+                else {
+                    revisedGraph.get(currentColumn).add(node);
+                }
+            }
+            currentColumn++;
+        }
+        return revisedGraph;
     }
 
     /**
@@ -123,6 +150,12 @@ public class SimpleParser implements Parser {
     private void parseLinkLine(String[] data) {
         int from = Integer.parseInt(data[1]);
         int to = Integer.parseInt(data[3]);
+
+        if (!reversedLinks.containsKey(to)) {
+            reversedLinks.put(to, new ArrayList<>());
+        }
+        reversedLinks.get(to).add(from);
+
         if (!segmentMap.containsKey(to)) {
             segmentMap.put(to, new Segment(to));
         }

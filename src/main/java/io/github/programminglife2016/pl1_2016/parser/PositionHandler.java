@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,7 @@ public class PositionHandler implements PositionManager {
      */
     public void calculatePositions() {
         int currx = 0;
+        Map<Integer, List<Integer>> fromMap = new HashMap<>();
         for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
             List<Integer> segments = entry.getValue();
             if (segments.size() == 1) {
