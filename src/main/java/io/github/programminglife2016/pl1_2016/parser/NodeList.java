@@ -3,6 +3,9 @@ package io.github.programminglife2016.pl1_2016.parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * Represent segments as a list.
  */
@@ -74,13 +77,21 @@ public class NodeList implements NodeCollection, Cloneable {
     }
 
     /**
+     * Return all segments.
+     * @return all segments
+     */
+    public Collection<Node> getSegments() {
+        return Arrays.asList(array);
+    }
+
+    /**
      * Convert the representation to JSON.
      *
      * @return JSON representation of this object.
      */
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer())
-                .create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class,
+                new SegmentCollectionSerializer()).create();
         return gson.toJson(this);
     }
 

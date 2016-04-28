@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -23,9 +24,18 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
      * @return hashmap converted to JSON string.
      */
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Node.class, new SegmentSerializer())
-                .create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class,
+                new SegmentCollectionSerializer()).create();
         return gson.toJson(this);
+    }
+
+    /**
+     * Return all segments.
+     *
+     * @return all segments
+     */
+    public Collection<Node> getSegments() {
+        return values();
     }
 
     public HashMap<Integer, Node> getCollection(){

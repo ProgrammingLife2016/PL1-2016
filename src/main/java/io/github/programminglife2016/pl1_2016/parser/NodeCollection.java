@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import java.util.Collection;
+
 /**
  * A data structure that represents the segments.
  */
@@ -47,4 +49,9 @@ public interface NodeCollection extends JsonSerializable {
      * @return The collection of the nodes.
      */
     Object getCollection();
+    /**
+     * Return all segments.
+     * @return all segments.
+     */
+    Collection<Node> getSegments();
 }
