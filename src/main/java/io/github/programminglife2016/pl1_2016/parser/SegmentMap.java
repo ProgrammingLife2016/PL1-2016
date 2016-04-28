@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -23,8 +24,17 @@ public class SegmentMap extends HashMap<Integer, Segment> implements SegmentColl
      * @return hashmap converted to JSON string.
      */
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Segment.class, new SegmentSerializer())
-                .create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(SegmentMap.class,
+                new SegmentCollectionSerializer()).create();
         return gson.toJson(this);
+    }
+
+    /**
+     * Return all segments.
+     *
+     * @return all segments
+     */
+    public Collection<Segment> getSegments() {
+        return values();
     }
 }

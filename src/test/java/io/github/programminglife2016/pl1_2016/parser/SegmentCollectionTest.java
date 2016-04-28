@@ -2,6 +2,8 @@
 
 package io.github.programminglife2016.pl1_2016.parser;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -75,5 +77,37 @@ public abstract class SegmentCollectionTest {
     public void testContainsKeyFalse() {
         segmentCollection.put(2, segment);
         assertFalse(segmentCollection.containsKey(3));
+    }
+
+    /**
+     * Test conversion into JSON.
+     */
+    @Test
+    public void testToJson() {
+        Segment segment1 = new Segment(1, "one", 1);
+        Segment segment2 = new Segment(2, "two", 2);
+        Segment segment3 = new Segment(3, "three", 3);
+        Segment segment4 = new Segment(4, "four", 4);
+        Segment segment5 = new Segment(5, "five", 5);
+        segment1.addLink(segment2);
+        segment1.addLink(segment3);
+        segment1.addLink(segment5);
+        segment3.addLink(segment4);
+        segment4.addLink(segment5);
+        segmentCollection.put(1, segment1);
+        segmentCollection.put(2, segment2);
+        segmentCollection.put(3, segment3);
+        segmentCollection.put(4, segment4);
+        segmentCollection.put(5, segment5);
+        JsonParser jsonParser = new JsonParser();
+        JsonElement actual = jsonParser.parse(segmentCollection.toJson());
+        JsonElement expected = jsonParser.parse("{\"status\":\"success\",\"nodes\":[{\"id\":1,\"bu"
+                + "bble\":false,\"data\":\"one\",\"x\":0,\"y\":0},{\"id\":2,\"bubble\":false,\"dat"
+                + "a\":\"two\",\"x\":0,\"y\":0},{\"id\":3,\"bubble\":false,\"data\":\"three\",\"x"
+                + "\":0,\"y\":0},{\"id\":4,\"bubble\":false,\"data\":\"four\",\"x\":0,\"y\":0},{\""
+                + "id\":5,\"bubble\":false,\"data\":\"five\",\"x\":0,\"y\":0}],\"edges\":[{\"from"
+                + "\":1,\"to\":2},{\"from\":1,\"to\":3},{\"from\":1,\"to\":5},{\"from\":3,\"to\":4"
+                + "},{\"from\":4,\"to\":5}]}");
+        assertEquals(expected, actual);
     }
 }

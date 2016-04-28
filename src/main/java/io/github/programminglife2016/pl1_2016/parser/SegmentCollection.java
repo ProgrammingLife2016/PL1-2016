@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import java.util.Collection;
+
 /**
  * A data structure that represents the segments.
  */
@@ -28,4 +30,11 @@ public interface SegmentCollection extends JsonSerializable {
      * @return true if the collection contains an item with this id, otherwise false
      */
     boolean containsKey(Object id);
+
+    /**
+     * Return all segments.
+     *
+     * @return all segments
+     */
+    Collection<Segment> getSegments();
 }

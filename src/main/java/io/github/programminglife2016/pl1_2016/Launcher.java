@@ -1,8 +1,10 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 import io.github.programminglife2016.pl1_2016.parser.SimpleParser;
 import io.github.programminglife2016.pl1_2016.server.BasicServer;
+import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
 
 import java.io.IOException;
@@ -20,10 +22,12 @@ public final class Launcher {
      */
     public static void main(String[] args) throws IOException {
         Parser parser = new SimpleParser();
-        String json = parser.parse(Launcher.class.getResourceAsStream("/genomes/TB10_.gfa"))
-                .toJson();
-        Server server = new BasicServer(json);
+        JsonSerializable jsonSerializable = parser.parse(Launcher.class
+                .getResourceAsStream("/genomes/TB10.gfa"));
+        Server server = new BasicServer(jsonSerializable.toJson());
         server.startServer();
+        Server server2 = new RestServer(jsonSerializable);
+        server2.startServer();
     }
 }
 
