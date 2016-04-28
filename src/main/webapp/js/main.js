@@ -25,8 +25,8 @@ $(function() { // on dom ready
         faveShape: 'ellipse'
       },
       position: {
-        x: node.x,
-        y: node.y
+        x: node.x + 550,
+        y: node.y + 450
       }
     };
   }
@@ -56,6 +56,7 @@ $(function() { // on dom ready
     var nodes = data.nodes.map(GraphFactory.prototype.createNode);
     console.log(nodes);
     var edges = data.edges.map(GraphFactory.prototype.createEdge);
+    console.log(edges);
     return { nodes, edges };
   }
 
@@ -151,8 +152,7 @@ $(function() { // on dom ready
                 {"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},
                 {"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5",
                     "background-color":"#77828C","text-outline-color":"#77828C"}},
-                {"selector":"edge","style":{"curve-style":"haystack","haystack-radius":"0.5","opacity":"0.8",
-                    "line-color":"#bbb","width":"mapData(weight, 0, 1, 1, 8)","overlay-padding":"3px"}},
+                {"selector":"edge","style":{"target-arrow-shape": "triangle"}},
                 {"selector":"node.unhighlighted","style":{"opacity":"0.2"}},
                 {"selector":"edge.unhighlighted","style":{"opacity":"0.05"}},
                 {"selector":".highlighted","style":{"z-index":"999999"}},
