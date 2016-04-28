@@ -88,7 +88,7 @@ public class SimpleParserTest {
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection nodeCollection = parser.getSegmentCollection();
-        assertEquals(100, nodeCollection.get(1).getY());
+        assertEquals(125, nodeCollection.get(1).getY());
     }
 
     /**
@@ -108,7 +108,7 @@ public class SimpleParserTest {
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection nodeCollection = parser.getSegmentCollection();
-        assertEquals(-100, nodeCollection.get(2).getY());
+        assertEquals(-125, nodeCollection.get(2).getY());
     }
 
     /**
