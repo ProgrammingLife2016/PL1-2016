@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016.server.api;
 import com.sun.net.httpserver.HttpServer;
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.server.Server;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class RestServer implements Server {
     public void startServer() throws IOException {
         ApiHandler apiHandler = new RestHandler();
         apiHandler.addQuery(new ReturnAllNodesApiQuery(jsonSerializable));
+        apiHandler.addQuery(new GetStaticFileApiQuery());
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);
