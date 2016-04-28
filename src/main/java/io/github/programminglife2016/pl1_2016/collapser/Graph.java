@@ -10,4 +10,9 @@ public interface Graph {
     NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy);
 
     NodeCollection generateZoomedGraph(NodeCollection collection);
+
+    NodeCollection getFullGraph();
+
+    NodeCollection getCurrentGraph();
+
 }

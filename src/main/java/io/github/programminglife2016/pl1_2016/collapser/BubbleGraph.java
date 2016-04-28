@@ -10,18 +10,19 @@ import java.util.List;
  * Created by Ravi Autar on 26-4-16.
  */
 public class BubbleGraph implements Graph {
+    private static final int INITIAL_CLUSTERS = 100;
 
     private NodeCollection fullgraph;
 
     private NodeCollection currentGraph;
 
-    public BubbleGraph() throws CloneNotSupportedException {
+    public BubbleGraph(String infile) throws CloneNotSupportedException {
         Parser parser = new SimpleParser();
-        parser.parse(Launcher.class.getResourceAsStream("/genomes/TB10_.gfa"));
+        parser.parse(Launcher.class.getResourceAsStream(infile));
         this.fullgraph = parser.getSegmentCollection();
 
         //TODO not tested
-        this.currentGraph =  clusterGraph(fullgraph.clone());
+        this.currentGraph =  clusterGraph(INITIAL_CLUSTERS, fullgraph.clone());
     }
 
     public NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy) {
@@ -58,16 +59,17 @@ public class BubbleGraph implements Graph {
         }
 
         //Cluster the graph
-        curr = clusterGraph(curr);
+        curr = clusterGraph(INITIAL_CLUSTERS, curr);
 
         return curr;
     }
 
-    public NodeCollection clusterGraph(NodeCollection collection) {
-        //TODO make clustering possible
-        return null;
+    public NodeCollection clusterGraph(int k, NodeCollection collection) {
+        HierarchicalClustering hierarchicalClustering = new HierarchicalClustering(k, collection);
+        return hierarchicalClustering.determineClusters();
     }
-    public NodeCollection getFullgraph() {
+
+    public NodeCollection getFullGraph() {
         return fullgraph;
     }
 
