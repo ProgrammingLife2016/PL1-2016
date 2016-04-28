@@ -86,17 +86,6 @@ public class NodeList implements NodeCollection, Cloneable {
     }
 
     /**
-     * Convert the representation to JSON.
-     *
-     * @return JSON representation of this object.
-     */
-    public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class,
-                new NodeCollectionSerializer()).create();
-        return gson.toJson(this);
-    }
-
-    /**
      * Return a deep cloned object of the collection
      * @return Deep cloned object of node collection
      * @throws CloneNotSupportedException Not a cloneable object
