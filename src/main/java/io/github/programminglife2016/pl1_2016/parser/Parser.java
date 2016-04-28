@@ -13,4 +13,9 @@ public interface Parser {
      * @return parsed data
      */
     JsonSerializable parse(InputStream inputStream);
+
+    /**
+     * Retrieve the parsed graph.
+     */
+    NodeCollection getSegmentCollection();
 }

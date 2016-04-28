@@ -15,23 +15,23 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Abstract test class for SegmentCollection
+ * Abstract test class for NodeCollection
  */
 @RunWith(MockitoJUnitRunner.class)
 public abstract class SegmentCollectionTest {
-    private SegmentCollection segmentCollection;
+    private NodeCollection nodeCollection;
 
     @Mock
     private Segment segment;
 
     /**
-     * Set the SegmentCollection to be a concrete object (of an implementation). Note: set the size
-     * of the SegmentCollection to 5.
+     * Set the NodeCollection to be a concrete object (of an implementation). Note: set the size
+     * of the NodeCollection to 5.
      *
-     * @param segmentCollection object to be tested
+     * @param nodeCollection object to be tested
      */
-    public void setSegmentCollection(SegmentCollection segmentCollection) {
-        this.segmentCollection = segmentCollection;
+    public void setNodeCollection(NodeCollection nodeCollection) {
+        this.nodeCollection = nodeCollection;
     }
 
     /**
@@ -39,8 +39,8 @@ public abstract class SegmentCollectionTest {
      */
     @Test
     public void testPutFirstIndex() {
-        segmentCollection.put(1, segment);
-        assertEquals(segment, segmentCollection.get(1));
+        nodeCollection.put(1, segment);
+        assertEquals(segment, nodeCollection.get(1));
     }
 
     /**
@@ -48,8 +48,8 @@ public abstract class SegmentCollectionTest {
      */
     @Test
     public void testGetNonExistantIndex() {
-        segmentCollection.put(2, segment);
-        assertNull(segmentCollection.get(1));
+        nodeCollection.put(2, segment);
+        assertNull(nodeCollection.get(1));
     }
 
     /**
@@ -57,8 +57,8 @@ public abstract class SegmentCollectionTest {
      */
     @Test
     public void testGetLastIndex() {
-        segmentCollection.put(5, segment);
-        assertEquals(segment, segmentCollection.get(5));
+        nodeCollection.put(5, segment);
+        assertEquals(segment, nodeCollection.get(5));
     }
 
     /**
@@ -66,8 +66,8 @@ public abstract class SegmentCollectionTest {
      */
     @Test
     public void testContainsKeyTrue() {
-        segmentCollection.put(3, segment);
-        assertTrue(segmentCollection.containsKey(3));
+        nodeCollection.put(3, segment);
+        assertTrue(nodeCollection.containsKey(3));
     }
 
     /**
@@ -75,8 +75,8 @@ public abstract class SegmentCollectionTest {
      */
     @Test
     public void testContainsKeyFalse() {
-        segmentCollection.put(2, segment);
-        assertFalse(segmentCollection.containsKey(3));
+        nodeCollection.put(2, segment);
+        assertFalse(nodeCollection.containsKey(3));
     }
 
     /**
@@ -94,13 +94,13 @@ public abstract class SegmentCollectionTest {
         segment1.addLink(segment5);
         segment3.addLink(segment4);
         segment4.addLink(segment5);
-        segmentCollection.put(1, segment1);
-        segmentCollection.put(2, segment2);
-        segmentCollection.put(3, segment3);
-        segmentCollection.put(4, segment4);
-        segmentCollection.put(5, segment5);
+        nodeCollection.put(1, segment1);
+        nodeCollection.put(2, segment2);
+        nodeCollection.put(3, segment3);
+        nodeCollection.put(4, segment4);
+        nodeCollection.put(5, segment5);
         JsonParser jsonParser = new JsonParser();
-        JsonElement actual = jsonParser.parse(segmentCollection.toJson());
+        JsonElement actual = jsonParser.parse(nodeCollection.toJson());
         JsonElement expected = jsonParser.parse("{\"status\":\"success\",\"nodes\":[{\"id\":1,\"bu"
                 + "bble\":false,\"data\":\"one\",\"x\":0,\"y\":0},{\"id\":2,\"bubble\":false,\"dat"
                 + "a\":\"two\",\"x\":0,\"y\":0},{\"id\":3,\"bubble\":false,\"data\":\"three\",\"x"

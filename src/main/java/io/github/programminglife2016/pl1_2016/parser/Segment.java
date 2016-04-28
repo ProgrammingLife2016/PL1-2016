@@ -1,12 +1,13 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Data structure for representing a DNA sequence
  */
-public class Segment {
+public class Segment implements Node,Cloneable {
     /**
      * Id of DNA segment.
      */
@@ -25,7 +26,7 @@ public class Segment {
     /**
      * Links to other DNA segments in the graph.
      */
-    private List<Segment> links;
+    private List<Node> links;
 
     /**
      * x position of the segment in the graph.
@@ -47,7 +48,7 @@ public class Segment {
         this.id = id;
         this.data = data;
         this.column = column;
-        this.links = new ArrayList<Segment>();
+        this.links = new ArrayList<Node>();
     }
 
     /**
@@ -56,14 +57,14 @@ public class Segment {
      */
     public Segment(int id) {
         this.id = id;
-        this.links = new ArrayList<Segment>();
+        this.links = new ArrayList<Node>();
     }
 
     /**
      * Add a link from this segment to other segment.
      * @param other segment to link to.
      */
-    public void addLink(Segment other) {
+    public void addLink(Node other) {
         this.links.add(other);
     }
 
@@ -87,7 +88,7 @@ public class Segment {
      * Get links to other segments in the graph.
      * @return list of links.
      */
-    public List<Segment> getLinks() {
+    public Collection<Node> getLinks() {
         return links;
     }
 
@@ -139,6 +140,31 @@ public class Segment {
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * Calculates the Euclidean distance between the two nodes.
+     * @param other The other node to which the distance is calculated.
+     * @return The distance between this node and the other node.
+     */
+    public double distanceTo(Node other) {
+        double dist = 0.0;
+
+        double xval = Math.pow(this.x + other.getX(), 2);
+        double yval = Math.pow(this.y + other.getY(), 2);
+
+        dist = Math.sqrt(xval + yval);
+
+        return dist;
+    }
+
+    /**
+     * Return a deep cloned object of the segment
+     * @return Deep cloned object of node segment
+     * @throws CloneNotSupportedException Not a cloneable object
+     */
+    public Segment clone() throws CloneNotSupportedException {
+        return (Segment) this;
     }
 
     /**

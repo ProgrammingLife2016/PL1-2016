@@ -3,10 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -15,6 +12,7 @@ public class SimpleParser implements Parser {
     private static final int SIZE = 9000;
     private static final String ATTR_ZINDEX = "START:Z:";
 
+    private Map<Integer, List<Integer>> reversedLinks;
     /**
      * Map containing each column and how many segments the column contains.
      */
@@ -23,13 +21,13 @@ public class SimpleParser implements Parser {
     /**
      * Map containing the DNA seqments.
      */
-    private SegmentCollection segmentMap;
+    private NodeCollection segmentMap;
 
     /**
      * Create parser object.
      */
     public SimpleParser() {
-        segmentMap = new SegmentMap(SIZE);
+        segmentMap = new NodeList(SIZE);
     }
 
     /**
@@ -39,6 +37,7 @@ public class SimpleParser implements Parser {
      */
     public JsonSerializable parse(InputStream inputStream) {
         columns = new TreeMap<Integer, List<Integer>>();
+        reversedLinks = new HashMap<>();
         read(inputStream);
         return segmentMap;
     }
@@ -55,6 +54,7 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
+            this.columns = reassignColumns(this.columns, this.reversedLinks);
             PositionManager positionHandler = new PositionHandler(this.segmentMap, this.columns);
             positionHandler.calculatePositions();
         } catch (Exception e) {
@@ -69,6 +69,7 @@ public class SimpleParser implements Parser {
             }
         }
     }
+
 
     /**
      * Parse one line of a .gfa file.
@@ -123,6 +124,12 @@ public class SimpleParser implements Parser {
     private void parseLinkLine(String[] data) {
         int from = Integer.parseInt(data[1]);
         int to = Integer.parseInt(data[3]);
+
+        if (!reversedLinks.containsKey(to)) {
+            reversedLinks.put(to, new ArrayList<>());
+        }
+        reversedLinks.get(to).add(from);
+
         if (!segmentMap.containsKey(to)) {
             segmentMap.put(to, new Segment(to));
         }
@@ -130,10 +137,54 @@ public class SimpleParser implements Parser {
     }
 
     /**
+     * Reassigns the nodes to columns resolving overlapping nodes.
+     * @param columns columns with the nodes they are containing
+     * @param reversedLinks nodes with their corresponding incoming edges
+     * @return collumns with their reassigned nodes.
+     */
+    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> reversedLinks) {
+        int currentColumn = 1;
+        Map<Integer, List<Integer>> revisedGraph = new HashMap<>();
+        for (Map.Entry<Integer, List<Integer>> entry :
+                columns.entrySet()) {
+            revisedGraph.put(currentColumn, new ArrayList<>());
+            for (Integer node : entry.getValue()) {
+                int correctColumn = currentColumn + findDeltaColumn(node, reversedLinks);
+                revisedGraph.get(correctColumn).add(node);
+            }
+            currentColumn++;
+        }
+        return revisedGraph;
+    }
+
+    /**
+     * Determines how many columns needs to be switched for a given node.
+     * @param node the node the new column need to be found for
+     * @param reversedLinks nodes with their corresponding incoming edges
+     * @return how many columns need to be switched
+     */
+    public int findDeltaColumn(int node, Map<Integer, List<Integer>> reversedLinks) {
+        List<Integer> incomingLinks = reversedLinks.get(node);
+        if(incomingLinks == null) return 0;
+        if (incomingLinks.size() >= 2) {
+            for (int i = 0; i < incomingLinks.size(); i++) {
+                int firstcol = this.segmentMap.get(incomingLinks.get(i)).getColumn();
+                for (int j = i+1; j < incomingLinks.size() ; j++) {
+                    int secondcol = this.segmentMap.get(incomingLinks.get(j)).getColumn();
+                    if (firstcol != secondcol) {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Get the segmentMap containing all the segments.
      * @return hashmap of segments.
      */
-    public SegmentCollection getSegmentCollection() {
+    public NodeCollection getSegmentCollection() {
         return segmentMap;
     }
 }

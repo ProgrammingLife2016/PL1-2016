@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.collapser.BubbleGraph;
+import io.github.programminglife2016.pl1_2016.collapser.Graph;
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 import io.github.programminglife2016.pl1_2016.parser.SimpleParser;
@@ -20,10 +22,16 @@ public final class Launcher {
      * @param args ignored
      * @throws IOException thrown if the port is in use.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, CloneNotSupportedException {
+//        Graph graph = new BubbleGraph(150, Launcher.class.getResourceAsStream("/genomes/TB10.gfa"));
+//        JsonSerializable jsonSerializable = graph.getCurrentGraph();
+//        Server server = new BasicServer(jsonSerializable.toJson());
+//        server.startServer();
+//        Server server2 = new RestServer(jsonSerializable);
+//        server2.startServer();
         Parser parser = new SimpleParser();
         JsonSerializable jsonSerializable = parser.parse(Launcher.class
-                .getResourceAsStream("/genomes/TB10.gfa"));
+                .getResourceAsStream("/genomes/TB100.gfa"));
         Server server = new BasicServer(jsonSerializable.toJson());
         server.startServer();
         Server server2 = new RestServer(jsonSerializable);

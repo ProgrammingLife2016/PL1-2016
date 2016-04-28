@@ -5,21 +5,23 @@ import com.google.gson.GsonBuilder;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Represent segments as a list.
  */
-public class SegmentList implements SegmentCollection {
-    private Segment[] array;
+public class NodeList implements NodeCollection, Cloneable {
+    private Node[] array;
 
     /**
-     * Initialize SegmentList with an initial capacity.
+     * Initialize NodeList with an initial capacity.
      *
      * @param initialCapacity the initial capacity
      */
-    public SegmentList(int initialCapacity) {
-        array = new Segment[initialCapacity];
+    public NodeList(int initialCapacity) {
+        array = new Node[initialCapacity];
     }
+
     /**
      * Add a segment to the collection.
      *
@@ -27,9 +29,20 @@ public class SegmentList implements SegmentCollection {
      * @param segment the actual segment
      * @return the segment parameter
      */
-    public Segment put(Integer id, Segment segment) {
+    public Node put(Integer id, Node segment) {
         array[id - 1] = segment;
         return segment;
+    }
+
+    /**
+     * Remove a segment from the collection.
+     *
+     * @param id id of the node.
+     * @return the node removed.
+     */
+    public boolean remove(Integer id) {
+        array[id - 1] = null;
+        return true;
     }
 
     /**
@@ -38,14 +51,13 @@ public class SegmentList implements SegmentCollection {
      * @param id id of the segment. IllegalArgumentException if id is not an integer
      * @return segment
      */
-    public Segment get(Object id) {
+    public Node get(Object id) {
         if (id instanceof Integer) {
             return array[((Integer) id) - 1];
         } else {
             throw new IllegalArgumentException("The index must be an integer");
         }
     }
-
 
     /**
      * Checks if the collection contains a particular key.
@@ -58,22 +70,27 @@ public class SegmentList implements SegmentCollection {
     }
 
     /**
-     * Return all segments.
-     *
-     * @return all segments
+     * Return size of the list.
+     * @return size of the list.
      */
-    public Collection<Segment> getSegments() {
-        return Arrays.asList(array);
+    public int size() {
+        return this.array.length;
     }
 
     /**
-     * Convert the representation to JSON.
-     *
-     * @return JSON representation of this object.
+     * Return all segments.
+     * @return all segments
      */
-    public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(SegmentList.class,
-                new SegmentCollectionSerializer()).create();
-        return gson.toJson(this);
+    public Collection<Node> getNodes() {
+        return Arrays.asList(array).stream().filter(x -> x != null).collect(Collectors.toList());
+    }
+
+    /**
+     * Return a deep cloned object of the collection
+     * @return Deep cloned object of node collection
+     * @throws CloneNotSupportedException Not a cloneable object
+     */
+    public NodeCollection clone() throws CloneNotSupportedException {
+        return (NodeCollection) super.clone();
     }
 }
