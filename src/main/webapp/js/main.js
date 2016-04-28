@@ -36,7 +36,8 @@ $(function() { // on dom ready
     return {
       data: {
         source: edge.from,
-        target: edge.to
+        target: edge.to,
+        group: "normal"
       }
     };
   }
@@ -144,7 +145,7 @@ $(function() { // on dom ready
                     {"width":"mapData(score, 0, 0.006769776522008331, 20, 60)",
                      "height":"mapData(score, 0, 0.006769776522008331, 20, 60)",
                      "content":"data(name)","font-size":"12px","text-valign":"center","text-halign":"center",
-                     "background-color":"#555","text-outline-color":"#555","text-outline-width":"2px","color":"#fff",
+                     "background-color":"#94AAC7","text-outline-color":"#94AAC7","text-outline-width":"2px","color":"#fff", //#555
                      "overlay-padding":"6px","z-index":"10"}},
                 {"selector":"node[?attr]","style":{"shape":"rectangle","background-color":"#aaa","text-outline-color":"#aaa",
                     "width":"16px","height":"16px","font-size":"6px","z-index":"1"}},
@@ -163,6 +164,7 @@ $(function() { // on dom ready
                 {"selector": "node", "style": {"color": "#ECF0F1"}},
                 {"selector":"edge.filtered","style":{"opacity":"0"}},
                 {"selector":"edge[group=\"coexp\"]","style":{"line-color":"#d0b7d5"}},
+                {"selector":"edge[group=\"normal\"]","style":{"line-color":"#CCC"}},
                 {"selector":"edge[group=\"coloc\"]","style":{"line-color":"#a0b3dc"}},
                 {"selector":"edge[group=\"gi\"]","style":{"line-color":"#90e190"}},
                 {"selector":"edge[group=\"path\"]","style":{"line-color":"#9bd8de"}},
