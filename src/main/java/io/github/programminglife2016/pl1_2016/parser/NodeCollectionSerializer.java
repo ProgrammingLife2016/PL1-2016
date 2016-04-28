@@ -12,30 +12,30 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 
 /**
- * Custom serializer for SegmentCollection. Conforms API.
+ * Custom serializer for NodeCollection. Conforms API.
  */
-public class SegmentCollectionSerializer implements JsonSerializer<NodeCollection> {
+public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> {
         /**
-         * Serialize SegmentCollection following API.
+         * Serialize NodeCollection following API.
          *
-         * @param segmentCollection to be serialized
+         * @param nodeCollection to be serialized
          * @param type ignored
          * @param jsonSerializationContext ignored
-         * @return serialized SegmentCollection object
+         * @return serialized NodeCollection object
          */
-    public JsonElement serialize(NodeCollection segmentCollection, Type type,
+    public JsonElement serialize(NodeCollection nodeCollection, Type type,
                                  JsonSerializationContext jsonSerializationContext) {
-        final Gson segmentBuilder = new GsonBuilder().registerTypeAdapter(Segment.class,
-                new SegmentSerializer()).create();
+        final Gson nodeBuilder = new GsonBuilder().registerTypeAdapter(Node.class,
+                new NodeSerializer()).create();
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("status", new JsonPrimitive("success"));
         JsonArray nodes = new JsonArray();
-        segmentCollection.getNodes().stream()
-                .map(segmentBuilder::toJsonTree)
+        nodeCollection.getNodes().stream()
+                .map(nodeBuilder::toJsonTree)
                 .forEach(nodes::add);
         jsonObject.add("nodes", nodes);
         JsonArray edges = new JsonArray();
-        for (Node node : segmentCollection.getNodes()) {
+        for (Node node : nodeCollection.getNodes()) {
             for (Node link : node.getLinks()) {
                 JsonObject edge = new JsonObject();
                 edge.add("from", new JsonPrimitive(node.getId()));

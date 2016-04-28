@@ -92,7 +92,7 @@ public class NodeList implements NodeCollection, Cloneable {
      */
     public String toJson() {
         Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class,
-                new SegmentCollectionSerializer()).create();
+                new NodeCollectionSerializer()).create();
         return gson.toJson(this);
     }
 
