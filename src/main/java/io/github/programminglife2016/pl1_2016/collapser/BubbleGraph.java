@@ -1,10 +1,10 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.Launcher;
+import io.github.programminglife2016.pl1_2016.parser.*;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ravi Autar on 26-4-16.
@@ -19,7 +19,9 @@ public class BubbleGraph implements Graph {
         Parser parser = new SimpleParser();
         parser.parse(Launcher.class.getResourceAsStream("/genomes/TB10_.gfa"));
         this.fullgraph = parser.getSegmentCollection();
-        this.currentGraph =  generateGraph(fullgraph.clone());
+
+        //TODO not tested
+        this.currentGraph =  clusterGraph(fullgraph.clone());
     }
 
     public NodeCollection retrieveBoundedGraph(int startx, int endx, int starty, int endy) {
@@ -35,15 +37,36 @@ public class BubbleGraph implements Graph {
                 boundedGraph.put(node.getId(), node);
             }
         }
-        this.currentGraph = generateGraph(boundedGraph);
-        return boundedGraph;
+        this.currentGraph = generateZoomedGraph(boundedGraph);
+        return this.currentGraph;
     }
 
-    public NodeCollection generateGraph(NodeCollection graph) {
+    public NodeCollection generateZoomedGraph(NodeCollection graph) {
+        List<Node> nonnulls = new ArrayList<Node>(graph.size());
+        for (Node node :
+                (Node[]) graph.getCollection()) {
+            if (node != null) {
+                nonnulls.add(node);
+            }
+        }
+        NodeCollection curr = new NodeList(nonnulls.size());
+        int i = 1;
+        for (Node node:
+                nonnulls) {
+            curr.put(i, node);
+            i++;
+        }
 
+        //Cluster the graph
+        curr = clusterGraph(curr);
+
+        return curr;
+    }
+
+    public NodeCollection clusterGraph(NodeCollection collection) {
+        //TODO make clustering possible
         return null;
     }
-
     public NodeCollection getFullgraph() {
         return fullgraph;
     }

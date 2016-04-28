@@ -17,6 +17,7 @@ public class NodeList implements NodeCollection, Cloneable {
     public NodeList(int initialCapacity) {
         array = new Node[initialCapacity];
     }
+
     /**
      * Add a segment to the collection.
      *
@@ -27,6 +28,17 @@ public class NodeList implements NodeCollection, Cloneable {
     public Node put(Integer id, Node segment) {
         array[id - 1] = segment;
         return segment;
+    }
+
+    /**
+     * Remove a segment from the collection.
+     *
+     * @param id id of the node.
+     * @return the node removed.
+     */
+    public boolean remove(Integer id) {
+        array[id - 1] = null;
+        return true;
     }
 
     /**
