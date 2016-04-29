@@ -88,7 +88,7 @@ public class SimpleParser implements Parser {
             for (int prevNode : incomingNodes) {
                 int prevNodeCol = nodeCollection.get(prevNode).getColumn();
                 if ( prevNodeCol > currentCol) {
-                    currentCol = prevNodeCol;
+                    currentCol = prevNodeCol + 1;
                 }
             }
             if(oldCol != currentCol) {
