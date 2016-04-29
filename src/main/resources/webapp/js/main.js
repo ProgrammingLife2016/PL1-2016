@@ -1,8 +1,10 @@
 $(function() { // on dom ready
-  $("#cy").css("top", $("#nav").height() + $("#options").height());
-  $("#logo").stop().animate({opacity: 1},800,"swing");
   $("#options").css("top", $("#nav").height());
   $("#options").css("height", $(document).height() - $("#nav").height());
+  $("#cy").css("top", $("#nav").height() + $("#options").height());
+
+  $("#logo").stop().animate({opacity: 1}, 800,"swing");
+  $("#container").stop().animate({opacity: 1}, 800,"swing");
 
   /*
     Factory for creating Graph objects.
@@ -70,9 +72,14 @@ $(function() { // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-    var nodes = data.nodes.map(n => graphFactory.createNode(n));
-    var edges = data.edges.map(e => graphFactory.createEdge(e));
-    return { nodes, edges };
+    if (data.hasOwnProperty("nodes") && data.hasOwnProperty("edges")) {
+        var nodes = data.nodes.map(n => graphFactory.createNode(n));
+        var edges = data.edges.map(e => graphFactory.createEdge(e));
+        return { nodes, edges };
+    } else {
+        console.log("ERROR [JSONAdapter.prototype.convert]: Data has wrong format.");
+        return {};
+    }
   }
 
   /*
@@ -112,18 +119,41 @@ $(function() { // on dom ready
         this.retrieveDataFromServer();
       });
 
+      var duration = 400;
+      var easing = "swing";
       $("#startConnection").click(() => {
-        $("#options").stop().animate({height: 0}, 500, "swing");
-        $("#container").stop().animate({height: 0}, 500, "swing");
-        $("#startConnection").stop().animate({opacity: 0}, 500, "swing");
-        $("#cy").stop().animate({
-          top: $("#nav").height(),
-          opacity: 1
-          }, 500, "swing");
-        $(".cytoscape-navigator").stop().animate({opacity: 1}, 500, "swing");
-
+        $("#startConnection i").attr("class", "fa fa-circle-o-notch fa-spin fa-fw fa-lg");
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
+        setTimeout(function(){
+            $("#options").stop().animate({height: 0}, duration, "swing");
+            $("#container").stop().animate({height: 0}, duration, "swing");
+            $("#startConnection").stop().animate({opacity: 0}, duration, "swing");
+            $("#optionButton").stop().animate({opacity: 0}, duration, "swing");
+            $("#cy").stop().animate({
+              top: $("#nav").height(),
+              opacity: 1
+              }, duration, "swing");
+            $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
+        }, 3000);
+      });
+
+      $("#optionButton").click(() => {
+        var isOpen = $("#optionButton").attr("data-open");
+        if (isOpen === "false") {
+          $("#optionButton").attr("data-open", "true");
+          $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
+          $("#optionsContainer")
+            .stop()
+            .animate({height: 300}, 300, "swing");
+        } else {
+          $("#optionButton").attr("data-open", "false");
+          $("#optionButton i").attr("class", "fa fa-arrow-down fa-fw");
+          $("#optionsContainer")
+            .stop()
+            .animate({height: 0}, 300, "swing");
+        }
+        console.log(isOpen);
       });
   }
 
@@ -224,17 +254,22 @@ $(function() { // on dom ready
     Get dimensions of total graph view and coordinates of zoom view.
   */
   GraphHandler.prototype.getDimensions = function() {
-     return {
-         totalWidth: cy.width(),
-         totalHeight: cy.height(),
-         zoomLocation: {
-            minX: 0,
-            maxX: cy.width(),
-            minY: 0,
-            maxY: cy.height()
-         }
-     };
-  }
+       var left = $('.cytoscape-navigatorView').css('left');
+       left = parseInt(left.substring(0, left.length -3));
+       var top = $('.cytoscape-navigatorView').css('top');
+       top = parseInt(top.substring(0, top.length -3));
+       //alert("minX: " + left + " " + "maxX: " + (left + cy.width()) + "minY: " + top + "maxY: " + (top + cy.height()));
+       return {
+           totalWidth: cy.width(),
+           totalHeight: cy.height(),
+           zoomLocation: {
+              minX: left,
+              maxX: left + cy.width(),
+              minY: top,
+              maxY: top + cy.height()
+           }
+       };
+    }
 
   /*
     Add UI events concerning the graph view.

@@ -1,6 +1,6 @@
 .cytoscape-navigator {
 	position: fixed;
-	background: #68788C;
+	background: #A9C3E3; /*#68788C;*/
 	z-index: 99999;
 	width: 300px;
 	height: 200px;
@@ -8,6 +8,7 @@
 	right: 0;
 	overflow: hidden;
 	opacity: 0;
+	border-top-left-radius: 5px !important;
 }
 
 .cytoscape-navigator > canvas{
