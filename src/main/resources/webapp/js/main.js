@@ -4,7 +4,8 @@ $(function() { // on dom ready
   $("#cy").css("top", $("#nav").height() + $("#options").height());
 
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
-  $("#container").stop().animate({opacity: 1}, 800,"swing");
+  $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
+  $("html, body").stop().animate({ scrollTop: 0 }, "swing");
 
   /*
     Factory for creating Graph objects.
@@ -122,6 +123,7 @@ $(function() { // on dom ready
       var duration = 400;
       var easing = "swing";
       $("#startConnection").click(() => {
+        $("#cy").css("background-color", "#ECF0F1");
         $("#startConnection i").attr("class", "fa fa-circle-o-notch fa-spin fa-fw fa-lg");
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
@@ -135,7 +137,7 @@ $(function() { // on dom ready
               opacity: 1
               }, duration, "swing");
             $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
-        }, 3000);
+        }, 1500);
       });
 
       $("#optionButton").click(() => {
@@ -199,6 +201,9 @@ $(function() { // on dom ready
         hideEdgesOnViewport : true,
         hideLabelsOnViewport : true,
         textureOnViewport : true,
+        minZoom: 1,
+        autoungrabify: true,
+        autolock: true,
 
         style: [{"selector":"core",
                    "style":
@@ -215,7 +220,7 @@ $(function() { // on dom ready
                 {"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},
                 {"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5",
                     "background-color":"#77828C","text-outline-color":"#77828C"}},
-                {"selector":"edge","style":{"target-arrow-shape": "triangle"}},
+                {"selector":"edge","style":{"target-arrow-shape": "triangle", "background-color": "#F00"}},
                 {"selector":"node.unhighlighted","style":{"opacity":"0.2"}},
                 {"selector":"edge.unhighlighted","style":{"opacity":"0.05"}},
                 {"selector":".highlighted","style":{"z-index":"999999"}},
@@ -236,17 +241,15 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"spd_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"reg\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
-                {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
+                {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}},
+                {"selector":"edge","style":{"target-arrow-color": "#777", "target-arrow-shape": "triangle", "line-color": "#777"}},
+                ],
 
         layout: {
           name: 'preset',
           padding: 10
         }
       });
-
-//      var testJson = data;
-//      console.log(testJson)
-//      cy.add(JSONAdapter.prototype.convert(testJson));
       this.bindUIEvents();
   }
 
@@ -258,7 +261,7 @@ $(function() { // on dom ready
        left = parseInt(left.substring(0, left.length -3));
        var top = $('.cytoscape-navigatorView').css('top');
        top = parseInt(top.substring(0, top.length -3));
-       //alert("minX: " + left + " " + "maxX: " + (left + cy.width()) + "minY: " + top + "maxY: " + (top + cy.height()));
+       console.log("minX: " + left + " " + "maxX: " + (left + cy.width()) + "minY: " + top + "maxY: " + (top + cy.height()));
        return {
            totalWidth: cy.width(),
            totalHeight: cy.height(),
