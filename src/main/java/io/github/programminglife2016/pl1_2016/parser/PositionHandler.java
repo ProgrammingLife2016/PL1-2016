@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,7 @@ public class PositionHandler implements PositionManager {
     /**
      * Spacing between segments in the graph.
      */
-    private static final int SPACING = 250;
+    private static final int SPACING = 100;
 
     /**
      * Factor used to determine node positions.

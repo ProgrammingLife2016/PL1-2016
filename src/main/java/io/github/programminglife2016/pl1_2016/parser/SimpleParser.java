@@ -59,6 +59,7 @@ public class SimpleParser implements Parser {
                 parseLine(line);
             }
             this.columns = reassignColumns(this.columns, this.reversedLinks);
+            shiftNode(columns, reversedLinks);
             PositionManager positionHandler = new PositionHandler(this.nodeCollection,
                     this.columns);
             positionHandler.calculatePositions();
@@ -75,6 +76,31 @@ public class SimpleParser implements Parser {
         }
     }
 
+    /**
+     * Shifts nodes to make nodes more follow after their ancestors.
+     * @param columns columns indicating containing their nodes.
+     * @param incomingList Nodes containing their incominng nodes.
+     */
+    private void shiftNode(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> incomingList) {
+        for (Node node: nodeCollection) {
+            List<Integer> incomingNodes = incomingList.get(node.getId());
+            if(incomingNodes == null || incomingNodes.isEmpty() || columns.get(node.getColumn()) == null) {
+                continue;
+            }
+            int oldCol = node.getColumn();
+            int currentCol = node.getColumn();
+            for (int prevNode : incomingNodes) {
+                int prevNodeCol = nodeCollection.get(prevNode).getColumn();
+                if ( prevNodeCol > currentCol) {
+                    currentCol = prevNodeCol + 1;
+                }
+            }
+            if(oldCol != currentCol) {
+                columns.get(oldCol).remove(columns.get(oldCol).indexOf(node.getId()));
+                columns.get(currentCol).add(node.getId());
+            }
+        }
+    }
 
     /**
      * Parse one line of a .gfa file.
@@ -157,6 +183,7 @@ public class SimpleParser implements Parser {
             for (Integer node : entry.getValue()) {
                 int correctColumn = currentColumn + findDeltaColumn(node, reversedLinks);
                 revisedGraph.get(correctColumn).add(node);
+                nodeCollection.get(node).setColumn(correctColumn);
             }
             currentColumn++;
         }
@@ -185,6 +212,7 @@ public class SimpleParser implements Parser {
                 }
             }
         }
+
         return 0;
     }
 
