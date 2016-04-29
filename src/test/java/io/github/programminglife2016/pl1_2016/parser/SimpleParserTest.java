@@ -69,7 +69,7 @@ public class SimpleParserTest {
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection segmentMap = parser.getSegmentCollection();
         Node segment3 = segmentMap.get(3);
-        assertEquals(1451, segment3.getColumn());
+        assertEquals(1, segment3.getColumn());
     }
     /**
      * Test if position of multiple nodes in column are calculated correctly.
@@ -88,7 +88,7 @@ public class SimpleParserTest {
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection nodeCollection = parser.getSegmentCollection();
-        assertEquals(125, nodeCollection.get(1).getY());
+        assertEquals(25, nodeCollection.get(1).getY());
     }
 
     /**
@@ -108,7 +108,7 @@ public class SimpleParserTest {
                 + "L	2	+	3	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection nodeCollection = parser.getSegmentCollection();
-        assertEquals(-125, nodeCollection.get(2).getY());
+        assertEquals(-25, nodeCollection.get(2).getY());
     }
 
     /**
