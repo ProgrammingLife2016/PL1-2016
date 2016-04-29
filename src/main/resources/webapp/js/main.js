@@ -1,8 +1,11 @@
 $(function() { // on dom ready
-  $("#cy").css("top", $("#nav").height() + $("#options").height());
-  $("#logo").stop().animate({opacity: 1},800,"swing");
   $("#options").css("top", $("#nav").height());
   $("#options").css("height", $(document).height() - $("#nav").height());
+  $("#cy").css("top", $("#nav").height() + $("#options").height());
+
+  $("#logo").stop().animate({opacity: 1}, 800,"swing");
+  $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
+  $("html, body").stop().animate({ scrollTop: 0 }, "swing");
 
   /*
     Factory for creating Graph objects.
@@ -70,9 +73,14 @@ $(function() { // on dom ready
     Convert JSON data received from server.
   */
   JSONAdapter.prototype.convert = function(data) {
-    var nodes = data.nodes.map(n => graphFactory.createNode(n));
-    var edges = data.edges.map(e => graphFactory.createEdge(e));
-    return { nodes, edges };
+    if (data.hasOwnProperty("nodes") && data.hasOwnProperty("edges")) {
+        var nodes = data.nodes.map(n => graphFactory.createNode(n));
+        var edges = data.edges.map(e => graphFactory.createEdge(e));
+        return { nodes, edges };
+    } else {
+        console.log("ERROR [JSONAdapter.prototype.convert]: Data has wrong format.");
+        return {};
+    }
   }
 
   /*
@@ -112,18 +120,42 @@ $(function() { // on dom ready
         this.retrieveDataFromServer();
       });
 
+      var duration = 400;
+      var easing = "swing";
       $("#startConnection").click(() => {
-        $("#options").stop().animate({height: 0}, 500, "swing");
-        $("#container").stop().animate({height: 0}, 500, "swing");
-        $("#startConnection").stop().animate({opacity: 0}, 500, "swing");
-        $("#cy").stop().animate({
-          top: $("#nav").height(),
-          opacity: 1
-          }, 500, "swing");
-        $(".cytoscape-navigator").stop().animate({opacity: 1}, 500, "swing");
-
+        $("#cy").css("background-color", "#ECF0F1");
+        $("#startConnection i").attr("class", "fa fa-circle-o-notch fa-spin fa-fw fa-lg");
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
+        setTimeout(function(){
+            $("#options").stop().animate({height: 0}, duration, "swing");
+            $("#container").stop().animate({height: 0}, duration, "swing");
+            $("#startConnection").stop().animate({opacity: 0}, duration, "swing");
+            $("#optionButton").stop().animate({opacity: 0}, duration, "swing");
+            $("#cy").stop().animate({
+              top: $("#nav").height(),
+              opacity: 1
+              }, duration, "swing");
+            $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
+        }, 1500);
+      });
+
+      $("#optionButton").click(() => {
+        var isOpen = $("#optionButton").attr("data-open");
+        if (isOpen === "false") {
+          $("#optionButton").attr("data-open", "true");
+          $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
+          $("#optionsContainer")
+            .stop()
+            .animate({height: 300}, 300, "swing");
+        } else {
+          $("#optionButton").attr("data-open", "false");
+          $("#optionButton i").attr("class", "fa fa-arrow-down fa-fw");
+          $("#optionsContainer")
+            .stop()
+            .animate({height: 0}, 300, "swing");
+        }
+        console.log(isOpen);
       });
   }
 
@@ -169,6 +201,9 @@ $(function() { // on dom ready
         hideEdgesOnViewport : true,
         hideLabelsOnViewport : true,
         textureOnViewport : true,
+        minZoom: 1,
+        autoungrabify: true,
+        autolock: true,
 
         style: [{"selector":"core",
                    "style":
@@ -185,7 +220,7 @@ $(function() { // on dom ready
                 {"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},
                 {"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5",
                     "background-color":"#77828C","text-outline-color":"#77828C"}},
-                {"selector":"edge","style":{"target-arrow-shape": "triangle"}},
+                {"selector":"edge","style":{"target-arrow-shape": "triangle", "background-color": "#F00"}},
                 {"selector":"node.unhighlighted","style":{"opacity":"0.2"}},
                 {"selector":"edge.unhighlighted","style":{"opacity":"0.05"}},
                 {"selector":".highlighted","style":{"z-index":"999999"}},
@@ -206,17 +241,15 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"spd_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"reg\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
-                {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
+                {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}},
+                {"selector":"edge","style":{"target-arrow-color": "#777", "target-arrow-shape": "triangle", "line-color": "#777"}},
+                ],
 
         layout: {
           name: 'preset',
           padding: 10
         }
       });
-
-//      var testJson = data;
-//      console.log(testJson)
-//      cy.add(JSONAdapter.prototype.convert(testJson));
       this.bindUIEvents();
   }
 
@@ -224,17 +257,22 @@ $(function() { // on dom ready
     Get dimensions of total graph view and coordinates of zoom view.
   */
   GraphHandler.prototype.getDimensions = function() {
-     return {
-         totalWidth: cy.width(),
-         totalHeight: cy.height(),
-         zoomLocation: {
-            minX: 0,
-            maxX: cy.width(),
-            minY: 0,
-            maxY: cy.height()
-         }
-     };
-  }
+       var left = $('.cytoscape-navigatorView').css('left');
+       left = parseInt(left.substring(0, left.length -3));
+       var top = $('.cytoscape-navigatorView').css('top');
+       top = parseInt(top.substring(0, top.length -3));
+       console.log("minX: " + left + " " + "maxX: " + (left + cy.width()) + "minY: " + top + "maxY: " + (top + cy.height()));
+       return {
+           totalWidth: cy.width(),
+           totalHeight: cy.height(),
+           zoomLocation: {
+              minX: left,
+              maxX: left + cy.width(),
+              minY: top,
+              maxY: top + cy.height()
+           }
+       };
+    }
 
   /*
     Add UI events concerning the graph view.
