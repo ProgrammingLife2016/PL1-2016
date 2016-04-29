@@ -209,7 +209,7 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
 
         layout: {
-          name: 'grid',
+          name: 'preset',
           padding: 10
         }
       });
