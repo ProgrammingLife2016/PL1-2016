@@ -140,22 +140,17 @@ $(function() { // on dom ready
         }, 1500);
       });
 
-      $("#optionButton").click(() => {
-        var isOpen = $("#optionButton").attr("data-open");
-        if (isOpen === "false") {
-          $("#optionButton").attr("data-open", "true");
-          $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
-          $("#optionsContainer")
-            .stop()
-            .animate({height: 300}, 300, "swing");
-        } else {
-          $("#optionButton").attr("data-open", "false");
-          $("#optionButton i").attr("class", "fa fa-arrow-down fa-fw");
-          $("#optionsContainer")
-            .stop()
-            .animate({height: 0}, 300, "swing");
-        }
-        console.log(isOpen);
+      $("#optionButton").click(function() {
+         $header = $(this);
+         $content = $("#optionsContainer");
+         $content.slideToggle(500, function () {
+            if ($content.is(":visible")) {
+               $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
+               //graphHandler.setSetting("autoungrabify")
+            } else {
+               $("#optionButton i").attr("class", "fa fa-arrow-down fa-fw");
+            }
+         });
       });
   }
 
@@ -163,7 +158,6 @@ $(function() { // on dom ready
     Load data if AJAX request was succesfull.
   */
   ServerConnection.prototype.handleSucces = function(data, textStatus, jqXHR) {
-      console.log(textStatus);
       console.log(jqXHR);
       console.log(data);
       graphHandler.loadDataInGraph(JSONAdapter.prototype.convert(data));
@@ -175,9 +169,6 @@ $(function() { // on dom ready
   ServerConnection.prototype.handleError = function(jqXHR ,textStatus, errorThrown) {
       console.log("ERROR AJAX request");
       console.log(jqXHR);
-      console.log("- HTTP status code : " + jqXHR.status);
-      console.log("- response Text    : " + jqXHR.responseText);
-      console.log("- Error thrown     : " + errorThrown);
   }
 
   /*
@@ -251,6 +242,10 @@ $(function() { // on dom ready
         }
       });
       this.bindUIEvents();
+  }
+
+  GraphHandler.prototype.setSetting = function(key, value) {
+
   }
 
   /*
