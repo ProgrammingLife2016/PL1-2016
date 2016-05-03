@@ -3,11 +3,6 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -15,12 +10,6 @@ import java.util.TreeMap;
 public class SimpleParser implements Parser {
     private static final int SIZE = 9000;
     private static final String ATTR_ZINDEX = "START:Z:";
-
-    private Map<Integer, List<Integer>> reversedLinks;
-    /**
-     * Map containing each column and how many segments the column contains.
-     */
-    private Map<Integer, List<Integer>> columns;
 
     /**
      * Map containing the DNA seqments.
@@ -40,8 +29,6 @@ public class SimpleParser implements Parser {
      * @return Data structure with parsed data.
      */
     public JsonSerializable parse(InputStream inputStream) {
-        columns = new TreeMap<Integer, List<Integer>>();
-        reversedLinks = new HashMap<>();
         read(inputStream);
         return nodeCollection;
     }
@@ -58,10 +45,7 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-            this.columns = reassignColumns(this.columns, this.reversedLinks);
-            shiftNode(columns, reversedLinks);
-            PositionManager positionHandler = new PositionHandler(this.nodeCollection,
-                    this.columns);
+            PositionManager positionHandler = new PositionHandler(this.nodeCollection);
             positionHandler.calculatePositions();
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,32 +56,6 @@ public class SimpleParser implements Parser {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        }
-    }
-
-    /**
-     * Shifts nodes to make nodes more follow after their ancestors.
-     * @param columns columns indicating containing their nodes.
-     * @param incomingList Nodes containing their incominng nodes.
-     */
-    private void shiftNode(Map<Integer, List<Integer>> columns, Map<Integer, List<Integer>> incomingList) {
-        for (Node node: nodeCollection) {
-            List<Integer> incomingNodes = incomingList.get(node.getId());
-            if(incomingNodes == null || incomingNodes.isEmpty() || columns.get(node.getColumn()) == null) {
-                continue;
-            }
-            int oldCol = node.getColumn();
-            int currentCol = node.getColumn();
-            for (int prevNode : incomingNodes) {
-                int prevNodeCol = nodeCollection.get(prevNode).getColumn();
-                if ( prevNodeCol > currentCol) {
-                    currentCol = prevNodeCol + 1;
-                }
-            }
-            if(oldCol != currentCol) {
-                columns.get(oldCol).remove(columns.get(oldCol).indexOf(node.getId()));
-                columns.get(currentCol).add(node.getId());
             }
         }
     }
@@ -131,13 +89,6 @@ public class SimpleParser implements Parser {
         int column = 0;
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
-            if (!columns.containsKey(column)) {
-                columns.put(column, new ArrayList<Integer>());
-                columns.get(column).add(id);
-            }
-            else {
-                columns.get(column).add(id);
-            }
         }
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
@@ -156,64 +107,11 @@ public class SimpleParser implements Parser {
         int from = Integer.parseInt(data[1]);
         int to = Integer.parseInt(data[3]);
 
-        if (!reversedLinks.containsKey(to)) {
-            reversedLinks.put(to, new ArrayList<>());
-        }
-        reversedLinks.get(to).add(from);
-
         if (!nodeCollection.containsKey(to)) {
             nodeCollection.put(to, new Segment(to));
         }
         nodeCollection.get(from).addLink(nodeCollection.get(to));
-    }
-
-    /**
-     * Reassigns the nodes to columns resolving overlapping nodes.
-     * @param columns columns with the nodes they are containing
-     * @param reversedLinks nodes with their corresponding incoming edges
-     * @return collumns with their reassigned nodes.
-     */
-    private Map<Integer, List<Integer>> reassignColumns(Map<Integer, List<Integer>> columns,
-                                                        Map<Integer, List<Integer>>
-                                                                reversedLinks) {
-        int currentColumn = 1;
-        Map<Integer, List<Integer>> revisedGraph = new HashMap<>();
-        for (Map.Entry<Integer, List<Integer>> entry : columns.entrySet()) {
-            revisedGraph.put(currentColumn, new ArrayList<>());
-            for (Integer node : entry.getValue()) {
-                int correctColumn = currentColumn + findDeltaColumn(node, reversedLinks);
-                revisedGraph.get(correctColumn).add(node);
-                nodeCollection.get(node).setColumn(correctColumn);
-            }
-            currentColumn++;
-        }
-        return revisedGraph;
-    }
-
-    /**
-     * Determines how many columns needs to be switched for a given node.
-     * @param node the node the new column need to be found for
-     * @param reversedLinks nodes with their corresponding incoming edges
-     * @return how many columns need to be switched
-     */
-    public int findDeltaColumn(int node, Map<Integer, List<Integer>> reversedLinks) {
-        List<Integer> incomingLinks = reversedLinks.get(node);
-        if (incomingLinks == null) {
-            return 0;
-        }
-        if (incomingLinks.size() >= 2) {
-            for (int i = 0; i < incomingLinks.size(); i++) {
-                int firstcol = this.nodeCollection.get(incomingLinks.get(i)).getColumn();
-                for (int j = i + 1; j < incomingLinks.size(); j++) {
-                    int secondcol = this.nodeCollection.get(incomingLinks.get(j)).getColumn();
-                    if (firstcol != secondcol) {
-                        return -1;
-                    }
-                }
-            }
-        }
-
-        return 0;
+        nodeCollection.get(to).addBackLink(nodeCollection.get(from));
     }
 
     /**
