@@ -196,8 +196,8 @@ $(function() { // on dom ready
   function GraphHandler() {
       cy = cytoscape({
         container: $('#cy')[0],
-        boxSelectionEnabled: false,
-        autounselectify: true,
+        boxSelectionEnabled: true,
+        autounselectify: false,
         hideEdgesOnViewport : true,
         hideLabelsOnViewport : true,
         textureOnViewport : true,
