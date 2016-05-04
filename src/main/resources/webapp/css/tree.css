@@ -1,0 +1,33 @@
+html, body, #tree{
+    height: 100%;
+}
+
+.treenode circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.treenode, text {
+  font: 8px sans-serif;
+}
+
+.treelink {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+treetext {
+  fill: #000;
+}
+
+#tree, #phyloTree{
+    display: block;
+    margin: 0 auto;
+}
+
+.svg-pan-zoom_viewport{
+    background-color: black;
+    fill: #000;
+}
