@@ -1,3 +1,7 @@
+html, body, #tree{
+    height: 100%;
+}
+
 .treenode circle {
   fill: #fff;
   stroke: steelblue;
@@ -16,4 +20,14 @@
 
 treetext {
   fill: #000;
+}
+
+#tree, #phyloTree{
+    display: block;
+    margin: 0 auto;
+}
+
+.svg-pan-zoom_viewport{
+    background-color: black;
+    fill: #000;
 }
