@@ -14,15 +14,15 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for the BasicServer class
  */
-public class SimpleParserTest {
-    private SimpleParser parser;
+public class SegmentParserTest {
+    private SegmentParser parser;
 
     /**
      * Create parser object.
      */
     @Before
     public void setUp() {
-        parser = new SimpleParser();
+        parser = new SegmentParser();
     }
 
     /**
