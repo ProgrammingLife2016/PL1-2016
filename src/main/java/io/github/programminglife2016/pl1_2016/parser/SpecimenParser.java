@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Created by ravishivam on 4-5-16.
  */
-public class DataParser implements Parser {
+public class SpecimenParser implements Parser {
     private HashMap<String, Data> specimens;
     @Override
     public JsonSerializable parse(InputStream inputStream) {
