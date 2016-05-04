@@ -2,7 +2,9 @@ package io.github.programminglife2016.pl1_2016.parser;
 
 import io.github.programminglife2016.pl1_2016.Launcher;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -87,7 +89,7 @@ public class PhyloGeneticTreeParser implements Parser {
         System.out.println("PhylgoGenetic Tree Parser");
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
         String s = "(B:6.0,(A:5.0,(Z:9.0,T:10):3.0,E:4.0):5.0,D:11.0);";
-        parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
-//        parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
+//        parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
+        parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
     }
 }
