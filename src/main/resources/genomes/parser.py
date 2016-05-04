@@ -1,7 +1,7 @@
 import re, sys
 
 class Segment():
-    MAX_LENGTH = 80
+    MAX = 80
 
     def __init__(self, x):
         x = map(self.f, x)
@@ -10,14 +10,14 @@ class Segment():
         self.ctg = self.ctg.split(";")
 
     def c(self, s):
-        return s[:self.MAX_LENGTH-3] + "..." if len(s) > self.MAX_LENGTH else s
+        return s[:self.MAX - 3] + "..." if len(s) > self.MAX else s
 
     def f(self, s):
         return s.split(":")[2] if ":" in s else s
 
     def __str__(self):
         return "\n\t".join([
-          "\tID     = {}".format(self.id), "DATA   = {}".format(self.c(self.data)),
+          "\tID     = {}".format(self.id), "DATA   = {}".format(self.data),
             "ORI    = {}".format(self.ori), "CRD    = {}".format(self.crd),
             "CRDCTG = {}".format(self.crdctg), "CTG    = {}".format(self.ctg),
             "START  = {}".format(self.start)])
@@ -38,8 +38,7 @@ data = map(lambda line: re.split("\s", line), f)
 data = filter(lambda x: x[0] == "S", data)
 segments = map(lambda x: Segment(x), data)
 
-
-for seg in segments[:7]:
+for seg in segments:
     print "-----------"
     print seg.id 
     print seg

@@ -1,0 +1,346 @@
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK-01-0001,28.0,Female,Positive,KZNSUR,39463.0,eThekwini,sputum,Negative,TKK-01-0001,single colony,MDR,S,R,R,R,S,TKK-01-0001,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0001,n/a
+TKK-01-0006,70.0,Male,Negative,KZNSUR,39493.0,eThekwini,sputum,Positive,TKK-01-0006,single colony,MDR,S,S,S,R,S,TKK-01-0006,S,S,R,S,LAM4,LIN 4,MDR,TKK-01-0006,n/a
+TKK-01-0009,27.0,Female,unknown,KZNSUR,39497.0,eThekwini,sputum,Positive,TKK-01-0009,single colony,mono,S,S,S,S,S,TKK-01-0009,S,S,R,S,T1,LIN 4,MDR,TKK-01-0009,n/a
+TKK-01-0011,32.0,Male,unknown,KZNSUR,39498.0,eThekwini,sputum,Positive,TKK-01-0011,single colony,MDR,S,S,S,R,S,TKK-01-0011,S,S,R,S,"LAM11-ZWE,LAM4",LIN 4,MDR,TKK-01-0011,n/a
+TKK-01-0012,23.0,Female,Negative,KZNSUR,39503.0,eThekwini,sputum,Positive,TKK-01-0012,single colony,MDR,S,R,S,R,S,TKK-01-0012,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0012,n/a
+TKK-01-0014,35.0,Male,Positive,KZNSUR,39504.0,uThungulu,sputum,Positive,TKK-01-0014,single colony,MDR,S,R,S,R,S,TKK-01-0014,R,S,R,R,T1,LIN 4,MDR,TKK-01-0014,n/a
+TKK-01-0015,48.0,Male,Positive,KZNSUR,39499.0,eThekwini,sputum,Positive,TKK-01-0015,single colony,MDR,R,S,S,R,R,TKK-01-0015,S,S,R,R,T1,LIN 4,MDR,TKK-01-0015,n/a
+TKK-01-0016,27.0,Male,Negative,KZNSUR,39499.0,eThekwini,sputum,Positive,TKK-01-0016,single colony,MDR,S,R,R,R,S,TKK-01-0016,S,S,R,R,S,LIN 4,MDR,TKK-01-0016,n/a
+TKK-01-0017,56.0,Female,unknown,KZNSUR,39510.0,Sisonke,sputum,Negative,TKK-01-0017,single colony,MDR,R,R,R,R,R,TKK-01-0017,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0017,n/a
+TKK-01-0020,61.0,Female,Negative,KZNSUR,39526.0,iLembe,sputum,Positive,TKK-01-0020,single colony,MDR,S,S,S,R,S,TKK-01-0020,S,S,R,R,S,LIN 4,MDR,TKK-01-0020,n/a
+TKK-01-0022,26.0,Female,unknown,KZNSUR,39540.0,Uthukela,sputum,Positive,TKK-01-0022,single colony,MDR,S,S,S,R,S,TKK-01-0022,R,R,R,S,S,LIN 4,MDR,TKK-01-0022,n/a
+TKK-01-0026,45.0,Female,Positive,KZNSUR,39541.0,Uthukela,sputum,Positive,TKK-01-0026,single colony,MDR,S,S,S,R,S,TKK-01-0026,S,S,R,R,T3,LIN 4,MDR,TKK-01-0026,n/a
+TKK-01-0028,19.0,Female,Negative,KZNSUR,39580.0,uMzinyathi,sputum,Positive,TKK-01-0028,single colony,MDR,S,S,S,R,S,TKK-01-0028,S,S,R,R,X2,LIN 4,MDR,TKK-01-0028,n/a
+TKK-01-0029,41.0,Male,Positive,KZNSUR,39580.0,uMzinyathi,sputum,Negative,TKK-01-0029,single colony,MDR,S,S,S,R,S,TKK-01-0029,S,S,R,R,T1,LIN 4,MDR,TKK-01-0029,n/a
+TKK-01-0030,42.0,Female,Positive,KZNSUR,39581.0,uMzinyathi,sputum,Positive,TKK-01-0030,single colony,MDR,S,S,S,R,S,TKK-01-0030,S,S,R,S,S,LIN 4,MDR,TKK-01-0030,n/a
+TKK-01-0031,33.0,Female,Positive,KZNSUR,39581.0,uMzinyathi,sputum,Positive,TKK-01-0031,single colony,MDR,S,S,S,R,S,TKK-01-0031,S,S,R,S,X3,LIN 4,MDR,TKK-01-0031,n/a
+TKK-01-0032,32.0,Female,Positive,KZNSUR,39588.0,uMzinyathi,sputum,Positive,TKK-01-0032,single colony,MDR,S,S,S,R,S,TKK-01-0032,S,S,R,S,S,LIN 4,MDR,TKK-01-0032,n/a
+TKK-01-0035,50.0,Male,Positive,KZNSUR,39644.0,eThekwini,sputum,Positive,TKK-01-0035,single colony,MDR,S,R,S,R,S,TKK-01-0035,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0035,n/a
+TKK-01-0038,28.0,Male,Positive,KZNSUR,39659.0,Amajuba,sputum,unknown,TKK-01-0038,single colony,MDR,S,R,R,R,S,TKK-01-0038,S,S,R,R,S,LIN 4,MDR,TKK-01-0038,n/a
+TKK-01-0039,18.0,Female,Negative,KZNSUR,39660.0,Amajuba,sputum,Positive,TKK-01-0039,single colony,MDR,S,S,S,R,S,TKK-01-0039,S,S,R,R,Beijing,LIN 2,MDR,TKK-01-0039,n/a
+TKK-01-0041,28.0,Male,unknown,KZNSUR,Unknown,Amajuba,sputum,unknown,TKK-01-0041,single colony,MDR,R,R,R,R,S,TKK-01-0041,S,S,R,R,S,LIN 4,MDR,TKK-01-0041,n/a
+TKK-01-0042,22.0,Male,Negative,KZNSUR,39674.0,uThungulu,sputum,Positive,TKK-01-0042,single colony,MDR,S,R,S,R,S,TKK-01-0042,S,S,R,R,S,LIN 4,MDR,TKK-01-0042,n/a
+TKK-01-0043,32.0,Male,Positive,KZNSUR,39674.0,uThungulu,sputum,Positive,TKK-01-0043,single colony,MDR,S,R,S,R,S,TKK-01-0043,S,S,R,R,Beijing,LIN 2,MDR,TKK-01-0043,n/a
+TKK-01-0044,26.0,Male,unknown,KZNSUR,39674.0,uThungulu,sputum,Positive,TKK-01-0044,single colony,MDR,S,S,S,R,S,TKK-01-0044,S,S,R,S,LAM3,LIN 4,MDR,TKK-01-0044,n/a
+TKK-01-0045,25.0,Female,Positive,KZNSUR,39674.0,uThungulu,sputum,Positive,TKK-01-0045,single colony,MDR,S,S,S,R,S,TKK-01-0045,S,S,R,R,X3,LIN 4,MDR,TKK-01-0045,n/a
+TKK-01-0048,29.0,Female,Positive,KZNSUR,39839.0,uMkhanyakude,sputum,Positive,TKK-01-0048,single colony,MDR,S,R,R,R,S,TKK-01-0048,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0048,n/a
+TKK-01-0050,32.0,Female,Positive,KZNSUR,39954.0,uMkhanyakude,sputum,Negative,TKK-01-0050,single colony,MDR,S,R,R,R,S,TKK-01-0050,R,S,R,S,T1,LIN 4,MDR,TKK-01-0050,n/a
+TKK-01-0052,52.0,Female,Positive,KZNSUR,40015.0,uMgungundlovu,sputum,Positive,TKK-01-0052,single colony,poly,S,S,R,S,R,TKK-01-0052,S,S,S,S,LAM4,LIN 4,MDR,TKK-01-0052,n/a
+TKK-01-0055,49.0,Male,Positive,KZNSUR,40144.0,uThungulu,sputum,Negative,TKK-01-0055,single colony,MDR,S,S,S,R,S,TKK-01-0055,S,S,R,S,Beijing,LIN 2,MDR,TKK-01-0055,n/a
+TKK-01-0056,44.0,Male,Positive,KZNSUR,40144.0,uThungulu,sputum,Negative,TKK-01-0056,single colony,MDR,R,S,S,R,S,TKK-01-0056,S,S,R,S,Beijing,LIN 2,MDR,TKK-01-0056,n/a
+TKK-01-0057,24.0,Female,Positive,KZNSUR,40144.0,uThungulu,sputum,Negative,TKK-01-0057,single colony,MDR,S,R,S,R,S,TKK-01-0057,R,S,R,R,S,LIN 4,MDR,TKK-01-0057,n/a
+TKK-01-0061,50.0,Female,unknown,KZNSUR,40185.0,uThungulu,sputum,Negative,TKK-01-0061,single colony,MDR,S,R,S,R,S,TKK-01-0061,S,S,R,R,S,LIN 4,MDR,TKK-01-0061,n/a
+TKK-01-0062,18.0,Female,unknown,KZNSUR,40190.0,uThungulu,sputum,Negative,TKK-01-0062,single colony,MDR,R,R,R,R,R,TKK-01-0062,R,S,R,R,Beijing,LIN 2,MDR,TKK-01-0062,n/a
+TKK-01-0063,29.0,Female,Positive,KZNSUR,40190.0,uThungulu,sputum,Negative,TKK-01-0063,single colony,MDR,S,S,S,R,R,TKK-01-0063,S,S,R,S,LAM3,LIN 4,MDR,TKK-01-0063,n/a
+TKK-01-0064,32.0,Male,unknown,KZNSUR,40191.0,Zululand,sputum,Positive,TKK-01-0064,single colony,MDR,S,R,S,R,S,TKK-01-0064,R,S,R,R,S,LIN 4,MDR,TKK-01-0064,n/a
+TKK-01-0068,30.0,Female,Positive,KZNSUR,40196.0,uThungulu,sputum,Negative,TKK-01-0068,single colony,MDR,R,R,R,R,R,TKK-01-0068,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0068,n/a
+TKK-01-0069,53.0,Male,Negative,KZNSUR,40198.0,uThungulu,sputum,Positive,TKK-01-0069,single colony,MDR,R,R,R,R,S,TKK-01-0069,S,S,R,S,LAM4,LIN 4,MDR,TKK-01-0069,n/a
+TKK-01-0071,28.0,Female,Positive,KZNSUR,40212.0,uThungulu,sputum,Positive,TKK-01-0071,single colony,MDR,S,R,S,R,S,TKK-01-0071,R,S,R,S,LAM4,LIN 4,MDR,TKK-01-0071,n/a
+TKK-01-0074,34.0,Male,Positive,KZNSUR,40234.0,uThungulu,sputum,Positive,TKK-01-0074,single colony,MDR,S,R,R,R,S,TKK-01-0074,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0074,n/a
+TKK-01-0075,34.0,Female,unknown,KZNSUR,40235.0,uThungulu,sputum,Positive,TKK-01-0075,single colony,MDR,S,R,R,R,S,TKK-01-0075,R,S,R,R,LAM4,LIN 4,MDR,TKK-01-0075,n/a
+TKK_02_0010,30.0,Male,Negative,PROX,40280.0,eThekwini,sputum,Positive,TKK_02_0010,single colony,MDR,S,R,R,R,S,TKK_02_0010,R,R,R,R,Beijing,LIN 2,MDR,TKK_02_0010,n/a
+TKK_02_0018,52.0,Male,Positive,PROX,40340.0,uMzinyathi,sputum,Negative,TKK_02_0018,single colony,MDR,S,R,R,R,S,TKK_02_0018,R,R,R,R,T3,LIN 4,MDR,TKK_02_0018,n/a
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_02_0020,23.0,Male,Negative,PROX,40368.0,Ugu,sputum,Positive,TKK_02_0020,single colony,MDR,S,S,S,R,R,TKK_02_0020,S,S,R,R,LAM6,LIN 4,MDR,TKK_02_0020,n/a
+TKK_02_0023,23.0,Male,Positive,PROX,40357.0,uMkhanyakude,sputum,Positive,TKK_02_0023,single colony,MDR,S,R,R,R,S,TKK_02_0023,R,S,R,R,LAM4,LIN 4,MDR,TKK_02_0023,n/a
+TKK_02_0025,26.0,Female,Positive,PROX,40354.0,uThungulu,sputum,Positive,TKK_02_0025,single colony,MDR,S,R,R,R,S,TKK_02_0025,R,R,R,R,S,LIN 4,MDR,TKK_02_0025,n/a
+TKK_02_0042,45.0,Male,Positive,PROX,40571.0,iLembe,sputum,Positive,TKK_02_0042,single colony,MDR,S,R,R,R,S,TKK_02_0042,S,R,R,R,S,LIN 4,MDR,TKK_02_0042,n/a
+TKK_02_0047,50.0,Male,Negative,PROX,40599.0,eThekwini,sputum,Positive,TKK_02_0047,single colony,MDR,S,R,S,R,S,TKK_02_0047,R,S,R,R,LAM4,LIN 4,MDR,TKK_02_0047,n/a
+TKK_02_0062,20.0,Male,Negative,PROX,40869.0,eThekwini,sputum,Positive,TKK_02_0062,single colony,MDR,S,R,R,R,S,TKK_02_0062,R,R,R,R,CAS1-Kili,LIN 3,MDR,TKK_02_0062,n/a
+TKK_02_0065,33.0,Male,Positive,PROX,40891.0,eThekwini,sputum,Positive,TKK_02_0065,single colony,MDR,S,R,R,R,S,TKK_02_0065,R,S,R,R,LAM4,LIN 4,MDR,TKK_02_0065,n/a
+TKK_02_0066,38.0,Male,Positive,PROX,40869.0,eThekwini,sputum,Negative,TKK_02_0066,single colony,MDR,S,R,S,R,S,TKK_02_0066,S,S,R,R,S,LIN 4,MDR,TKK_02_0066,n/a
+TKK_02_0067,29.0,Male,Positive,PROX,40891.0,uThungulu,sputum,Positive,TKK_02_0067,single colony,MDR,S,R,R,R,R,TKK_02_0067,S,S,R,S,S,LIN 4,MDR,TKK_02_0067,n/a
+TKK_02_0068,34.0,Female,Positive,PROX,40869.0,iLembe,sputum,Positive,TKK_02_0068,single colony,MDR,S,R,R,R,R,TKK_02_0068,S,S,R,S,T3,LIN 4,MDR,TKK_02_0068,n/a
+TKK_02_0073,23.0,Female,Positive,PROX,40869.0,eThekwini,sputum,Positive,TKK_02_0073,single colony,MDR,S,R,R,R,S,TKK_02_0073,R,R,R,S,LAM4,LIN 4,MDR,TKK_02_0073,n/a
+TKK_02_0074,34.0,Female,Positive,PROX,40891.0,eThekwini,sputum,Negative,TKK_02_0074,single colony,MDR,S,R,S,R,S,TKK_02_0074,R,S,R,R,S,LIN 4,MDR,TKK_02_0074,n/a
+TKK_02_0076,40.0,Male,Positive,PROX,40869.0,eThekwini,sputum,Positive,TKK_02_0076,single colony,MDR,S,R,R,R,S,TKK_02_0076,R,S,R,R,LAM4,LIN 4,MDR,TKK_02_0076,n/a
+TKK_02_0079,24.0,Female,Positive,PROX,40925.0,eThekwini,sputum,Positive,TKK_02_0079,single colony,MDR,S,R,R,R,S,TKK_02_0079,S,R,R,R,LAM4,LIN 4,MDR,TKK_02_0079,n/a
+TKK_02_0080,58.0,Male,Negative,PROX,40925.0,iLembe,sputum,Positive,TKK_02_0080,single colony,MDR,S,R,S,R,S,TKK_02_0080,R,S,R,R,Beijing,LIN 2,MDR,TKK_02_0080,n/a
+TKK_04_0001,35.0,Female,unknown,NHLS,41352.0,uMgungundlovu,sputum,unknown,TKK_04_0001,single colony,poly,U,U,U,R,S,TKK_04_0001,U,S,S,R,Beijing,LIN 2,MDR,TKK_04_0001,n/a
+TKK_04_0002,47.0,Male,unknown,NHLS,41352.0,eThekwini,sputum,unknown,TKK_04_0002,single colony,poly,U,U,U,R,S,TKK_04_0002,U,S,S,R,T1,LIN 4,MDR,TKK_04_0002,n/a
+TKK_04_0005,27.0,Female,unknown,NHLS,41351.0,eThekwini,sputum,Positive,TKK_04_0005,single colony,poly,U,U,U,R,S,TKK_04_0005,U,R,S,R,EAI1-SOM,LIN 1,MDR,TKK_04_0005,n/a
+TKK_04_0007,unknown,Female,unknown,NHLS,41346.0,eThekwini,sputum,Negative,TKK_04_0007,single colony,MDR,U,U,U,R,S,TKK_04_0007,U,R,R,S,S,LIN 4,MDR,TKK_04_0007,n/a
+TKK_04_0008,unknown,Female,unknown,NHLS,41294.0,eThekwini,sputum,Positive,TKK_04_0008,single colony,MDR,U,U,U,R,S,TKK_04_0008,U,R,R,R,S,LIN 4,MDR,TKK_04_0008,n/a
+TKK_04_0017,30.0,Female,unknown,NHLS,41347.0,eThekwini,sputum,unknown,TKK_04_0017,single colony,poly,U,U,U,R,S,TKK_04_0017,U,S,S,R,Beijing,LIN 2,MDR,TKK_04_0017,n/a
+TKK_04_0019,50.0,Female,unknown,NHLS,41345.0,Zululand,sputum,unknown,TKK_04_0019,single colony,MDR,U,U,U,R,S,TKK_04_0019,U,S,R,R,Beijing,LIN 2,MDR,TKK_04_0019,n/a
+TKK_04_0020,27.0,Female,unknown,NHLS,41351.0,eThekwini,sputum,Positive,TKK_04_0020,single colony,MDR,U,U,U,R,S,TKK_04_0020,U,R,R,R,EAI1-SOM,LIN 1,MDR,TKK_04_0020,n/a
+TKK_04_0021,40.0,Male,unknown,NHLS,41305.0,eThekwini,pleura,Positive,TKK_04_0021,single colony,MDR,U,U,U,R,S,TKK_04_0021,U,S,R,R,S,LIN 4,MDR,TKK_04_0021,n/a
+TKK_04_0022,39.0,Male,unknown,NHLS,41325.0,uMgungundlovu,sputum,unknown,TKK_04_0022,single colony,MDR,U,U,U,R,S,TKK_04_0022,U,S,R,R,X3,LIN 4,MDR,TKK_04_0022,n/a
+TKK_04_0023,19.0,Male,unknown,NHLS,41311.0,eThekwini,sputum,unknown,TKK_04_0023,single colony,MDR,U,U,U,R,S,TKK_04_0023,U,S,R,R,Beijing,LIN 2,MDR,TKK_04_0023,n/a
+TKK_04_0024,33.0,Male,unknown,NHLS,41337.0,eThekwini,sputum,Positive,TKK_04_0024,single colony,MDR,U,U,U,R,S,TKK_04_0024,U,S,R,R,S,LIN 4,MDR,TKK_04_0024,n/a
+TKK_04_0034,unknown,Male,unknown,NHLS,41369.0,eThekwini,sputum,unknown,TKK_04_0034,single colony,MDR,U,U,U,R,S,TKK_04_0034,U,R,R,R,X3,LIN 4,MDR,TKK_04_0034,n/a
+TKK_04_0036,40.0,Female,unknown,NHLS,41388.0,uMkhanyakude,sputum,unknown,TKK_04_0036,single colony,MDR,U,U,U,R,S,TKK_04_0036,U,R,R,R,S,LIN 4,MDR,TKK_04_0036,n/a
+TKK_04_0037,37.0,Male,unknown,NHLS,41368.0,Ugu,sputum,unknown,TKK_04_0037,single colony,MDR,U,U,U,R,S,TKK_04_0037,U,R,R,R,S,LIN 4,MDR,TKK_04_0037,n/a
+TKK_04_0038,17.0,Male,unknown,NHLS,41372.0,eThekwini,sputum,Positive,TKK_04_0038,single colony,MDR,U,U,U,R,S,TKK_04_0038,U,R,R,R,LAM4,LIN 4,MDR,TKK_04_0038,n/a
+TKK_04_0039,33.0,Female,unknown,NHLS,41368.0,eThekwini,sputum,unknown,TKK_04_0039,single colony,MDR,U,U,U,R,S,TKK_04_0039,U,R,R,R,LAM4,LIN 4,MDR,TKK_04_0039,n/a
+TKK_04_0040,19.0,Female,unknown,NHLS,41374.0,Zululand,sputum,unknown,TKK_04_0040,single colony,poly,U,U,U,R,S,TKK_04_0040,U,R,S,R,X2,LIN 4,MDR,TKK_04_0040,n/a
+TKK_04_0042,41.0,Female,unknown,NHLS,41381.0,eThekwini,sputum,unknown,TKK_04_0042,single colony,MDR,U,U,U,R,S,TKK_04_0042,U,R,R,R,S,LIN 4,MDR,TKK_04_0042,n/a
+TKK_04_0043,35.0,Female,unknown,NHLS,41386.0,eThekwini,Sputum,Positive,TKK_04_0043,single colony,MDR,U,U,U,R,R,TKK_04_0043,U,S,R,S,LAM4,LIN 4,MDR,TKK_04_0043,n/a
+TKK_04_0044,16.0,Female,unknown,NHLS,41309.0,eThekwini,sputum,unknown,TKK_04_0044,single colony,MDR,U,U,U,R,S,TKK_04_0044,U,R,R,R,LAM3,LIN 4,MDR,TKK_04_0044,n/a
+TKK_04_0045,35.0,Male,unknown,NHLS,41372.0,uMkhanyakude,sputum,unknown,TKK_04_0045,single colony,MDR,U,U,U,R,S,TKK_04_0045,U,R,R,R,S,LIN 4,MDR,TKK_04_0045,n/a
+TKK_04_0046,22.0,Female,unknown,NHLS,41368.0,uMkhanyakude,sputum,unknown,TKK_04_0046,single colony,MDR,U,U,U,R,S,TKK_04_0046,U,R,R,R,S,LIN 4,MDR,TKK_04_0046,n/a
+TKK_04_0047,unknown,Female,unknown,NHLS,41379.0,Sisonke,sputum,unknown,TKK_04_0047,single colony,poly,U,U,U,R,R,TKK_04_0047,U,S,S,S,LAM3,LIN 4,MDR,TKK_04_0047,n/a
+TKK_04_0048,31.0,Female,unknown,NHLS,41381.0,uMkhanyakude,sputum,unknown,TKK_04_0048,single colony,MDR,U,U,U,R,R,TKK_04_0048,U,S,R,R,LAM4,LIN 4,MDR,TKK_04_0048,n/a
+TKK_04_0051,38.0,Male,unknown,NHLS,41421.0,iLembe,sputum,unknown,TKK_04_0051,single colony,MDR,U,U,U,R,S,TKK_04_0051,U,R,R,R,LAM4,LIN 4,MDR,TKK_04_0051,n/a
+TKK_04_0054,27.0,Male,unknown,NHLS,40677.0,uThungulu,sputum,unknown,TKK_04_0054,single colony,MDR,U,U,U,R,S,TKK_04_0054,U,R,R,R,Beijing,LIN 2,MDR,TKK_04_0054,n/a
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_04_0059,67.0,Male,unknown,NHLS,41325.0,Zululand,sputum,Positive,TKK_04_0059,single colony,MDR,U,U,U,R,S,TKK_04_0059,U,R,R,R,LAM4,LIN 4,MDR,TKK_04_0059,n/a
+TKK_04_0060,18.0,Female,unknown,NHLS,41428.0,eThekwini,sputum,unknown,TKK_04_0060,single colony,MDR,U,U,U,R,S,TKK_04_0060,U,R,R,S,LAM4,LIN 4,MDR,TKK_04_0060,n/a
+TKK_04_0061,49.0,Female,unknown,NHLS,41417.0,uMzinyathi,sputum,unknown,TKK_04_0061,single colony,MDR,U,U,U,R,S,TKK_04_0061,U,R,R,R,T1,LIN 4,MDR,TKK_04_0061,n/a
+TKK_04_0062,29.0,Female,unknown,NHLS,41411.0,uMkhanyakude,sputum,unknown,TKK_04_0062,single colony,MDR,U,U,U,R,S,TKK_04_0062,U,R,R,S,LAM4,LIN 4,MDR,TKK_04_0062,n/a
+TKK_04_0067,37.0,Male,unknown,NHLS,41423.0,uMkhanyakude,sputum,Positive,TKK_04_0067,single colony,MDR,U,U,U,R,S,TKK_04_0067,U,R,R,S,S,LIN 4,MDR,TKK_04_0067,n/a
+TKK_04_0068,25.0,Female,unknown,NHLS,41221.0,Zululand,sputum,unknown,TKK_04_0068,single colony,MDR,U,U,U,R,S,TKK_04_0068,U,R,R,R,AMBIGOUS:T2 X1 ,LIN 4,MDR,TKK_04_0068,n/a
+TKK_04_0069,19.0,Female,unknown,NHLS,41473.0,eThekwini,sputum,Positive,TKK_04_0069,single colony,MDR,U,U,U,R,S,TKK_04_0069,U,R,R,R,X2,LIN 4,MDR,TKK_04_0069,n/a
+TKK_04_0070,31.0,Female,unknown,NHLS,41404.0,iLembe,pus,unknown,TKK_04_0070,single colony,MDR,U,U,U,R,S,TKK_04_0070,U,R,R,S,LAM4,LIN 4,MDR,TKK_04_0070,n/a
+TKK_04_0071,21.0,Male,unknown,NHLS,41466.0,eThekwini,sputum,Negative,TKK_04_0071,single colony,MDR,U,U,U,R,S,TKK_04_0071,U,R,R,R,X3,LIN 4,MDR,TKK_04_0071,n/a
+TKK_04_0074,29.0,Female,unknown,NHLS,41464.0,uMzinyathi,sputum,unknown,TKK_04_0074,single colony,MDR,U,U,U,R,S,TKK_04_0074,U,R,R,R,S,LIN 4,MDR,TKK_04_0074,n/a
+TKK_04_0075,33.0,Male,unknown,NHLS,41473.0,iLembe,sputum,unknown,TKK_04_0075,single colony,MDR,U,U,U,R,S,TKK_04_0075,U,R,R,R,T1,LIN 4,MDR,TKK_04_0075,n/a
+TKK_04_0081,unknown,Female,unknown,NHLS,41466.0,Ugu,sputum,unknown,TKK_04_0081,single colony,MDR,U,U,U,R,S,TKK_04_0081,U,S,R,R,LAM4,LIN 4,MDR,TKK_04_0081,n/a
+TKK_04_0082,14.0,Female,unknown,NHLS,41459.0,eThekwini,sputum,unknown,TKK_04_0082,single colony,mono,U,U,U,R,S,TKK_04_0082,U,S,S,S,LAM4,LIN 4,MDR,TKK_04_0082,n/a
+TKK_04_0086,27.0,Female,unknown,NHLS,41479.0,uMzinyathi,sputum,Positive,TKK_04_0086,single colony,mono,U,U,U,R,S,TKK_04_0086,U,S,S,S,Beijing,LIN 2,MDR,TKK_04_0086,n/a
+TKK_04_0090,32.0,Male,unknown,NHLS,41479.0,Sisonke,sputum,unknown,TKK_04_0090,single colony,mono,U,U,U,S,S,TKK_04_0090,U,S,R,S,LAM4,LIN 4,MDR,TKK_04_0090,n/a
+TKK_04_0095,34.0,Female,unknown,NHLS,41469.0,uMgungundlovu,sputum,unknown,TKK_04_0095,single colony,MDR,U,U,U,R,S,TKK_04_0095,U,S,R,R,LAM4,LIN 4,MDR,TKK_04_0095,n/a
+TKK_04_0096,43.0,Female,unknown,NHLS,41481.0,uMgungundlovu,sputum,unknown,TKK_04_0096,single colony,MDR,U,U,U,R,S,TKK_04_0096,U,S,R,R,LAM4,LIN 4,MDR,TKK_04_0096,n/a
+TKK_04_0097,31.0,Female,unknown,NHLS,41465.0,Zululand,sputum,Negative,TKK_04_0097,single colony,MDR,U,U,U,R,S,TKK_04_0097,U,S,R,S,LAM4,LIN 4,MDR,TKK_04_0097,n/a
+TKK_04_0125,22.0,Female,unknown,NHLS,41470.0,eThekwini,sputum,Negative,TKK_04_0125,single colony,MDR,U,U,U,R,R,TKK_04_0125,U,S,R,R,T1,LIN 4,MDR,TKK_04_0125,n/a
+TKK_04_0126,28.0,Male,unknown,NHLS,41487.0,eThekwini,Sputum,unknown,TKK_04_0126,single colony,MDR,U,U,U,R,R,TKK_04_0126,U,S,R,R,Beijing,LIN 2,MDR,TKK_04_0126,n/a
+TKK_04_0130,36.0,Male,unknown,NHLS,41485.0,uMkhanyakude,sputum,Positive,TKK_04_0130,single colony,MDR,U,U,U,R,S,TKK_04_0130,U,S,R,R,LAM4,LIN 4,MDR,TKK_04_0130,n/a
+TKK_04_0131,26.0,Female,unknown,NHLS,41478.0,iLembe,sputum,unknown,TKK_04_0131,single colony,MDR,U,U,U,R,R,TKK_04_0131,U,S,R,R,Beijing,LIN 2,MDR,TKK_04_0131,n/a
+TKK_04_0134,28.0,Male,unknown,NHLS,41480.0,uThungulu,sputum,unknown,TKK_04_0134,single colony,poly,U,U,U,R,S,TKK_04_0134,U,S,S,R,Beijing,LIN 2,MDR,TKK_04_0134,n/a
+TKK_04_0136,41.0,Female,unknown,NHLS,41494.0,eThekwini,sputum,Positive,TKK_04_0136,single colony,poly,U,U,U,R,S,TKK_04_0136,U,S,S,R,Beijing,LIN 2,MDR,TKK_04_0136,n/a
+TKK_04_0139,30.0,Female,unknown,NHLS,41491.0,eThekwini,sputum,unknown,TKK_04_0139,single colony,MDR,U,U,U,R,S,TKK_04_0139,U,S,R,R,CAS1-Kili,LIN 3,MDR,TKK_04_0139,n/a
+TKK_04_0141,40.0,Male,unknown,NHLS,41465.0,uMgungundlovu,sputum,Negative,TKK_04_0141,single colony,MDR,U,U,U,R,S,TKK_04_0141,U,S,R,S,LAM4,LIN 4,MDR,TKK_04_0141,n/a
+TKK_04_0145,36.0,Male,unknown,NHLS,41509.0,uMkhanyakude,sputum,unknown,TKK_04_0145,single colony,MDR,U,U,U,R,S,TKK_04_0145,U,S,R,R,LAM4,LIN 4,MDR,TKK_04_0145,n/a
+TKK_04_0150,unknown,Male,unknown,NHLS,41486.0,Sisonke,sputum,Negative,TKK_04_0150,single colony,MDR,U,U,U,R,S,TKK_04_0150,U,S,R,S,LAM4,LIN 4,MDR,TKK_04_0150,n/a
+TKK_04_0153,unknown,Female,unknown,NHLS,41509.0,eThekwini,sputum,Negative,TKK_04_0153,single colony,poly,U,U,U,R,S,TKK_04_0153,U,S,S,R,LAM9,LIN 4,MDR,TKK_04_0153,n/a
+TKK_04_0157,36.0,Male,unknown,NHLS,41509.0,uMkhanyakude,sputum,Positive,TKK_04_0157,single colony,MDR,U,U,U,R,S,TKK_04_0157,U,S,R,S,LAM4,LIN 4,MDR,TKK_04_0157,n/a
+TKK_04_0159,52.0,Male,unknown,NHLS,41500.0,Sisonke,sputum,unknown,TKK_04_0159,single colony,mono,U,U,U,R,S,TKK_04_0159,U,S,S,S,Beijing,LIN 2,MDR,TKK_04_0159,n/a
+TKK_05MA_0004,18.0,Female,Negative,CUBS,41418.0,eThekwini,sputum,Positive,TKK_05MA_0004,non-single colony,MDR,U,R,U,R,S,TKK_05MA_0004,U,S,R,R,S,LIN 4,MDR,TKK_05MA_0004,n/a
+TKK_05MA_0009,37.0,Male,Positive,CUBS,41423.0,eThekwini,sputum,Positive,TKK_05MA_0009,non-single colony,MDR,U,S,U,R,S,TKK_05MA_0009,U,S,R,S,S,LIN 4,MDR,TKK_05MA_0009,n/a
+TKK_05MA_0033,28.0,Female,Positive,CUBS,41453.0,eThekwini,sputum,Positive,TKK_05MA_0033,non-single colony,MDR,U,R,U,R,S,TKK_05MA_0033,U,S,R,R,S,LIN 4,MDR,TKK_05MA_0033,n/a
+TKK_05MA_0035,37.0,Male,Positive,CUBS,41458.0,eThekwini,sputum,Positive,TKK_05MA_0035,non-single colony,MDR,U,R,U,R,S,TKK_05MA_0035,U,S,R,R,S,LIN 4,MDR,TKK_05MA_0035,n/a
+TKK_05MA_0037,24.0,Female,Positive,CUBS,41459.0,eThekwini,sputum,Positive,TKK_05MA_0037,non-single colony,MDR,U,R,U,R,S,TKK_05MA_0037,U,S,R,S,LAM9,LIN 4,MDR,TKK_05MA_0037,n/a
+TKK_05MA_0040,34.0,Male,Positive,CUBS,41465.0,eThekwini,sputum,Negative,TKK_05MA_0040,non-single colony,MDR,U,R,U,R,S,TKK_05MA_0040,U,S,R,S,S,LIN 4,MDR,TKK_05MA_0040,n/a
+TKK_05MA_0051,21.0,Female,Negative,CUBS,41473.0,eThekwini,sputum,Positive,TKK_05MA_0051,non-single colony,MDR,U,R,U,R,S,TKK_05MA_0051,U,S,R,S,LAM4,LIN 4,MDR,TKK_05MA_0051,n/a
+TKK_05SA_0010,47.0,Male,Positive,CUBS,41423.0,eThekwini,sputum,Negative,TKK_05SA_0010,single colony,MDR,U,S,U,R,S,TKK_05SA_0010,U,S,R,R,LAM3,LIN 4,MDR,TKK_05SA_0010,n/a
+TKK_05SA_0011,27.0,Male,Negative,CUBS,41425.0,eThekwini,sputum,Positive,TKK_05SA_0011,single colony,MDR,U,U,U,R,S,TKK_05SA_0011,U,S,R,S,LAM4,LIN 4,MDR,TKK_05SA_0011,n/a
+TKK_05SA_0014,39.0,Male,Positive,CUBS,41430.0,iLembe,sputum,Positive,TKK_05SA_0014,single colony,MDR,U,S,U,R,S,TKK_05SA_0014,U,S,R,S,LAM4,LIN 4,MDR,TKK_05SA_0014,n/a
+TKK_05SA_0020,31.0,Male,Positive,CUBS,41437.0,eThekwini,sputum,Positive,TKK_05SA_0020,single colony,MDR,U,R,U,R,S,TKK_05SA_0020,U,S,R,S,T1,LIN 4,MDR,TKK_05SA_0020,n/a
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_05SA_0025,42.0,Male,Positive,CUBS,41444.0,eThekwini,sputum,Positive,TKK_05SA_0025,single colony,MDR,U,S,U,R,S,TKK_05SA_0025,U,S,R,R,LAM3,LIN 4,MDR,TKK_05SA_0025,n/a
+TKK_05SA_0041,26.0,Female,Positive,CUBS,41466.0,eThekwini,sputum,Positive,TKK_05SA_0041,single colony,MDR,U,R,U,R,S,TKK_05SA_0041,U,S,R,R,"T3,T1",LIN 4,MDR,TKK_05SA_0041,n/a
+TKK_05SA_0042,38.0,Male,Positive,CUBS,41467.0,iLembe,sputum,Positive,TKK_05SA_0042,single colony,MDR,U,S,U,R,S,TKK_05SA_0042,U,R,R,S,LAM4,LIN 4,MDR,TKK_05SA_0042,n/a
+TKK_05SA_0044,32.0,Male,Positive,CUBS,41470.0,eThekwini,sputum,Positive,TKK_05SA_0044,single colony,MDR,U,S,U,R,S,TKK_05SA_0044,U,S,R,R,T3,LIN 4,MDR,TKK_05SA_0044,n/a
+TKK_05SA_0048,52.0,Male,Positive,CUBS,41472.0,eThekwini,sputum,Positive,TKK_05SA_0048,single colony,MDR,U,S,U,R,S,TKK_05SA_0048,U,S,R,S,LAM4,LIN 4,MDR,TKK_05SA_0048,n/a
+TKK_05SA_0050,44.0,Female,Positive,CUBS,41473.0,eThekwini,sputum,Positive,TKK_05SA_0050,single colony,MDR,U,S,U,R,S,TKK_05SA_0050,U,S,R,S,CAS1-Kili,LIN 3,MDR,TKK_05SA_0050,n/a
+TKK_05SA_0052,44.0,Male,Positive,CUBS,41473.0,eThekwini,sputum,Positive,TKK_05SA_0052,single colony,MDR,U,S,U,R,S,TKK_05SA_0052,U,S,R,S,Beijing,LIN 2,MDR,TKK_05SA_0052,n/a
+TKK_05SA_0054,36.0,Male,Positive,CUBS,41477.0,eThekwini,sputum,Positive,TKK_05SA_0054,single colony,MDR,U,R,U,R,S,TKK_05SA_0054,U,S,R,R,T1,LIN 4,MDR,TKK_05SA_0054,n/a
+TKK_05SA_0055,35.0,Male,Positive,CUBS,41479.0,eThekwini,sputum,Positive,TKK_05SA_0055,single colony,MDR,U,S,U,R,S,TKK_05SA_0055,U,S,R,R,LAM4,LIN 4,MDR,TKK_05SA_0055,n/a
+TKK-01-0005,14.0,Female,unknown,KZNSUR,39486.0,eThekwini,sputum,Negative,TKK-01-0005,single colony,poly,S,S,R,R,S,TKK-01-0005,S,S,S,R,Beijing,LIN 2,Drug-resistant (other),TKK-01-0005,n/a
+TKK-01-0008,27.0,Female,Positive,KZNSUR,39496.0,eThekwini,sputum,Negative,TKK-01-0008,single colony,mono,S,S,S,S,S,TKK-01-0008,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK-01-0008,n/a
+TKK-01-0010,57.0,Male,unknown,KZNSUR,39497.0,eThekwini,sputum,Positive,TKK-01-0010,single colony,poly,S,S,S,R,S,TKK-01-0010,S,S,S,R,LAM3,LIN 4,Drug-resistant (other),TKK-01-0010,n/a
+TKK-01-0018,35.0,Male,unknown,KZNSUR,39517.0,Sisonke,sputum,Positive,TKK-01-0018,single colony,poly,S,S,S,R,S,TKK-01-0018,R,S,S,R,CAS1-Kili,LIN 3,Drug-resistant (other),TKK-01-0018,n/a
+TKK-01-0024,69.0,Female,Positive,KZNSUR,39540.0,Uthukela,sputum,Positive,TKK-01-0024,single colony,MDR,S,S,S,R,S,TKK-01-0024,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK-01-0024,n/a
+TKK-01-0034,35.0,Male,unknown,KZNSUR,39608.0,Sisonke,sputum,Positive,TKK-01-0034,single colony,poly,S,S,S,R,S,TKK-01-0034,S,S,S,R,X3,LIN 4,Drug-resistant (other),TKK-01-0034,n/a
+TKK-01-0036,22.0,Female,Positive,KZNSUR,39646.0,eThekwini,sputum,Positive,TKK-01-0036,single colony,mono,S,S,S,S,S,TKK-01-0036,S,S,S,R,LAM4,LIN 4,Drug-resistant (other),TKK-01-0036,n/a
+TKK-01-0037,39.0,Female,Positive,KZNSUR,39651.0,eThekwini,sputum,Negative,TKK-01-0037,single colony,mono,S,S,S,R,S,TKK-01-0037,S,S,S,S,T5-RUS1,LIN 4,Drug-resistant (other),TKK-01-0037,n/a
+TKK-01-0046,31.0,Male,Positive,KZNSUR,39701.0,Sisonke,sputum,Positive,TKK-01-0046,single colony,poly,S,S,S,R,S,TKK-01-0046,S,S,S,R,Beijing,LIN 2,Drug-resistant (other),TKK-01-0046,n/a
+TKK-01-0049,34.0,Male,Negative,KZNSUR,39926.0,uMkhanyakude,sputum,Negative,TKK-01-0049,single colony,mono,S,S,S,R,S,TKK-01-0049,S,S,S,S,LAM3,LIN 4,Drug-resistant (other),TKK-01-0049,n/a
+TKK-01-0053,26.0,Male,Positive,KZNSUR,40036.0,uMgungundlovu,sputum,Negative,TKK-01-0053,single colony,susceptible,S,S,S,S,S,TKK-01-0053,S,S,S,S,H1,LIN 4,Drug-resistant (other),TKK-01-0053,n/a
+TKK-01-0060,24.0,Female,unknown,KZNSUR,40184.0,uThungulu,sputum,Negative,TKK-01-0060,single colony,poly,R,S,S,R,S,TKK-01-0060,S,S,S,S,LAM3,LIN 4,Drug-resistant (other),TKK-01-0060,n/a
+TKK-01-0065,37.0,Female,unknown,KZNSUR,40192.0,uThungulu,sputum,Negative,TKK-01-0065,single colony,mono,S,S,S,R,S,TKK-01-0065,R,S,S,S,Beijing,LIN 2,Drug-resistant (other),TKK-01-0065,n/a
+TKK-01-0067,35.0,Female,unknown,KZNSUR,40196.0,uThungulu,sputum,Negative,TKK-01-0067,single colony,mono,S,S,S,S,S,TKK-01-0067,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK-01-0067,n/a
+TKK-01-0070,26.0,Female,Positive,KZNSUR,40211.0,Zululand,sputum,Negative,TKK-01-0070,single colony,MDR,S,R,R,R,S,TKK-01-0070,S,S,R,R,EAI1-SOM,LIN 1,Drug-resistant (other),TKK-01-0070,n/a
+TKK-01-0073,52.0,Female,Positive,KZNSUR,40232.0,uThungulu,sputum,Negative,TKK-01-0073,single colony,MDR,S,R,R,R,S,TKK-01-0073,R,S,R,R,LAM4,LIN 4,Drug-resistant (other),TKK-01-0073,n/a
+TKK-01-0077,20.0,Male,unknown,KZNSUR,40241.0,uThungulu,sputum,Negative,TKK-01-0077,single colony,mono,S,S,S,S,S,TKK-01-0077,S,S,S,R,LAM3,LIN 4,Drug-resistant (other),TKK-01-0077,n/a
+TKK-01-0078,30.0,Male,Positive,KZNSUR,40246.0,uThungulu,sputum,Positive,TKK-01-0078,single colony,mono,S,S,S,S,S,TKK-01-0078,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK-01-0078,n/a
+TKK-01-0080,33.0,Male,Positive,KZNSUR,40254.0,uThungulu,sputum,Negative,TKK-01-0080,single colony,poly,S,R,S,S,S,TKK-01-0080,S,S,R,R,EAI1-SOM,LIN 1,Drug-resistant (other),TKK-01-0080,n/a
+TKK_02_0046,27.0,Female,Positive,PROX,40585.0,eThekwini,sputum,Negative,TKK_02_0046,single colony,poly,S,S,S,S,S,TKK_02_0046,R,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK_02_0046,n/a
+TKK_03_0023,47.0,Male,Positive,Phage,41289.0,eThekwini,sputum,Negative,TKK_03_0023,single colony,susceptible,U,S,U,S,S,TKK_03_0023,U,S,S,S,LAM3,LIN 4,Drug-resistant (other),TKK_03_0023,n/a
+TKK_03_0024,38.0,Male,unknown,Phage,41289.0,eThekwini,sputum,Negative,TKK_03_0024,single colony,poly,U,S,U,R,S,TKK_03_0024,U,S,S,R,LAM3,LIN 4,Drug-resistant (other),TKK_03_0024,n/a
+TKK_03_0031,33.0,Male,unknown,Phage,41296.0,eThekwini,sputum,Positive,TKK_03_0031,single colony,susceptible,U,S,U,S,S,TKK_03_0031,U,S,S,S,Beijing,LIN 2,Drug-resistant (other),TKK_03_0031,n/a
+TKK_03_0064,51.0,Male,Positive,Phage,41346.0,eThekwini,sputum,Positive,TKK_03_0064,single colony,susceptible,U,S,U,S,S,TKK_03_0064,U,S,R,S,LAM3,LIN 4,Drug-resistant (other),TKK_03_0064,n/a
+TKK_03_0101,22.0,Female,Negative,Phage,41380.0,eThekwini,sputum,Positive,TKK_03_0101,non-single colony,mono,U,S,U,R,S,TKK_03_0101,U,S,S,S,H1,LIN 4,Drug-resistant (other),TKK_03_0101,n/a
+TKK_04_0003,28.0,Male,unknown,NHLS,41344.0,eThekwini,sputum,unknown,TKK_04_0003,single colony,mono,U,U,U,R,S,TKK_04_0003,U,S,S,S,EAI1-SOM,LIN 1,Drug-resistant (other),TKK_04_0003,n/a
+TKK_04_0006,18.0,Female,unknown,NHLS,41326.0,eThekwini,sputum,unknown,TKK_04_0006,single colony,MDR,U,U,U,R,S,TKK_04_0006,U,S,R,R,Beijing,LIN 2,Drug-resistant (other),TKK_04_0006,n/a
+TKK_04_0013,28.0,Female,unknown,NHLS,41347.0,Zululand,sputum,unknown,TKK_04_0013,single colony,MDR,U,U,U,R,S,TKK_04_0013,U,R,R,R,LAM4,LIN 4,Drug-resistant (other),TKK_04_0013,n/a
+TKK_04_0014,21.0,Male,unknown,NHLS,41320.0,eThekwini,sputum,Negative,TKK_04_0014,single colony,mono,U,U,U,S,S,TKK_04_0014,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK_04_0014,n/a
+TKK_04_0015,34.0,Male,unknown,NHLS,41338.0,eThekwini,sputum,Positive,TKK_04_0015,single colony,mono,U,U,U,S,S,TKK_04_0015,U,S,R,S,LAM3,LIN 4,Drug-resistant (other),TKK_04_0015,n/a
+TKK_04_0064,42.0,Male,unknown,NHLS,41429.0,Ugu,sputum,unknown,TKK_04_0064,single colony,MDR,U,U,U,R,S,TKK_04_0064,U,R,R,S,LAM4,LIN 4,Drug-resistant (other),TKK_04_0064,n/a
+TKK_04_0066,26.0,Female,unknown,NHLS,41415.0,Zululand,sputum,unknown,TKK_04_0066,single colony,MDR,U,U,U,R,S,TKK_04_0066,U,R,R,R,LAM4,LIN 4,Drug-resistant (other),TKK_04_0066,n/a
+TKK_04_0078,26.0,Female,unknown,NHLS,41460.0,Zululand,sputum,unknown,TKK_04_0078,single colony,MDR,U,U,U,R,S,TKK_04_0078,U,R,R,S,LAM4,LIN 4,Drug-resistant (other),TKK_04_0078,n/a
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_04_0080,29.0,Female,unknown,NHLS,41459.0,Zululand,sputum,Positive,TKK_04_0080,single colony,MDR,U,U,U,R,S,TKK_04_0080,U,S,R,R,CAS,LIN 3,Drug-resistant (other),TKK_04_0080,n/a
+TKK_04_0083,42.0,Male,unknown,NHLS,41460.0,Ugu,sputum,unknown,TKK_04_0083,single colony,MDR,U,U,U,R,S,TKK_04_0083,U,R,R,R,LAM4,LIN 4,Drug-resistant (other),TKK_04_0083,n/a
+TKK_04_0084,54.0,Male,unknown,NHLS,41479.0,uThungulu,sputum,unknown,TKK_04_0084,single colony,MDR,U,U,U,R,S,TKK_04_0084,U,S,R,R,Beijing,LIN 2,Drug-resistant (other),TKK_04_0084,n/a
+TKK_04_0085,22.0,Female,unknown,NHLS,41496.0,eThekwini,sputum,Positive,TKK_04_0085,single colony,MDR,U,U,U,R,S,TKK_04_0085,U,S,R,R,EAI1-SOM,LIN 1,Drug-resistant (other),TKK_04_0085,n/a
+TKK_04_0089,43.0,Male,unknown,NHLS,41458.0,iLembe,sputum,unknown,TKK_04_0089,single colony,mono,U,U,U,R,R,TKK_04_0089,U,S,S,S,Beijing,LIN 2,Drug-resistant (other),TKK_04_0089,n/a
+TKK_04_0094,15.0,Female,unknown,NHLS,41466.0,uMzinyathi,sputum,unknown,TKK_04_0094,single colony,MDR,U,U,U,R,S,TKK_04_0094,U,S,R,S,LAM3,LIN 4,Drug-resistant (other),TKK_04_0094,n/a
+TKK_04_0098,32.0,Male,unknown,NHLS,41480.0,Zululand,sputum,unknown,TKK_04_0098,single colony,MDR,U,U,U,R,S,TKK_04_0098,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK_04_0098,n/a
+TKK_04_0099,8.0,Female,unknown,NHLS,41457.0,Zululand,sputum,unknown,TKK_04_0099,single colony,MDR,U,U,U,R,S,TKK_04_0099,U,S,R,S,LAM4,LIN 4,Drug-resistant (other),TKK_04_0099,n/a
+TKK_04_0140,18.0,Female,unknown,NHLS,41493.0,eThekwini,sputum,unknown,TKK_04_0140,single colony,MDR,U,U,U,R,R,TKK_04_0140,U,S,R,R,LAM3,LIN 4,Drug-resistant (other),TKK_04_0140,n/a
+TKK_04_0148,41.0,Female,unknown,NHLS,41494.0,eThekwini,sputum,unknown,TKK_04_0148,single colony,susceptible,U,U,U,S,S,TKK_04_0148,U,S,S,S,CAS1-Delhi,LIN 3,Drug-resistant (other),TKK_04_0148,n/a
+TKK_04_0149,56.0,Female,unknown,NHLS,41471.0,Zululand,sputum,unknown,TKK_04_0149,single colony,susceptible,U,U,U,S,S,TKK_04_0149,U,S,S,S,Beijing,LIN 2,Drug-resistant (other),TKK_04_0149,n/a
+TKK_04_0155,39.0,Female,unknown,NHLS,41494.0,Sisonke,sputum,unknown,TKK_04_0155,single colony,MDR,U,U,U,R,S,TKK_04_0155,U,S,R,S,T1,LIN 4,Drug-resistant (other),TKK_04_0155,n/a
+TKK_04_0158,unknown,Male,unknown,NHLS,41490.0,eThekwini,CSF,unknown,TKK_04_0158,single colony,MDR,U,U,U,R,S,TKK_04_0158,U,S,R,R,LAM4,LIN 4,Drug-resistant (other),TKK_04_0158,n/a
+TKK_05SA_0019,31.0,Male,Positive,CUBS,41436.0,eThekwini,sputum,Positive,TKK_05SA_0019,single colony,mono,U,S,U,S,S,TKK_05SA_0019,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK_05SA_0019,n/a
+TKK_05SA_0021,30.0,Male,Positive,CUBS,41437.0,eThekwini,sputum,Positive,TKK_05SA_0021,single colony,susceptible,U,S,U,S,S,TKK_05SA_0021,U,S,S,S,X3,LIN 4,Drug-resistant (other),TKK_05SA_0021,n/a
+TKK_05SA_0024,36.0,Male,Positive,CUBS,41444.0,eThekwini,sputum,Positive,TKK_05SA_0024,single colony,susceptible,U,S,U,S,S,TKK_05SA_0024,U,S,S,S,LAM3,LIN 4,Drug-resistant (other),TKK_05SA_0024,n/a
+TKK_05SA_0046,31.0,Female,Positive,CUBS,41470.0,eThekwini,sputum,Positive,TKK_05SA_0046,single colony,mono,U,S,U,S,S,TKK_05SA_0046,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),TKK_05SA_0046,n/a
+TKK-01-0002,23.0,Female,unknown,KZNSUR,39469.0,eThekwini,sputum,Positive,TKK-01-0002,single colony,susceptible,S,S,S,S,S,TKK-01-0002,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0002,n/a
+TKK-01-0003,38.0,Female,unknown,KZNSUR,39475.0,eThekwini,sputum,Negative,TKK-01-0003,single colony,mono,S,S,S,S,S,TKK-01-0003,S,S,R,S,Beijing,LIN 2,susceptible,TKK-01-0003,n/a
+TKK-01-0007,28.0,Female,Positive,KZNSUR,39455.0,eThekwini,sputum,Negative,TKK-01-0007,single colony,susceptible,S,S,S,S,S,TKK-01-0007,S,S,S,S,LAM3,LIN 4,susceptible,TKK-01-0007,n/a
+TKK-01-0021,39.0,Male,Positive,KZNSUR,39526.0,iLembe,sputum,Positive,TKK-01-0021,single colony,susceptible,S,S,S,S,S,TKK-01-0021,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0021,n/a
+TKK-01-0027,22.0,Female,unknown,KZNSUR,39576.0,Sisonke,sputum,Positive,TKK-01-0027,single colony,susceptible,S,S,S,S,S,TKK-01-0027,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0027,n/a
+TKK-01-0047,33.0,Male,Positive,KZNSUR,39702.0,Sisonke,sputum,Negative,TKK-01-0047,single colony,susceptible,S,S,S,S,S,TKK-01-0047,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0047,n/a
+TKK-01-0054,52.0,Male,unknown,KZNSUR,40142.0,uThungulu,sputum,Positive,TKK-01-0054,single colony,mono,S,S,S,S,S,TKK-01-0054,R,S,S,S,X3,LIN 4,susceptible,TKK-01-0054,n/a
+TKK-01-0058,27.0,Female,Positive,KZNSUR,40147.0,uThungulu,sputum,Positive,TKK-01-0058,single colony,susceptible,S,S,S,S,S,TKK-01-0058,S,S,S,S,T1,LIN 4,susceptible,TKK-01-0058,n/a
+TKK-01-0066,28.0,Female,Positive,KZNSUR,40193.0,uThungulu,sputum,Negative,TKK-01-0066,single colony,susceptible,S,S,S,S,S,TKK-01-0066,S,S,S,S,H37Rv,LIN 4,susceptible,TKK-01-0066,n/a
+TKK-01-0079,30.0,Female,Positive,KZNSUR,40248.0,uThungulu,sputum,Positive,TKK-01-0079,single colony,MDR,S,R,S,R,S,TKK-01-0079,S,S,R,S,Beijing,LIN 2,susceptible,TKK-01-0079,n/a
+TKK-01-0081,47.0,Male,unknown,KZNSUR,39470.0,eThekwini,sputum,Positive,TKK-01-0081,single colony,susceptible,S,S,S,S,S,TKK-01-0081,S,S,S,S,LAM4,LIN 4,susceptible,TKK-01-0081,n/a
+TKK-01-0082,21.0,Female,Positive,KZNSUR,39451.0,eThekwini,sputum,Negative,TKK-01-0082,single colony,susceptible,S,S,S,S,S,TKK-01-0082,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0082,n/a
+TKK-01-0083,24.0,Female,Positive,KZNSUR,39457.0,eThekwini,sputum,Negative,TKK-01-0083,single colony,susceptible,S,S,S,S,S,TKK-01-0083,S,S,S,S,LAM3,LIN 4,susceptible,TKK-01-0083,n/a
+TKK-01-0084,35.0,Male,unknown,KZNSUR,39470.0,eThekwini,sputum,Positive,TKK-01-0084,single colony,susceptible,S,S,S,S,S,TKK-01-0084,S,S,S,S,LAM4,LIN 4,susceptible,TKK-01-0084,n/a
+TKK-01-0085,25.0,Male,Positive,KZNSUR,39482.0,eThekwini,sputum,Negative,TKK-01-0085,single colony,susceptible,S,S,S,S,S,TKK-01-0085,S,S,S,S,LAM4,LIN 4,susceptible,TKK-01-0085,n/a
+TKK-01-0086,50.0,Male,unknown,KZNSUR,39510.0,Sisonke,sputum,Positive,TKK-01-0086,single colony,susceptible,S,S,S,S,S,TKK-01-0086,S,S,S,S,T1,LIN 4,susceptible,TKK-01-0086,n/a
+TKK-01-0087,56.0,Male,unknown,KZNSUR,39513.0,Sisonke,sputum,Positive,TKK-01-0087,single colony,susceptible,S,S,S,S,S,TKK-01-0087,S,S,S,S,T2,LIN 4,susceptible,TKK-01-0087,n/a
+TKK-01-0088,21.0,Female,unknown,KZNSUR,39507.0,Sisonke,sputum,Positive,TKK-01-0088,single colony,susceptible,S,S,S,S,S,TKK-01-0088,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0088,n/a
+TKK-01-0089,38.0,Male,unknown,KZNSUR,39510.0,Sisonke,sputum,Positive,TKK-01-0089,single colony,susceptible,S,S,S,S,S,TKK-01-0089,S,S,S,S,LAM3,LIN 4,susceptible,TKK-01-0089,n/a
+TKK-01-0090,61.0,Male,unknown,KZNSUR,39511.0,Sisonke,sputum,Positive,TKK-01-0090,single colony,susceptible,S,S,S,S,S,TKK-01-0090,S,S,S,S,LAM3,LIN 4,susceptible,TKK-01-0090,n/a
+TKK-01-0091,37.0,Male,unknown,KZNSUR,39527.0,Sisonke,sputum,Negative,TKK-01-0091,single colony,susceptible,S,S,S,S,S,TKK-01-0091,S,S,S,S,LAM4,LIN 4,susceptible,TKK-01-0091,n/a
+TKK-01-0092,unknown,unknown,unknown,KZNSUR,unknown,Sisonke,sputum,Negative,TKK-01-0092,single colony,susceptible,S,S,S,S,S,TKK-01-0092,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0092,n/a
+TKK-01-0093,24.0,Female,Negative,KZNSUR,39534.0,Sisonke,sputum,Positive,TKK-01-0093,single colony,susceptible,S,S,S,S,S,TKK-01-0093,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0093,n/a
+TKK-01-0094,18.0,Male,unknown,KZNSUR,39555.0,Sisonke,sputum,Positive,TKK-01-0094,single colony,susceptible,S,S,S,S,S,TKK-01-0094,S,S,S,S,Beijing,LIN 2,susceptible,TKK-01-0094,n/a
+TKK_03_0015,49.0,Male,Negative,Phage,41254.0,eThekwini,sputum,Negative,TKK_03_0015,single colony,susceptible,U,S,U,S,S,TKK_03_0015,U,S,S,S,S,LIN 4,susceptible,TKK_03_0015,n/a
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_03_0020,25.0,Female,Positive,Phage,41256.0,eThekwini,sputum,Positive,TKK_03_0020,single colony,susceptible,U,S,U,S,S,TKK_03_0020,U,S,S,S,S,LIN 4,susceptible,TKK_03_0020,n/a
+TKK_03_0021,29.0,Male,Positive,Phage,41289.0,eThekwini,sputum,Positive,TKK_03_0021,single colony,susceptible,U,S,U,S,S,TKK_03_0021,U,S,S,S,T1,LIN 4,susceptible,TKK_03_0021,n/a
+TKK_03_0025,23.0,Female,Positive,Phage,41289.0,eThekwini,sputum,Positive,TKK_03_0025,single colony,susceptible,U,S,U,S,S,TKK_03_0025,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0025,n/a
+TKK_03_0026,28.0,Female,Positive,Phage,41289.0,eThekwini,sputum,Positive,TKK_03_0026,single colony,susceptible,U,S,U,S,S,TKK_03_0026,U,S,S,S,unknown,unknown,susceptible,TKK_03_0026,n/a
+TKK_03_0027,28.0,Male,unknown,Phage,41290.0,eThekwini,sputum,Positive,TKK_03_0027,single colony,susceptible,U,S,U,S,S,TKK_03_0027,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0027,n/a
+TKK_03_0028,32.0,Female,Positive,Phage,41290.0,eThekwini,sputum,Positive,TKK_03_0028,non-single colony,susceptible,U,S,U,S,S,TKK_03_0028,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0028,n/a
+TKK_03_0029,50.0,Male,Negative,Phage,41296.0,eThekwini,sputum,Positive,TKK_03_0029,single colony,susceptible,U,S,U,S,S,TKK_03_0029,U,S,S,S,EAI1-SOM,LIN 1,susceptible,TKK_03_0029,n/a
+TKK_03_0030,24.0,Male,Negative,Phage,41296.0,eThekwini,sputum,Positive,TKK_03_0030,single colony,susceptible,U,S,U,S,S,TKK_03_0030,U,S,S,S,T1,LIN 4,susceptible,TKK_03_0030,n/a
+TKK_03_0033,24.0,Male,Negative,Phage,41297.0,eThekwini,sputum,Positive,TKK_03_0033,single colony,susceptible,U,S,U,S,S,TKK_03_0033,U,S,S,S,CAS1-Delhi,LIN 3,susceptible,TKK_03_0033,n/a
+TKK_03_0034,27.0,Male,Negative,Phage,41304.0,eThekwini,sputum,Positive,TKK_03_0034,single colony,susceptible,U,S,U,S,S,TKK_03_0034,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0034,n/a
+TKK_03_0035,31.0,Male,Negative,Phage,41304.0,eThekwini,sputum,Positive,TKK_03_0035,non-single colony,susceptible,U,S,U,S,S,TKK_03_0035,U,S,S,S,LAM3,LIN 4,susceptible,TKK_03_0035,n/a
+TKK_03_0036,20.0,Female,Positive,Phage,41304.0,eThekwini,sputum,Positive,TKK_03_0036,single colony,susceptible,U,S,U,S,S,TKK_03_0036,U,S,S,S,LAM3,LIN 4,susceptible,TKK_03_0036,n/a
+TKK_03_0037,34.0,Male,Positive,Phage,41304.0,eThekwini,sputum,Positive,TKK_03_0037,non-single colony,susceptible,U,S,U,S,S,TKK_03_0037,U,S,S,S,CAS1-Kili,LIN 3,susceptible,TKK_03_0037,n/a
+TKK_03_0039,23.0,Male,Negative,Phage,41310.0,eThekwini,sputum,Positive,TKK_03_0039,non-single colony,susceptible,U,S,U,S,S,TKK_03_0039,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0039,n/a
+TKK_03_0040,55.0,Male,unknown,Phage,41311.0,eThekwini,sputum,Positive,TKK_03_0040,non-single colony,susceptible,U,S,U,S,S,TKK_03_0040,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0040,n/a
+TKK_03_0042,27.0,Male,Negative,Phage,41317.0,eThekwini,sputum,Positive,TKK_03_0042,non-single colony,susceptible,U,S,U,S,S,TKK_03_0042,U,S,S,S,T1,LIN 4,susceptible,TKK_03_0042,n/a
+TKK_03_0043,40.0,Female,Positive,Phage,41317.0,eThekwini,sputum,Positive,TKK_03_0043,single colony,susceptible,U,S,U,S,S,TKK_03_0043,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0043,n/a
+TKK_03_0044,25.0,Male,unknown,Phage,41317.0,eThekwini,sputum,Positive,TKK_03_0044,single colony,susceptible,U,S,U,S,S,TKK_03_0044,U,S,S,S,T1,LIN 4,susceptible,TKK_03_0044,n/a
+TKK_03_0045,48.0,Female,unknown,Phage,41317.0,eThekwini,sputum,Positive,TKK_03_0045,single colony,susceptible,U,S,U,S,S,TKK_03_0045,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0045,n/a
+TKK_03_0047,34.0,Male,Positive,Phage,41319.0,eThekwini,sputum,Negative,TKK_03_0047,single colony,susceptible,U,S,U,S,S,TKK_03_0047,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0047,n/a
+TKK_03_0050,24.0,Male,Positive,Phage,41325.0,eThekwini,sputum,Negative,TKK_03_0050,single colony,susceptible,U,S,U,S,S,TKK_03_0050,U,S,S,S,AMBIGOUS:T3 T2 ,LIN 4,susceptible,TKK_03_0050,n/a
+TKK_03_0058,27.0,Female,Positive,Phage,41339.0,eThekwini,sputum,Positive,TKK_03_0058,non-single colony,susceptible,U,S,U,S,S,TKK_03_0058,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0058,n/a
+TKK_03_0059,53.0,Male,unknown,Phage,41345.0,eThekwini,sputum,Positive,TKK_03_0059,non-single colony,susceptible,U,S,U,S,S,TKK_03_0059,U,S,S,S,T1,LIN 4,susceptible,TKK_03_0059,n/a
+TKK_03_0063,33.0,Male,Positive,Phage,41346.0,eThekwini,sputum,Positive,TKK_03_0063,non-single colony,susceptible,U,S,U,S,S,TKK_03_0063,U,S,S,S,X2,LIN 4,susceptible,TKK_03_0063,n/a
+TKK_03_0065,24.0,Male,Negative,Phage,41346.0,eThekwini,sputum,Positive,TKK_03_0065,single colony,susceptible,U,S,U,S,S,TKK_03_0065,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0065,n/a
+TKK_03_0072,37.0,Female,Positive,Phage,41352.0,eThekwini,sputum,Negative,TKK_03_0072,single colony,susceptible,U,S,U,S,S,TKK_03_0072,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0072,n/a
+TKK_03_0075,23.0,Male,unknown,Phage,41353.0,eThekwini,sputum,Positive,TKK_03_0075,single colony,susceptible,U,S,U,S,S,TKK_03_0075,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0075,n/a
+TKK_03_0078,23.0,Female,Negative,Phage,41359.0,eThekwini,sputum,Positive,TKK_03_0078,single colony,susceptible,U,S,U,S,S,TKK_03_0078,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0078,n/a
+TKK_03_0082,40.0,Male,Positive,Phage,41360.0,eThekwini,sputum,Negative,TKK_03_0082,single colony,mono,U,S,U,R,S,TKK_03_0082,U,S,S,S,LAM3,LIN 4,susceptible,TKK_03_0082,n/a
+TKK_03_0083,33.0,Male,unknown,Phage,41366.0,eThekwini,sputum,Positive,TKK_03_0083,single colony,susceptible,U,S,U,S,S,TKK_03_0083,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0083,n/a
+TKK_03_0089,41.0,Male,Positive,Phage,41367.0,eThekwini,sputum,Positive,TKK_03_0089,single colony,susceptible,U,S,U,S,S,TKK_03_0089,U,S,S,S,LAM4,LIN 4,susceptible,TKK_03_0089,n/a
+TKK_03_0090,18.0,Male,Negative,Phage,41373.0,eThekwini,sputum,Negative,TKK_03_0090,non-single colony,susceptible,U,S,U,S,S,TKK_03_0090,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0090,n/a
+TKK_03_0092,25.0,Female,Positive,Phage,41373.0,eThekwini,sputum,Negative,TKK_03_0092,single colony,susceptible,U,S,U,S,S,TKK_03_0092,U,S,S,S,LAM3,LIN 4,susceptible,TKK_03_0092,n/a
+TKK_03_0094,45.0,Male,unknown,Phage,41373.0,eThekwini,sputum,Positive,TKK_03_0094,non-single colony,susceptible,U,S,U,S,S,TKK_03_0094,U,S,S,S,S,LIN 4,susceptible,TKK_03_0094,n/a
+TKK_03_0098,41.0,Female,Positive,Phage,41380.0,eThekwini,sputum,Negative,TKK_03_0098,non-single colony,susceptible,U,S,U,S,S,TKK_03_0098,U,S,S,S,S,LIN 4,susceptible,TKK_03_0098,n/a
+TKK_03_0099,24.0,Female,Negative,Phage,41380.0,eThekwini,sputum,Positive,TKK_03_0099,non-single colony,susceptible,U,S,U,S,S,TKK_03_0099,U,S,S,S,X1,LIN 4,susceptible,TKK_03_0099,n/a
+TKK_03_0100,21.0,Male,Positive,Phage,41380.0,eThekwini,sputum,Positive,TKK_03_0100,non-single colony,susceptible,U,S,U,S,S,TKK_03_0100,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0100,n/a
+TKK_03_0102,28.0,Female,Positive,Phage,41380.0,eThekwini,sputum,Positive,TKK_03_0102,non-single colony,susceptible,U,S,U,S,S,TKK_03_0102,U,S,S,S,LAM3,LIN 4,susceptible,TKK_03_0102,n/a
+TKK_03_0103,26.0,Female,Positive,Phage,41380.0,eThekwini,sputum,Negative,TKK_03_0103,single colony,susceptible,U,S,U,S,S,TKK_03_0103,U,S,S,S,H1,LIN 4,susceptible,TKK_03_0103,n/a
+TKK_03_0105,37.0,Female,Positive,Phage,41381.0,eThekwini,sputum,Negative,TKK_03_0105,single colony,susceptible,U,S,U,S,S,TKK_03_0105,U,S,S,S,"LAM1,LAM3",LIN 4,susceptible,TKK_03_0105,n/a
+TKK_03_0108,31.0,Female,Negative,Phage,41387.0,eThekwini,sputum,Positive,TKK_03_0108,non-single colony,susceptible,U,S,U,S,S,TKK_03_0108,U,S,S,S,X3,LIN 4,susceptible,TKK_03_0108,n/a
+TKK_03_0109,34.0,Female,Positive,Phage,41387.0,eThekwini,sputum,Negative,TKK_03_0109,non-single colony,susceptible,U,S,U,S,S,TKK_03_0109,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0109,n/a
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_03_0111,23.0,Female,Negative,Phage,41388.0,eThekwini,sputum,Positive,TKK_03_0111,non-single colony,susceptible,U,S,U,S,S,TKK_03_0111,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0111,n/a
+TKK_03_0112,35.0,Female,Positive,Phage,41388.0,eThekwini,sputum,Positive,TKK_03_0112,non-single colony,susceptible,U,S,U,S,S,TKK_03_0112,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0112,n/a
+TKK_03_0114,26.0,Female,Positive,Phage,41394.0,eThekwini,sputum,Positive,TKK_03_0114,single colony,susceptible,U,S,U,S,S,TKK_03_0114,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0114,n/a
+TKK_03_0115,25.0,Female,Negative,Phage,41394.0,eThekwini,sputum,Positive,TKK_03_0115,non-single colony,susceptible,U,S,U,S,S,TKK_03_0115,U,S,S,S,LAM6,LIN 4,susceptible,TKK_03_0115,n/a
+TKK_03_0118,45.0,Male,Negative,Phage,41401.0,eThekwini,sputum,Positive,TKK_03_0118,non-single colony,susceptible,U,S,U,S,S,TKK_03_0118,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0118,n/a
+TKK_03_0149,50.0,Male,Negative,Phage,41472.0,eThekwini,sputum,Positive,TKK_03_0149,non-single colony,susceptible,U,S,U,S,S,TKK_03_0149,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0149,n/a
+TKK_03_0150,27.0,Female,Positive,Phage,41478.0,eThekwini,sputum,Positive,TKK_03_0150,non-single colony,susceptible,U,S,U,S,S,TKK_03_0150,U,S,S,S,X3,LIN 4,susceptible,TKK_03_0150,n/a
+TKK_03_0153,44.0,Female,Positive,Phage,41486.0,eThekwini,sputum,Positive,TKK_03_0153,non-single colony,susceptible,U,S,U,S,S,TKK_03_0153,U,S,S,S,X3,LIN 4,susceptible,TKK_03_0153,n/a
+TKK_03_0154,30.0,Male,Negative,Phage,41486.0,eThekwini,sputum,Positive,TKK_03_0154,non-single colony,susceptible,U,S,U,S,S,TKK_03_0154,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0154,n/a
+TKK_03_0156,24.0,Male,Negative,Phage,41500.0,eThekwini,sputum,Positive,TKK_03_0156,non-single colony,susceptible,U,S,U,S,S,TKK_03_0156,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0156,n/a
+TKK_03_0158,57.0,Male,Negative,Phage,41507.0,eThekwini,sputum,Positive,TKK_03_0158,non-single colony,susceptible,U,S,U,S,S,TKK_03_0158,U,S,S,S,AMBIGOUS:T2 X1 ,LIN 4,susceptible,TKK_03_0158,n/a
+TKK_03_0159,37.0,Male,Negative,Phage,41513.0,eThekwini,sputum,Positive,TKK_03_0159,non-single colony,susceptible,U,S,U,S,S,TKK_03_0159,U,S,S,S,LAM4,LIN 4,susceptible,TKK_03_0159,n/a
+TKK_03_0160,27.0,Female,Positive,Phage,41513.0,eThekwini,sputum,Positive,TKK_03_0160,non-single colony,susceptible,U,S,U,S,S,TKK_03_0160,U,S,S,S,Beijing,LIN 2,susceptible,TKK_03_0160,n/a
+TKK_04_0018,33.0,Female,unknown,NHLS,41339.0,eThekwini,sputum,Positive,TKK_04_0018,single colony,MDR,U,U,U,R,S,TKK_04_0018,U,S,R,R,Beijing,LIN 2,susceptible,TKK_04_0018,n/a
+TKK_04_0029,50.0,Female,unknown,NHLS,41360.0,eThekwini,pleural fluid,unknown,TKK_04_0029,single colony,susceptible,U,U,U,S,S,TKK_04_0029,U,S,S,S,LAM3,LIN 4,susceptible,TKK_04_0029,n/a
+TKK_04_0030,53.0,Male,unknown,NHLS,41358.0,eThekwini,sputum,unknown,TKK_04_0030,single colony,susceptible,U,U,U,S,S,TKK_04_0030,U,S,S,S,"S,T1",LIN 4,susceptible,TKK_04_0030,n/a
+TKK_04_0031,unknown,Female,unknown,NHLS,41370.0,eThekwini,blood,unknown,TKK_04_0031,single colony,susceptible,U,U,U,S,S,TKK_04_0031,U,S,S,S,"T4,T1",LIN 4,susceptible,TKK_04_0031,n/a
+TKK_04_0033,34.0,Male,unknown,NHLS,41369.0,eThekwini,blood,unknown,TKK_04_0033,single colony,susceptible,U,U,U,S,S,TKK_04_0033,U,S,S,S,Beijing,LIN 2,susceptible,TKK_04_0033,n/a
+TKK-01-0004,30.0,Female,unknown,KZNSUR,39484.0,eThekwini,sputum,Positive,TKK-01-0004,single colony,XDR,R,R,S,R,R,TKK-01-0004,R,R,R,R,LAM4,LIN 4,XDR,TKK-01-0004,Tugela Ferry XDR
+TKK-01-0013,40.0,Male,Positive,KZNSUR,39504.0,uThungulu,sputum,Positive,TKK-01-0013,single colony,XDR,S,R,S,R,R,TKK-01-0013,R,R,R,R,Beijing,LIN 2,XDR,TKK-01-0013,non-Tugela Ferry XDR
+TKK-01-0019,38.0,Male,Positive,KZNSUR,39526.0,iLembe,sputum,Negative,TKK-01-0019,single colony,XDR,S,R,R,R,R,TKK-01-0019,R,R,R,R,LAM3,LIN 4,XDR,TKK-01-0019,non-Tugela Ferry XDR
+TKK-01-0025,35.0,Female,Negative,KZNSUR,39541.0,Uthukela,sputum,Positive,TKK-01-0025,single colony,XDR,R,R,R,R,R,TKK-01-0025,R,R,R,R,LAM4,LIN 4,XDR,TKK-01-0025,Tugela Ferry XDR
+TKK-01-0033,27.0,Male,Negative,KZNSUR,39588.0,uMzinyathi,sputum,Positive,TKK-01-0033,single colony,XDR,R,R,R,R,R,TKK-01-0033,R,R,R,R,LAM4,LIN 4,XDR,TKK-01-0033,Tugela Ferry XDR
+TKK-01-0040,32.0,Female,Positive,KZNSUR,39660.0,Amajuba,sputum,Positive,TKK-01-0040,single colony,XDR,R,R,R,R,R,TKK-01-0040,R,R,R,R,LAM4,LIN 4,XDR,TKK-01-0040,Tugela Ferry XDR
+TKK-01-0076,18.0,Male,Positive,KZNSUR,40238.0,uThungulu,sputum,Positive,TKK-01-0076,single colony,XDR,R,R,R,R,R,TKK-01-0076,R,R,R,R,LAM4,LIN 4,XDR,TKK-01-0076,Tugela Ferry XDR
+TKK_02_0001,37.0,Female,Negative,PROX,40261.0,eThekwini,sputum,Negative,TKK_02_0001,single colony,XDR,R,R,R,R,R,TKK_02_0001,R,R,R,S,Beijing,LIN 2,XDR,TKK_02_0001,non-Tugela Ferry XDR
+TKK_02_0002,33.0,Male,Positive,PROX,40262.0,Sisonke,sputum,Negative,TKK_02_0002,single colony,XDR,R,R,R,R,R,TKK_02_0002,R,R,R,R,Beijing,LIN 2,XDR,TKK_02_0002,non-Tugela Ferry XDR
+TKK_02_0004,44.0,Female,Negative,PROX,40262.0,eThekwini,sputum,Negative,TKK_02_0004,single colony,XDR,R,R,R,R,R,TKK_02_0004,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0004,Tugela Ferry XDR
+TKK_02_0005,28.0,Female,Positive,PROX,40262.0,uThungulu,sputum,Negative,TKK_02_0005,single colony,XDR,R,R,R,R,R,TKK_02_0005,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0005,Tugela Ferry XDR
+TKK_02_0006,27.0,Male,Positive,PROX,40266.0,Zululand,sputum,Negative,TKK_02_0006,single colony,XDR,R,R,R,R,R,TKK_02_0006,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0006,Tugela Ferry XDR
+TKK_02_0007,36.0,Male,Positive,PROX,40266.0,uMzinyathi,sputum,Negative,TKK_02_0007,single colony,XDR,R,R,R,R,R,TKK_02_0007,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0007,Tugela Ferry XDR
+TKK_02_0008,31.0,Female,Positive,PROX,40275.0,uMgungundlovu,sputum,Positive,TKK_02_0008,single colony,XDR,R,R,R,R,R,TKK_02_0008,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0008,Tugela Ferry XDR
+TKK_02_0012,34.0,Female,Positive,PROX,40291.0,eThekwini,sputum,Negative,TKK_02_0012,single colony,XDR,R,R,R,R,R,TKK_02_0012,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0012,Tugela Ferry XDR
+TKK_02_0014,19.0,Female,Positive,PROX,40291.0,uMzinyathi,sputum,Positive,TKK_02_0014,single colony,XDR,R,R,R,R,R,TKK_02_0014,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0014,Tugela Ferry XDR
+TKK_02_0016,25.0,Female,Negative,PROX,40291.0,eThekwini,sputum,Negative,TKK_02_0016,single colony,XDR,R,R,R,R,R,TKK_02_0016,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0016,Tugela Ferry XDR
+TKK_02_0021,37.0,Female,Positive,PROX,40357.0,uMzinyathi,sputum,Negative,TKK_02_0021,single colony,XDR,R,R,R,R,R,TKK_02_0021,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0021,Tugela Ferry XDR
+TKK_02_0024,30.0,Female,Positive,PROX,40354.0,uMgungundlovu,sputum,Negative,TKK_02_0024,single colony,XDR,R,R,R,R,R,TKK_02_0024,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0024,Tugela Ferry XDR
+TKK_02_0027,21.0,Male,Positive,PROX,40394.0,uMzinyathi,sputum,Positive,TKK_02_0027,single colony,XDR,S,R,R,R,R,TKK_02_0027,R,R,R,R,X3,LIN 4,XDR,TKK_02_0027,non-Tugela Ferry XDR
+TKK_02_0028,30.0,Female,Positive,PROX,40382.0,eThekwini,sputum,Negative,TKK_02_0028,single colony,XDR,R,R,R,R,R,TKK_02_0028,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0028,Tugela Ferry XDR
+TKK_02_0030,20.0,Female,Negative,PROX,40444.0,Zululand,sputum,Positive,TKK_02_0030,single colony,XDR,R,R,R,R,R,TKK_02_0030,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0030,Tugela Ferry XDR
+TKK_02_0031,40.0,Male,Positive,PROX,40466.0,uMzinyathi,sputum,Negative,TKK_02_0031,single colony,XDR,S,R,S,R,R,TKK_02_0031,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0031,Tugela Ferry XDR
+TKK_02_0035,41.0,Female,Positive,PROX,40466.0,Zululand,sputum,Positive,TKK_02_0035,single colony,XDR,S,R,R,R,R,TKK_02_0035,R,R,R,R,X3,LIN 4,XDR,TKK_02_0035,non-Tugela Ferry XDR
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_02_0036,37.0,Male,Positive,PROX,40466.0,Zululand,sputum,Negative,TKK_02_0036,single colony,XDR,S,R,S,R,R,TKK_02_0036,U,R,R,S,X3,LIN 4,XDR,TKK_02_0036,non-Tugela Ferry XDR
+TKK_02_0037,26.0,Male,Negative,PROX,40466.0,uThungulu,sputum,Positive,TKK_02_0037,single colony,XDR,R,R,R,R,S,TKK_02_0037,R,R,R,R,X3,LIN 4,XDR,TKK_02_0037,non-Tugela Ferry XDR
+TKK_02_0038,40.0,Male,Positive,PROX,40507.0,uMzinyathi,sputum,Positive,TKK_02_0038,single colony,XDR,R,R,R,R,R,TKK_02_0038,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0038,Tugela Ferry XDR
+TKK_02_0040,25.0,Female,Positive,PROX,40564.0,eThekwini,sputum,Positive,TKK_02_0040,single colony,XDR,R,R,R,R,R,TKK_02_0040,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0040,Tugela Ferry XDR
+TKK_02_0041,45.0,Male,Positive,PROX,40564.0,Zululand,sputum,Positive,TKK_02_0041,single colony,XDR,R,R,R,R,R,TKK_02_0041,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0041,Tugela Ferry XDR
+TKK_02_0043,32.0,Female,Positive,PROX,40578.0,uMzinyathi,sputum,Negative,TKK_02_0043,single colony,XDR,R,R,R,R,R,TKK_02_0043,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0043,Tugela Ferry XDR
+TKK_02_0044,56.0,Male,Negative,PROX,40578.0,uMzinyathi,sputum,Negative,TKK_02_0044,single colony,XDR,R,R,R,R,R,TKK_02_0044,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0044,Tugela Ferry XDR
+TKK_02_0048,27.0,Female,Positive,PROX,40795.0,eThekwini,sputum,Positive,TKK_02_0048,single colony,XDR,R,R,R,R,R,TKK_02_0048,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0048,Tugela Ferry XDR
+TKK_02_0049,39.0,Female,Positive,PROX,40795.0,eThekwini,sputum,Positive,TKK_02_0049,single colony,XDR,R,R,R,R,R,TKK_02_0049,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0049,Tugela Ferry XDR
+TKK_02_0050,42.0,Female,Positive,PROX,40795.0,uMzinyathi,sputum,Positive,TKK_02_0050,single colony,XDR,R,R,R,R,R,TKK_02_0050,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0050,Tugela Ferry XDR
+TKK_02_0051,37.0,Female,Positive,PROX,40708.0,Amajuba,sputum,Positive,TKK_02_0051,single colony,XDR,R,R,R,R,R,TKK_02_0051,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0051,Tugela Ferry XDR
+TKK_02_0052,37.0,Female,Positive,PROX,40737.0,uMgungundlovu,sputum,Positive,TKK_02_0052,single colony,XDR,R,R,R,R,R,TKK_02_0052,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0052,Tugela Ferry XDR
+TKK_02_0053,21.0,Female,Negative,PROX,40795.0,eThekwini,sputum,Negative,TKK_02_0053,single colony,XDR,R,R,R,R,R,TKK_02_0053,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0053,Tugela Ferry XDR
+TKK_02_0055,27.0,Female,Negative,PROX,40869.0,Ugu,sputum,Positive,TKK_02_0055,single colony,XDR,R,R,R,R,R,TKK_02_0055,R,R,R,R,Beijing,LIN 2,XDR,TKK_02_0055,non-Tugela Ferry XDR
+TKK_02_0056,43.0,Female,Positive,PROX,40779.0,Sisonke,sputum,Positive,TKK_02_0056,single colony,XDR,R,R,R,R,R,TKK_02_0056,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0056,Tugela Ferry XDR
+TKK_02_0058,26.0,Female,Positive,PROX,40779.0,uMzinyathi,sputum,Positive,TKK_02_0058,single colony,XDR,R,R,R,R,R,TKK_02_0058,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0058,Tugela Ferry XDR
+TKK_02_0060,31.0,Female,Positive,PROX,40891.0,uMzinyathi,sputum,Negative,TKK_02_0060,single colony,XDR,R,R,R,R,R,TKK_02_0060,R,R,R,R,LAM4,LIN 4,XDR,TKK_02_0060,Tugela Ferry XDR
+TKK_02_0071,18.0,Female,Negative,PROX,40891.0,eThekwini,sputum,Negative,TKK_02_0071,single colony,XDR,R,R,R,R,R,TKK_02_0071,R,R,R,S,LAM4,LIN 4,XDR,TKK_02_0071,Tugela Ferry XDR
+TKK_04_0103,36.0,Male,unknown,NHLS,41487.0,eThekwini,sputum,unknown,TKK_04_0103,single colony,XDR,U,U,U,R,R,TKK_04_0103,U,R,R,S,X3,LIN 4,XDR,TKK_04_0103,non-Tugela Ferry XDR
+TKK_04_0104,51.0,Male,unknown,NHLS,41485.0,iLembe,sputum,unknown,TKK_04_0104,single colony,XDR,U,U,U,R,R,TKK_04_0104,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0104,Tugela Ferry XDR
+TKK_04_0105,26.0,Female,unknown,NHLS,41485.0,eThekwini,sputum,Negative,TKK_04_0105,single colony,XDR,U,U,U,R,R,TKK_04_0105,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0105,Tugela Ferry XDR
+TKK_04_0106,33.0,Male,unknown,NHLS,41417.0,eThekwini,sputum,Positive,TKK_04_0106,single colony,XDR,U,U,U,R,R,TKK_04_0106,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0106,Tugela Ferry XDR
+TKK_04_0107,38.0,Female,unknown,NHLS,41443.0,eThekwini,sputum,Negative,TKK_04_0107,single colony,XDR,U,U,U,R,R,TKK_04_0107,U,R,R,R,Beijing,LIN 2,XDR,TKK_04_0107,non-Tugela Ferry XDR
+TKK_04_0108,30.0,Female,unknown,NHLS,41479.0,uThungulu,sputum,unknown,TKK_04_0108,single colony,XDR,U,U,U,R,R,TKK_04_0108,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0108,Tugela Ferry XDR
+TKK_04_0109,38.0,Male,unknown,NHLS,41486.0,uMzinyathi,sputum,unknown,TKK_04_0109,single colony,XDR,U,U,U,R,R,TKK_04_0109,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0109,Tugela Ferry XDR
+TKK_04_0112,unknown,Male,unknown,NHLS,41492.0,eThekwini,sputum,Negative,TKK_04_0112,single colony,XDR,U,U,U,R,R,TKK_04_0112,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0112,Tugela Ferry XDR
+TKK_04_0113,36.0,Male,unknown,NHLS,41478.0,eThekwini,sputum,unknown,TKK_04_0113,single colony,XDR,U,U,U,R,R,TKK_04_0113,U,R,R,S,X3,LIN 4,XDR,TKK_04_0113,non-Tugela Ferry XDR
+TKK_04_0114,34.0,Female,unknown,NHLS,41481.0,eThekwini,sputum,Positive,TKK_04_0114,single colony,XDR,U,U,U,R,R,TKK_04_0114,U,R,R,R,Beijing,LIN 2,XDR,TKK_04_0114,non-Tugela Ferry XDR
+TKK_04_0117,27.0,Female,unknown,NHLS,41492.0,eThekwini,sputum,unknown,TKK_04_0117,single colony,XDR,U,U,U,R,R,TKK_04_0117,U,R,R,R,AMBIGOUS:LAM5 LAM4 ,LIN 4,XDR,TKK_04_0117,non-Tugela Ferry XDR
+TKK_04_0118,44.0,Male,unknown,NHLS,41481.0,Sisonke,sputum,unknown,TKK_04_0118,single colony,XDR,U,U,U,R,R,TKK_04_0118,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0118,Tugela Ferry XDR
+TKK_04_0120,56.0,Male,unknown,NHLS,41487.0,eThekwini,sputum,unknown,TKK_04_0120,single colony,XDR,U,U,U,R,R,TKK_04_0120,U,R,R,R,EAI1-SOM,LIN 1,XDR,TKK_04_0120,non-Tugela Ferry XDR
+TKK_04_0122,32.0,Female,unknown,NHLS,41491.0,eThekwini,sputum,unknown,TKK_04_0122,single colony,XDR,U,U,U,R,R,TKK_04_0122,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0122,Tugela Ferry XDR
+TKK_04_0123,40.0,Female,unknown,NHLS,41491.0,eThekwini,sputum,unknown,TKK_04_0123,single colony,XDR,U,U,U,R,R,TKK_04_0123,U,R,R,S,LAM4,LIN 4,XDR,TKK_04_0123,Tugela Ferry XDR
+TKK_04_0124,unknown,Female,unknown,NHLS,41478.0,eThekwini,sputum,Positive,TKK_04_0124,single colony,XDR,U,U,U,R,R,TKK_04_0124,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0124,Tugela Ferry XDR
+TKK_04_0129,41.0,Female,unknown,NHLS,41480.0,Zululand,sputum,Negative,TKK_04_0129,single colony,XDR,U,U,U,R,R,TKK_04_0129,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0129,Tugela Ferry XDR
+TKK_04_0132,41.0,Female,unknown,NHLS,41493.0,eThekwini,sputum,unknown,TKK_04_0132,single colony,XDR,U,U,U,R,R,TKK_04_0132,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0132,Tugela Ferry XDR
+TKK_04_0137,61.0,Male,unknown,NHLS,41485.0,Zululand,sputum,unknown,TKK_04_0137,single colony,XDR,U,U,U,R,R,TKK_04_0137,U,R,R,R,LAM4,LIN 4,XDR,TKK_04_0137,Tugela Ferry XDR
+TKK_05MA_2005,29.0,Male,Positive,CUBS,41505.0,uThungulu,sputum,Positive,TKK_05MA_2005,non-single colony,XDR,U,R,U,R,R,TKK_05MA_2005,U,R,R,R,LAM4,LIN 4,XDR,TKK_05MA_2005,Tugela Ferry XDR
+TKK_05MA_2008,43.0,Male,Positive,CUBS,41506.0,uMkhanyakude,sputum,Positive,TKK_05MA_2008,non-single colony,XDR,U,R,U,R,R,TKK_05MA_2008,U,R,R,R,LAM4,LIN 4,XDR,TKK_05MA_2008,Tugela Ferry XDR
+TKK_05MA_2015,43.0,Male,Positive,CUBS,41509.0,eThekwini,sputum,Negative,TKK_05MA_2015,non-single colony,XDR,U,S,U,R,R,TKK_05MA_2015,U,R,R,R,T1,LIN 4,XDR,TKK_05MA_2015,non-Tugela Ferry XDR
+TKK_05SA_0016,40.0,Female,Positive,CUBS,41432.0,iLembe,sputum,Positive,TKK_05SA_0016,single colony,XDR,U,R,U,R,R,TKK_05SA_0016,U,R,R,R,S,LIN 4,XDR,TKK_05SA_0016,non-Tugela Ferry XDR
+TKK_05SA_0018,49.0,Male,Positive,CUBS,41435.0,eThekwini,sputum,Positive,TKK_05SA_0018,single colony,XDR,U,R,U,R,R,TKK_05SA_0018,U,R,R,R,X3,LIN 4,XDR,TKK_05SA_0018,non-Tugela Ferry XDR
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,Specimen ID,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Specimen ID,Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Specimen ID,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK_05SA_0043,38.0,Male,Positive,CUBS,41467.0,eThekwini,sputum,Positive,TKK_05SA_0043,single colony,XDR,U,R,U,R,R,TKK_05SA_0043,U,R,R,R,LAM4,LIN 4,XDR,TKK_05SA_0043,Tugela Ferry XDR

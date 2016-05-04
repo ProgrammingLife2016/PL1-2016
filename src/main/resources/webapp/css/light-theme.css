@@ -69,6 +69,7 @@ body {
     position: relative;
     min-width: 200px;
     z-index: 1000;
+    cursor: pointer;
 }
 #nav ul li {
     display: inline-block;
@@ -176,7 +177,9 @@ body {
     padding: 0;
     position: relative;
     min-width: 200px;
+    width: 1000px;
     z-index: 1000;
+    margin: 10px auto;
 }
 
 #options ul li {
@@ -202,7 +205,7 @@ body {
 #optionsContainer {
     display: block;
     margin: 0 auto;
-    width: 100%;
+    width: 1000;
     height: 400px;
     background-color: #2B99A6;
 }
@@ -217,3 +220,30 @@ body {
    background-color: #2B99A6 !important;
 }
 
+#message {
+   display: block;
+   position: fixed;
+   width: 300px;
+   height: 100px;
+   border-radius: 5px;
+   background-color :#2B99A6;
+   left: 0px;
+   bottom: 150px;
+   margin: 10px;
+   z-index: 2000;
+   padding: 5px 20px 5px 20px;
+}
+#closemessage {
+   display: block;
+   position: relative;
+   width: 10px;
+   height: 10px;
+   background-color: #61E2E8;
+   color: #ECf0f1;
+   right: 0px;
+   top: 0px;
+   padding: 2px;
+}
+#message h2 {
+  color: #ECF0F1;
+}

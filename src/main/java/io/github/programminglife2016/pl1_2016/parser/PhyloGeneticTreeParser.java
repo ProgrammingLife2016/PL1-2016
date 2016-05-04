@@ -18,6 +18,7 @@ public class PhyloGeneticTreeParser implements Parser {
         String s = inputStreamToString(inputStream);
         StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
         TreeNode root = constructTree(null, tokenizer);
+        root = root.getChildren().get(0);
         root.toString("");
         return null;
     }
@@ -40,6 +41,8 @@ public class PhyloGeneticTreeParser implements Parser {
                 case "(":
                     TreeNode newNode = constructTree(current, tokenizer);
                     nodes.add(newNode);
+                    if (tokenizer.hasMoreTokens())
+                        tokenizer.nextToken();
                     break;
                 case ":":
                     current.setWeight(Double.parseDouble(tokenizer.nextToken()));
@@ -70,7 +73,7 @@ public class PhyloGeneticTreeParser implements Parser {
     public static void main(String[] args) {
         System.out.println("PhylgoGenetic Tree Parser");
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
-        String s = "(B:6.0,(A:5.0,C:3.0,E:4.0):5.0,D:11.0);";
+        String s = "(B:6.0,(A:5.0,(Z:9.0,T:10):3.0,E:4.0):5.0,D:11.0);";
         parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
 //        parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
     }

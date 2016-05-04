@@ -13,11 +13,7 @@ $(function() { // on dom ready
   function GraphFactory() {
     this.nodeTemplate = {
       data: {
-        id: -1,
-        name: "-",
-        weight: 0,
-        faveColor: '#6FB1FC',
-        faveShape: 'ellipse'
+        id: -1, name: "-", weight: 0, faveColor: '#6FB1FC', faveShape: 'ellipse'
       },
       position: { x: 0, y: 0 }
     };
@@ -138,19 +134,34 @@ $(function() { // on dom ready
               }, duration, "swing");
             $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
         }, 1500);
+        setTimeout(function() {
+            $("#options").css("display", "none");
+        }, 1500);
       });
 
       $("#optionButton").click(function() {
+         $("#cy").autoungrabify = false;
+         $("#cy").autolock = false;
          $header = $(this);
          $content = $("#optionsContainer");
          $content.slideToggle(500, function () {
             if ($content.is(":visible")) {
                $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
-               //graphHandler.setSetting("autoungrabify")
             } else {
                $("#optionButton i").attr("class", "fa fa-arrow-down fa-fw");
             }
          });
+      });
+
+      $("#enableDragging").click(() => {
+         var c = cookieHandler.getCookie("enableDragging");
+         if (c === undefined || c[1] === "false") {
+           $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
+           cookieHandler.setCookie("enableDragging", "true");
+         } else {
+           $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
+           cookieHandler.setCookie("enableDragging", "false");
+         }
       });
   }
 
@@ -178,6 +189,23 @@ $(function() { // on dom ready
       console.log("Status code AJAX request: " + statusCode)
   }
 
+  /*
+    Class for setting and getting the cookie values.
+  */
+  function CookieHandler() {}
+
+  CookieHandler.prototype.getCookie = function(name) {
+    return document.cookie
+                   .replace(" ", "")
+                   .split(";")
+                   .map(c => c.split("="))
+                   .find(c => c[0] === name);
+
+  }
+
+  CookieHandler.prototype.setCookie = function(name, value) {
+    document.cookie = name + "=" + value;
+  }
 
   /*
 
@@ -187,14 +215,9 @@ $(function() { // on dom ready
   function GraphHandler() {
       cy = cytoscape({
         container: $('#cy')[0],
-        boxSelectionEnabled: false,
-        autounselectify: true,
         hideEdgesOnViewport : true,
         hideLabelsOnViewport : true,
         textureOnViewport : true,
-        minZoom: 1,
-        autoungrabify: true,
-        autolock: true,
 
         style: [{"selector":"core",
                    "style":
@@ -244,8 +267,19 @@ $(function() { // on dom ready
       this.bindUIEvents();
   }
 
-  GraphHandler.prototype.setSetting = function(key, value) {
-
+  GraphHandler.prototype.loadSettings = function() {
+      var c = cookieHandler.getCookie("enableDragging");
+      $("#status").html(c[1]);
+      if (c === undefined || c[1] === "false") {
+        cy.boxSelectionEnabled(false);
+        cy.autolock(true);
+        $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
+      } else {
+        cy.boxSelectionEnabled(true);
+        cy.autolock(false);
+        $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
+      }
+      $("#status").html(c[1] + " " + cy.boxSelectionEnabled());
   }
 
   /*
@@ -275,6 +309,7 @@ $(function() { // on dom ready
   GraphHandler.prototype.bindUIEvents = function() {
     $("#zoomButton").click(() => {
         console.log(graphHandler.getDimensions());
+        cy.autolock(true);
     });
   }
 
@@ -309,4 +344,6 @@ $(function() { // on dom ready
   var graphFactory = new GraphFactory();
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
+  var cookieHandler = new CookieHandler();
+  graphHandler.loadSettings();
 }); // on dom ready
