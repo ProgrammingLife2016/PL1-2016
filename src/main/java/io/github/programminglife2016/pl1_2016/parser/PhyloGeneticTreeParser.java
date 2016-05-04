@@ -2,15 +2,16 @@ package io.github.programminglife2016.pl1_2016.parser;
 
 import io.github.programminglife2016.pl1_2016.Launcher;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 
+/**
+ * Class for parsing a .nwk file to an internal tree structure.
+ */
 public class PhyloGeneticTreeParser implements Parser {
 
     @Override
@@ -18,6 +19,7 @@ public class PhyloGeneticTreeParser implements Parser {
         String s = inputStreamToString(inputStream);
         StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
         TreeNode root = constructTree(null, tokenizer);
+        root = root.getChildren().get(0);
         root.toString("");
         return null;
     }
@@ -29,6 +31,12 @@ public class PhyloGeneticTreeParser implements Parser {
         return s;
     }
 
+    /**
+     * Construct tree from the input of the String Tokenizer.
+     * @param parent parent of the current node.
+     * @param tokenizer tokenizer with the contents of the .nwk file.
+     * @return parsed Tree Node object.
+     */
     public TreeNode constructTree(TreeNode parent, StringTokenizer tokenizer) {
         TreeNode current = new TreeNode();
         String next;
@@ -40,6 +48,9 @@ public class PhyloGeneticTreeParser implements Parser {
                 case "(":
                     TreeNode newNode = constructTree(current, tokenizer);
                     nodes.add(newNode);
+                    if (tokenizer.hasMoreTokens()) {
+                        tokenizer.nextToken();
+                    }
                     break;
                 case ":":
                     current.setWeight(Double.parseDouble(tokenizer.nextToken()));
@@ -67,10 +78,15 @@ public class PhyloGeneticTreeParser implements Parser {
         return current;
     }
 
+
+    /**
+     * Test parser.
+     * @param args args.
+     */
     public static void main(String[] args) {
         System.out.println("PhylgoGenetic Tree Parser");
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
-        String s = "(B:6.0,(A:5.0,C:3.0,E:4.0):5.0,D:11.0);";
+        String s = "(B:6.0,(A:5.0,(Z:9.0,T:10):3.0,E:4.0):5.0,D:11.0);";
         parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
 //        parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
     }

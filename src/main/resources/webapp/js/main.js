@@ -5,7 +5,7 @@ $(function() { // on dom ready
 
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
   $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
-  $("html, body").stop().animate({ scrollTop: 0 }, "swing");
+  $("html, body").stop().animate({ scrollTop: 0}, "swing");
 
   /*
     Factory for creating Graph objects.
@@ -13,11 +13,7 @@ $(function() { // on dom ready
   function GraphFactory() {
     this.nodeTemplate = {
       data: {
-        id: -1,
-        name: "-",
-        weight: 0,
-        faveColor: '#6FB1FC',
-        faveShape: 'ellipse'
+        id: -1, name: "-", weight: 0, faveColor: '#6FB1FC', faveShape: 'ellipse'
       },
       position: { x: 0, y: 0 }
     };
@@ -32,8 +28,6 @@ $(function() { // on dom ready
     this.nodeTemplate["data"]["weight"] = node.bubble ? 100 : 50;
     this.nodeTemplate["position"]["x"] = node.x + 550;
     this.nodeTemplate["position"]["y"] = node.y + 450;
-    console.log("Create Node");
-    console.log(this.nodeTemplate);
     return {
       data: {
         id: node.id,
@@ -138,19 +132,36 @@ $(function() { // on dom ready
               }, duration, "swing");
             $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
         }, 1500);
+        setTimeout(function() {
+            $("#options").css("display", "none");
+        }, 1500);
       });
 
       $("#optionButton").click(function() {
+         $("#cy").autoungrabify = false;
+         $("#cy").autolock = false;
          $header = $(this);
          $content = $("#optionsContainer");
          $content.slideToggle(500, function () {
             if ($content.is(":visible")) {
                $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
-               //graphHandler.setSetting("autoungrabify")
             } else {
                $("#optionButton i").attr("class", "fa fa-arrow-down fa-fw");
             }
          });
+      });
+
+      $("#enableDragging").click(() => {
+         var c = cookieHandler.getCookie("enableDragging");
+         if (c === undefined || c[1] === "false") {
+           $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
+           cookieHandler.setCookie("enableDragging", "true");
+           cy.autolock(false);
+         } else {
+           $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
+           cookieHandler.setCookie("enableDragging", "false");
+           cy.autolock(true);
+         }
       });
   }
 
@@ -178,6 +189,23 @@ $(function() { // on dom ready
       console.log("Status code AJAX request: " + statusCode)
   }
 
+  /*
+    Class for setting and getting the cookie values.
+  */
+  function CookieHandler() {}
+
+  CookieHandler.prototype.getCookie = function(name) {
+    return document.cookie
+                   .replace(" ", "")
+                   .split(";")
+                   .map(c => c.split("="))
+                   .find(c => c[0] === name);
+
+  }
+
+  CookieHandler.prototype.setCookie = function(name, value) {
+    document.cookie = name + "=" + value;
+  }
 
   /*
 
@@ -187,14 +215,9 @@ $(function() { // on dom ready
   function GraphHandler() {
       cy = cytoscape({
         container: $('#cy')[0],
-        boxSelectionEnabled: true,
-        autounselectify: false,
         hideEdgesOnViewport : true,
         hideLabelsOnViewport : true,
         textureOnViewport : true,
-        minZoom: 1,
-        autoungrabify: true,
-        autolock: true,
 
         style: [{"selector":"core",
                    "style":
@@ -205,10 +228,10 @@ $(function() { // on dom ready
                      "height":"mapData(score, 0, 0.006769776522008331, 20, 60)",
                      "content":"data(name)","font-size":"12px","text-valign":"center","text-halign":"center",
                      "background-color":"#94AAC7","text-outline-color":"#94AAC7","text-outline-width":"2px","color":"#fff", //#555
-                     "overlay-padding":"6px","z-index":"10"}},
+                     "overlayfghjklo`-padding":"6px","z-index":"10"}},
                 {"selector":"node[?attr]","style":{"shape":"rectangle","background-color":"#aaa","text-outline-color":"#aaa",
                     "width":"16px","height":"16px","font-size":"6px","z-index":"1"}},
-                {"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},
+                {"selector":"node[?querzy]","style":{"background-clip":"none","background-fit":"contain"}},
                 {"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5",
                     "background-color":"#77828C","text-outline-color":"#77828C"}},
                 {"selector":"edge","style":{"target-arrow-shape": "triangle", "background-color": "#F00"}},
@@ -234,7 +257,7 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}},
                 {"selector":"edge","style":{"target-arrow-color": "#777", "target-arrow-shape": "triangle", "line-color": "#777"}},
-                ],
+               ],
 
         layout: {
           name: 'preset',
@@ -244,8 +267,16 @@ $(function() { // on dom ready
       this.bindUIEvents();
   }
 
-  GraphHandler.prototype.setSetting = function(key, value) {
-
+  GraphHandler.prototype.loadSettings = function() {
+      var c = cookieHandler.getCookie("enableDragging");
+      if (c === undefined || c[1] === "false") {
+        cy.autolock(true);
+        $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
+      } else {
+        cy.autolock(false);
+        $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
+      }
+      console.log("Load settings");
   }
 
   /*
@@ -275,6 +306,7 @@ $(function() { // on dom ready
   GraphHandler.prototype.bindUIEvents = function() {
     $("#zoomButton").click(() => {
         console.log(graphHandler.getDimensions());
+        cy.autolock(true);
     });
   }
 
@@ -309,4 +341,6 @@ $(function() { // on dom ready
   var graphFactory = new GraphFactory();
   var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
+  var cookieHandler = new CookieHandler();
+  graphHandler.loadSettings();
 }); // on dom ready
