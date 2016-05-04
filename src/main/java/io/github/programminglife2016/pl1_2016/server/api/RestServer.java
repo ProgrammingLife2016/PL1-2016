@@ -5,6 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -36,6 +37,7 @@ public class RestServer implements Server {
         ApiHandler apiHandler = new RestHandler();
         apiHandler.addQuery(new ReturnAllNodesApiQuery(jsonSerializable));
         apiHandler.addQuery(new GetStaticFileApiQuery());
+        apiHandler.addQuery(new RootIndexApiQuery());
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);
