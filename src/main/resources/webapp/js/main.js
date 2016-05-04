@@ -5,7 +5,7 @@ $(function() { // on dom ready
 
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
   $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
-  $("html, body").stop().animate({ scrollTop: 0 }, "swing");
+  $("html, body").stop().animate({ scrollTop: 0}, "swing");
 
   /*
     Factory for creating Graph objects.
@@ -28,8 +28,6 @@ $(function() { // on dom ready
     this.nodeTemplate["data"]["weight"] = node.bubble ? 100 : 50;
     this.nodeTemplate["position"]["x"] = node.x + 550;
     this.nodeTemplate["position"]["y"] = node.y + 450;
-    console.log("Create Node");
-    console.log(this.nodeTemplate);
     return {
       data: {
         id: node.id,
@@ -158,9 +156,11 @@ $(function() { // on dom ready
          if (c === undefined || c[1] === "false") {
            $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
            cookieHandler.setCookie("enableDragging", "true");
+           cy.autolock(false);
          } else {
            $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
            cookieHandler.setCookie("enableDragging", "false");
+           cy.autolock(true);
          }
       });
   }
@@ -228,10 +228,10 @@ $(function() { // on dom ready
                      "height":"mapData(score, 0, 0.006769776522008331, 20, 60)",
                      "content":"data(name)","font-size":"12px","text-valign":"center","text-halign":"center",
                      "background-color":"#94AAC7","text-outline-color":"#94AAC7","text-outline-width":"2px","color":"#fff", //#555
-                     "overlay-padding":"6px","z-index":"10"}},
+                     "overlayfghjklo`-padding":"6px","z-index":"10"}},
                 {"selector":"node[?attr]","style":{"shape":"rectangle","background-color":"#aaa","text-outline-color":"#aaa",
                     "width":"16px","height":"16px","font-size":"6px","z-index":"1"}},
-                {"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},
+                {"selector":"node[?querzy]","style":{"background-clip":"none","background-fit":"contain"}},
                 {"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5",
                     "background-color":"#77828C","text-outline-color":"#77828C"}},
                 {"selector":"edge","style":{"target-arrow-shape": "triangle", "background-color": "#F00"}},
@@ -257,7 +257,7 @@ $(function() { // on dom ready
                 {"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},
                 {"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}},
                 {"selector":"edge","style":{"target-arrow-color": "#777", "target-arrow-shape": "triangle", "line-color": "#777"}},
-                ],
+               ],
 
         layout: {
           name: 'preset',
@@ -269,17 +269,14 @@ $(function() { // on dom ready
 
   GraphHandler.prototype.loadSettings = function() {
       var c = cookieHandler.getCookie("enableDragging");
-      $("#status").html(c[1]);
       if (c === undefined || c[1] === "false") {
-        cy.boxSelectionEnabled(false);
         cy.autolock(true);
         $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
       } else {
-        cy.boxSelectionEnabled(true);
         cy.autolock(false);
         $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
       }
-      $("#status").html(c[1] + " " + cy.boxSelectionEnabled());
+      console.log("Load settings");
   }
 
   /*
