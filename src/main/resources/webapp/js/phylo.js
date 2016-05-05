@@ -117,12 +117,22 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
   var x = newick.parse(text);
   var treenodes = cluster.nodes(x);
   phylo(treenodes[0], 0);
+  var classes =  setClassNames(treenodes);
 
   var treelink = tree.selectAll("path.treelink")
       .data(cluster.links(treenodes))
     .enter().append("path")
-      .attr("class", "treelink")
-      .attr("d", step);
+//      .attr("class", "treelink")
+      .attr("d", step)
+      .attr("class", getClassName)
+      .on("mouseenter", function() {
+          var classes = getProperClassFormat($(this).attr("class"));//"."+$(this).attr("class").split(' ').slice(1).join(', .');
+          $(classes).css('stroke', 'red');
+      })
+      .on("mouseleave", function() {
+          var classes = getProperClassFormat($(this).attr("class"));//"."+$(this).attr("class").split(' ').slice(1).join(', .');
+          $(classes).css('stroke', '#ccc');
+      });
 
   var treenode = tree.selectAll("g.treenode")
       .data(treenodes.filter(function(n) { return n.x !== undefined; }))
@@ -139,7 +149,20 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
-      .text(function(d) { return d.name.replace(/_/g, ' '); });
+      .text(function(d) { return d.name.replace(/_/g, ' '); })
+      .attr("class", function(d) {
+            var str = $("."+d.name).attr("class");
+            return str.replace("treelink", "");
+            })
+      .on("mouseover", function() {
+          colorTKKs(this, 'red');
+      })
+      .on("mouseout", function() {
+          colorTKKs(this, '#999');
+      })
+      .on("mouseleave", function() {
+          colorTKKs(this, '#999');
+      });
       enableZooming(svgId);
 });
 
@@ -156,14 +179,58 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
        });
 
       // Initially zoom out
-       panZoomInstance.zoom(0.95)
-//       panZoomInstance.setOnZoom(function(){panZoomInstance.center()});
-//       panZoomInstance.disablePan();
+       panZoomInstance.zoom(0.95);
        panZoomInstance.setOnPan(function(){
             panX = panZoomInstance.getPan().x;
             panY = panZoomInstance.getPan().y
        });
    });
+}
+function setClassNames(tree) {
+    var count = 0;
+    // iterate over properties, increment if a non-prototype property
+    tree.reverse().forEach(function(obj){
+            obj.id = count;
+            if(obj.children != undefined){
+                obj.className = getChildrenIDsAndClasses(obj.children) ;
+            }
+            count++;
+         });
+
+//    tree.forEach(function(obj){
+//                var childrenIds = "";
+//                if(obj.children != undefined)
+//                    childrenIds = getChildrenIDs(obj.children);
+//                obj.className = "treelink"  + childrenIds;//+ obj.id
+//             });
+}
+
+function getChildrenIDsAndClasses(children) {
+    var ids = '';
+    children.forEach(function(obj){
+            ids += " " + obj.id;
+            if(obj.className != undefined)
+                ids += obj.className;
+         });
+     return ids;
+}
+
+function getClassName(d) {
+    if( d.target.name != "" &&  d.target.name != undefined)
+        return  "treelink" + d.source.className + " " + d.target.name;//
+    return  "treelink" + d.source.className;//
+}
+
+function getProperClassFormat(str){
+    if(str != undefined)
+        return "."+str.split(' ').slice(1).join(', .');
+    return '.dummy';
+}
+
+function colorTKKs(obj, color){
+    var str = $(obj).text().replace(/\s/g, '_');
+    str = getProperClassFormat($("."+str).attr("class"));//$("."+str).attr("class")
+    $(str).css('stroke', color);
 }
 
 });

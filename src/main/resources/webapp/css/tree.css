@@ -16,7 +16,7 @@ html, body, #tree{
 
 .treelink {
   fill: none;
-  stroke: #ccc;
+  stroke: #999;
   stroke-width: 1.5px;
 }
 
@@ -44,6 +44,20 @@ treetext {
   transform: rotate(135deg);
   margin:30px auto;
   background:transparent;
+}
+#rotation:before{
+  content: "";
+  position: absolute;
+  top: 70%;
+  left: 0px;
+  height: 0;
+  width: 0;
+  border-left: 30px solid #32B2B7;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 #rotation:after{
   content: "";
