@@ -1,5 +1,7 @@
+$(function() {
 var r = $('html').height() / 2;//960 / 2;
 var svgId = "phyloTree";
+var panX = 0, panY = 0;
 
 var cluster = d3.layout.cluster()
     .size([360, 1])
@@ -53,13 +55,14 @@ var start = null,
     div = document.getElementById("tree");
 
 function mouse(e) {
+//            console.log(panX + ", " + panY);
   return [
-    e.pageX - div.offsetLeft - r,
-    e.pageY - div.offsetTop - r
+    e.pageX - div.offsetLeft - r + panX/2,
+    e.pageY - div.offsetTop - r + panY/2
   ];
 }
 
-wrap.on("mousedown", function() {
+d3.select('#rotation').on("mousedown", function() {//wrap.on("mousedown", function() {
   wrap.style("cursor", "move");
   start = mouse(d3.event);
   d3.event.preventDefault();
@@ -67,33 +70,40 @@ wrap.on("mousedown", function() {
 d3.select(window)
   .on("mouseup", function() {
     if (start) {
-      wrap.style("cursor", "auto");
-      var m = mouse(d3.event);
-      var delta = Math.atan2(cross(start, m), dot(start, m)) * 180 / Math.PI;
-      rotate += delta;
-      if (rotate > 360) rotate %= 360;
-      else if (rotate < 0) rotate = (360 + rotate) % 360;
-      start = null;
-      wrap.style("-webkit-transform", null);
-      tree
-          .attr("transform", "translate(" + r + "," + r + ")rotate(" + rotate + ")")
-        .selectAll("text")
-          .attr("text-anchor", function(d) { return (d.x + rotate) % 360 < 180 ? "start" : "end"; })
-          .attr("transform", function(d) {
-            return "rotate(" + (d.x - 90) + ")translate(" + (r - (170*r/480)) + ")rotate(" + ((d.x + rotate) % 360 < 180 ? 0 : 180) + ")";
-          });
-    }
+          wrap.style("cursor", "auto");
+          var m = mouse(d3.event);
+          var delta = Math.atan2(cross(start, m), dot(start, m)) * 180 / Math.PI;
+          rotate += delta;
+          if (rotate > 360) rotate %= 360;
+          else if (rotate < 0) rotate = (360 + rotate) % 360;
+          start = null;
+          wrap.style("-webkit-transform", null);
+          tree
+              .attr("transform", "translate(" + (r ) + "," + (r ) + ")rotate(" + rotate + ")")
+            .selectAll("text")
+              .attr("text-anchor", function(d) { return (d.x + rotate) % 360 < 180 ? "start" : "end"; })
+              .attr("transform", function(d) {
+                return "rotate(" + (d.x - 90) + ")translate(" + (r - (r/480)) + ")rotate(" + ((d.x + rotate) % 360 < 180 ? 0 : 180) + ")";
+              });
+        }
   })
   .on("mousemove", function() {
     if (start) {
       var m = mouse(d3.event);
+//      start[0] += panX + Math.acos(delta);
+//      start[1] += panY + Math.asin(delta);
+//      m[0] += panX + Math.acos(delta);
+//      m[1] += panY + Math.asin(delta);
       var delta = Math.atan2(cross(start, m), dot(start, m)) * 180 / Math.PI;
-      wrap.style("-webkit-transform", "rotateZ(" + delta + "deg)");
+//      tree.attr("transform", "translate( "+(r -panX)+", "+(r - panY)+")");
+//      wrap.style("-webkit-transform", "rotateZ(" + delta + "deg)");
+      tree.attr("transform", "translate( "+(r )+", "+(r )+")rotate(" + (rotate + delta) + ")");
+      //$('.svg-pan-zoom_viewport')
     }
   });
 
 function phylo(n, offset) {
-  if (n.length != null) offset += n.length * 3200*r/480;//115;
+  if (n.length != null) offset += n.length * 5000*r/480;//115;
   n.y = offset;
   if (n.children)
     n.children.forEach(function(n) {
@@ -126,7 +136,7 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
     .enter().append("text")
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(170*r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
       .text(function(d) { return d.name.replace(/_/g, ' '); });
       enableZooming(svgId);
 });
@@ -145,7 +155,13 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
 
       // Initially zoom out
        panZoomInstance.zoom(1)
-       panZoomInstance.disablePan();
-       panZoomInstance.setOnZoom(function(){panZoomInstance.center()});
+//       panZoomInstance.setOnZoom(function(){panZoomInstance.center()});
+//       panZoomInstance.disablePan();
+       panZoomInstance.setOnPan(function(){
+            panX = panZoomInstance.getPan().x;
+            panY = panZoomInstance.getPan().y
+       });
    });
 }
+
+});
