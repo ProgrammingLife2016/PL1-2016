@@ -1,10 +1,12 @@
 html, body, #tree{
     height: 100%;
+    overflow: hidden;
+    background: #EBEFF0;
 }
 
 .treenode circle {
   fill: #fff;
-  stroke: steelblue;
+  stroke: #5EB3C2; /*steelblue;*/
   stroke-width: 1.5px;
 }
 
@@ -27,18 +29,33 @@ treetext {
     margin: 0 auto;
 }
 
-.svg-pan-zoom_viewport{
-    background-color: black;
-    fill: #000;
-}
-
-
 #rotation{
-    display: block;
-    background-color: black;
-    top: 20px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
-    position: absolute;
+  border: 20px solid transparent;
+  border-top-color: #32B2B7;
+  border-left-color: #32B2B7;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: 45%;
+  right: 10px;
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+  margin:30px auto;
+  background:transparent;
+}
+#rotation:after{
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 80%;
+  height: 0;
+  width: 0;
+  border-left: 30px solid #32B2B7;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

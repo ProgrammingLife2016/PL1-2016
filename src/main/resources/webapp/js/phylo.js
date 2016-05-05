@@ -3,6 +3,8 @@ var r = $('html').height() / 2;//960 / 2;
 var svgId = "phyloTree";
 var panX = 0, panY = 0;
 
+$('#rotation').css('top', r-$('#rotation').height()+'px');
+
 var cluster = d3.layout.cluster()
     .size([360, 1])
     .sort(null)
@@ -36,8 +38,8 @@ var wrap = d3.select("#tree")
 //    .attr("width", r * 2)
 //    .attr("height", r * 2)
     .append("svg")
-    .attr("width", r * 2)
-    .attr("height", r * 2)
+    .attr("width", $('html').width())//r * 2)
+    .attr("height", $('html').height())//r * 2)
     .attr("id", svgId)
     .style("-webkit-backface-visibility", "hidden");
 
@@ -148,13 +150,13 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
            zoomEnabled: true,
            disablePan: true,
            center: true,
-           minZoom: 1,
+           minZoom: 0.95,
            maxZoom: 4,
            dblClickZoomEnabled: false
        });
 
       // Initially zoom out
-       panZoomInstance.zoom(1)
+       panZoomInstance.zoom(0.95)
 //       panZoomInstance.setOnZoom(function(){panZoomInstance.center()});
 //       panZoomInstance.disablePan();
        panZoomInstance.setOnPan(function(){
