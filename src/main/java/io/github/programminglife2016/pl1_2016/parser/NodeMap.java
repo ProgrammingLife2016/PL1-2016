@@ -21,7 +21,7 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
      *
      * @return all segments
      */
-    public Collection<Specimen> getNodes() {
+    public Collection<Node> getNodes() {
         return values();
     }
 }

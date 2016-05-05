@@ -6,15 +6,15 @@ import java.util.Iterator;
 /**
  * A data structure that represents the segments.
  */
-public interface NodeCollection extends JsonSerializable, Iterable<Node> {
+public interface SpecimenCollection extends JsonSerializable, Iterable<Specimen> {
     /**
      * Add a segment to the collection.
      *
      * @param id      id of the segment
-     * @param node the actual segment
+     * @param specimen the actual segment
      * @return the segment parameter
      */
-    Node put(Integer id, Node node);
+    Specimen put(Integer id, Specimen specimen);
 
     /**
      * Get a segment by id.
@@ -22,7 +22,7 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      * @param id id of the segment
      * @return segment
      */
-    Node get(Object id);
+    Specimen get(Object id);
 
     /**
      * Checks if the collection contains a particular key.
@@ -36,13 +36,13 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      * Return all segments.
      * @return all segments.
      */
-    Collection<Node> getNodes();
+    Collection<Specimen> getSpecimen();
 
     /**
      * Iterator for the collection.
      * @return iterator
      */
-    default Iterator<Node> iterator() {
-        return getNodes().iterator();
+    default Iterator<Specimen> iterator() {
+        return getSpecimen().iterator();
     }
 }
