@@ -134,12 +134,11 @@ $(function() { // on dom ready
         }, 1500);
         setTimeout(function() {
             $("#options").css("display", "none");
+            //$("#cy").toggle();
         }, 1500);
       });
 
       $("#optionButton").click(function() {
-         $("#cy").autoungrabify = false;
-         $("#cy").autolock = false;
          $header = $(this);
          $content = $("#optionsContainer");
          $content.slideToggle(500, function () {
@@ -156,12 +155,13 @@ $(function() { // on dom ready
          if (c === undefined || c[1] === "false") {
            $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
            cookieHandler.setCookie("enableDragging", "true");
-           cy.autolock(false);
+//           cy.autolock(false);
          } else {
            $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
            cookieHandler.setCookie("enableDragging", "false");
-           cy.autolock(true);
+//           cy.autolock(true);
          }
+         graphHandler.loadSettings();
       });
   }
 
@@ -265,6 +265,7 @@ $(function() { // on dom ready
         }
       });
       this.bindUIEvents();
+      cy.userPanningEnabled( false );
   }
 
   GraphHandler.prototype.loadSettings = function() {
@@ -305,8 +306,8 @@ $(function() { // on dom ready
   */
   GraphHandler.prototype.bindUIEvents = function() {
     $("#zoomButton").click(() => {
-        console.log(graphHandler.getDimensions());
-        cy.autolock(true);
+       console.log(graphHandler.getDimensions());
+       $("#cy").toggle();
     });
   }
 
@@ -331,16 +332,16 @@ $(function() { // on dom ready
     Class for rendering a Phylogentic Tree.
 
   */
-  function PhyloGeneticTree() {
-  }
+  function PhyloGeneticTree() {}
 
   PhyloGeneticTree.prototype.hideTree = function() { cy.css("display", "none"); }
   PhyloGeneticTree.prototype.showTree = function() { cy.css("display", "block"); }
 
-  $('#cy').cytoscapeNavigator(); // Initialize mini map
+  $("#cy").cytoscapeNavigator(); // Initialize mini map
+  //$("#cy").toggle();
   var graphFactory = new GraphFactory();
-  var serverConnection = new ServerConnection();
   var graphHandler = new GraphHandler();
+  var serverConnection = new ServerConnection();
   var cookieHandler = new CookieHandler();
   graphHandler.loadSettings();
 }); // on dom ready
