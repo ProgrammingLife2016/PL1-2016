@@ -155,13 +155,13 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
             return str.replace("treelink", "");
             })
       .on("mouseover", function() {
-          colorTKKs(this, 'red');
+          colorTKKs(this, 'red', 'red');
       })
       .on("mouseout", function() {
-          colorTKKs(this, '#999');
+          colorTKKs(this, '#ccc', '#000');
       })
       .on("mouseleave", function() {
-          colorTKKs(this, '#999');
+          colorTKKs(this, '#ccc', '#000');
       });
       enableZooming(svgId);
 });
@@ -184,6 +184,14 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
             panX = panZoomInstance.getPan().x;
             panY = panZoomInstance.getPan().y
        });
+
+       panZoomInstance.setOnZoom(function(){
+                  var delta = Math.abs(1/panZoomInstance.getZoom());
+                  $('circle').attr('r', 2.5 * delta);
+                  $('circle').css('stroke-width', 1.5 * delta + "px");
+                  $('.treelink').css('stroke-width', 1.5 * delta + "px");
+                  console.log(panZoomInstance.getZoom());
+              });
    });
 }
 function setClassNames(tree) {
@@ -227,10 +235,11 @@ function getProperClassFormat(str){
     return '.dummy';
 }
 
-function colorTKKs(obj, color){
+function colorTKKs(obj, colorLine, colorText){
     var str = $(obj).text().replace(/\s/g, '_');
     str = getProperClassFormat($("."+str).attr("class"));//$("."+str).attr("class")
-    $(str).css('stroke', color);
+    $(str).css('stroke', colorLine);
+    $('text'+str.replace(/,\s./g, ", text.")).css('fill', colorText);
 }
 
 });

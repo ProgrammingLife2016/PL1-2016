@@ -16,12 +16,16 @@ html, body, #tree{
 
 .treelink {
   fill: none;
-  stroke: #999;
+  stroke: #ccc;
   stroke-width: 1.5px;
 }
 
 treetext {
   fill: #000;
+}
+
+g text {
+  stroke-width: 0;
 }
 
 #tree, #phyloTree{
