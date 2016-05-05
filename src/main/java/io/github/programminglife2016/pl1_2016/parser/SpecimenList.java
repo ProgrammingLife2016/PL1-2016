@@ -2,17 +2,17 @@ package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.Collection;
 import java.util.HashMap;
-
 /**
- * Adapter for segment hashmap
+ * Created by ravishivam on 4-5-16.
  */
-public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
+public class SpecimenList extends HashMap<String, Specimen> implements NodeCollection {
+
 
     /**
      * Create segment hashmap.
      * @param initialCapacity capacity of the hashmap.
      */
-    public NodeMap(int initialCapacity) {
+    public SpecimenList(int initialCapacity) {
         super(initialCapacity);
     }
 

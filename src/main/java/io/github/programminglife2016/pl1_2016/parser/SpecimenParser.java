@@ -10,6 +10,6 @@ public class SpecimenParser implements Parser {
     private HashMap<String, Data> specimens;
     @Override
     public JsonSerializable parse(InputStream inputStream) {
-        return null;
+        return this.specimens;
     }
 }

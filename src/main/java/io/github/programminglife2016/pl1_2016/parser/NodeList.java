@@ -59,7 +59,7 @@ public class NodeList implements NodeCollection {
      * Return all segments.
      * @return all segments
      */
-    public Collection<Node> getNodes() {
+    public Collection<Specimen> getNodes() {
         return Arrays.asList(array).stream().filter(x -> x != null).collect(Collectors.toList());
     }
 }

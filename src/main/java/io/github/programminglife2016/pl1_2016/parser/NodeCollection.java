@@ -36,7 +36,7 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      * Return all segments.
      * @return all segments.
      */
-    Collection<Node> getNodes();
+    Collection<Specimen> getNodes();
 
     /**
      * Iterator for the collection.
