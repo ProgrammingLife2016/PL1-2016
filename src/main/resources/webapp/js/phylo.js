@@ -1,4 +1,4 @@
-var r = 960 / 2;
+var r = $('html').height() / 2;//960 / 2;
 var svgId = "phyloTree";
 
 var cluster = d3.layout.cluster()
@@ -28,22 +28,25 @@ function step(d) {
     "L" + t[0] + "," + t[1]);
 }
 
-var wrap = d3.select("#tree").append("svg")
-    .attr("width", "100%")//r * 2)
-    .attr("height", "100%")//r * 2)
+var wrap = d3.select("#tree")
+//    .append("svg")
+//    .attr("id", "zoomContainer")
+//    .attr("width", r * 2)
+//    .attr("height", r * 2)
+    .append("svg")
+    .attr("width", r * 2)
+    .attr("height", r * 2)
     .attr("id", svgId)
     .style("-webkit-backface-visibility", "hidden");
 
 // Catch mouse events in Safari.
 wrap.append("rect")
-    .attr("width", "100%")//r * 2)
-    .attr("height", "100%")//r * 2)
+    .attr("width", r * 2)
+    .attr("height", r * 2)
     .attr("fill", "none")
 
 var tree = wrap.append("g")
-    .attr("display", "block")
-    .attr("id", "GangstaShitAmattie")
-    .attr("transform", "translate(" + $('html').height()/2 + "," + $('html').height()/2 + ")");
+    .attr("transform", "translate(" + r + "," + r + ")");
 
 var start = null,
     rotate = 0,
@@ -51,8 +54,8 @@ var start = null,
 
 function mouse(e) {
   return [
-    e.pageX - div.offsetLeft - $('html').height()/2,//r,
-    e.pageY - div.offsetTop - $('html').height()/2//r
+    e.pageX - div.offsetLeft - r,
+    e.pageY - div.offsetTop - r
   ];
 }
 
@@ -74,10 +77,10 @@ d3.select(window)
       wrap.style("-webkit-transform", null);
       tree
           .attr("transform", "translate(" + r + "," + r + ")rotate(" + rotate + ")")
-        .selectAll("treetext")
+        .selectAll("text")
           .attr("text-anchor", function(d) { return (d.x + rotate) % 360 < 180 ? "start" : "end"; })
           .attr("transform", function(d) {
-            return "rotate(" + (d.x - 90) + ")translate(" + (r) + ")rotate(" + ((d.x + rotate) % 360 < 180 ? 0 : 180) + ")";
+            return "rotate(" + (d.x - 90) + ")translate(" + (r - (170*r/480)) + ")rotate(" + ((d.x + rotate) % 360 < 180 ? 0 : 180) + ")";
           });
     }
   })
@@ -90,7 +93,7 @@ d3.select(window)
   });
 
 function phylo(n, offset) {
-  if (n.length != null) offset += n.length * 5000;//115;
+  if (n.length != null) offset += n.length * 3200*r/480;//115;
   n.y = offset;
   if (n.children)
     n.children.forEach(function(n) {
@@ -123,19 +126,17 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
     .enter().append("text")
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(170*r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
       .text(function(d) { return d.name.replace(/_/g, ' '); });
-
       enableZooming(svgId);
 });
-
 
  function enableZooming(id){
    $(function() {
        panZoomInstance = svgPanZoom("#"+id
        , {
            zoomEnabled: true,
-           disablePan: false,
+           disablePan: true,
            center: true,
            minZoom: 1,
            maxZoom: 4,
@@ -145,5 +146,6 @@ d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
       // Initially zoom out
        panZoomInstance.zoom(1)
        panZoomInstance.disablePan();
+       panZoomInstance.setOnZoom(function(){panZoomInstance.center()});
    });
 }
