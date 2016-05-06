@@ -100,15 +100,10 @@ public class TreeNode implements JsonSerializable {
 
     /**
      * Convert tree to string.
-     * @param c level indent.
+     * @return String representation of the treenode.
      */
-    public void toString(String c) {
-        System.out.print(c + "#" + this.getId() + " " + getWeight());
-        if (parent != null) {
-           System.out.println(" " + parent.getId());
-        } else {
-           System.out.println();
-        }
-        this.getChildren().forEach(n -> n.toString(c + "  "));
+    @Override
+    public String toString() {
+        return String.format("TreeNode{id= %d, weight= %d, children= %d, parent = %d}", id, weight, children, parent);
     }
 }
