@@ -1,109 +1,47 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class for representing a node in the phylogenetic tree.
+/** TreeNode interface to make a contruct tree datastructure.
+ *
+ * Created by ravishivam on 6-5-16.
  */
-public class TreeNode implements JsonSerializable {
-    private String id;
-    private double weight;
-    private List<TreeNode> children;
-    private TreeNode parent;
-
-    /**
-     * Create a dummy Tree Node.
-     */
-    public TreeNode() {
-        this("-", 0);
-    }
-
-    /**
-     * Create a Tree Node Object.
-     * @param id id of the tree node.
-     * @param weight weight of the tree node.
-     */
-    public TreeNode(String id, double weight) {
-        this(id, weight, new ArrayList<>(), null);
-    }
-
-    /**
-     * Create a TreeNode object.
-     * @param id id of the treenode.
-     * @param weight weight of the tree node.
-     * @param children list of children tree nodes.
-     * @param parent parent tree node of this tree node.
-     */
-    public TreeNode(String id, double weight, List<TreeNode> children, TreeNode parent) {
-        this.id = id;
-        this.weight = weight;
-        this.children = children;
-        this.parent = parent;
-    }
-
-    /**
-     * Add a child to the current tree node.
-     * @param child child tree node of this tree node.
-     */
-    public void addChild(TreeNode child) {
-        this.children.add(child);
-    }
-
-    /**
-     * Set the list of children tree nodes.
-     * @param children list of tree node objects.
-     */
-    public void setChildren(List<TreeNode> children) {
-        this.children = children;
-    }
+public interface TreeNode {
 
     /**
      * Set the id of the tree node.
      * @param id value of the id.
      */
-    public void setId(String id) {
-        this.id = id;
-    }
+    void setId(String id);
 
     /**
-     * Set the weight of the tree node.
-     * @param weight double value of the weight of the tree.
+     * Set the list of children tree nodes.
+     * @param children list of tree node objects.
      */
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
+    void setChildren(List<TreeNode> children);
 
     /**
      * Get id of tree node.
      * @return id of tree.
      */
-    public String getId() {
-        return id;
-    }
+    String getId();
 
     /**
      * Return weight of this node.
      * @return weight of tree node.
      */
-    public double getWeight() {
-        return weight;
-    }
+    double getWeight();
 
     /**
-     * Get the children from this node.
-     * @return list of children.
+     * Set the weight of the tree node.
+     * @param weight double value of the weight of the tree.
      */
-    public List<TreeNode> getChildren() {
-        return children;
-    }
+    public void setWeight(double weight);
 
-    /**
-     * Convert tree to string.
-     * @return String representation of the treenode.
-     */
-    @Override
-    public String toString() {
-        return String.format("TreeNode{id= %d, weight= %d, children= %d, parent = %d}", id, weight, children, parent);
-    }
+
+        /**
+         * Get the children from this node.
+         * @return list of children.
+         */
+    List<TreeNode> getChildren();
 }

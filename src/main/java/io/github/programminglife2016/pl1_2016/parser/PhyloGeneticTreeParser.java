@@ -18,7 +18,6 @@ public class PhyloGeneticTreeParser implements Parser {
         StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
         TreeNode root = constructTree(null, tokenizer);
         root = root.getChildren().get(0);
-        root.toString("");
         return null;
     }
 
@@ -36,7 +35,7 @@ public class PhyloGeneticTreeParser implements Parser {
      * @return parsed Tree Node object.
      */
     public TreeNode constructTree(TreeNode parent, StringTokenizer tokenizer) {
-        TreeNode current = new TreeNode();
+        TreeNode current = new BaseTreeNode();
         String next;
         double weight;
         List<TreeNode> nodes = new ArrayList<>();
@@ -55,7 +54,7 @@ public class PhyloGeneticTreeParser implements Parser {
                     break;
                 case ",":
                     nodes.add(current);
-                    current = new TreeNode();
+                    current = new BaseTreeNode();
                     break;
                 case ")":
                     nodes.add(current);
@@ -63,7 +62,7 @@ public class PhyloGeneticTreeParser implements Parser {
                     if (tokenizer.hasMoreTokens() && tokenizer.nextToken().equals(":")) {
                         weight = Double.parseDouble(tokenizer.nextToken());
                     }
-                    return new TreeNode("-", weight, nodes, parent);
+                    return new BaseTreeNode("-", weight, nodes, parent);
                 case ";":
                     current.setChildren(nodes);
                     return current;
