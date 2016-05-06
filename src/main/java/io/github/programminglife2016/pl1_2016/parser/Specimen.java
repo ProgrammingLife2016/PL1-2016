@@ -16,6 +16,7 @@ public class Specimen implements Data {
 
     private int Smear;
     private boolean Singlecolony;
+
     private String pDSTPattern;
     private char Capreomycin;
     private char EthamButol;

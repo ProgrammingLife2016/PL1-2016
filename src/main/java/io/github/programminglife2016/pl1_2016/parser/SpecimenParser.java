@@ -53,6 +53,8 @@ public class SpecimenParser implements Parser {
         Specimen specimen = new Specimen();
         parseBasicInfo(string, specimen);
         parseSecondaryInfo(string, specimen);
+        parseFirstSpecs(string, specimen);
+        parseSecondSpecs(string, specimen);
     }
 
     private void parseBasicInfo(String[] string, Specimen specimen) {
@@ -81,5 +83,39 @@ public class SpecimenParser implements Parser {
         specimen.setDistrict(string[6]);
         specimen.setType(string[7]);
     }
-    
+
+    private void parseFirstSpecs(String[] string, Specimen specimen) {
+        switch (string[8]) {
+            case "Positive" : specimen.setSmear(1);
+                break;
+            case "Negative" : specimen.setSmear(-1);
+                break;
+            case "unknown" : specimen.setSmear(0);
+                break;
+            default : break;
+        }
+        if (string[9].equals("single colony")) {
+            specimen.setSinglecolony(true);
+        }
+        else {
+            specimen.setSinglecolony(false);
+        }
+    }
+
+    private void parseSecondSpecs(String[] string, Specimen specimen) {
+        specimen.setpDSTPattern(string[10]);
+        specimen.setCapreomycin(string[11].charAt(0));
+        specimen.setEthamButol(string[12].charAt(0));
+        specimen.setEthionamide(string[13].charAt(0));
+        specimen.setIsoniazid(string[14].charAt(0));
+        specimen.setKanamycin(string[15].charAt(0));
+        specimen.setPyrazinamide(string[16].charAt(0));
+        specimen.setOfloxacin(string[17].charAt(0));
+        specimen.setRifampin(string[18].charAt(0));
+        specimen.setStreptomycin(string[19].charAt(0));
+        specimen.setSpoligotype(string[20].charAt(0));
+        specimen.setLineage(string[21].charAt(0));
+        specimen.setgDSTPattern(string[22]);
+        specimen.setXdr(string[23]);
+    }
 }
