@@ -14,7 +14,7 @@ public interface SpecimenCollection extends JsonSerializable, Iterable<Specimen>
      * @param specimen the actual segment
      * @return the segment parameter
      */
-    Specimen put(Integer id, Specimen specimen);
+    Specimen put(String id, Specimen specimen);
 
     /**
      * Get a segment by id.

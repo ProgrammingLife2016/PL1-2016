@@ -48,6 +48,10 @@ public class SpecimenParser implements Parser {
         }
     }
 
+    /**
+     * Line parser that parses individual lines.
+     * @param line line to be parsed.
+     */
     private void parseLine(String line) {
         String[] string = line.split(",");
         Specimen specimen = new Specimen();
@@ -55,6 +59,7 @@ public class SpecimenParser implements Parser {
         parseSecondaryInfo(string, specimen);
         parseFirstSpecs(string, specimen);
         parseSecondSpecs(string, specimen);
+        specimens.put(specimen.getNameId(), specimen);
     }
 
     private void parseBasicInfo(String[] string, Specimen specimen) {
