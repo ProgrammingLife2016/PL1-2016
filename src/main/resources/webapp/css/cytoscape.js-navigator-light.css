@@ -14,7 +14,7 @@
     border-top-color: #9DB5D4;
 }
 
-.cytoscape-navigator > canvas{
+.cytoscape-navigator > canvas {
 	position: absolute;
 	top: 0;
 	left: 0;
