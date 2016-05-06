@@ -7,11 +7,13 @@ public class Specimen implements Data {
     private String nameId;
     private int age;
     private boolean isMale;
+
     private int HIV;
     private String Cohort;
     private String Date;
     private String District;
     private String Type;
+
     private int Smear;
     private boolean Singlecolony;
     private String pDSTPattern;
@@ -29,6 +31,9 @@ public class Specimen implements Data {
     private String gDSTPattern;
     private String xdr;
 
+    public Specimen() {
+
+    }
     public Specimen(String nameId, int age, boolean isMale,
                     int HIV, String cohort, String date, String district,
                     String type, int smear, boolean singlecolony, String pDSTPattern,
@@ -61,6 +66,7 @@ public class Specimen implements Data {
         this.gDSTPattern = gDSTPattern;
         this.xdr = xdr;
     }
+
 
     public String getNameId() {
         return nameId;

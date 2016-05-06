@@ -49,6 +49,37 @@ public class SpecimenParser implements Parser {
     }
 
     private void parseLine(String line) {
-
+        String[] string = line.split(",");
+        Specimen specimen = new Specimen();
+        parseBasicInfo(string, specimen);
+        parseSecondaryInfo(string, specimen);
     }
+
+    private void parseBasicInfo(String[] string, Specimen specimen) {
+        specimen.setNameId(string[0]);
+        specimen.setAge(Integer.parseInt(string[1]));
+        if (string[2].equals("Male")) {
+            specimen.setMale(true);
+        }
+        else {
+            specimen.setMale(false);
+        }
+    }
+
+    private void parseSecondaryInfo(String[] string, Specimen specimen) {
+        switch (string[3]) {
+            case "Positive" : specimen.setHIV(1);
+                break;
+            case "Negative" : specimen.setHIV(-1);
+                break;
+            case "unknown" : specimen.setHIV(0);
+                break;
+            default : break;
+        }
+        specimen.setCohort(string[4]);
+        specimen.setDate(string[5]);
+        specimen.setDistrict(string[6]);
+        specimen.setType(string[7]);
+    }
+    
 }
