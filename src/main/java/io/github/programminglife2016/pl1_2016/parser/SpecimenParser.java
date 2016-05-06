@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Parser class for the metadata.
@@ -65,6 +66,9 @@ public class SpecimenParser implements Parser {
      */
     private void parseLine(String line) {
         String[] string = line.split(",");
+        if (string[0].equals("Specimen ID")) {
+            return;
+        }
         Specimen specimen = new Specimen();
         parseBasicInfo(string, specimen);
         parseSecondaryInfo(string, specimen);
@@ -80,7 +84,12 @@ public class SpecimenParser implements Parser {
      */
     private void parseBasicInfo(String[] string, Specimen specimen) {
         specimen.setNameId(string[0]);
-        specimen.setAge(Integer.parseInt(string[1]));
+        if(string[1].equals("unknown")) {
+            specimen.setAge(0);
+        }
+        else {
+            specimen.setAge((int) Double.parseDouble(string[1]));
+        }
         if (string[2].equals("Male")) {
             specimen.setMale(true);
         }

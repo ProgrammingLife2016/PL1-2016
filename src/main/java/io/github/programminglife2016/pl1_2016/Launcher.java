@@ -1,7 +1,9 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.Parser;
 import io.github.programminglife2016.pl1_2016.parser.SegmentParser;
+import io.github.programminglife2016.pl1_2016.parser.SpecimenParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
 
