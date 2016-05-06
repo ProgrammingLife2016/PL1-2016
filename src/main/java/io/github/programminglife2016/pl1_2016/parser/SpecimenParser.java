@@ -6,16 +6,27 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 /**
+ * Parser class for the metadata.
  * Created by ravishivam on 4-5-16.
  */
 public class SpecimenParser implements Parser {
-
+    /**
+     * Map containing all the specimen.
+     */
     private SpecimenMap specimens;
 
+    /**
+     * Constructor for the parser.
+     */
     public SpecimenParser() {
         specimens = new SpecimenMap();
     }
 
+    /**
+     * Parse method for Specimen.
+     * @param inputStream input data
+     * @return JsonSerializable version of the specimenmap.
+     */
     @Override
     public JsonSerializable parse(InputStream inputStream) {
         read(inputStream);
@@ -62,6 +73,11 @@ public class SpecimenParser implements Parser {
         specimens.put(specimen.getNameId(), specimen);
     }
 
+    /**
+     * Parse info of specimen of name, age and sex.
+     * @param string Array containing data belonging to the specimen.
+     * @param specimen The specimen for whom the data belongs to.
+     */
     private void parseBasicInfo(String[] string, Specimen specimen) {
         specimen.setNameId(string[0]);
         specimen.setAge(Integer.parseInt(string[1]));
@@ -73,6 +89,11 @@ public class SpecimenParser implements Parser {
         }
     }
 
+    /**
+     * Parse data for hiv, cohort, data, district and type.
+     * @param string Array containing data belonging to the specimen.
+     * @param specimen The specimen for whom the data belongs to.
+     */
     private void parseSecondaryInfo(String[] string, Specimen specimen) {
         switch (string[3]) {
             case "Positive" : specimen.setHIV(1);
@@ -89,6 +110,11 @@ public class SpecimenParser implements Parser {
         specimen.setType(string[7]);
     }
 
+    /**
+     * Parse specs for smear and number of colonies.
+     * @param string Array containing data belonging to the specimen.
+     * @param specimen The specimen for whom the data belongs to.
+     */
     private void parseFirstSpecs(String[] string, Specimen specimen) {
         switch (string[8]) {
             case "Positive" : specimen.setSmear(1);
@@ -107,6 +133,11 @@ public class SpecimenParser implements Parser {
         }
     }
 
+    /**
+     * Parse method to parse the rest of the data. This mostly indicate de amount of which the substance was in de body.*
+     * @param string Array containing data belonging to the specimen.
+     * @param specimen The specimen for whom the data belongs to.
+     */
     private void parseSecondSpecs(String[] string, Specimen specimen) {
         specimen.setpDSTPattern(string[10]);
         specimen.setCapreomycin(string[11].charAt(0));
