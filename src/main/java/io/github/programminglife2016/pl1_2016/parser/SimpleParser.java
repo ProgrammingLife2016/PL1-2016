@@ -3,6 +3,9 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -10,6 +13,7 @@ import java.io.InputStreamReader;
 public class SimpleParser implements Parser {
     private static final int SIZE = 9000;
     private static final String ATTR_ZINDEX = "START:Z:";
+    private static final String ATTR_ORI = "ORI:";
 
     /**
      * Map containing the DNA seqments.
@@ -90,6 +94,7 @@ public class SimpleParser implements Parser {
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
+        Collection<String> genomes = Arrays.asList(data[4].substring(6).split(";"));
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
         } else {

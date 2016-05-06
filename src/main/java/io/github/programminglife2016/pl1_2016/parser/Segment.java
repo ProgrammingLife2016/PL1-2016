@@ -1,43 +1,19 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Data structure for representing a DNA sequence
  */
 public class Segment implements Node {
-    /**
-     * Id of DNA segment.
-     */
     private int id;
-
-    /**
-     * Contents of DNA segment.
-     */
     private String data;
-
-    /**
-     * z-index of Segment in graph.
-     */
     private int column;
-
-    /**
-     * Links to other DNA segments in the graph.
-     */
-    private List<Node> links;
-    private List<Node> backLinks;
-
-    /**
-     * x position of the segment in the graph.
-     */
+    private List<Node> links = new ArrayList<>();
+    private List<Node> backLinks = new ArrayList<>();
     private int x;
-
-    /**
-     * y position of the segment in the graph.
-     */
     private int y;
+    private Set<String> genomes = new HashSet<>();
 
     /**
      * Create segment with id and sequence data.
@@ -49,8 +25,6 @@ public class Segment implements Node {
         this.id = id;
         this.data = data;
         this.column = column;
-        this.links = new ArrayList<Node>();
-        this.backLinks = new ArrayList<Node>();
     }
 
     /**
@@ -59,8 +33,6 @@ public class Segment implements Node {
      */
     public Segment(int id) {
         this.id = id;
-        this.links = new ArrayList<Node>();
-        this.backLinks = new ArrayList<Node>();
     }
 
     /**
@@ -129,6 +101,26 @@ public class Segment implements Node {
      */
     public int getColumn() {
         return column;
+    }
+
+    /**
+     * Add the genomes this segment belongs to.
+     *
+     * @param genomes the genomes this segment belongs to
+     */
+    @Override
+    public void addGenomes(Collection<String> genomes) {
+        this.genomes.addAll(genomes);
+    }
+
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
+    @Override
+    public Set<String> getGenomes() {
+        return genomes;
     }
 
     /**

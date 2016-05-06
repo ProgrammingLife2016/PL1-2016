@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * An object that represents a displayable bubble/segment.
@@ -90,4 +91,18 @@ public interface Node {
      * @return the column of this node
      */
     int getColumn();
+
+    /**
+     * Add the genomes this segment belongs to.
+     *
+     * @param genomes the genomes this segment belongs to
+     */
+    void addGenomes(Collection<String> genomes);
+
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
+    Set<String> getGenomes();
 }
