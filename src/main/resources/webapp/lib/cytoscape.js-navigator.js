@@ -519,12 +519,12 @@ function initialize($ /* = window.jQuery */, $$ /* = window.cytoscape */){
                                   ev.originalEvent.wheelDelta / 1000 ||
                                   ev.originalEvent.detail / -32),
           mousePosition = {
-            left: ev.offsetX,
-            top: ev.offsetY
+            left: ev.offsetX + ($('body').offset().left*2),
+            top: ev.offsetY + ($('.cytoscape-navigator canvas').offset().top/2)
           };
 
       if (this.cy.zoomingEnabled()) {
-        this._zoomCy(zoomRate, mousePosition);
+        this._zoomCy(zoomRate, mousePosition, mousePosition);
       }
     },
 
@@ -621,13 +621,13 @@ function initialize($ /* = window.jQuery */, $$ /* = window.cytoscape */){
    * @this {cytoscapeNavigator}
    * @param {number} zoomRate The zoom rate value. 1 is 100%.
    */
-    _zoomCy: function (zoomRate, zoomCenterRaw) {
+    _zoomCy: function (zoomRate, zoomCenterRaw, pos) {
       var zoomCenter,
           isZoomCenterInView = false;
 
       zoomCenter = {
-        x: this.width / 2,
-        y: this.height / 2
+        x: pos.left,//this.width / 2,
+        y: pos.top//this.height / 2
       };
 
       this.cy.zoom({

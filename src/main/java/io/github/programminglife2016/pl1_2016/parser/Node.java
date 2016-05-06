@@ -50,6 +50,13 @@ public interface Node {
     void addLink(Node node);
 
     /**
+     * Add a predecessor node.
+     *
+     * @param node connected node
+     */
+    void addBackLink(Node node);
+
+    /**
      * Get the id of the node.
      *
      * @return id of the node
@@ -69,6 +76,13 @@ public interface Node {
      * @return links of this node
      */
     Collection<Node> getLinks();
+
+    /**
+     * Get the predecessors of this node.
+     *
+     * @return links of this node
+     */
+    Collection<Node> getBackLinks();
 
     /**
      * Get the column of this node.
