@@ -218,6 +218,9 @@ $(function() { // on dom ready
         hideEdgesOnViewport : true,
         hideLabelsOnViewport : true,
         textureOnViewport : true,
+        wheelSensitivity: 0.1,
+        minZoom: 0.5,
+        maxZoom: 80,
 
         style: [{"selector":"core",
                    "style":
@@ -265,7 +268,36 @@ $(function() { // on dom ready
         }
       });
       this.bindUIEvents();
-      cy.userPanningEnabled( false );
+//      cy.userPanningEnabled( false );
+cy.on('zoom', function(evt){
+    var currentMousePos = { x: -1, y: -1 };
+        $(document).hover(function(event) {
+            currentMousePos.x = event.pageX;
+            currentMousePos.y = event.pageY;
+            cy.pan({
+                    x: currentMousePos.x + ($('body').offset().left*2),
+                    y: currentMousePos.y + ($('body').offset().top/2)
+                  });
+        });
+});
+//      cy.on('layoutready', function(evt){
+//          var upperBoundary = $('.cytoscape-navigatorView').offset().top;
+//          var lowerBoundary = $('.cytoscape-navigatorView').height() + upperBoundary;
+//          var leftBoundary = $('.cytoscape-navigatorView').offset().left;
+//          var rightBoundary = $('.cytoscape-navigatorView').width() + leftBoundary;
+//
+//            cy.on('pan', function(evt){
+//                  console.log("left: " + $('.cytoscape-navigatorView').offset().left +
+//                              " top: " + $('.cytoscape-navigatorView').offset().top);
+//                  console.log("width: " + $('.cytoscape-navigatorView').width() +
+//                              " height: " + $('.cytoscape-navigatorView').height());
+//                  console.log("upperBoundary: " + upperBoundary +
+//                                  " lowerBoundary: " + lowerBoundary );
+//                  console.log("leftBoundary: " + leftBoundary +
+//                              " rightBoundary: " + rightBoundary);
+//
+//            });
+//      });
   }
 
   GraphHandler.prototype.loadSettings = function() {
