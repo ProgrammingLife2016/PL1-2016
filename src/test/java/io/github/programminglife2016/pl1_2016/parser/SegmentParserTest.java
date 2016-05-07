@@ -1,8 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import io.github.programminglife2016.pl1_2016.parser.segments.Node;
-import io.github.programminglife2016.pl1_2016.parser.segments.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.segments.SegmentParser;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import org.junit.Before;
 import org.junit.Test;
 
