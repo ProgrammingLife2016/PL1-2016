@@ -5,124 +5,29 @@ package io.github.programminglife2016.pl1_2016.parser;
  */
 public class Specimen implements Data {
 
-    /**
-     * NameId of the specimen.
-     */
     private String nameId;
-
-    /**
-     * Age of the specimen.
-     */
     private int age;
-
-    /**
-     * Gender of the specimen.
-     */
     private boolean isMale;
-
-    /**
-     * HIV status of the specimen.
-     */
     private int HIV;
-
-    /**
-     * Cohort status of the specimen.
-     */
     private String Cohort;
-
-    /**
-     * Date of the record of the specimen.
-     */
     private String Date;
-
-    /**
-     * District of the specimen.
-     */
     private String District;
-
-    /**
-     * Type of the specimen.
-     */
     private String Type;
-
-    /**
-     * Smear status of the specimen.
-     */
     private int Smear;
-
-    /**
-     * Number of colony of the specimen.
-     */
     private boolean Singlecolony;
-
-    /**
-     * DST-pattern of the specimen.
-     */
     private String pDSTPattern;
-
-    /**
-     * Capreomycin status of the specimen.
-     */
     private char Capreomycin;
-
-    /**
-     * EthamButal status of the specimen.
-     */
     private char EthamButol;
-
-    /**
-     * Ethionamide status of the specimen.
-     */
     private char Ethionamide;
-
-    /**
-     * Isoniazid status of the specimen.
-     */
     private char Isoniazid;
-
-    /**
-     * Kanamycin status of the specimen.
-     */
     private char Kanamycin;
-
-    /**
-     * Pyrazinamide status of the specimen.
-     */
     private char Pyrazinamide;
-
-    /**
-     * Ofloxacin status of the specimen.
-     */
     private char Ofloxacin;
-
-    /**
-     * Rifampin status of the specimen.
-     */
     private char Rifampin;
-
-    /**
-     * Streptomycin status of the specimen.
-     */
     private char Streptomycin;
-
-    /**
-     * Spoligotype of the specimen.
-     */
     private char Spoligotype;
-
-    /**
-     * Lineage status of the specimen.
-     */
     private char Lineage;
-
-    /**
-     * Genetic DST-pattern of the specimen.
-     */
     private String gDSTPattern;
-
-    /**
-     * XDR status of the specimen.
-     */
     private String xdr;
 
     /**
