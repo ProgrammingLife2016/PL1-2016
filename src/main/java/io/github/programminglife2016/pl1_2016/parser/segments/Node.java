@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.segments;
 
 import java.util.Collection;
 

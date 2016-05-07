@@ -2,6 +2,9 @@ package io.github.programminglife2016.pl1_2016.parser;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.programminglife2016.pl1_2016.parser.segments.NodeCollectionSerializer;
+import io.github.programminglife2016.pl1_2016.parser.segments.NodeList;
+import io.github.programminglife2016.pl1_2016.parser.segments.NodeMap;
 
 /**
  * Data is sent by the server in JSON format. Classes extending this method can convert their

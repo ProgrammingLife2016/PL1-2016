@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.metadata;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -6,13 +6,18 @@ import java.util.HashMap;
 /**
  * Adapter for segment hashmap
  */
-public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
+public class SpecimenMap extends HashMap<String, Subject> implements SpecimenCollection {
 
+    /**
+     * Create segment hashmap.
+     */
+    public SpecimenMap() {
+    }
     /**
      * Create segment hashmap.
      * @param initialCapacity capacity of the hashmap.
      */
-    public NodeMap(int initialCapacity) {
+    public SpecimenMap(int initialCapacity) {
         super(initialCapacity);
     }
 
@@ -21,7 +26,7 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
      *
      * @return all segments
      */
-    public Collection<Node> getNodes() {
+    public Collection<Subject> getSpecimen() {
         return values();
     }
 }

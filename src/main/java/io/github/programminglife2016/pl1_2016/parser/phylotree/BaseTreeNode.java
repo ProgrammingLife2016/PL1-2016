@@ -1,4 +1,6 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.phylotree;
+
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 
 import java.util.ArrayList;
 import java.util.List;

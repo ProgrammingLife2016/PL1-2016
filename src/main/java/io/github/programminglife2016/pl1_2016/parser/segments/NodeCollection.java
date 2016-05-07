@@ -1,4 +1,6 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.segments;
+
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -6,15 +8,15 @@ import java.util.Iterator;
 /**
  * A data structure that represents the segments.
  */
-public interface SpecimenCollection extends JsonSerializable, Iterable<Subject> {
+public interface NodeCollection extends JsonSerializable, Iterable<Node> {
     /**
      * Add a segment to the collection.
      *
      * @param id      id of the segment
-     * @param specimen the actual segment
+     * @param node the actual segment
      * @return the segment parameter
      */
-    Subject put(String id, Subject specimen);
+    Node put(Integer id, Node node);
 
     /**
      * Get a segment by id.
@@ -22,7 +24,7 @@ public interface SpecimenCollection extends JsonSerializable, Iterable<Subject> 
      * @param id id of the segment
      * @return segment
      */
-    Subject get(Object id);
+    Node get(Object id);
 
     /**
      * Checks if the collection contains a particular key.
@@ -36,13 +38,13 @@ public interface SpecimenCollection extends JsonSerializable, Iterable<Subject> 
      * Return all segments.
      * @return all segments.
      */
-    Collection<Subject> getSpecimen();
+    Collection<Node> getNodes();
 
     /**
      * Iterator for the collection.
      * @return iterator
      */
-    default Iterator<Subject> iterator() {
-        return getSpecimen().iterator();
+    default Iterator<Node> iterator() {
+        return getNodes().iterator();
     }
 }

@@ -1,10 +1,11 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.metadata;
+
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Parser class for the metadata.
