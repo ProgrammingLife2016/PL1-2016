@@ -270,8 +270,7 @@ $(function() { // on dom ready
       this.bindUIEvents();
 //      cy.userPanningEnabled( false );
 cy.on('zoom', function(evt){
-    var currentMousePos = { x: -1, y: -1 };
-        $(document).hover(function(event) {
+        $(document).mouseenter(function(event) {
             currentMousePos.x = event.pageX;
             currentMousePos.y = event.pageY;
             cy.pan({
@@ -279,6 +278,8 @@ cy.on('zoom', function(evt){
                     y: currentMousePos.y + ($('body').offset().top/2)
                   });
         });
+        $(document).mouseleave(function(event) { });
+        $(document).mouseout(function(event) { });
 });
 //      cy.on('layoutready', function(evt){
 //          var upperBoundary = $('.cytoscape-navigatorView').offset().top;
