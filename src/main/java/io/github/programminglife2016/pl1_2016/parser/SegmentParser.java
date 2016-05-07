@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 /**
  * Temporary simple parser for parsing .gfa files.
  */
-public class SimpleParser implements Parser {
+public class SegmentParser implements Parser {
     private static final int SIZE = 9000;
     private static final String ATTR_ZINDEX = "START:Z:";
 
@@ -19,7 +19,7 @@ public class SimpleParser implements Parser {
     /**
      * Create parser object.
      */
-    public SimpleParser() {
+    public SegmentParser() {
         nodeCollection = new NodeList(SIZE);
     }
 
