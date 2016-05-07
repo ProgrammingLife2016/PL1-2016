@@ -69,7 +69,7 @@ public class SpecimenParser implements Parser {
         if (string[0].equals("Specimen ID")) {
             return;
         }
-        Specimen specimen = new Specimen();
+        Subject specimen = new Specimen();
         parseBasicInfo(string, specimen);
         parseSecondaryInfo(string, specimen);
         parseFirstSpecs(string, specimen);
@@ -82,7 +82,7 @@ public class SpecimenParser implements Parser {
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
-    private void parseBasicInfo(String[] string, Specimen specimen) {
+    private void parseBasicInfo(String[] string, Subject specimen) {
         specimen.setNameId(string[0]);
         if(string[1].equals("unknown")) {
             specimen.setAge(0);
@@ -103,7 +103,7 @@ public class SpecimenParser implements Parser {
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
-    private void parseSecondaryInfo(String[] string, Specimen specimen) {
+    private void parseSecondaryInfo(String[] string, Subject specimen) {
         switch (string[3]) {
             case "Positive" : specimen.setHIV(1);
                 break;
@@ -124,7 +124,7 @@ public class SpecimenParser implements Parser {
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
-    private void parseFirstSpecs(String[] string, Specimen specimen) {
+    private void parseFirstSpecs(String[] string, Subject specimen) {
         switch (string[8]) {
             case "Positive" : specimen.setSmear(1);
                 break;
@@ -147,7 +147,7 @@ public class SpecimenParser implements Parser {
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
-    private void parseSecondSpecs(String[] string, Specimen specimen) {
+    private void parseSecondSpecs(String[] string, Subject specimen) {
         specimen.setpDSTPattern(string[10]);
         specimen.setCapreomycin(string[11].charAt(0));
         specimen.setEthamButol(string[12].charAt(0));

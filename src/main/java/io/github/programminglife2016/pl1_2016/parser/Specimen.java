@@ -3,7 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 /** Specimen object containing specifications of a certain genome.
  * Created by ravishivam on 4-5-16.
  */
-public class Specimen implements Data {
+public class Specimen implements Subject {
 
     private String nameId;
     private int age;

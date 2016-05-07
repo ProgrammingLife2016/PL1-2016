@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Adapter for segment hashmap
  */
-public class SpecimenMap extends HashMap<String, Specimen> implements SpecimenCollection {
+public class SpecimenMap extends HashMap<String, Subject> implements SpecimenCollection {
 
     /**
      * Create segment hashmap.
@@ -26,7 +26,7 @@ public class SpecimenMap extends HashMap<String, Specimen> implements SpecimenCo
      *
      * @return all segments
      */
-    public Collection<Specimen> getSpecimen() {
+    public Collection<Subject> getSpecimen() {
         return values();
     }
 }

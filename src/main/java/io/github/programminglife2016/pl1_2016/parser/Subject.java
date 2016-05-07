@@ -3,7 +3,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 /**
  * Created by ravishivam on 4-5-16.
  */
-public interface Data {
+public interface Subject {
     /**
      * Get the name of the subject which is also the id.
      * @return Name of the subject.
