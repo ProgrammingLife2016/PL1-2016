@@ -1,338 +1,338 @@
-"Specimen ID","Age","Sex","HIV Status","Cohort","Date of Collection","Study Geographic District","Specimen Type","Microscopy Smear Status","DNA isolation: single colony or non-single colony","Phenotypic DST Pattern","Capreomycin (10ug/mL)","Ethambutol (7.5ug/mL)","Ethionamide (10ug/mL)","Isoniazid (0.2ug/mL or 1ug/mL)","Kanamycin (6ug/mL)","Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT)","Ofloxacin (2ug/mL)","Rifampin (1ug/mL)","Streptomycin (2ug/mL)","Digital Spoligotype","Lineage","Genotypic DST pattern","Tugela Ferry vs. non-Tugela Ferry XDR"
-"TKK-01-0001","28","Female","Positive","KZNSUR","1/16/2008","eThekwini","sputum","Negative","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0006","70","Male","Negative","KZNSUR","2/15/2008","eThekwini","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0009","27","Female","unknown","KZNSUR","2/19/2008","eThekwini","sputum","Positive","single colony","mono","S","S","S","S","S","S","S","R","S","T1","LIN 4","MDR","n/a"
-"TKK-01-0011","32","Male","unknown","KZNSUR","2/20/2008","eThekwini","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","LAM11-ZWE,LAM4","LIN 4","MDR","n/a"
-"TKK-01-0012","23","Female","Negative","KZNSUR","2/25/2008","eThekwini","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0014","35","Male","Positive","KZNSUR","2/26/2008","uThungulu","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","R","T1","LIN 4","MDR","n/a"
-"TKK-01-0015","48","Male","Positive","KZNSUR","2/21/2008","eThekwini","sputum","Positive","single colony","MDR","R","S","S","R","R","S","S","R","R","T1","LIN 4","MDR","n/a"
-"TKK-01-0016","27","Male","Negative","KZNSUR","2/21/2008","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0017","56","Female","unknown","KZNSUR","39510","Sisonke","sputum","Negative","single colony","MDR","R","R","R","R","R","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0020","61","Female","Negative","KZNSUR","3/19/2008","iLembe","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0022","26","Female","unknown","KZNSUR","39482","Uthukela","sputum","Positive","single colony","MDR","S","S","S","R","S","R","R","R","S","S","LIN 4","MDR","n/a"
-"TKK-01-0026","45","Female","Positive","KZNSUR","39511","Uthukela","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","R","T3","LIN 4","MDR","n/a"
-"TKK-01-0028","19","Female","Negative","KZNSUR","39787","uMzinyathi","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","R","X2","LIN 4","MDR","n/a"
-"TKK-01-0029","41","Male","Positive","KZNSUR","39787","uMzinyathi","sputum","Negative","single colony","MDR","S","S","S","R","S","S","S","R","R","T1","LIN 4","MDR","n/a"
-"TKK-01-0030","42","Female","Positive","KZNSUR","5/13/2008","uMzinyathi","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","S","LIN 4","MDR","n/a"
-"TKK-01-0031","33","Female","Positive","KZNSUR","5/13/2008","uMzinyathi","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","X3","LIN 4","MDR","n/a"
-"TKK-01-0032","32","Female","Positive","KZNSUR","5/20/2008","uMzinyathi","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","S","LIN 4","MDR","n/a"
-"TKK-01-0035","50","Male","Positive","KZNSUR","7/15/2008","eThekwini","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0038","28","Male","Positive","KZNSUR","7/30/2008","Amajuba","sputum","unknown","single colony","MDR","S","R","R","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0039","18","Female","Negative","KZNSUR","7/31/2008","Amajuba","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK-01-0041","28","Male","unknown","KZNSUR","Unknown","Amajuba","sputum","unknown","single colony","MDR","R","R","R","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0042","22","Male","Negative","KZNSUR","8/14/2008","uThungulu","sputum","Positive","single colony","MDR","S","R","S","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0043","32","Male","Positive","KZNSUR","8/14/2008","uThungulu","sputum","Positive","single colony","MDR","S","R","S","R","S","S","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK-01-0044","26","Male","unknown","KZNSUR","8/14/2008","uThungulu","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","LAM3","LIN 4","MDR","n/a"
-"TKK-01-0045","25","Female","Positive","KZNSUR","8/14/2008","uThungulu","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","R","X3","LIN 4","MDR","n/a"
-"TKK-01-0048","29","Female","Positive","KZNSUR","1/26/2009","uMkhanyakude","sputum","Positive","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0050","32","Female","Positive","KZNSUR","5/21/2009","uMkhanyakude","sputum","Negative","single colony","MDR","S","R","R","R","S","R","S","R","S","T1","LIN 4","MDR","n/a"
-"TKK-01-0052","52","Female","Positive","KZNSUR","7/21/2009","uMgungundlovu","sputum","Positive","single colony","poly","S","S","R","S","R","S","S","S","S","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0055","49","Male","Positive","KZNSUR","11/27/2009","uThungulu","sputum","Negative","single colony","MDR","S","S","S","R","S","S","S","R","S","Beijing","LIN 2","MDR","n/a"
-"TKK-01-0056","44","Male","Positive","KZNSUR","11/27/2009","uThungulu","sputum","Negative","single colony","MDR","R","S","S","R","S","S","S","R","S","Beijing","LIN 2","MDR","n/a"
-"TKK-01-0057","24","Female","Positive","KZNSUR","11/27/2009","uThungulu","sputum","Negative","single colony","MDR","S","R","S","R","S","R","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0061","50","Female","unknown","KZNSUR","40360","uThungulu","sputum","Negative","single colony","MDR","S","R","S","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0062","18","Female","unknown","KZNSUR","40513","uThungulu","sputum","Negative","single colony","MDR","R","R","R","R","R","R","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK-01-0063","29","Female","Positive","KZNSUR","40513","uThungulu","sputum","Negative","single colony","MDR","S","S","S","R","R","S","S","R","S","LAM3","LIN 4","MDR","n/a"
-"TKK-01-0064","32","Male","unknown","KZNSUR","1/13/2010","Zululand","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","R","S","LIN 4","MDR","n/a"
-"TKK-01-0068","30","Female","Positive","KZNSUR","1/18/2010","uThungulu","sputum","Negative","single colony","MDR","R","R","R","R","R","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0069","53","Male","Negative","KZNSUR","1/20/2010","uThungulu","sputum","Positive","single colony","MDR","R","R","R","R","S","S","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0071","28","Female","Positive","KZNSUR","40239","uThungulu","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0074","34","Male","Positive","KZNSUR","2/25/2010","uThungulu","sputum","Positive","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0075","34","Female","unknown","KZNSUR","2/26/2010","uThungulu","sputum","Positive","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0010","30","Male","Negative","PROX","40516","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","R","R","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_02_0018","52","Male","Positive","PROX","40488","uMzinyathi","sputum","Negative","single colony","MDR","S","R","R","R","S","R","R","R","R","T3","LIN 4","MDR","n/a"
-"TKK_02_0020","23","Male","Negative","PROX","40428","Ugu","sputum","Positive","single colony","MDR","S","S","S","R","R","S","S","R","R","LAM6","LIN 4","MDR","n/a"
-"TKK_02_0023","23","Male","Positive","PROX","6/28/2010","uMkhanyakude","sputum","Positive","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0025","26","Female","Positive","PROX","6/25/2010","uThungulu","sputum","Positive","single colony","MDR","S","R","R","R","S","R","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_02_0042","45","Male","Positive","PROX","1/28/2011","iLembe","sputum","Positive","single colony","MDR","S","R","R","R","S","S","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_02_0047","50","Male","Negative","PROX","2/25/2011","eThekwini","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0062","20","Male","Negative","PROX","11/22/2011","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","R","R","R","R","CAS1-Kili","LIN 3","MDR","n/a"
-"TKK_02_0065","33","Male","Positive","PROX","12/14/2011","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0066","38","Male","Positive","PROX","11/22/2011","eThekwini","sputum","Negative","single colony","MDR","S","R","S","R","S","S","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_02_0067","29","Male","Positive","PROX","12/14/2011","uThungulu","sputum","Positive","single colony","MDR","S","R","R","R","R","S","S","R","S","S","LIN 4","MDR","n/a"
-"TKK_02_0068","34","Female","Positive","PROX","11/22/2011","iLembe","sputum","Positive","single colony","MDR","S","R","R","R","R","S","S","R","S","T3","LIN 4","MDR","n/a"
-"TKK_02_0073","23","Female","Positive","PROX","11/22/2011","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","R","R","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0074","34","Female","Positive","PROX","12/14/2011","eThekwini","sputum","Negative","single colony","MDR","S","R","S","R","S","R","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_02_0076","40","Male","Positive","PROX","11/22/2011","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0079","24","Female","Positive","PROX","1/17/2012","eThekwini","sputum","Positive","single colony","MDR","S","R","R","R","S","S","R","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_02_0080","58","Male","Negative","PROX","1/17/2012","iLembe","sputum","Positive","single colony","MDR","S","R","S","R","S","R","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0001","35","Female","unknown","NHLS","3/19/2013","uMgungundlovu","sputum","unknown","single colony","poly","U","U","U","R","S","U","S","S","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0002","47","Male","unknown","NHLS","3/19/2013","eThekwini","sputum","unknown","single colony","poly","U","U","U","R","S","U","S","S","R","T1","LIN 4","MDR","n/a"
-"TKK_04_0005","27","Female","unknown","NHLS","3/18/2013","eThekwini","sputum","Positive","single colony","poly","U","U","U","R","S","U","R","S","R","EAI1-SOM","LIN 1","MDR","n/a"
-"TKK_04_0007","unknown","Female","unknown","NHLS","3/13/2013","eThekwini","sputum","Negative","single colony","MDR","U","U","U","R","S","U","R","R","S","S","LIN 4","MDR","n/a"
-"TKK_04_0008","unknown","Female","unknown","NHLS","1/20/2013","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0017","30","Female","unknown","NHLS","3/14/2013","eThekwini","sputum","unknown","single colony","poly","U","U","U","R","S","U","S","S","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0019","50","Female","unknown","NHLS","41611","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0020","27","Female","unknown","NHLS","3/18/2013","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","R","R","R","EAI1-SOM","LIN 1","MDR","n/a"
-"TKK_04_0021","40","Male","unknown","NHLS","1/31/2013","eThekwini","pleura","Positive","single colony","MDR","U","U","U","R","S","U","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0022","39","Male","unknown","NHLS","2/20/2013","uMgungundlovu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","X3","LIN 4","MDR","n/a"
-"TKK_04_0023","19","Male","unknown","NHLS","41427","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0024","33","Male","unknown","NHLS","41367","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0034","unknown","Male","unknown","NHLS","41398","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","X3","LIN 4","MDR","n/a"
-"TKK_04_0036","40","Female","unknown","NHLS","4/24/2013","uMkhanyakude","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0037","37","Male","unknown","NHLS","41368","Ugu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0038","17","Male","unknown","NHLS","41490","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0039","33","Female","unknown","NHLS","41368","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0040","19","Female","unknown","NHLS","41551","Zululand","sputum","unknown","single colony","poly","U","U","U","R","S","U","R","S","R","X2","LIN 4","MDR","n/a"
-"TKK_04_0042","41","Female","unknown","NHLS","4/17/2013","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0043","35","Female","unknown","NHLS","4/22/2013","eThekwini","Sputum","Positive","single colony","MDR","U","U","U","R","R","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0044","16","Female","unknown","NHLS","41366","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM3","LIN 4","MDR","n/a"
-"TKK_04_0045","35","Male","unknown","NHLS","41490","uMkhanyakude","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0046","22","Female","unknown","NHLS","41368","uMkhanyakude","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0047","unknown","Female","unknown","NHLS","4/15/2013","Sisonke","sputum","unknown","single colony","poly","U","U","U","R","R","U","S","S","S","LAM3","LIN 4","MDR","n/a"
-"TKK_04_0048","31","Female","unknown","NHLS","4/17/2013","uMkhanyakude","sputum","unknown","single colony","MDR","U","U","U","R","R","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0051","38","Male","unknown","NHLS","5/27/2013","iLembe","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0054","27","Male","unknown","NHLS","5/14/2011","uThungulu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0059","67","Male","unknown","NHLS","2/20/2013","Zululand","sputum","Positive","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0060","18","Female","unknown","NHLS","41339","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0061","49","Female","unknown","NHLS","5/23/2013","uMzinyathi","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","T1","LIN 4","MDR","n/a"
-"TKK_04_0062","29","Female","unknown","NHLS","5/17/2013","uMkhanyakude","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0067","37","Male","unknown","NHLS","5/29/2013","uMkhanyakude","sputum","Positive","single colony","MDR","U","U","U","R","S","U","R","R","S","S","LIN 4","MDR","n/a"
-"TKK_04_0068","25","Female","unknown","NHLS","41132","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","AMBIGOUS:T2 X1","LIN 4","MDR","n/a"
-"TKK_04_0069","19","Female","unknown","NHLS","7/18/2013","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","R","R","R","X2","LIN 4","MDR","n/a"
-"TKK_04_0070","31","Female","unknown","NHLS","41552","iLembe","pus","unknown","single colony","MDR","U","U","U","R","S","U","R","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0071","21","Male","unknown","NHLS","41585","eThekwini","sputum","Negative","single colony","MDR","U","U","U","R","S","U","R","R","R","X3","LIN 4","MDR","n/a"
-"TKK_04_0074","29","Female","unknown","NHLS","41524","uMzinyathi","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","S","LIN 4","MDR","n/a"
-"TKK_04_0075","33","Male","unknown","NHLS","7/18/2013","iLembe","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","T1","LIN 4","MDR","n/a"
-"TKK_04_0081","unknown","Female","unknown","NHLS","41585","Ugu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0082","14","Female","unknown","NHLS","41371","eThekwini","sputum","unknown","single colony","mono","U","U","U","R","S","U","S","S","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0086","27","Female","unknown","NHLS","7/24/2013","uMzinyathi","sputum","Positive","single colony","mono","U","U","U","R","S","U","S","S","S","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0090","32","Male","unknown","NHLS","7/24/2013","Sisonke","sputum","unknown","single colony","mono","U","U","U","S","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0095","34","Female","unknown","NHLS","7/14/2013","uMgungundlovu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0096","43","Female","unknown","NHLS","7/26/2013","uMgungundlovu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0097","31","Female","unknown","NHLS","41554","Zululand","sputum","Negative","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0125","22","Female","unknown","NHLS","7/15/2013","eThekwini","sputum","Negative","single colony","MDR","U","U","U","R","R","U","S","R","R","T1","LIN 4","MDR","n/a"
-"TKK_04_0126","28","Male","unknown","NHLS","41282","eThekwini","Sputum","unknown","single colony","MDR","U","U","U","R","R","U","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0130","36","Male","unknown","NHLS","7/30/2013","uMkhanyakude","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0131","26","Female","unknown","NHLS","7/23/2013","iLembe","sputum","unknown","single colony","MDR","U","U","U","R","R","U","S","R","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0134","28","Male","unknown","NHLS","7/25/2013","uThungulu","sputum","unknown","single colony","poly","U","U","U","R","S","U","S","S","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0136","41","Female","unknown","NHLS","41494","eThekwini","sputum","Positive","single colony","poly","U","U","U","R","S","U","S","S","R","Beijing","LIN 2","MDR","n/a"
-"TKK_04_0139","30","Female","unknown","NHLS","41402","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","CAS1-Kili","LIN 3","MDR","n/a"
-"TKK_04_0141","40","Male","unknown","NHLS","41554","uMgungundlovu","sputum","Negative","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0145","36","Male","unknown","NHLS","8/23/2013","uMkhanyakude","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0150","unknown","Male","unknown","NHLS","7/31/2013","Sisonke","sputum","Negative","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0153","unknown","Female","unknown","NHLS","8/23/2013","eThekwini","sputum","Negative","single colony","poly","U","U","U","R","S","U","S","S","R","LAM9","LIN 4","MDR","n/a"
-"TKK_04_0157","36","Male","unknown","NHLS","8/23/2013","uMkhanyakude","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_04_0159","52","Male","unknown","NHLS","8/14/2013","Sisonke","sputum","unknown","single colony","mono","U","U","U","R","S","U","S","S","S","Beijing","LIN 2","MDR","n/a"
-"TKK_05MA_0004","18","Female","Negative","CUBS","5/24/2013","eThekwini","sputum","Positive","non-single colony","MDR","U","R","U","R","S","U","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_05MA_0009","37","Male","Positive","CUBS","5/29/2013","eThekwini","sputum","Positive","non-single colony","MDR","U","S","U","R","S","U","S","R","S","S","LIN 4","MDR","n/a"
-"TKK_05MA_0033","28","Female","Positive","CUBS","6/28/2013","eThekwini","sputum","Positive","non-single colony","MDR","U","R","U","R","S","U","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_05MA_0035","37","Male","Positive","CUBS","41340","eThekwini","sputum","Positive","non-single colony","MDR","U","R","U","R","S","U","S","R","R","S","LIN 4","MDR","n/a"
-"TKK_05MA_0037","24","Female","Positive","CUBS","41371","eThekwini","sputum","Positive","non-single colony","MDR","U","R","U","R","S","U","S","R","S","LAM9","LIN 4","MDR","n/a"
-"TKK_05MA_0040","34","Male","Positive","CUBS","41554","eThekwini","sputum","Negative","non-single colony","MDR","U","R","U","R","S","U","S","R","S","S","LIN 4","MDR","n/a"
-"TKK_05MA_0051","21","Female","Negative","CUBS","7/18/2013","eThekwini","sputum","Positive","non-single colony","MDR","U","R","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_05SA_0010","47","Male","Positive","CUBS","5/29/2013","eThekwini","sputum","Negative","single colony","MDR","U","S","U","R","S","U","S","R","R","LAM3","LIN 4","MDR","n/a"
-"TKK_05SA_0011","27","Male","Negative","CUBS","5/31/2013","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_05SA_0014","39","Male","Positive","CUBS","41400","iLembe","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_05SA_0020","31","Male","Positive","CUBS","41614","eThekwini","sputum","Positive","single colony","MDR","U","R","U","R","S","U","S","R","S","T1","LIN 4","MDR","n/a"
-"TKK_05SA_0025","42","Male","Positive","CUBS","6/19/2013","eThekwini","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","R","LAM3","LIN 4","MDR","n/a"
-"TKK_05SA_0041","26","Female","Positive","CUBS","41585","eThekwini","sputum","Positive","single colony","MDR","U","R","U","R","S","U","S","R","R","T3,T1","LIN 4","MDR","n/a"
-"TKK_05SA_0042","38","Male","Positive","CUBS","41615","iLembe","sputum","Positive","single colony","MDR","U","S","U","R","S","U","R","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_05SA_0044","32","Male","Positive","CUBS","7/15/2013","eThekwini","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","R","T3","LIN 4","MDR","n/a"
-"TKK_05SA_0048","52","Male","Positive","CUBS","7/17/2013","eThekwini","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","S","LAM4","LIN 4","MDR","n/a"
-"TKK_05SA_0050","44","Female","Positive","CUBS","7/18/2013","eThekwini","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","S","CAS1-Kili","LIN 3","MDR","n/a"
-"TKK_05SA_0052","44","Male","Positive","CUBS","7/18/2013","eThekwini","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","S","Beijing","LIN 2","MDR","n/a"
-"TKK_05SA_0054","36","Male","Positive","CUBS","7/22/2013","eThekwini","sputum","Positive","single colony","MDR","U","R","U","R","S","U","S","R","R","T1","LIN 4","MDR","n/a"
-"TKK_05SA_0055","35","Male","Positive","CUBS","7/24/2013","eThekwini","sputum","Positive","single colony","MDR","U","S","U","R","S","U","S","R","R","LAM4","LIN 4","MDR","n/a"
-"TKK-01-0005","14","Female","unknown","KZNSUR","39662","eThekwini","sputum","Negative","single colony","poly","S","S","R","R","S","S","S","S","R","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0008","27","Female","Positive","KZNSUR","2/18/2008","eThekwini","sputum","Negative","single colony","mono","S","S","S","S","S","S","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0010","57","Male","unknown","KZNSUR","2/19/2008","eThekwini","sputum","Positive","single colony","poly","S","S","S","R","S","S","S","S","R","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0018","35","Male","unknown","KZNSUR","39724","Sisonke","sputum","Positive","single colony","poly","S","S","S","R","S","R","S","S","R","CAS1-Kili","LIN 3","Drug-resistant (other)","n/a"
-"TKK-01-0024","69","Female","Positive","KZNSUR","39482","Uthukela","sputum","Positive","single colony","MDR","S","S","S","R","S","S","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0034","35","Male","unknown","KZNSUR","39697","Sisonke","sputum","Positive","single colony","poly","S","S","S","R","S","S","S","S","R","X3","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0036","22","Female","Positive","KZNSUR","7/17/2008","eThekwini","sputum","Positive","single colony","mono","S","S","S","S","S","S","S","S","R","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0037","39","Female","Positive","KZNSUR","7/22/2008","eThekwini","sputum","Negative","single colony","mono","S","S","S","R","S","S","S","S","S","T5-RUS1","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0046","31","Male","Positive","KZNSUR","39730","Sisonke","sputum","Positive","single colony","poly","S","S","S","R","S","S","S","S","R","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0049","34","Male","Negative","KZNSUR","4/23/2009","uMkhanyakude","sputum","Negative","single colony","mono","S","S","S","R","S","S","S","S","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0053","26","Male","Positive","KZNSUR","40125","uMgungundlovu","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","H1","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0060","24","Female","unknown","KZNSUR","40330","uThungulu","sputum","Negative","single colony","poly","R","S","S","R","S","S","S","S","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0065","37","Female","unknown","KZNSUR","1/14/2010","uThungulu","sputum","Negative","single colony","mono","S","S","S","R","S","R","S","S","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0067","35","Female","unknown","KZNSUR","1/18/2010","uThungulu","sputum","Negative","single colony","mono","S","S","S","S","S","S","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0070","26","Female","Positive","KZNSUR","40211","Zululand","sputum","Negative","single colony","MDR","S","R","R","R","S","S","S","R","R","EAI1-SOM","LIN 1","Drug-resistant (other)","n/a"
-"TKK-01-0073","52","Female","Positive","KZNSUR","2/23/2010","uThungulu","sputum","Negative","single colony","MDR","S","R","R","R","S","R","S","R","R","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0077","20","Male","unknown","KZNSUR","40271","uThungulu","sputum","Negative","single colony","mono","S","S","S","S","S","S","S","S","R","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK-01-0078","30","Male","Positive","KZNSUR","40424","uThungulu","sputum","Positive","single colony","mono","S","S","S","S","S","S","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0080","33","Male","Positive","KZNSUR","3/17/2010","uThungulu","sputum","Negative","single colony","poly","S","R","S","S","S","S","S","R","R","EAI1-SOM","LIN 1","Drug-resistant (other)","n/a"
-"TKK_02_0046","27","Female","Positive","PROX","40849","eThekwini","sputum","Negative","single colony","poly","S","S","S","S","S","R","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_03_0023","47","Male","Positive","Phage","1/15/2013","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_03_0024","38","Male","unknown","Phage","1/15/2013","eThekwini","sputum","Negative","single colony","poly","U","S","U","R","S","U","S","S","R","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_03_0031","33","Male","unknown","Phage","1/22/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_03_0064","51","Male","Positive","Phage","3/13/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","R","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_03_0101","22","Female","Negative","Phage","4/16/2013","eThekwini","sputum","Positive","non-single colony","mono","U","S","U","R","S","U","S","S","S","H1","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0003","28","Male","unknown","NHLS","41581","eThekwini","sputum","unknown","single colony","mono","U","U","U","R","S","U","S","S","S","EAI1-SOM","LIN 1","Drug-resistant (other)","n/a"
-"TKK_04_0006","18","Female","unknown","NHLS","2/21/2013","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_04_0013","28","Female","unknown","NHLS","3/14/2013","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0014","21","Male","unknown","NHLS","2/15/2013","eThekwini","sputum","Negative","single colony","mono","U","U","U","S","S","U","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_04_0015","34","Male","unknown","NHLS","41397","eThekwini","sputum","Positive","single colony","mono","U","U","U","S","S","U","S","R","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0064","42","Male","unknown","NHLS","41370","Ugu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","S","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0066","26","Female","unknown","NHLS","5/21/2013","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0078","26","Female","unknown","NHLS","41401","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","S","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0080","29","Female","unknown","NHLS","41371","Zululand","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","R","CAS","LIN 3","Drug-resistant (other)","n/a"
-"TKK_04_0083","42","Male","unknown","NHLS","41401","Ugu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","R","R","R","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0084","54","Male","unknown","NHLS","7/24/2013","uThungulu","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_04_0085","22","Female","unknown","NHLS","41555","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","R","EAI1-SOM","LIN 1","Drug-resistant (other)","n/a"
-"TKK_04_0089","43","Male","unknown","NHLS","41340","iLembe","sputum","unknown","single colony","mono","U","U","U","R","R","U","S","S","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_04_0094","15","Female","unknown","NHLS","41585","uMzinyathi","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0098","32","Male","unknown","NHLS","7/25/2013","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_04_0099","8","Female","unknown","NHLS","41312","Zululand","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","S","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0140","18","Female","unknown","NHLS","41463","eThekwini","sputum","unknown","single colony","MDR","U","U","U","R","R","U","S","R","R","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0148","41","Female","unknown","NHLS","41494","eThekwini","sputum","unknown","single colony","susceptible","U","U","U","S","S","U","S","S","S","CAS1-Delhi","LIN 3","Drug-resistant (other)","n/a"
-"TKK_04_0149","56","Female","unknown","NHLS","7/16/2013","Zululand","sputum","unknown","single colony","susceptible","U","U","U","S","S","U","S","S","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_04_0155","39","Female","unknown","NHLS","41494","Sisonke","sputum","unknown","single colony","MDR","U","U","U","R","S","U","S","R","S","T1","LIN 4","Drug-resistant (other)","n/a"
-"TKK_04_0158","unknown","Male","unknown","NHLS","41372","eThekwini","CSF","unknown","single colony","MDR","U","U","U","R","S","U","S","R","R","LAM4","LIN 4","Drug-resistant (other)","n/a"
-"TKK_05SA_0019","31","Male","Positive","CUBS","41584","eThekwini","sputum","Positive","single colony","mono","U","S","U","S","S","U","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK_05SA_0021","30","Male","Positive","CUBS","41614","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","X3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_05SA_0024","36","Male","Positive","CUBS","6/19/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM3","LIN 4","Drug-resistant (other)","n/a"
-"TKK_05SA_0046","31","Female","Positive","CUBS","7/15/2013","eThekwini","sputum","Positive","single colony","mono","U","S","U","S","S","U","S","R","S","Beijing","LIN 2","Drug-resistant (other)","n/a"
-"TKK-01-0002","23","Female","unknown","KZNSUR","1/22/2008","eThekwini","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0003","38","Female","unknown","KZNSUR","1/28/2008","eThekwini","sputum","Negative","single colony","mono","S","S","S","S","S","S","S","R","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0007","28","Female","Positive","KZNSUR","39661","eThekwini","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK-01-0021","39","Male","Positive","KZNSUR","3/19/2008","iLembe","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0027","22","Female","unknown","KZNSUR","39665","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0047","33","Male","Positive","KZNSUR","39761","Sisonke","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0054","52","Male","unknown","KZNSUR","11/25/2009","uThungulu","sputum","Positive","single colony","mono","S","S","S","S","S","R","S","S","S","X3","LIN 4","susceptible","n/a"
-"TKK-01-0058","27","Female","Positive","KZNSUR","11/30/2009","uThungulu","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK-01-0066","28","Female","Positive","KZNSUR","1/15/2010","uThungulu","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","H37Rv","LIN 4","susceptible","n/a"
-"TKK-01-0079","30","Female","Positive","KZNSUR","40485","uThungulu","sputum","Positive","single colony","MDR","S","R","S","R","S","S","S","R","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0081","47","Male","unknown","KZNSUR","1/23/2008","eThekwini","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM4","LIN 4","susceptible","n/a"
-"TKK-01-0082","21","Female","Positive","KZNSUR","39539","eThekwini","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0083","24","Female","Positive","KZNSUR","39722","eThekwini","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK-01-0084","35","Male","unknown","KZNSUR","1/23/2008","eThekwini","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM4","LIN 4","susceptible","n/a"
-"TKK-01-0085","25","Male","Positive","KZNSUR","39540","eThekwini","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM4","LIN 4","susceptible","n/a"
-"TKK-01-0086","50","Male","unknown","KZNSUR","39510","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK-01-0087","56","Male","unknown","KZNSUR","39602","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","T2","LIN 4","susceptible","n/a"
-"TKK-01-0088","21","Female","unknown","KZNSUR","2/29/2008","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0089","38","Male","unknown","KZNSUR","39510","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK-01-0090","61","Male","unknown","KZNSUR","39541","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK-01-0091","37","Male","unknown","KZNSUR","3/20/2008","Sisonke","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","LAM4","LIN 4","susceptible","n/a"
-"TKK-01-0092","unknown","unknown","unknown","KZNSUR","unknown","Sisonke","sputum","Negative","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0093","24","Female","Negative","KZNSUR","3/27/2008","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0094","18","Male","unknown","KZNSUR","4/17/2008","Sisonke","sputum","Positive","single colony","susceptible","S","S","S","S","S","S","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0015","49","Male","Negative","Phage","41225","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","S","LIN 4","susceptible","n/a"
-"TKK_03_0020","25","Female","Positive","Phage","12/13/2012","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","S","LIN 4","susceptible","n/a"
-"TKK_03_0021","29","Male","Positive","Phage","1/15/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK_03_0025","23","Female","Positive","Phage","1/15/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0026","28","Female","Positive","Phage","1/15/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","unknown","unknown","susceptible","n/a"
-"TKK_03_0027","28","Male","unknown","Phage","1/16/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0028","32","Female","Positive","Phage","1/16/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0029","50","Male","Negative","Phage","1/22/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","EAI1-SOM","LIN 1","susceptible","n/a"
-"TKK_03_0030","24","Male","Negative","Phage","1/22/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK_03_0033","24","Male","Negative","Phage","1/23/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","CAS1-Delhi","LIN 3","susceptible","n/a"
-"TKK_03_0034","27","Male","Negative","Phage","1/30/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0035","31","Male","Negative","Phage","1/30/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK_03_0036","20","Female","Positive","Phage","1/30/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK_03_0037","34","Male","Positive","Phage","1/30/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","CAS1-Kili","LIN 3","susceptible","n/a"
-"TKK_03_0039","23","Male","Negative","Phage","41396","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0040","55","Male","unknown","Phage","41427","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0042","27","Male","Negative","Phage","41610","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK_03_0043","40","Female","Positive","Phage","41610","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0044","25","Male","unknown","Phage","41610","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK_03_0045","48","Female","unknown","Phage","41610","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0047","34","Male","Positive","Phage","2/14/2013","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0050","24","Male","Positive","Phage","2/20/2013","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","AMBIGOUS:T3 T2","LIN 4","susceptible","n/a"
-"TKK_03_0058","27","Female","Positive","Phage","41428","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0059","53","Male","unknown","Phage","41611","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","T1","LIN 4","susceptible","n/a"
-"TKK_03_0063","33","Male","Positive","Phage","3/13/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","X2","LIN 4","susceptible","n/a"
-"TKK_03_0065","24","Male","Negative","Phage","3/13/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0072","37","Female","Positive","Phage","3/19/2013","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0075","23","Male","unknown","Phage","3/20/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0078","23","Female","Negative","Phage","3/26/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0082","40","Male","Positive","Phage","3/27/2013","eThekwini","sputum","Negative","single colony","mono","U","S","U","R","S","U","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK_03_0083","33","Male","unknown","Phage","41309","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0089","41","Male","Positive","Phage","41337","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM4","LIN 4","susceptible","n/a"
-"TKK_03_0090","18","Male","Negative","Phage","41521","eThekwini","sputum","Negative","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0092","25","Female","Positive","Phage","41521","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK_03_0094","45","Male","unknown","Phage","41521","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","S","LIN 4","susceptible","n/a"
-"TKK_03_0098","41","Female","Positive","Phage","4/16/2013","eThekwini","sputum","Negative","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","S","LIN 4","susceptible","n/a"
-"TKK_03_0099","24","Female","Negative","Phage","4/16/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","X1","LIN 4","susceptible","n/a"
-"TKK_03_0100","21","Male","Positive","Phage","4/16/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0102","28","Female","Positive","Phage","4/16/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK_03_0103","26","Female","Positive","Phage","4/16/2013","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","H1","LIN 4","susceptible","n/a"
-"TKK_03_0105","37","Female","Positive","Phage","4/17/2013","eThekwini","sputum","Negative","single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM1,LAM3","LIN 4","susceptible","n/a"
-"TKK_03_0108","31","Female","Negative","Phage","4/23/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","X3","LIN 4","susceptible","n/a"
-"TKK_03_0109","34","Female","Positive","Phage","4/23/2013","eThekwini","sputum","Negative","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0111","23","Female","Negative","Phage","4/24/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0112","35","Female","Positive","Phage","4/24/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0114","26","Female","Positive","Phage","4/30/2013","eThekwini","sputum","Positive","single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0115","25","Female","Negative","Phage","4/30/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM6","LIN 4","susceptible","n/a"
-"TKK_03_0118","45","Male","Negative","Phage","41460","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0149","50","Male","Negative","Phage","7/17/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0150","27","Female","Positive","Phage","7/23/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","X3","LIN 4","susceptible","n/a"
-"TKK_03_0153","44","Female","Positive","Phage","7/31/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","X3","LIN 4","susceptible","n/a"
-"TKK_03_0154","30","Male","Negative","Phage","7/31/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0156","24","Male","Negative","Phage","8/14/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_03_0158","57","Male","Negative","Phage","8/21/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","AMBIGOUS:T2 X1","LIN 4","susceptible","n/a"
-"TKK_03_0159","37","Male","Negative","Phage","8/27/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","LAM4","LIN 4","susceptible","n/a"
-"TKK_03_0160","27","Female","Positive","Phage","8/27/2013","eThekwini","sputum","Positive","non-single colony","susceptible","U","S","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK_04_0018","33","Female","unknown","NHLS","41428","eThekwini","sputum","Positive","single colony","MDR","U","U","U","R","S","U","S","R","R","Beijing","LIN 2","susceptible","n/a"
-"TKK_04_0029","50","Female","unknown","NHLS","3/27/2013","eThekwini","pleural fluid","unknown","single colony","susceptible","U","U","U","S","S","U","S","S","S","LAM3","LIN 4","susceptible","n/a"
-"TKK_04_0030","53","Male","unknown","NHLS","3/25/2013","eThekwini","sputum","unknown","single colony","susceptible","U","U","U","S","S","U","S","S","S","S,T1","LIN 4","susceptible","n/a"
-"TKK_04_0031","unknown","Female","unknown","NHLS","41429","eThekwini","blood","unknown","single colony","susceptible","U","U","U","S","S","U","S","S","S","T4,T1","LIN 4","susceptible","n/a"
-"TKK_04_0033","34","Male","unknown","NHLS","41398","eThekwini","blood","unknown","single colony","susceptible","U","U","U","S","S","U","S","S","S","Beijing","LIN 2","susceptible","n/a"
-"TKK-01-0004","30","Female","unknown","KZNSUR","39601","eThekwini","sputum","Positive","single colony","XDR","R","R","S","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK-01-0013","40","Male","Positive","KZNSUR","2/26/2008","uThungulu","sputum","Positive","single colony","XDR","S","R","S","R","R","R","R","R","R","Beijing","LIN 2","XDR","non-Tugela Ferry XDR"
-"TKK-01-0019","38","Male","Positive","KZNSUR","3/19/2008","iLembe","sputum","Negative","single colony","XDR","S","R","R","R","R","R","R","R","R","LAM3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK-01-0025","35","Female","Negative","KZNSUR","39511","Uthukela","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK-01-0033","27","Male","Negative","KZNSUR","5/20/2008","uMzinyathi","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK-01-0040","32","Female","Positive","KZNSUR","7/31/2008","Amajuba","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK-01-0076","18","Male","Positive","KZNSUR","40181","uThungulu","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0001","37","Female","Negative","PROX","3/24/2010","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","S","Beijing","LIN 2","XDR","non-Tugela Ferry XDR"
-"TKK_02_0002","33","Male","Positive","PROX","3/25/2010","Sisonke","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","Beijing","LIN 2","XDR","non-Tugela Ferry XDR"
-"TKK_02_0004","44","Female","Negative","PROX","3/25/2010","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0005","28","Female","Positive","PROX","3/25/2010","uThungulu","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0006","27","Male","Positive","PROX","3/29/2010","Zululand","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0007","36","Male","Positive","PROX","3/29/2010","uMzinyathi","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0008","31","Female","Positive","PROX","40363","uMgungundlovu","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0012","34","Female","Positive","PROX","4/23/2010","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0014","19","Female","Positive","PROX","4/23/2010","uMzinyathi","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0016","25","Female","Negative","PROX","4/23/2010","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0021","37","Female","Positive","PROX","6/28/2010","uMzinyathi","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0024","30","Female","Positive","PROX","6/25/2010","uMgungundlovu","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0027","21","Male","Positive","PROX","40276","uMzinyathi","sputum","Positive","single colony","XDR","S","R","R","R","R","R","R","R","R","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_02_0028","30","Female","Positive","PROX","7/23/2010","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0030","20","Female","Negative","PROX","9/23/2010","Zululand","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0031","40","Male","Positive","PROX","10/15/2010","uMzinyathi","sputum","Negative","single colony","XDR","S","R","S","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0035","41","Female","Positive","PROX","10/15/2010","Zululand","sputum","Positive","single colony","XDR","S","R","R","R","R","R","R","R","R","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_02_0036","37","Male","Positive","PROX","10/15/2010","Zululand","sputum","Negative","single colony","XDR","S","R","S","R","R","U","R","R","S","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_02_0037","26","Male","Negative","PROX","10/15/2010","uThungulu","sputum","Positive","single colony","XDR","R","R","R","R","S","R","R","R","R","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_02_0038","40","Male","Positive","PROX","11/25/2010","uMzinyathi","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0040","25","Female","Positive","PROX","1/21/2011","eThekwini","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0041","45","Male","Positive","PROX","1/21/2011","Zululand","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0043","32","Female","Positive","PROX","40635","uMzinyathi","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0044","56","Male","Negative","PROX","40635","uMzinyathi","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0048","27","Female","Positive","PROX","40795","eThekwini","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0049","39","Female","Positive","PROX","40795","eThekwini","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0050","42","Female","Positive","PROX","40795","uMzinyathi","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0051","37","Female","Positive","PROX","6/14/2011","Amajuba","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0052","37","Female","Positive","PROX","7/13/2011","uMgungundlovu","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0053","21","Female","Negative","PROX","40795","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0055","27","Female","Negative","PROX","11/22/2011","Ugu","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","Beijing","LIN 2","XDR","non-Tugela Ferry XDR"
-"TKK_02_0056","43","Female","Positive","PROX","8/24/2011","Sisonke","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0058","26","Female","Positive","PROX","8/24/2011","uMzinyathi","sputum","Positive","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0060","31","Female","Positive","PROX","12/14/2011","uMzinyathi","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_02_0071","18","Female","Negative","PROX","12/14/2011","eThekwini","sputum","Negative","single colony","XDR","R","R","R","R","R","R","R","R","S","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0103","36","Male","unknown","NHLS","41282","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","S","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_04_0104","51","Male","unknown","NHLS","7/30/2013","iLembe","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0105","26","Female","unknown","NHLS","7/30/2013","eThekwini","sputum","Negative","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0106","33","Male","unknown","NHLS","5/23/2013","eThekwini","sputum","Positive","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0107","38","Female","unknown","NHLS","6/18/2013","eThekwini","sputum","Negative","single colony","XDR","U","U","U","R","R","U","R","R","R","Beijing","LIN 2","XDR","non-Tugela Ferry XDR"
-"TKK_04_0108","30","Female","unknown","NHLS","7/24/2013","uThungulu","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0109","38","Male","unknown","NHLS","7/31/2013","uMzinyathi","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0112","unknown","Male","unknown","NHLS","41433","eThekwini","sputum","Negative","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0113","36","Male","unknown","NHLS","7/23/2013","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","S","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_04_0114","34","Female","unknown","NHLS","7/26/2013","eThekwini","sputum","Positive","single colony","XDR","U","U","U","R","R","U","R","R","R","Beijing","LIN 2","XDR","non-Tugela Ferry XDR"
-"TKK_04_0117","27","Female","unknown","NHLS","41433","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","AMBIGOUS:LAM5 LAM4","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_04_0118","44","Male","unknown","NHLS","7/26/2013","Sisonke","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0120","56","Male","unknown","NHLS","41282","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","EAI1-SOM","LIN 1","XDR","non-Tugela Ferry XDR"
-"TKK_04_0122","32","Female","unknown","NHLS","41402","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0123","40","Female","unknown","NHLS","41402","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","S","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0124","unknown","Female","unknown","NHLS","7/23/2013","eThekwini","sputum","Positive","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0129","41","Female","unknown","NHLS","7/25/2013","Zululand","sputum","Negative","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0132","41","Female","unknown","NHLS","41463","eThekwini","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_04_0137","61","Male","unknown","NHLS","7/30/2013","Zululand","sputum","unknown","single colony","XDR","U","U","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_05MA_2005","29","Male","Positive","CUBS","8/19/2013","uThungulu","sputum","Positive","non-single colony","XDR","U","R","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_05MA_2008","43","Male","Positive","CUBS","8/20/2013","uMkhanyakude","sputum","Positive","non-single colony","XDR","U","R","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
-"TKK_05MA_2015","43","Male","Positive","CUBS","8/23/2013","eThekwini","sputum","Negative","non-single colony","XDR","U","S","U","R","R","U","R","R","R","T1","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_05SA_0016","40","Female","Positive","CUBS","41461","iLembe","sputum","Positive","single colony","XDR","U","R","U","R","R","U","R","R","R","S","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_05SA_0018","49","Male","Positive","CUBS","41553","eThekwini","sputum","Positive","single colony","XDR","U","R","U","R","R","U","R","R","R","X3","LIN 4","XDR","non-Tugela Ferry XDR"
-"TKK_05SA_0043","38","Male","Positive","CUBS","41615","eThekwini","sputum","Positive","single colony","XDR","U","R","U","R","R","U","R","R","R","LAM4","LIN 4","XDR","Tugela Ferry XDR"
+Specimen ID,Age,Sex,HIV Status,Cohort,Date of Collection,Study Geographic District,Specimen Type,Microscopy Smear Status,DNA isolation: single colony or non-single colony,Phenotypic DST Pattern,Capreomycin (10ug/mL),Ethambutol (7.5ug/mL),Ethionamide (10ug/mL),Isoniazid (0.2ug/mL or 1ug/mL),Kanamycin (6ug/mL),Pyrazinamide (Nicotinamide 500.0ug/mL or PZA-MGIT),Ofloxacin (2ug/mL),Rifampin (1ug/mL),Streptomycin (2ug/mL),Digital Spoligotype,Lineage,Genotypic DST pattern,Tugela Ferry vs. non-Tugela Ferry XDR
+TKK-01-0001,28,Female,Positive,KZNSUR,1/16/2008,eThekwini,sputum,Negative,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0006,70,Male,Negative,KZNSUR,2/15/2008,eThekwini,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK-01-0009,27,Female,unknown,KZNSUR,2/19/2008,eThekwini,sputum,Positive,single colony,mono,S,S,S,S,S,S,S,R,S,T1,LIN 4,MDR,n/a
+TKK-01-0011,32,Male,unknown,KZNSUR,2/20/2008,eThekwini,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,LAM11-ZWE,LAM4,LIN 4,MDR,n/a
+TKK-01-0012,23,Female,Negative,KZNSUR,2/25/2008,eThekwini,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0014,35,Male,Positive,KZNSUR,2/26/2008,uThungulu,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,T1,LIN 4,MDR,n/a
+TKK-01-0015,48,Male,Positive,KZNSUR,2/21/2008,eThekwini,sputum,Positive,single colony,MDR,R,S,S,R,R,S,S,R,R,T1,LIN 4,MDR,n/a
+TKK-01-0016,27,Male,Negative,KZNSUR,2/21/2008,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0017,56,Female,unknown,KZNSUR,39510,Sisonke,sputum,Negative,single colony,MDR,R,R,R,R,R,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0020,61,Female,Negative,KZNSUR,3/19/2008,iLembe,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0022,26,Female,unknown,KZNSUR,39482,Uthukela,sputum,Positive,single colony,MDR,S,S,S,R,S,R,R,R,S,S,LIN 4,MDR,n/a
+TKK-01-0026,45,Female,Positive,KZNSUR,39511,Uthukela,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,R,T3,LIN 4,MDR,n/a
+TKK-01-0028,19,Female,Negative,KZNSUR,39787,uMzinyathi,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,R,X2,LIN 4,MDR,n/a
+TKK-01-0029,41,Male,Positive,KZNSUR,39787,uMzinyathi,sputum,Negative,single colony,MDR,S,S,S,R,S,S,S,R,R,T1,LIN 4,MDR,n/a
+TKK-01-0030,42,Female,Positive,KZNSUR,5/13/2008,uMzinyathi,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,S,LIN 4,MDR,n/a
+TKK-01-0031,33,Female,Positive,KZNSUR,5/13/2008,uMzinyathi,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,X3,LIN 4,MDR,n/a
+TKK-01-0032,32,Female,Positive,KZNSUR,5/20/2008,uMzinyathi,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,S,LIN 4,MDR,n/a
+TKK-01-0035,50,Male,Positive,KZNSUR,7/15/2008,eThekwini,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0038,28,Male,Positive,KZNSUR,7/30/2008,Amajuba,sputum,unknown,single colony,MDR,S,R,R,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0039,18,Female,Negative,KZNSUR,7/31/2008,Amajuba,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK-01-0041,28,Male,unknown,KZNSUR,Unknown,Amajuba,sputum,unknown,single colony,MDR,R,R,R,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0042,22,Male,Negative,KZNSUR,8/14/2008,uThungulu,sputum,Positive,single colony,MDR,S,R,S,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0043,32,Male,Positive,KZNSUR,8/14/2008,uThungulu,sputum,Positive,single colony,MDR,S,R,S,R,S,S,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK-01-0044,26,Male,unknown,KZNSUR,8/14/2008,uThungulu,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,LAM3,LIN 4,MDR,n/a
+TKK-01-0045,25,Female,Positive,KZNSUR,8/14/2008,uThungulu,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,R,X3,LIN 4,MDR,n/a
+TKK-01-0048,29,Female,Positive,KZNSUR,1/26/2009,uMkhanyakude,sputum,Positive,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0050,32,Female,Positive,KZNSUR,5/21/2009,uMkhanyakude,sputum,Negative,single colony,MDR,S,R,R,R,S,R,S,R,S,T1,LIN 4,MDR,n/a
+TKK-01-0052,52,Female,Positive,KZNSUR,7/21/2009,uMgungundlovu,sputum,Positive,single colony,poly,S,S,R,S,R,S,S,S,S,LAM4,LIN 4,MDR,n/a
+TKK-01-0055,49,Male,Positive,KZNSUR,11/27/2009,uThungulu,sputum,Negative,single colony,MDR,S,S,S,R,S,S,S,R,S,Beijing,LIN 2,MDR,n/a
+TKK-01-0056,44,Male,Positive,KZNSUR,11/27/2009,uThungulu,sputum,Negative,single colony,MDR,R,S,S,R,S,S,S,R,S,Beijing,LIN 2,MDR,n/a
+TKK-01-0057,24,Female,Positive,KZNSUR,11/27/2009,uThungulu,sputum,Negative,single colony,MDR,S,R,S,R,S,R,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0061,50,Female,unknown,KZNSUR,40360,uThungulu,sputum,Negative,single colony,MDR,S,R,S,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0062,18,Female,unknown,KZNSUR,40513,uThungulu,sputum,Negative,single colony,MDR,R,R,R,R,R,R,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK-01-0063,29,Female,Positive,KZNSUR,40513,uThungulu,sputum,Negative,single colony,MDR,S,S,S,R,R,S,S,R,S,LAM3,LIN 4,MDR,n/a
+TKK-01-0064,32,Male,unknown,KZNSUR,1/13/2010,Zululand,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,S,LIN 4,MDR,n/a
+TKK-01-0068,30,Female,Positive,KZNSUR,1/18/2010,uThungulu,sputum,Negative,single colony,MDR,R,R,R,R,R,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0069,53,Male,Negative,KZNSUR,1/20/2010,uThungulu,sputum,Positive,single colony,MDR,R,R,R,R,S,S,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK-01-0071,28,Female,Positive,KZNSUR,40239,uThungulu,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK-01-0074,34,Male,Positive,KZNSUR,2/25/2010,uThungulu,sputum,Positive,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0075,34,Female,unknown,KZNSUR,2/26/2010,uThungulu,sputum,Positive,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_02_0010,30,Male,Negative,PROX,40516,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,R,R,R,R,Beijing,LIN 2,MDR,n/a
+TKK_02_0018,52,Male,Positive,PROX,40488,uMzinyathi,sputum,Negative,single colony,MDR,S,R,R,R,S,R,R,R,R,T3,LIN 4,MDR,n/a
+TKK_02_0020,23,Male,Negative,PROX,40428,Ugu,sputum,Positive,single colony,MDR,S,S,S,R,R,S,S,R,R,LAM6,LIN 4,MDR,n/a
+TKK_02_0023,23,Male,Positive,PROX,6/28/2010,uMkhanyakude,sputum,Positive,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_02_0025,26,Female,Positive,PROX,6/25/2010,uThungulu,sputum,Positive,single colony,MDR,S,R,R,R,S,R,R,R,R,S,LIN 4,MDR,n/a
+TKK_02_0042,45,Male,Positive,PROX,1/28/2011,iLembe,sputum,Positive,single colony,MDR,S,R,R,R,S,S,R,R,R,S,LIN 4,MDR,n/a
+TKK_02_0047,50,Male,Negative,PROX,2/25/2011,eThekwini,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_02_0062,20,Male,Negative,PROX,11/22/2011,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,R,R,R,R,CAS1-Kili,LIN 3,MDR,n/a
+TKK_02_0065,33,Male,Positive,PROX,12/14/2011,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_02_0066,38,Male,Positive,PROX,11/22/2011,eThekwini,sputum,Negative,single colony,MDR,S,R,S,R,S,S,S,R,R,S,LIN 4,MDR,n/a
+TKK_02_0067,29,Male,Positive,PROX,12/14/2011,uThungulu,sputum,Positive,single colony,MDR,S,R,R,R,R,S,S,R,S,S,LIN 4,MDR,n/a
+TKK_02_0068,34,Female,Positive,PROX,11/22/2011,iLembe,sputum,Positive,single colony,MDR,S,R,R,R,R,S,S,R,S,T3,LIN 4,MDR,n/a
+TKK_02_0073,23,Female,Positive,PROX,11/22/2011,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,R,R,R,S,LAM4,LIN 4,MDR,n/a
+TKK_02_0074,34,Female,Positive,PROX,12/14/2011,eThekwini,sputum,Negative,single colony,MDR,S,R,S,R,S,R,S,R,R,S,LIN 4,MDR,n/a
+TKK_02_0076,40,Male,Positive,PROX,11/22/2011,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_02_0079,24,Female,Positive,PROX,1/17/2012,eThekwini,sputum,Positive,single colony,MDR,S,R,R,R,S,S,R,R,R,LAM4,LIN 4,MDR,n/a
+TKK_02_0080,58,Male,Negative,PROX,1/17/2012,iLembe,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0001,35,Female,unknown,NHLS,3/19/2013,uMgungundlovu,sputum,unknown,single colony,poly,U,U,U,R,S,U,S,S,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0002,47,Male,unknown,NHLS,3/19/2013,eThekwini,sputum,unknown,single colony,poly,U,U,U,R,S,U,S,S,R,T1,LIN 4,MDR,n/a
+TKK_04_0005,27,Female,unknown,NHLS,3/18/2013,eThekwini,sputum,Positive,single colony,poly,U,U,U,R,S,U,R,S,R,EAI1-SOM,LIN 1,MDR,n/a
+TKK_04_0007,unknown,Female,unknown,NHLS,3/13/2013,eThekwini,sputum,Negative,single colony,MDR,U,U,U,R,S,U,R,R,S,S,LIN 4,MDR,n/a
+TKK_04_0008,unknown,Female,unknown,NHLS,1/20/2013,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0017,30,Female,unknown,NHLS,3/14/2013,eThekwini,sputum,unknown,single colony,poly,U,U,U,R,S,U,S,S,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0019,50,Female,unknown,NHLS,41611,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0020,27,Female,unknown,NHLS,3/18/2013,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,R,R,R,EAI1-SOM,LIN 1,MDR,n/a
+TKK_04_0021,40,Male,unknown,NHLS,1/31/2013,eThekwini,pleura,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,S,LIN 4,MDR,n/a
+TKK_04_0022,39,Male,unknown,NHLS,2/20/2013,uMgungundlovu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,X3,LIN 4,MDR,n/a
+TKK_04_0023,19,Male,unknown,NHLS,41427,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0024,33,Male,unknown,NHLS,41367,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,S,LIN 4,MDR,n/a
+TKK_04_0034,unknown,Male,unknown,NHLS,41398,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,X3,LIN 4,MDR,n/a
+TKK_04_0036,40,Female,unknown,NHLS,4/24/2013,uMkhanyakude,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0037,37,Male,unknown,NHLS,41368,Ugu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0038,17,Male,unknown,NHLS,41490,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0039,33,Female,unknown,NHLS,41368,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0040,19,Female,unknown,NHLS,41551,Zululand,sputum,unknown,single colony,poly,U,U,U,R,S,U,R,S,R,X2,LIN 4,MDR,n/a
+TKK_04_0042,41,Female,unknown,NHLS,4/17/2013,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0043,35,Female,unknown,NHLS,4/22/2013,eThekwini,Sputum,Positive,single colony,MDR,U,U,U,R,R,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0044,16,Female,unknown,NHLS,41366,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM3,LIN 4,MDR,n/a
+TKK_04_0045,35,Male,unknown,NHLS,41490,uMkhanyakude,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0046,22,Female,unknown,NHLS,41368,uMkhanyakude,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0047,unknown,Female,unknown,NHLS,4/15/2013,Sisonke,sputum,unknown,single colony,poly,U,U,U,R,R,U,S,S,S,LAM3,LIN 4,MDR,n/a
+TKK_04_0048,31,Female,unknown,NHLS,4/17/2013,uMkhanyakude,sputum,unknown,single colony,MDR,U,U,U,R,R,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0051,38,Male,unknown,NHLS,5/27/2013,iLembe,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0054,27,Male,unknown,NHLS,5/14/2011,uThungulu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0059,67,Male,unknown,NHLS,2/20/2013,Zululand,sputum,Positive,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0060,18,Female,unknown,NHLS,41339,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0061,49,Female,unknown,NHLS,5/23/2013,uMzinyathi,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,T1,LIN 4,MDR,n/a
+TKK_04_0062,29,Female,unknown,NHLS,5/17/2013,uMkhanyakude,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0067,37,Male,unknown,NHLS,5/29/2013,uMkhanyakude,sputum,Positive,single colony,MDR,U,U,U,R,S,U,R,R,S,S,LIN 4,MDR,n/a
+TKK_04_0068,25,Female,unknown,NHLS,41132,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,AMBIGOUS:T2 X1,LIN 4,MDR,n/a
+TKK_04_0069,19,Female,unknown,NHLS,7/18/2013,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,R,R,R,X2,LIN 4,MDR,n/a
+TKK_04_0070,31,Female,unknown,NHLS,41552,iLembe,pus,unknown,single colony,MDR,U,U,U,R,S,U,R,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0071,21,Male,unknown,NHLS,41585,eThekwini,sputum,Negative,single colony,MDR,U,U,U,R,S,U,R,R,R,X3,LIN 4,MDR,n/a
+TKK_04_0074,29,Female,unknown,NHLS,41524,uMzinyathi,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,S,LIN 4,MDR,n/a
+TKK_04_0075,33,Male,unknown,NHLS,7/18/2013,iLembe,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,T1,LIN 4,MDR,n/a
+TKK_04_0081,unknown,Female,unknown,NHLS,41585,Ugu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0082,14,Female,unknown,NHLS,41371,eThekwini,sputum,unknown,single colony,mono,U,U,U,R,S,U,S,S,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0086,27,Female,unknown,NHLS,7/24/2013,uMzinyathi,sputum,Positive,single colony,mono,U,U,U,R,S,U,S,S,S,Beijing,LIN 2,MDR,n/a
+TKK_04_0090,32,Male,unknown,NHLS,7/24/2013,Sisonke,sputum,unknown,single colony,mono,U,U,U,S,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0095,34,Female,unknown,NHLS,7/14/2013,uMgungundlovu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0096,43,Female,unknown,NHLS,7/26/2013,uMgungundlovu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0097,31,Female,unknown,NHLS,41554,Zululand,sputum,Negative,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0125,22,Female,unknown,NHLS,7/15/2013,eThekwini,sputum,Negative,single colony,MDR,U,U,U,R,R,U,S,R,R,T1,LIN 4,MDR,n/a
+TKK_04_0126,28,Male,unknown,NHLS,41282,eThekwini,Sputum,unknown,single colony,MDR,U,U,U,R,R,U,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0130,36,Male,unknown,NHLS,7/30/2013,uMkhanyakude,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0131,26,Female,unknown,NHLS,7/23/2013,iLembe,sputum,unknown,single colony,MDR,U,U,U,R,R,U,S,R,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0134,28,Male,unknown,NHLS,7/25/2013,uThungulu,sputum,unknown,single colony,poly,U,U,U,R,S,U,S,S,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0136,41,Female,unknown,NHLS,41494,eThekwini,sputum,Positive,single colony,poly,U,U,U,R,S,U,S,S,R,Beijing,LIN 2,MDR,n/a
+TKK_04_0139,30,Female,unknown,NHLS,41402,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,CAS1-Kili,LIN 3,MDR,n/a
+TKK_04_0141,40,Male,unknown,NHLS,41554,uMgungundlovu,sputum,Negative,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0145,36,Male,unknown,NHLS,8/23/2013,uMkhanyakude,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK_04_0150,unknown,Male,unknown,NHLS,7/31/2013,Sisonke,sputum,Negative,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0153,unknown,Female,unknown,NHLS,8/23/2013,eThekwini,sputum,Negative,single colony,poly,U,U,U,R,S,U,S,S,R,LAM9,LIN 4,MDR,n/a
+TKK_04_0157,36,Male,unknown,NHLS,8/23/2013,uMkhanyakude,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_04_0159,52,Male,unknown,NHLS,8/14/2013,Sisonke,sputum,unknown,single colony,mono,U,U,U,R,S,U,S,S,S,Beijing,LIN 2,MDR,n/a
+TKK_05MA_0004,18,Female,Negative,CUBS,5/24/2013,eThekwini,sputum,Positive,non-single colony,MDR,U,R,U,R,S,U,S,R,R,S,LIN 4,MDR,n/a
+TKK_05MA_0009,37,Male,Positive,CUBS,5/29/2013,eThekwini,sputum,Positive,non-single colony,MDR,U,S,U,R,S,U,S,R,S,S,LIN 4,MDR,n/a
+TKK_05MA_0033,28,Female,Positive,CUBS,6/28/2013,eThekwini,sputum,Positive,non-single colony,MDR,U,R,U,R,S,U,S,R,R,S,LIN 4,MDR,n/a
+TKK_05MA_0035,37,Male,Positive,CUBS,41340,eThekwini,sputum,Positive,non-single colony,MDR,U,R,U,R,S,U,S,R,R,S,LIN 4,MDR,n/a
+TKK_05MA_0037,24,Female,Positive,CUBS,41371,eThekwini,sputum,Positive,non-single colony,MDR,U,R,U,R,S,U,S,R,S,LAM9,LIN 4,MDR,n/a
+TKK_05MA_0040,34,Male,Positive,CUBS,41554,eThekwini,sputum,Negative,non-single colony,MDR,U,R,U,R,S,U,S,R,S,S,LIN 4,MDR,n/a
+TKK_05MA_0051,21,Female,Negative,CUBS,7/18/2013,eThekwini,sputum,Positive,non-single colony,MDR,U,R,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_05SA_0010,47,Male,Positive,CUBS,5/29/2013,eThekwini,sputum,Negative,single colony,MDR,U,S,U,R,S,U,S,R,R,LAM3,LIN 4,MDR,n/a
+TKK_05SA_0011,27,Male,Negative,CUBS,5/31/2013,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_05SA_0014,39,Male,Positive,CUBS,41400,iLembe,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_05SA_0020,31,Male,Positive,CUBS,41614,eThekwini,sputum,Positive,single colony,MDR,U,R,U,R,S,U,S,R,S,T1,LIN 4,MDR,n/a
+TKK_05SA_0025,42,Male,Positive,CUBS,6/19/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,R,LAM3,LIN 4,MDR,n/a
+TKK_05SA_0041,26,Female,Positive,CUBS,41585,eThekwini,sputum,Positive,single colony,MDR,U,R,U,R,S,U,S,R,R,T3,T1,LIN 4,MDR,n/a
+TKK_05SA_0042,38,Male,Positive,CUBS,41615,iLembe,sputum,Positive,single colony,MDR,U,S,U,R,S,U,R,R,S,LAM4,LIN 4,MDR,n/a
+TKK_05SA_0044,32,Male,Positive,CUBS,7/15/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,R,T3,LIN 4,MDR,n/a
+TKK_05SA_0048,52,Male,Positive,CUBS,7/17/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
+TKK_05SA_0050,44,Female,Positive,CUBS,7/18/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,S,CAS1-Kili,LIN 3,MDR,n/a
+TKK_05SA_0052,44,Male,Positive,CUBS,7/18/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,S,Beijing,LIN 2,MDR,n/a
+TKK_05SA_0054,36,Male,Positive,CUBS,7/22/2013,eThekwini,sputum,Positive,single colony,MDR,U,R,U,R,S,U,S,R,R,T1,LIN 4,MDR,n/a
+TKK_05SA_0055,35,Male,Positive,CUBS,7/24/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,R,LAM4,LIN 4,MDR,n/a
+TKK-01-0005,14,Female,unknown,KZNSUR,39662,eThekwini,sputum,Negative,single colony,poly,S,S,R,R,S,S,S,S,R,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0008,27,Female,Positive,KZNSUR,2/18/2008,eThekwini,sputum,Negative,single colony,mono,S,S,S,S,S,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0010,57,Male,unknown,KZNSUR,2/19/2008,eThekwini,sputum,Positive,single colony,poly,S,S,S,R,S,S,S,S,R,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK-01-0018,35,Male,unknown,KZNSUR,39724,Sisonke,sputum,Positive,single colony,poly,S,S,S,R,S,R,S,S,R,CAS1-Kili,LIN 3,Drug-resistant (other),n/a
+TKK-01-0024,69,Female,Positive,KZNSUR,39482,Uthukela,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0034,35,Male,unknown,KZNSUR,39697,Sisonke,sputum,Positive,single colony,poly,S,S,S,R,S,S,S,S,R,X3,LIN 4,Drug-resistant (other),n/a
+TKK-01-0036,22,Female,Positive,KZNSUR,7/17/2008,eThekwini,sputum,Positive,single colony,mono,S,S,S,S,S,S,S,S,R,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK-01-0037,39,Female,Positive,KZNSUR,7/22/2008,eThekwini,sputum,Negative,single colony,mono,S,S,S,R,S,S,S,S,S,T5-RUS1,LIN 4,Drug-resistant (other),n/a
+TKK-01-0046,31,Male,Positive,KZNSUR,39730,Sisonke,sputum,Positive,single colony,poly,S,S,S,R,S,S,S,S,R,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0049,34,Male,Negative,KZNSUR,4/23/2009,uMkhanyakude,sputum,Negative,single colony,mono,S,S,S,R,S,S,S,S,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK-01-0053,26,Male,Positive,KZNSUR,40125,uMgungundlovu,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,H1,LIN 4,Drug-resistant (other),n/a
+TKK-01-0060,24,Female,unknown,KZNSUR,40330,uThungulu,sputum,Negative,single colony,poly,R,S,S,R,S,S,S,S,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK-01-0065,37,Female,unknown,KZNSUR,1/14/2010,uThungulu,sputum,Negative,single colony,mono,S,S,S,R,S,R,S,S,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0067,35,Female,unknown,KZNSUR,1/18/2010,uThungulu,sputum,Negative,single colony,mono,S,S,S,S,S,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0070,26,Female,Positive,KZNSUR,40211,Zululand,sputum,Negative,single colony,MDR,S,R,R,R,S,S,S,R,R,EAI1-SOM,LIN 1,Drug-resistant (other),n/a
+TKK-01-0073,52,Female,Positive,KZNSUR,2/23/2010,uThungulu,sputum,Negative,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK-01-0077,20,Male,unknown,KZNSUR,40271,uThungulu,sputum,Negative,single colony,mono,S,S,S,S,S,S,S,S,R,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK-01-0078,30,Male,Positive,KZNSUR,40424,uThungulu,sputum,Positive,single colony,mono,S,S,S,S,S,S,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0080,33,Male,Positive,KZNSUR,3/17/2010,uThungulu,sputum,Negative,single colony,poly,S,R,S,S,S,S,S,R,R,EAI1-SOM,LIN 1,Drug-resistant (other),n/a
+TKK_02_0046,27,Female,Positive,PROX,40849,eThekwini,sputum,Negative,single colony,poly,S,S,S,S,S,R,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_03_0023,47,Male,Positive,Phage,1/15/2013,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_03_0024,38,Male,unknown,Phage,1/15/2013,eThekwini,sputum,Negative,single colony,poly,U,S,U,R,S,U,S,S,R,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_03_0031,33,Male,unknown,Phage,1/22/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_03_0064,51,Male,Positive,Phage,3/13/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,R,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_03_0101,22,Female,Negative,Phage,4/16/2013,eThekwini,sputum,Positive,non-single colony,mono,U,S,U,R,S,U,S,S,S,H1,LIN 4,Drug-resistant (other),n/a
+TKK_04_0003,28,Male,unknown,NHLS,41581,eThekwini,sputum,unknown,single colony,mono,U,U,U,R,S,U,S,S,S,EAI1-SOM,LIN 1,Drug-resistant (other),n/a
+TKK_04_0006,18,Female,unknown,NHLS,2/21/2013,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_04_0013,28,Female,unknown,NHLS,3/14/2013,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_04_0014,21,Male,unknown,NHLS,2/15/2013,eThekwini,sputum,Negative,single colony,mono,U,U,U,S,S,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_04_0015,34,Male,unknown,NHLS,41397,eThekwini,sputum,Positive,single colony,mono,U,U,U,S,S,U,S,R,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_04_0064,42,Male,unknown,NHLS,41370,Ugu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,S,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_04_0066,26,Female,unknown,NHLS,5/21/2013,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_04_0078,26,Female,unknown,NHLS,41401,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,S,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_04_0080,29,Female,unknown,NHLS,41371,Zululand,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,CAS,LIN 3,Drug-resistant (other),n/a
+TKK_04_0083,42,Male,unknown,NHLS,41401,Ugu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,R,R,R,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_04_0084,54,Male,unknown,NHLS,7/24/2013,uThungulu,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_04_0085,22,Female,unknown,NHLS,41555,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,EAI1-SOM,LIN 1,Drug-resistant (other),n/a
+TKK_04_0089,43,Male,unknown,NHLS,41340,iLembe,sputum,unknown,single colony,mono,U,U,U,R,R,U,S,S,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_04_0094,15,Female,unknown,NHLS,41585,uMzinyathi,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_04_0098,32,Male,unknown,NHLS,7/25/2013,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_04_0099,8,Female,unknown,NHLS,41312,Zululand,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,S,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_04_0140,18,Female,unknown,NHLS,41463,eThekwini,sputum,unknown,single colony,MDR,U,U,U,R,R,U,S,R,R,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_04_0148,41,Female,unknown,NHLS,41494,eThekwini,sputum,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,CAS1-Delhi,LIN 3,Drug-resistant (other),n/a
+TKK_04_0149,56,Female,unknown,NHLS,7/16/2013,Zululand,sputum,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_04_0155,39,Female,unknown,NHLS,41494,Sisonke,sputum,unknown,single colony,MDR,U,U,U,R,S,U,S,R,S,T1,LIN 4,Drug-resistant (other),n/a
+TKK_04_0158,unknown,Male,unknown,NHLS,41372,eThekwini,CSF,unknown,single colony,MDR,U,U,U,R,S,U,S,R,R,LAM4,LIN 4,Drug-resistant (other),n/a
+TKK_05SA_0019,31,Male,Positive,CUBS,41584,eThekwini,sputum,Positive,single colony,mono,U,S,U,S,S,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK_05SA_0021,30,Male,Positive,CUBS,41614,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,X3,LIN 4,Drug-resistant (other),n/a
+TKK_05SA_0024,36,Male,Positive,CUBS,6/19/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM3,LIN 4,Drug-resistant (other),n/a
+TKK_05SA_0046,31,Female,Positive,CUBS,7/15/2013,eThekwini,sputum,Positive,single colony,mono,U,S,U,S,S,U,S,R,S,Beijing,LIN 2,Drug-resistant (other),n/a
+TKK-01-0002,23,Female,unknown,KZNSUR,1/22/2008,eThekwini,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0003,38,Female,unknown,KZNSUR,1/28/2008,eThekwini,sputum,Negative,single colony,mono,S,S,S,S,S,S,S,R,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0007,28,Female,Positive,KZNSUR,39661,eThekwini,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK-01-0021,39,Male,Positive,KZNSUR,3/19/2008,iLembe,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0027,22,Female,unknown,KZNSUR,39665,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0047,33,Male,Positive,KZNSUR,39761,Sisonke,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0054,52,Male,unknown,KZNSUR,11/25/2009,uThungulu,sputum,Positive,single colony,mono,S,S,S,S,S,R,S,S,S,X3,LIN 4,susceptible,n/a
+TKK-01-0058,27,Female,Positive,KZNSUR,11/30/2009,uThungulu,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,T1,LIN 4,susceptible,n/a
+TKK-01-0066,28,Female,Positive,KZNSUR,1/15/2010,uThungulu,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,H37Rv,LIN 4,susceptible,n/a
+TKK-01-0079,30,Female,Positive,KZNSUR,40485,uThungulu,sputum,Positive,single colony,MDR,S,R,S,R,S,S,S,R,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0081,47,Male,unknown,KZNSUR,1/23/2008,eThekwini,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM4,LIN 4,susceptible,n/a
+TKK-01-0082,21,Female,Positive,KZNSUR,39539,eThekwini,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0083,24,Female,Positive,KZNSUR,39722,eThekwini,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK-01-0084,35,Male,unknown,KZNSUR,1/23/2008,eThekwini,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM4,LIN 4,susceptible,n/a
+TKK-01-0085,25,Male,Positive,KZNSUR,39540,eThekwini,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM4,LIN 4,susceptible,n/a
+TKK-01-0086,50,Male,unknown,KZNSUR,39510,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,T1,LIN 4,susceptible,n/a
+TKK-01-0087,56,Male,unknown,KZNSUR,39602,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,T2,LIN 4,susceptible,n/a
+TKK-01-0088,21,Female,unknown,KZNSUR,2/29/2008,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0089,38,Male,unknown,KZNSUR,39510,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK-01-0090,61,Male,unknown,KZNSUR,39541,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK-01-0091,37,Male,unknown,KZNSUR,3/20/2008,Sisonke,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,LAM4,LIN 4,susceptible,n/a
+TKK-01-0092,unknown,unknown,unknown,KZNSUR,unknown,Sisonke,sputum,Negative,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0093,24,Female,Negative,KZNSUR,3/27/2008,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0094,18,Male,unknown,KZNSUR,4/17/2008,Sisonke,sputum,Positive,single colony,susceptible,S,S,S,S,S,S,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0015,49,Male,Negative,Phage,41225,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,S,LIN 4,susceptible,n/a
+TKK_03_0020,25,Female,Positive,Phage,12/13/2012,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,S,LIN 4,susceptible,n/a
+TKK_03_0021,29,Male,Positive,Phage,1/15/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_03_0025,23,Female,Positive,Phage,1/15/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0026,28,Female,Positive,Phage,1/15/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,unknown,unknown,susceptible,n/a
+TKK_03_0027,28,Male,unknown,Phage,1/16/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0028,32,Female,Positive,Phage,1/16/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0029,50,Male,Negative,Phage,1/22/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,EAI1-SOM,LIN 1,susceptible,n/a
+TKK_03_0030,24,Male,Negative,Phage,1/22/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_03_0033,24,Male,Negative,Phage,1/23/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,CAS1-Delhi,LIN 3,susceptible,n/a
+TKK_03_0034,27,Male,Negative,Phage,1/30/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0035,31,Male,Negative,Phage,1/30/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK_03_0036,20,Female,Positive,Phage,1/30/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK_03_0037,34,Male,Positive,Phage,1/30/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,CAS1-Kili,LIN 3,susceptible,n/a
+TKK_03_0039,23,Male,Negative,Phage,41396,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0040,55,Male,unknown,Phage,41427,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0042,27,Male,Negative,Phage,41610,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_03_0043,40,Female,Positive,Phage,41610,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0044,25,Male,unknown,Phage,41610,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_03_0045,48,Female,unknown,Phage,41610,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0047,34,Male,Positive,Phage,2/14/2013,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0050,24,Male,Positive,Phage,2/20/2013,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,AMBIGOUS:T3 T2,LIN 4,susceptible,n/a
+TKK_03_0058,27,Female,Positive,Phage,41428,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0059,53,Male,unknown,Phage,41611,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_03_0063,33,Male,Positive,Phage,3/13/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,X2,LIN 4,susceptible,n/a
+TKK_03_0065,24,Male,Negative,Phage,3/13/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0072,37,Female,Positive,Phage,3/19/2013,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0075,23,Male,unknown,Phage,3/20/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0078,23,Female,Negative,Phage,3/26/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0082,40,Male,Positive,Phage,3/27/2013,eThekwini,sputum,Negative,single colony,mono,U,S,U,R,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK_03_0083,33,Male,unknown,Phage,41309,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0089,41,Male,Positive,Phage,41337,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM4,LIN 4,susceptible,n/a
+TKK_03_0090,18,Male,Negative,Phage,41521,eThekwini,sputum,Negative,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0092,25,Female,Positive,Phage,41521,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK_03_0094,45,Male,unknown,Phage,41521,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,S,LIN 4,susceptible,n/a
+TKK_03_0098,41,Female,Positive,Phage,4/16/2013,eThekwini,sputum,Negative,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,S,LIN 4,susceptible,n/a
+TKK_03_0099,24,Female,Negative,Phage,4/16/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,X1,LIN 4,susceptible,n/a
+TKK_03_0100,21,Male,Positive,Phage,4/16/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0102,28,Female,Positive,Phage,4/16/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK_03_0103,26,Female,Positive,Phage,4/16/2013,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,H1,LIN 4,susceptible,n/a
+TKK_03_0105,37,Female,Positive,Phage,4/17/2013,eThekwini,sputum,Negative,single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM1,LAM3,LIN 4,susceptible,n/a
+TKK_03_0108,31,Female,Negative,Phage,4/23/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,X3,LIN 4,susceptible,n/a
+TKK_03_0109,34,Female,Positive,Phage,4/23/2013,eThekwini,sputum,Negative,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0111,23,Female,Negative,Phage,4/24/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0112,35,Female,Positive,Phage,4/24/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0114,26,Female,Positive,Phage,4/30/2013,eThekwini,sputum,Positive,single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0115,25,Female,Negative,Phage,4/30/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM6,LIN 4,susceptible,n/a
+TKK_03_0118,45,Male,Negative,Phage,41460,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0149,50,Male,Negative,Phage,7/17/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0150,27,Female,Positive,Phage,7/23/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,X3,LIN 4,susceptible,n/a
+TKK_03_0153,44,Female,Positive,Phage,7/31/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,X3,LIN 4,susceptible,n/a
+TKK_03_0154,30,Male,Negative,Phage,7/31/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0156,24,Male,Negative,Phage,8/14/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_03_0158,57,Male,Negative,Phage,8/21/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,AMBIGOUS:T2 X1,LIN 4,susceptible,n/a
+TKK_03_0159,37,Male,Negative,Phage,8/27/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,LAM4,LIN 4,susceptible,n/a
+TKK_03_0160,27,Female,Positive,Phage,8/27/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK_04_0018,33,Female,unknown,NHLS,41428,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,Beijing,LIN 2,susceptible,n/a
+TKK_04_0029,50,Female,unknown,NHLS,3/27/2013,eThekwini,pleural fluid,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
+TKK_04_0030,53,Male,unknown,NHLS,3/25/2013,eThekwini,sputum,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_04_0031,unknown,Female,unknown,NHLS,41429,eThekwini,blood,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,T4,T1,LIN 4,susceptible,n/a
+TKK_04_0033,34,Male,unknown,NHLS,41398,eThekwini,blood,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
+TKK-01-0004,30,Female,unknown,KZNSUR,39601,eThekwini,sputum,Positive,single colony,XDR,R,R,S,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK-01-0013,40,Male,Positive,KZNSUR,2/26/2008,uThungulu,sputum,Positive,single colony,XDR,S,R,S,R,R,R,R,R,R,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
+TKK-01-0019,38,Male,Positive,KZNSUR,3/19/2008,iLembe,sputum,Negative,single colony,XDR,S,R,R,R,R,R,R,R,R,LAM3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK-01-0025,35,Female,Negative,KZNSUR,39511,Uthukela,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK-01-0033,27,Male,Negative,KZNSUR,5/20/2008,uMzinyathi,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK-01-0040,32,Female,Positive,KZNSUR,7/31/2008,Amajuba,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK-01-0076,18,Male,Positive,KZNSUR,40181,uThungulu,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0001,37,Female,Negative,PROX,3/24/2010,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,S,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
+TKK_02_0002,33,Male,Positive,PROX,3/25/2010,Sisonke,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
+TKK_02_0004,44,Female,Negative,PROX,3/25/2010,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0005,28,Female,Positive,PROX,3/25/2010,uThungulu,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0006,27,Male,Positive,PROX,3/29/2010,Zululand,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0007,36,Male,Positive,PROX,3/29/2010,uMzinyathi,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0008,31,Female,Positive,PROX,40363,uMgungundlovu,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0012,34,Female,Positive,PROX,4/23/2010,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0014,19,Female,Positive,PROX,4/23/2010,uMzinyathi,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0016,25,Female,Negative,PROX,4/23/2010,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0021,37,Female,Positive,PROX,6/28/2010,uMzinyathi,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0024,30,Female,Positive,PROX,6/25/2010,uMgungundlovu,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0027,21,Male,Positive,PROX,40276,uMzinyathi,sputum,Positive,single colony,XDR,S,R,R,R,R,R,R,R,R,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_02_0028,30,Female,Positive,PROX,7/23/2010,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0030,20,Female,Negative,PROX,9/23/2010,Zululand,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0031,40,Male,Positive,PROX,10/15/2010,uMzinyathi,sputum,Negative,single colony,XDR,S,R,S,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0035,41,Female,Positive,PROX,10/15/2010,Zululand,sputum,Positive,single colony,XDR,S,R,R,R,R,R,R,R,R,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_02_0036,37,Male,Positive,PROX,10/15/2010,Zululand,sputum,Negative,single colony,XDR,S,R,S,R,R,U,R,R,S,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_02_0037,26,Male,Negative,PROX,10/15/2010,uThungulu,sputum,Positive,single colony,XDR,R,R,R,R,S,R,R,R,R,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_02_0038,40,Male,Positive,PROX,11/25/2010,uMzinyathi,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0040,25,Female,Positive,PROX,1/21/2011,eThekwini,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0041,45,Male,Positive,PROX,1/21/2011,Zululand,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0043,32,Female,Positive,PROX,40635,uMzinyathi,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0044,56,Male,Negative,PROX,40635,uMzinyathi,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0048,27,Female,Positive,PROX,40795,eThekwini,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0049,39,Female,Positive,PROX,40795,eThekwini,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0050,42,Female,Positive,PROX,40795,uMzinyathi,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0051,37,Female,Positive,PROX,6/14/2011,Amajuba,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0052,37,Female,Positive,PROX,7/13/2011,uMgungundlovu,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0053,21,Female,Negative,PROX,40795,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0055,27,Female,Negative,PROX,11/22/2011,Ugu,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
+TKK_02_0056,43,Female,Positive,PROX,8/24/2011,Sisonke,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0058,26,Female,Positive,PROX,8/24/2011,uMzinyathi,sputum,Positive,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0060,31,Female,Positive,PROX,12/14/2011,uMzinyathi,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_02_0071,18,Female,Negative,PROX,12/14/2011,eThekwini,sputum,Negative,single colony,XDR,R,R,R,R,R,R,R,R,S,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0103,36,Male,unknown,NHLS,41282,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,S,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_04_0104,51,Male,unknown,NHLS,7/30/2013,iLembe,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0105,26,Female,unknown,NHLS,7/30/2013,eThekwini,sputum,Negative,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0106,33,Male,unknown,NHLS,5/23/2013,eThekwini,sputum,Positive,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0107,38,Female,unknown,NHLS,6/18/2013,eThekwini,sputum,Negative,single colony,XDR,U,U,U,R,R,U,R,R,R,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
+TKK_04_0108,30,Female,unknown,NHLS,7/24/2013,uThungulu,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0109,38,Male,unknown,NHLS,7/31/2013,uMzinyathi,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0112,unknown,Male,unknown,NHLS,41433,eThekwini,sputum,Negative,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0113,36,Male,unknown,NHLS,7/23/2013,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,S,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_04_0114,34,Female,unknown,NHLS,7/26/2013,eThekwini,sputum,Positive,single colony,XDR,U,U,U,R,R,U,R,R,R,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
+TKK_04_0117,27,Female,unknown,NHLS,41433,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,AMBIGOUS:LAM5 LAM4,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_04_0118,44,Male,unknown,NHLS,7/26/2013,Sisonke,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0120,56,Male,unknown,NHLS,41282,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,EAI1-SOM,LIN 1,XDR,non-Tugela Ferry XDR
+TKK_04_0122,32,Female,unknown,NHLS,41402,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0123,40,Female,unknown,NHLS,41402,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,S,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0124,unknown,Female,unknown,NHLS,7/23/2013,eThekwini,sputum,Positive,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0129,41,Female,unknown,NHLS,7/25/2013,Zululand,sputum,Negative,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0132,41,Female,unknown,NHLS,41463,eThekwini,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_04_0137,61,Male,unknown,NHLS,7/30/2013,Zululand,sputum,unknown,single colony,XDR,U,U,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_05MA_2005,29,Male,Positive,CUBS,8/19/2013,uThungulu,sputum,Positive,non-single colony,XDR,U,R,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_05MA_2008,43,Male,Positive,CUBS,8/20/2013,uMkhanyakude,sputum,Positive,non-single colony,XDR,U,R,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
+TKK_05MA_2015,43,Male,Positive,CUBS,8/23/2013,eThekwini,sputum,Negative,non-single colony,XDR,U,S,U,R,R,U,R,R,R,T1,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_05SA_0016,40,Female,Positive,CUBS,41461,iLembe,sputum,Positive,single colony,XDR,U,R,U,R,R,U,R,R,R,S,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_05SA_0018,49,Male,Positive,CUBS,41553,eThekwini,sputum,Positive,single colony,XDR,U,R,U,R,R,U,R,R,R,X3,LIN 4,XDR,non-Tugela Ferry XDR
+TKK_05SA_0043,38,Male,Positive,CUBS,41615,eThekwini,sputum,Positive,single colony,XDR,U,R,U,R,R,U,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR

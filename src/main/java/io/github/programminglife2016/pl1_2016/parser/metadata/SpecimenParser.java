@@ -89,7 +89,7 @@ public class SpecimenParser implements Parser {
             specimen.setAge(0);
         }
         else {
-            specimen.setAge((int) Double.parseDouble(string[1]));
+            specimen.setAge(Integer.parseInt(string[1]));
         }
         if (string[2].equals("Male")) {
             specimen.setMale(true);
