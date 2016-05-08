@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

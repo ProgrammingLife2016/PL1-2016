@@ -1,339 +1,469 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.metadata;
 
-/**
+/** Specimen object containing specifications of a certain genome.
  * Created by ravishivam on 4-5-16.
  */
-public interface Subject {
-    /**
-     * Get the name of the subject which is also the id.
-     * @return Name of the subject.
-     */
-    String getNameId();
+public class Specimen implements Subject {
+
+    private String nameId;
+    private int age;
+    private boolean isMale;
+    private int HIV;
+    private String Cohort;
+    private String Date;
+    private String District;
+    private String Type;
+    private int Smear;
+    private boolean Singlecolony;
+    private String pDSTPattern;
+    private char Capreomycin;
+    private char EthamButol;
+    private char Ethionamide;
+    private char Isoniazid;
+    private char Kanamycin;
+    private char Pyrazinamide;
+    private char Ofloxacin;
+    private char Rifampin;
+    private char Streptomycin;
+    private char Spoligotype;
+    private char Lineage;
+    private String gDSTPattern;
+    private String xdr;
 
     /**
-     * Get the age of the subject.
-     * @return age of the subject
+     * Default constructor for a specimen.
      */
-    int getAge();
+    public Specimen() { }
 
     /**
-     * Get the gender of the subject.
-     * @return True if subject is male, else false.
+     * Getter for nameId.
+     *
+     * @return java.lang.String value of nameId
      */
-    boolean isMale();
+    public String getNameId() {
+        return nameId;
+    }
 
     /**
-     * Get HIV status of the subject.
-     * @return 1 if positive, -1 if negative and 0 if it's unknown.
+     * Getter for age.
+     *
+     * @return int value of age
      */
-    int getHIV();
+    public int getAge() {
+        return age;
+    }
 
+    /**
+     * Getter for isMale.
+     *
+     * @return boolean value of isMale
+     */
+    public boolean isMale() {
+        return isMale;
+    }
+
+    /**
+     * Getter for HIV.
+     *
+     * @return int value of HIV
+     */
+    public int getHIV() {
+        return HIV;
+    }
 
     /**
      * Getter for Cohort.
      *
      * @return java.lang.String value of Cohort
      */
-    String getCohort();
+    public String getCohort() {
+        return Cohort;
+    }
 
     /**
      * Getter for Date.
      *
      * @return java.lang.String value of Date
      */
-    String getDate();
+    public String getDate() {
+        return Date;
+    }
 
     /**
      * Getter for District.
      *
      * @return java.lang.String value of District
      */
-    String getDistrict();
+    public String getDistrict() {
+        return District;
+    }
 
     /**
      * Getter for Type.
      *
      * @return java.lang.String value of Type
      */
-    String getType();
+    public String getType() {
+        return Type;
+    }
 
     /**
      * Getter for Smear.
      *
      * @return int value of Smear
      */
-    int getSmear();
+    public int getSmear() {
+        return Smear;
+    }
 
     /**
      * Getter for Singlecolony.
      *
      * @return boolean value of Singlecolony
      */
-    boolean isSinglecolony();
+    public boolean isSinglecolony() {
+        return Singlecolony;
+    }
 
     /**
      * Getter for pDSTPattern.
      *
      * @return java.lang.String value of pDSTPattern
      */
-    String getpDSTPattern();
+    public String getpDSTPattern() {
+        return pDSTPattern;
+    }
 
     /**
      * Getter for Capreomycin.
      *
      * @return char value of Capreomycin
      */
-    char getCapreomycin();
+    public char getCapreomycin() {
+        return Capreomycin;
+    }
 
     /**
      * Getter for EthamButol.
      *
      * @return char value of EthamButol
      */
-    char getEthamButol();
+    public char getEthamButol() {
+        return EthamButol;
+    }
 
     /**
      * Getter for Ethionamide.
      *
      * @return char value of Ethionamide
      */
-    char getEthionamide();
+    public char getEthionamide() {
+        return Ethionamide;
+    }
 
     /**
      * Getter for Isoniazid.
      *
      * @return char value of Isoniazid
      */
-    char getIsoniazid();
+    public char getIsoniazid() {
+        return Isoniazid;
+    }
 
     /**
      * Getter for Kanamycin.
      *
      * @return char value of Kanamycin
      */
-    char getKanamycin();
+    public char getKanamycin() {
+        return Kanamycin;
+    }
 
     /**
      * Getter for Pyrazinamide.
      *
      * @return char value of Pyrazinamide
      */
-    char getPyrazinamide();
+    public char getPyrazinamide() {
+        return Pyrazinamide;
+    }
 
     /**
      * Getter for Ofloxacin.
      *
      * @return char value of Ofloxacin
      */
-    char getOfloxacin();
+    public char getOfloxacin() {
+        return Ofloxacin;
+    }
 
     /**
      * Getter for Rifampin.
      *
      * @return char value of Rifampin
      */
-    char getRifampin();
+    public char getRifampin() {
+        return Rifampin;
+    }
 
     /**
      * Getter for Streptomycin.
      *
      * @return char value of Streptomycin
      */
-    char getStreptomycin();
+    public char getStreptomycin() {
+        return Streptomycin;
+    }
 
     /**
      * Getter for Spoligotype.
      *
      * @return char value of Spoligotype
      */
-    char getSpoligotype();
+    public char getSpoligotype() {
+        return Spoligotype;
+    }
 
     /**
      * Getter for Lineage.
      *
      * @return char value of Lineage
      */
-    char getLineage();
+    public char getLineage() {
+        return Lineage;
+    }
 
     /**
      * Getter for gDSTPattern.
      *
      * @return java.lang.String value of gDSTPattern
      */
-    String getgDSTPattern();
+    public String getgDSTPattern() {
+        return gDSTPattern;
+    }
 
     /**
      * Getter for xdr.
      *
      * @return java.lang.String value of xdr
      */
-    String getXdr();
+    public String getXdr() {
+        return xdr;
+    }
 
     /**
      * Setter for nameId.
      *
      * @nameId field that should be assigned to nameId.
      */
-    void setNameId(String nameId);
+    public void setNameId(String nameId) {
+        this.nameId = nameId;
+    }
 
     /**
      * Setter for age.
      *
      * @age field that should be assigned to age.
      */
-    void setAge(int age);
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     /**
      * Setter for isMale.
      *
      * @male field that should be assigned to isMale.
      */
-    void setMale(boolean male);
+    public void setMale(boolean male) {
+        isMale = male;
+    }
 
     /**
      * Setter for HIV.
      *
      * @HIV field that should be assigned to HIV.
      */
-    void setHIV(int HIV);
+    public void setHIV(int HIV) {
+        this.HIV = HIV;
+    }
 
     /**
      * Setter for Cohort.
      *
      * @cohort field that should be assigned to Cohort.
      */
-    void setCohort(String cohort);
+    public void setCohort(String cohort) {
+        Cohort = cohort;
+    }
 
     /**
      * Setter for Date.
      *
      * @date field that should be assigned to Date.
      */
-    void setDate(String date);
+    public void setDate(String date) {
+        Date = date;
+    }
 
     /**
      * Setter for District.
      *
      * @district field that should be assigned to District.
      */
-    void setDistrict(String district);
+    public void setDistrict(String district) {
+        District = district;
+    }
 
     /**
      * Setter for Type.
      *
      * @type field that should be assigned to Type.
      */
-    void setType(String type);
+    public void setType(String type) {
+        Type = type;
+    }
 
     /**
      * Setter for Smear.
      *
      * @smear field that should be assigned to Smear.
      */
-    void setSmear(int smear);
+    public void setSmear(int smear) {
+        Smear = smear;
+    }
 
     /**
      * Setter for Singlecolony.
      *
      * @singlecolony field that should be assigned to Singlecolony.
      */
-    void setSinglecolony(boolean singlecolony);
+    public void setSinglecolony(boolean singlecolony) {
+        Singlecolony = singlecolony;
+    }
 
     /**
      * Setter for pDSTPattern.
      *
      * @pDSTPattern field that should be assigned to pDSTPattern.
      */
-    void setpDSTPattern(String pDSTPattern);
+    public void setpDSTPattern(String pDSTPattern) {
+        this.pDSTPattern = pDSTPattern;
+    }
 
     /**
      * Setter for Capreomycin.
      *
      * @capreomycin field that should be assigned to Capreomycin.
      */
-    void setCapreomycin(char capreomycin);
+    public void setCapreomycin(char capreomycin) {
+        Capreomycin = capreomycin;
+    }
 
     /**
      * Setter for EthamButol.
      *
      * @ethamButol field that should be assigned to EthamButol.
      */
-    void setEthamButol(char ethamButol);
+    public void setEthamButol(char ethamButol) {
+        EthamButol = ethamButol;
+    }
 
     /**
      * Setter for Ethionamide.
      *
      * @ethionamide field that should be assigned to Ethionamide.
      */
-    void setEthionamide(char ethionamide);
+    public void setEthionamide(char ethionamide) {
+        Ethionamide = ethionamide;
+    }
 
     /**
      * Setter for Isoniazid.
      *
      * @isoniazid field that should be assigned to Isoniazid.
      */
-    void setIsoniazid(char isoniazid);
+    public void setIsoniazid(char isoniazid) {
+        Isoniazid = isoniazid;
+    }
 
     /**
      * Setter for Kanamycin.
      *
      * @kanamycin field that should be assigned to Kanamycin.
      */
-    void setKanamycin(char kanamycin);
+    public void setKanamycin(char kanamycin) {
+        Kanamycin = kanamycin;
+    }
 
     /**
      * Setter for Pyrazinamide.
      *
      * @pyrazinamide field that should be assigned to Pyrazinamide.
      */
-    void setPyrazinamide(char pyrazinamide);
+    public void setPyrazinamide(char pyrazinamide) {
+        Pyrazinamide = pyrazinamide;
+    }
 
     /**
      * Setter for Ofloxacin.
      *
      * @ofloxacin field that should be assigned to Ofloxacin.
      */
-    void setOfloxacin(char ofloxacin);
+    public void setOfloxacin(char ofloxacin) {
+        Ofloxacin = ofloxacin;
+    }
 
     /**
      * Setter for Rifampin.
      *
      * @rifampin field that should be assigned to Rifampin.
      */
-    void setRifampin(char rifampin);
+    public void setRifampin(char rifampin) {
+        Rifampin = rifampin;
+    }
 
     /**
      * Setter for Streptomycin.
      *
      * @streptomycin field that should be assigned to Streptomycin.
      */
-    void setStreptomycin(char streptomycin);
+    public void setStreptomycin(char streptomycin) {
+        Streptomycin = streptomycin;
+    }
 
     /**
      * Setter for Spoligotype.
      *
      * @spoligotype field that should be assigned to Spoligotype.
      */
-    void setSpoligotype(char spoligotype);
+    public void setSpoligotype(char spoligotype) {
+        Spoligotype = spoligotype;
+    }
 
     /**
      * Setter for Lineage.
      *
      * @lineage field that should be assigned to Lineage.
      */
-    void setLineage(char lineage);
+    public void setLineage(char lineage) {
+        Lineage = lineage;
+    }
 
     /**
      * Setter for gDSTPattern.
      *
      * @gDSTPattern field that should be assigned to gDSTPattern.
      */
-    void setgDSTPattern(String gDSTPattern);
+    public void setgDSTPattern(String gDSTPattern) {
+        this.gDSTPattern = gDSTPattern;
+    }
 
     /**
      * Setter for xdr.
      *
      * @xdr field that should be assigned to xdr.
      */
-    void setXdr(String xdr);
+    public void setXdr(String xdr) {
+        this.xdr = xdr;
+    }
 }

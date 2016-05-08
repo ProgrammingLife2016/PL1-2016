@@ -1,4 +1,7 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
+
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
