@@ -3,9 +3,9 @@ package io.github.programminglife2016.pl1_2016.parser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -94,13 +94,15 @@ public class SimpleParser implements Parser {
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
-        Collection<String> genomes = Arrays.asList(data[4].substring(6).split(";"));
+        Collection<String> genomes = Arrays.asList(data[4].substring(6).split(";")).stream()
+                .map(x -> x.substring(0, x.length() - 6)).collect(Collectors.toList());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
         } else {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
+        nodeCollection.get(id).addGenomes(genomes);
     }
 
     /**
