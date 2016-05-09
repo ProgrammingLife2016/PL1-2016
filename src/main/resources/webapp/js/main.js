@@ -230,7 +230,7 @@ $(function() { // on dom ready
                      "height":"mapData(score, 0, 0.006769776522008331, 20, 60)",
                      "content":"data(name)","font-size":"12px","text-valign":"center","text-halign":"center",
                      "background-color":"#94AAC7","text-outline-color":"#94AAC7","text-outline-width":"2px","color":"#fff", //#555
-                     "overlayfghjklo`-padding":"6px","z-index":"10"}},
+                     "overlay-padding":"6px","z-index":"10"}},
                 {"selector":"node[?attr]","style":{"shape":"rectangle","background-color":"#aaa","text-outline-color":"#aaa",
                     "width":"16px","height":"16px","font-size":"6px","z-index":"1"}},
                 {"selector":"node[?querzy]","style":{"background-clip":"none","background-fit":"contain"}},
