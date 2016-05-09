@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.stream.Collectors.*;
 
 /**
  * Class for representing a node in the phylogenetic tree.
@@ -104,6 +105,9 @@ public class BaseTreeNode implements JsonSerializable, TreeNode {
      */
     @Override
     public String toString() {
-        return String.format("BaseTreeNode{id= %d, weight= %d, children= %d, parent = %d}", id, weight, children, parent);
+        return "[" + this.getId() + " " + this.getWeight()
+                + " {" + children.stream()
+                                 .map(Object::toString)
+                                 .collect(joining(", ")) + "}]";
     }
 }
