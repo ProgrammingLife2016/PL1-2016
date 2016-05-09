@@ -15,6 +15,12 @@ public class PositionHandler implements PositionManager {
     private static final int SPACING = 100;
 
     /**
+     * Used for percentage printing.
+     */
+    private int percentageParts = 2;
+    private int currnode = 0;
+
+    /**
      * Map containing the DNA seqments.
      */
     private NodeCollection nodeCollection;
@@ -40,6 +46,7 @@ public class PositionHandler implements PositionManager {
         Collection<Node> processed = new ArrayList<Node>();
         // Detect and position snips.
         for (Node node : nodeCollection) {
+            printPercentage(nodeCollection.getNodes().size());
             if (processed.contains(node)) {
                 continue;
             }
@@ -63,6 +70,7 @@ public class PositionHandler implements PositionManager {
         }
         // Detect and correct the positions of indels.
         for (Node node : nodeCollection) {
+            printPercentage(nodeCollection.getNodes().size());
             for (Node nodeBack : node.getBackLinks()) {
                 Collection<Node> intersection = new ArrayList<Node>(nodeBack.getLinks());
                 intersection.retainAll(node.getLinks());
@@ -71,6 +79,7 @@ public class PositionHandler implements PositionManager {
                 }
             }
         }
+        System.out.println("\rPositioning... 100%");
         // Remove the inversion links, until we know what to do with them.
         for (Node node : nodeCollection) {
             Iterator<Node> linkIterator = node.getLinks().iterator();
@@ -80,6 +89,17 @@ public class PositionHandler implements PositionManager {
                     linkIterator.remove();
                 }
             }
+        }
+    }
+
+    /**
+     * Every 500 nodes, print the current percentage.
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
+    private void printPercentage(int totalSize) {
+        if (currnode++ % (totalSize / 500) == 0) {
+            System.out.print(String.format("\rPositioning... %.1f%%.", (double) currnode
+                    / totalSize * (100 / percentageParts)));
         }
     }
 }
