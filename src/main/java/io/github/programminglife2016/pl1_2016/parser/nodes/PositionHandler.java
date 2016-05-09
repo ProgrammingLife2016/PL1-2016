@@ -93,7 +93,9 @@ public class PositionHandler implements PositionManager {
     }
 
     /**
-     * Every 500 nodes, print the current percentage.
+     * Print the percentage 500 times in total.
+     *
+     * @param totalSize size of node collection
      */
     @SuppressWarnings("checkstyle:magicnumber")
     private void printPercentage(int totalSize) {
