@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
  * Temporary simple parser for parsing .gfa files.
  */
 public class SegmentParser implements Parser {
-    private static final int SIZE = 9000;
+    private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
 
     /**
@@ -41,6 +41,7 @@ public class SegmentParser implements Parser {
      * @param inputStream stream of data.
      */
     private void read(InputStream inputStream) {
+        System.out.println("Parsing...");
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
