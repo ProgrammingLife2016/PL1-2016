@@ -99,6 +99,14 @@ public class BaseTreeNode implements JsonSerializable, TreeNode {
         return children;
     }
 
+    public TreeNode getParent() {
+        return parent;
+    }
+
+    public void setParent(TreeNode parent) {
+        this.parent = parent;
+    }
+
     /**
      * Convert tree to string.
      * @return String representation of the treenode.

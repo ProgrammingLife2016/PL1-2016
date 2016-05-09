@@ -44,4 +44,10 @@ public interface TreeNode {
          * @return list of children.
          */
     List<TreeNode> getChildren();
+
+    void setParent(TreeNode node);
+
+    TreeNode getParent();
+
+    void addChild(TreeNode node);
 }

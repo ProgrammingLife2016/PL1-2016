@@ -16,7 +16,7 @@ public class PhyloGeneticTreeParser implements Parser {
     @Override
     public JsonSerializable parse(InputStream inputStream) {
         String s = inputStreamToString(inputStream);
-        TreeNode root = parseTokensFromString(s);
+        Collection<TreeNode> nodes = parseTokensFromString(s);
         return null;
     }
 
@@ -32,10 +32,55 @@ public class PhyloGeneticTreeParser implements Parser {
      * @param s string representin the tree.
      * @return root of tree
      */
-    public TreeNode parseTokensFromString(String s) {
+    public Collection<TreeNode> parseTokensFromString(String s) {
         StringIterator tokenizer = new TokenIterator(s, "(:,);", true);
-        TreeNode root = constructTree(null, tokenizer);
-        return root.getChildren().get(0);
+        Collection<TreeNode> nodes = construct(tokenizer);
+        return nodes;
+    }
+
+    /**
+     * Construct tree from the input of the String Tokenizer.
+     * @param tokenizer tokenizer with the contents of the .nwk file.
+     * @return parsed Tree Node object.
+     */
+    public Collection<TreeNode> construct(StringIterator tokenizer) {
+        Collection<TreeNode> nodes = new ArrayList<TreeNode>();
+        TreeNode root = new BaseTreeNode();
+        nodes.add(root);
+        TreeNode current = root;
+        while (tokenizer.hasNext()) {
+            String currentToken = tokenizer.next();
+            switch (currentToken) {
+                case "(":
+                    TreeNode child = new BaseTreeNode();
+                    nodes.add(child);
+                    child.setParent(current);
+                    current.addChild(child);
+                    current = child;
+                    break;
+                case ":":
+                    double weight = Double.parseDouble(tokenizer.next());
+                    current.setWeight(weight);
+                    break;
+                case ",":
+                    TreeNode newnode = new BaseTreeNode();
+                    nodes.add(newnode);
+                    current = current.getParent();
+                    newnode.setParent(current);
+                    current.addChild(newnode);
+                    current = newnode;
+                    break;
+                case ")":
+                    current = current.getParent();
+                    break;
+                case ";":
+                    break;
+                default:
+                    current.setId(currentToken);
+                    break;
+            }
+        }
+        return nodes;
     }
 
     /**
@@ -96,9 +141,9 @@ public class PhyloGeneticTreeParser implements Parser {
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
 //        String s = "(A: 0.1,B: 0.2,(C:0.3,D:0.4):0.5);";
         String s = "(A: 0.1,B: 0.2,(C:0.3,(Z:1,Y:2):0.4):0.5);";
-//        parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
         s = "(A:0.1,(B:0.2,(C:0.3,(D:0.4,E:0.5):0.6):0.4):0.5);";
-        System.out.println("Done");
+//        parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
         parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
+        System.out.println("Done");
     }
 }
