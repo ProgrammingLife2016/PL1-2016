@@ -99,13 +99,4 @@ public class BaseTreeNode implements JsonSerializable, TreeNode {
     public List<TreeNode> getChildren() {
         return children;
     }
-
-    /**
-     * Convert tree to string.
-     * @return String representation of the treenode.
-     */
-    @Override
-    public String toString() {
-        return String.format("BaseTreeNode{id= %d, weight= %d, children= %d, parent = %d}", id, weight, children, parent);
-    }
 }
