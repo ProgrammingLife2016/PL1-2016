@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import io.github.programminglife2016.pl1_2016.Launcher;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -16,8 +14,7 @@ public class PhyloGeneticTreeParser implements Parser {
     @Override
     public JsonSerializable parse(InputStream inputStream) {
         String s = inputStreamToString(inputStream);
-        Collection<TreeNode> nodes = parseTokensFromString(s);
-        return null;
+        return parseTokensFromString(s);
     }
 
     private String inputStreamToString(InputStream inputStream) {
@@ -32,9 +29,9 @@ public class PhyloGeneticTreeParser implements Parser {
      * @param s string representin the tree.
      * @return root of tree
      */
-    public Collection<TreeNode> parseTokensFromString(String s) {
+    public TreeNodeCollection parseTokensFromString(String s) {
         StringIterator tokenizer = new TokenIterator(s, "(:,);", true);
-        Collection<TreeNode> nodes = construct(tokenizer);
+        TreeNodeCollection nodes = construct(tokenizer);
         return nodes;
     }
 
@@ -43,10 +40,11 @@ public class PhyloGeneticTreeParser implements Parser {
      * @param tokenizer tokenizer with the contents of the .nwk file.
      * @return parsed Tree Node object.
      */
-    public Collection<TreeNode> construct(StringIterator tokenizer) {
-        Collection<TreeNode> nodes = new ArrayList<TreeNode>();
+    public TreeNodeCollection construct(StringIterator tokenizer) {
+        TreeNodeCollection nodes = new TreeNodeList();
         TreeNode root = new BaseTreeNode();
         nodes.add(root);
+        nodes.setRoot(root);
         TreeNode current = root;
         while (tokenizer.hasNext()) {
             String currentToken = tokenizer.next();
@@ -76,7 +74,7 @@ public class PhyloGeneticTreeParser implements Parser {
                 case ";":
                     break;
                 default:
-                    current.setId(currentToken);
+                    current.setName(currentToken);
                     break;
             }
         }
@@ -112,7 +110,7 @@ public class PhyloGeneticTreeParser implements Parser {
                 current = new BaseTreeNode();
                 break;
             case ")":
-                if (!current.getId().equals("-") && current.getWeight() != 0.0) {
+                if (!current.getName().equals("-") && current.getWeight() != 0.0) {
                     nodes.add(current);
                 }
                 weight = 0;
@@ -124,7 +122,7 @@ public class PhyloGeneticTreeParser implements Parser {
                 current.setChildren(nodes);
                 return current;
             default:
-                current.setId(next);
+                current.setName(next);
                 break;
             }
         }
@@ -143,7 +141,7 @@ public class PhyloGeneticTreeParser implements Parser {
         String s = "(A: 0.1,B: 0.2,(C:0.3,(Z:1,Y:2):0.4):0.5);";
         s = "(A:0.1,(B:0.2,(C:0.3,(D:0.4,E:0.5):0.6):0.4):0.5);";
 //        parser.parse(Launcher.class.getResourceAsStream("/genomes/340tree.rooted.TKK.nwk"));
-        parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
+        System.out.println(parser.parse(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8))).toJson());
         System.out.println("Done");
     }
 }
