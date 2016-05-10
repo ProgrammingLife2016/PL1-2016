@@ -7,12 +7,18 @@ import java.util.List;
  * Created by ravishivam on 6-5-16.
  */
 public interface TreeNode {
+    /**
+     * Get the id of the tree node.
+     *
+     * @return id of the tree node
+     */
+    int getId();
 
     /**
-     * Set the id of the tree node.
-     * @param id value of the id.
+     * Set the name of the tree node.
+     * @param name value of the name.
      */
-    void setId(String id);
+    void setName(String name);
 
     /**
      * Set the list of children tree nodes.
@@ -24,7 +30,7 @@ public interface TreeNode {
      * Get id of tree node.
      * @return id of tree.
      */
-    String getId();
+    String getName();
 
     /**
      * Return weight of this node.
