@@ -1,5 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -61,5 +64,11 @@ public class NodeList implements NodeCollection {
      */
     public Collection<Node> getNodes() {
         return Arrays.asList(array).stream().filter(x -> x != null).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toJson() {
+        Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class, new NodeCollectionSerializer()).create();
+        return gson.toJson(this);
     }
 }
