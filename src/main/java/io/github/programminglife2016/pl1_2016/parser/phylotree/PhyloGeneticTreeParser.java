@@ -2,6 +2,8 @@ package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.TreeNodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.TreeNodeList;
 
 import java.io.InputStream;
 import java.util.*;

@@ -107,12 +107,24 @@ $(function() { // on dom ready
       var r = {
             url: "/api/nodes/" + z,
             error: this.handleError,
+            succes: this.handleSuccesZoomLevel,
             statusCode: {
                default: this.handleStatusCode
             }
       };
       $.ajax(r);
       console.log("Send zoomlevel");
+  }
+
+  /*
+     Load data from zoom level AJAX request to server.
+  */
+  ServerConnection.prototype.handleSuccesZoomLevel = function(data) {
+     if (data["status"] === "error") {
+        console.log("Failed zoom level request");
+     } else {
+        graphHandler.loadDataInGraph(JSONAdapter.prototype.convert(data));
+     }
   }
 
   /*
@@ -381,7 +393,6 @@ $(function() { // on dom ready
        console.log("zooming: " + z)
        console.log("current zoom: " + this.zoom);
        var p = Math.abs(z - this.zoom) / this.zoom;
-       console.log("p= " + p);
        if (p > this.zoomTreshold) {
           serverConnection.sendZoomlevel(z);
           this.zoom = z;
