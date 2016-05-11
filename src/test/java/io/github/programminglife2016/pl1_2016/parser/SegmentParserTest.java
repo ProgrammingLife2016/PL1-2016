@@ -1,5 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,15 +17,15 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for the BasicServer class
  */
-public class SimpleParserTest {
-    private SimpleParser parser;
+public class SegmentParserTest {
+    private SegmentParser parser;
 
     /**
      * Create parser object.
      */
     @Before
     public void setUp() {
-        parser = new SimpleParser();
+        parser = new SegmentParser();
     }
 
     /**

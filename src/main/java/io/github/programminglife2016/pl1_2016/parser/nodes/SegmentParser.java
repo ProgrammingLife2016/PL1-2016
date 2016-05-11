@@ -1,4 +1,7 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
+
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -7,8 +10,8 @@ import java.io.InputStreamReader;
 /**
  * Temporary simple parser for parsing .gfa files.
  */
-public class SimpleParser implements Parser {
-    private static final int SIZE = 9000;
+public class SegmentParser implements Parser {
+    private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
 
     /**
@@ -19,7 +22,7 @@ public class SimpleParser implements Parser {
     /**
      * Create parser object.
      */
-    public SimpleParser() {
+    public SegmentParser() {
         nodeCollection = new NodeList(SIZE);
     }
 
@@ -38,6 +41,7 @@ public class SimpleParser implements Parser {
      * @param inputStream stream of data.
      */
     private void read(InputStream inputStream) {
+        System.out.println("Parsing...");
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));

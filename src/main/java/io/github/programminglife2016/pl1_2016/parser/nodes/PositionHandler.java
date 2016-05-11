@@ -1,9 +1,8 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * Handler for nodes to calculate positions on the graph.
@@ -13,6 +12,15 @@ public class PositionHandler implements PositionManager {
      * Spacing between segments in the graph.
      */
     private static final int SPACING = 100;
+
+    private static final int PRINT_TIMES = 500;
+    private static final int PERCENT = 100;
+
+    /**
+     * Used for percentage printing.
+     */
+    private int percentageParts = 2;
+    private int currnode = 0;
 
     /**
      * Map containing the DNA seqments.
@@ -34,43 +42,22 @@ public class PositionHandler implements PositionManager {
      * Calculate the positions of the nodes, and set the positions in each node.
      */
     public void calculatePositions() {
-        // Ugly and long code, works for us now however.
-        Random random = new Random();
         int currx = 0;
         Collection<Node> processed = new ArrayList<Node>();
         // Detect and position snips.
         for (Node node : nodeCollection) {
-            if (processed.contains(node)) {
-                continue;
+            printPercentage(nodeCollection.getNodes().size());
+            if (!processed.contains(node)) {
+                node.calculatePosition(nodeCollection, processed, SPACING, currx);
+                currx += SPACING;
             }
-            Collection<Node> nodes = new ArrayList<Node>();
-            for (Node node2 : nodeCollection) {
-                Collection<Node> intersectionBack = new ArrayList<Node>(node2.getBackLinks());
-                intersectionBack.retainAll(node.getBackLinks());
-                Collection<Node> intersectionFront = new ArrayList<Node>(node2.getLinks());
-                intersectionFront.retainAll(node.getLinks());
-                if (!intersectionBack.isEmpty() && !intersectionFront.isEmpty()) {
-                    nodes.add(node2);
-                }
-            }
-            int height = nodes.size() * SPACING / 2;
-            for (Node node2 : nodes) {
-                node2.setXY(currx, height);
-                height -= SPACING;
-            }
-            processed.addAll(nodes);
-            currx += SPACING;
         }
         // Detect and correct the positions of indels.
         for (Node node : nodeCollection) {
-            for (Node nodeBack : node.getBackLinks()) {
-                Collection<Node> intersection = new ArrayList<Node>(nodeBack.getLinks());
-                intersection.retainAll(node.getLinks());
-                if (!intersection.isEmpty()) {
-                    node.setXY(node.getX(), node.getY() + SPACING / 2);
-                }
-            }
+            printPercentage(nodeCollection.getNodes().size());
+            node.correctIndelPosition(SPACING);
         }
+        System.out.println("\rPositioning... 100%");
         // Remove the inversion links, until we know what to do with them.
         for (Node node : nodeCollection) {
             Iterator<Node> linkIterator = node.getLinks().iterator();
@@ -80,6 +67,22 @@ public class PositionHandler implements PositionManager {
                     linkIterator.remove();
                 }
             }
+        }
+    }
+
+    /**
+     * Print the percentage 500 times in total.
+     *
+     * @param totalSize size of node collection
+     */
+    private void printPercentage(int totalSize) {
+        currnode++;
+        if (totalSize < PRINT_TIMES) {
+            System.out.print(String.format("\rPositioning... %.1f%%.", (double) currnode
+                    / totalSize * (PERCENT / percentageParts)));
+        } else if (currnode % (totalSize / PRINT_TIMES) == 0) {
+            System.out.print(String.format("\rPositioning... %.1f%%.", (double) currnode
+                    / totalSize * (PERCENT / percentageParts)));
         }
     }
 }

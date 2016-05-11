@@ -1,7 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
-import io.github.programminglife2016.pl1_2016.parser.SimpleParser;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
 
@@ -12,6 +12,7 @@ import java.io.InputStream;
  * Reads the input and launches the server.
  */
 public final class Launcher {
+    private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
     private Launcher() {
     }
     /**
@@ -20,8 +21,13 @@ public final class Launcher {
      * @throws IOException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException {
+        System.out.println("Started loading.");
+        long startTime = System.nanoTime();
         InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10_200.gfa");
-        JsonSerializable jsonSerializable = new SimpleParser().parse(is);
+        JsonSerializable jsonSerializable = new SegmentParser().parse(is);
+        long endTime = System.nanoTime();
+        System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
+                / NANOSECONDS_PER_SECOND));
         Server server = new RestServer(jsonSerializable);
         server.startServer();
     }
