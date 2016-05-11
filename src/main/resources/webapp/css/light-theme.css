@@ -261,3 +261,7 @@ body {
 #rotation {
   display: none;
 }
+
+.cy-panzoom {
+  z-index: 10000;
+}

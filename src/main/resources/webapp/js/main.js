@@ -103,6 +103,18 @@ $(function() { // on dom ready
       $.ajax(this.req);
   }
 
+  ServerConnection.prototype.sendZoomlevel = function(z) {
+      var r = {
+            url: "/api/nodes/" + z,
+            error: this.handleError,
+            statusCode: {
+               default: this.handleStatusCode
+            }
+      };
+      $.ajax(r);
+      console.log("Send zoomlevel");
+  }
+
   /*
     Add UI events concerning communicating with the server.
   */
@@ -217,8 +229,8 @@ $(function() { // on dom ready
         hideLabelsOnViewport : true,
         textureOnViewport : true,
         wheelSensitivity: 0.1,
-        minZoom: 0.5,
-        maxZoom: 80,
+        minZoom: 0.1,
+        zoom: 0.1,
 
         style: [{"selector":"core",
                    "style":
@@ -260,7 +272,33 @@ $(function() { // on dom ready
                 {"selector":"edge","style":{"target-arrow-color": "#777", "target-arrow-shape": "triangle", "line-color": "#777"}},
                ],
 
-        layout: { name: 'preset', padding: 10 }
+        layout: { name: 'preset', padding: 10 },
+
+      });
+
+      this.zoom = cy.zoom();
+      this.zoomTreshold = 0.20;
+      console.log("Start zoom: " + this.zoom);
+
+      cy.panzoom({
+            zoomFactor: 0.05, // zoom factor per zoom tick
+            zoomDelay: 45, // how many ms between zoom ticks
+            minZoom: 0.1, // min zoom level
+            maxZoom: 10, // max zoom level
+            fitPadding: 50, // padding when fitting
+            panSpeed: 10, // how many ms in between pan ticks
+            panDistance: 10, // max pan distance per tick
+            panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
+            panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
+            panInactiveArea: 8, // radius of inactive area in pan drag box
+            panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
+            zoomOnly: false, // a minimal version of the ui only with zooming (useful on systems with bad mousewheel resolution)
+
+            // icon class names
+            sliderHandleIcon: 'fa fa-minus',
+            zoomInIcon: 'fa fa-plus',
+            zoomOutIcon: 'fa fa-minus',
+            resetIcon: 'fa fa-expand'
       });
 
       this.bindUIEvents();
@@ -293,8 +331,6 @@ $(function() { // on dom ready
 //
 //            });
 //      });
-      this.zoom = cy.zoom();
-      console.log("Start zoom: " + this.zoom);
   }
 
   GraphHandler.prototype.loadSettings = function() {
@@ -335,16 +371,24 @@ $(function() { // on dom ready
     Add UI events concerning the graph view.
   */
   GraphHandler.prototype.bindUIEvents = function() {
-    $("#zoomButton").click(() => {
+    $("#zoomButton").click(function() {
        console.log(graphHandler.getDimensions());
        $("#cy").toggle();
     });
 
-    cy.on("zoom", function() {
-       console.log("zooming: " + cy.zoom())
+    cy.on("zoom", () => {
+       var z = cy.zoom();
+       console.log("zooming: " + z)
+       console.log("current zoom: " + this.zoom);
+       var p = Math.abs(z - this.zoom) / this.zoom;
+       console.log("p= " + p);
+       if (p > this.zoomTreshold) {
+          serverConnection.sendZoomlevel(z);
+          this.zoom = z;
+       }
     });
 
-    $(".phylogeneticTree").click(() => {
+    $(".phylogeneticTree").click(function() {
        console.log("Phylogenetic tree");
        $("#cy").toggle();
        $(".cytoscape-navigator").toggle();
@@ -414,32 +458,10 @@ $(function() { // on dom ready
   graphHandler.loadSettings();
 //  cy.autolock(false);
 //  cy.boxSelectionEnabled(true);
-
-  cy.on('ready', function () {
-      updateBounds();
-
-      var defaults = {
-        zoomFactor: 0.05, // zoom factor per zoom tick
-        zoomDelay: 45, // how many ms between zoom ticks
-        minZoom: 0.1, // min zoom level
-        maxZoom: 10, // max zoom level
-        fitPadding: 50, // padding when fitting
-        panSpeed: 10, // how many ms in between pan ticks
-        panDistance: 10, // max pan distance per tick
-        panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
-        panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
-        panInactiveArea: 8, // radius of inactive area in pan drag box
-        panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
-        zoomOnly: false, // a minimal version of the ui only with zooming (useful on systems with bad mousewheel resolution)
-
-        // icon class names
-        sliderHandleIcon: 'fa fa-minus',
-        zoomInIcon: 'fa fa-plus',
-        zoomOutIcon: 'fa fa-minus',
-        resetIcon: 'fa fa-expand'
-      };
-
-      cy.panzoom(defaults);
-      graphHandler.loadSettings();
+  cy.on("ready", function () {
+     this.zoom = cy.zoom(0.1);
+     console.log("Zooming: " + cy.zoom())
   });
+  cy.zoom(0.1);
+
 }); // on dom ready

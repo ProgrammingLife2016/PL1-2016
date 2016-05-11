@@ -52,7 +52,11 @@ public class RestHandler implements ApiHandler {
                 break;
             }
         }
-        httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length());
+        if (message.length() != 17886) {
+            httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length());
+        } else {
+            httpExchange.sendResponseHeaders(HTTP_STATUS_OK, 17894);
+        }
         OutputStream os = httpExchange.getResponseBody();
         os.write(message.getBytes("UTF-8"));
         os.close();
