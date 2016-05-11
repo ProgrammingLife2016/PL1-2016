@@ -27,8 +27,8 @@ public class PhyloGeneticTreeParserTest {
     public void testTreeWithSingleNode() {
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
         String s = "(B:6.0,A:5.0);";
-        Collection<TreeNode> nodes  = parser.parseTokensFromString(s);
-        assertEquals("B", nodes.stream().findFirst().get().getId());
+        TreeNodeCollection node  = parser.parseTokensFromString(s);
+        assertEquals("B", node.getRoot().getChildren().get(0).getName());
     }
 
     /**
@@ -38,8 +38,8 @@ public class PhyloGeneticTreeParserTest {
     public void testTreeWithOneNestedLevel() {
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
         String s = "(B:6.0,(A:5.0,(Z:9.0,T:10):3.0,E:4.0):5.0,D:11.0);";
-        Collection<TreeNode> node = parser.parseTokensFromString(s);
-        assertEquals("B", node.stream().findFirst().get().getId());
+        TreeNodeCollection node = parser.parseTokensFromString(s);
+        assertEquals("B", node.getRoot().getChildren().get(0).getName());
     }
 
     /**

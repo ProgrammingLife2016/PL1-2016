@@ -1,10 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import io.github.programminglife2016.pl1_2016.Launcher;
-
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,8 +13,7 @@ public class PhyloGeneticTreeParser implements Parser {
     @Override
     public JsonSerializable parse(InputStream inputStream) {
         String s = inputStreamToString(inputStream);
-        Collection<TreeNode> nodes = parseTokensFromString(s);
-        return null;
+        return parseTokensFromString(s);
     }
 
     private String inputStreamToString(InputStream inputStream) {
@@ -33,9 +28,9 @@ public class PhyloGeneticTreeParser implements Parser {
      * @param s string representin the tree.
      * @return root of tree
      */
-    public Collection<TreeNode> parseTokensFromString(String s) {
+    public TreeNodeCollection parseTokensFromString(String s) {
         StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
-        Collection<TreeNode> nodes = construct(tokenizer);
+        TreeNodeCollection nodes = construct(tokenizer);
         return nodes;
     }
 
@@ -44,10 +39,11 @@ public class PhyloGeneticTreeParser implements Parser {
      * @param tokenizer tokenizer with the contents of the .nwk file.
      * @return parsed Tree Node object.
      */
-    public Collection<TreeNode> construct(StringTokenizer tokenizer) {
-        Collection<TreeNode> nodes = new ArrayList<TreeNode>();
+    public TreeNodeCollection construct(StringTokenizer tokenizer) {
+        TreeNodeCollection nodes = new TreeNodeList();
         TreeNode root = new BaseTreeNode();
         nodes.add(root);
+        nodes.setRoot(root);
         TreeNode current = root;
         while (tokenizer.hasMoreTokens()) {
             String currentToken = tokenizer.nextToken();
@@ -77,7 +73,7 @@ public class PhyloGeneticTreeParser implements Parser {
                 case ";":
                     break;
                 default:
-                    current.setId(currentToken);
+                    current.setName(currentToken);
                     break;
             }
         }
