@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -80,6 +81,9 @@ public class PhyloGeneticTreeParser implements Parser {
                     break;
             }
         }
+        Collection<TreeNode> nw = nodes.stream()
+                                       .filter(n -> n.getChildren().size() == 0)
+                                       .collect(Collectors.toList());
         return nodes;
     }
 }

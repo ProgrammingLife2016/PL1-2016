@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,8 +27,8 @@ public class PhyloGeneticTreeParserTest {
     public void testTreeWithSingleNode() {
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
         String s = "(B:6.0,A:5.0);";
-        TreeNode node  = parser.parseTokensFromString(s);
-        assertEquals("B", node.getId());
+        Collection<TreeNode> nodes  = parser.parseTokensFromString(s);
+        assertEquals("B", nodes.stream().findFirst().get().getId());
     }
 
     /**
@@ -37,8 +38,8 @@ public class PhyloGeneticTreeParserTest {
     public void testTreeWithOneNestedLevel() {
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
         String s = "(B:6.0,(A:5.0,(Z:9.0,T:10):3.0,E:4.0):5.0,D:11.0);";
-        TreeNode node = parser.parseTokensFromString(s);
-        assertEquals("B", node.getId());
+        Collection<TreeNode> node = parser.parseTokensFromString(s);
+        assertEquals("B", node.stream().findFirst().get().getId());
     }
 
     /**

@@ -247,3 +247,17 @@ body {
 #message h2 {
   color: #ECF0F1;
 }
+
+#tree {
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 100%;
+  height: 10;
+  background-color: #32B2B7; /*#ECf0f1;*/
+  display: none;
+}
+
+#rotation {
+  display: none;
+}

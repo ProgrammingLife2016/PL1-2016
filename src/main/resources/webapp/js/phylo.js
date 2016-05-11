@@ -113,7 +113,7 @@ function phylo(n, offset) {
     });
 }
 
-d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
+d3.text("file.nwk", function(text) {
   var x = newick.parse(text);
   var treenodes = cluster.nodes(x);
   phylo(treenodes[0], 0);

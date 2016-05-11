@@ -1,7 +1,6 @@
 $(function() { // on dom ready
   $("#options").css("top", $("#nav").height());
   $("#options").css("height", $(document).height() - $("#nav").height());
-
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
   $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
   $("html, body").stop().animate({ scrollTop: 0}, "swing");
@@ -113,7 +112,7 @@ $(function() { // on dom ready
         this.retrieveDataFromServer();
       });
 
-      var duration = 400;
+      var duration = 500;
       var easing = "swing";
       $("#startConnection").click(() => {
         $("#cy").css("background-color", "#ECF0F1");
@@ -130,17 +129,17 @@ $(function() { // on dom ready
               opacity: 1
               }, duration, "swing");
             $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
-        }, 500);
+        }, duration);
         setTimeout(function() {
             $("#options").css("display", "none");
-            //$("#cy").toggle();
-        }, 500);
+            $("#tree").toggle();
+        }, duration);
       });
 
       $("#optionButton").click(function() {
          $header = $(this);
          $content = $("#optionsContainer");
-         $content.slideToggle(500, function () {
+         $content.slideToggle(duration, function () {
             if ($content.is(":visible")) {
                $("#optionButton i").attr("class", "fa fa-arrow-right fa-fw");
             } else {
@@ -154,11 +153,11 @@ $(function() { // on dom ready
          if (c === undefined || c[1] === "false") {
            $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
            cookieHandler.setCookie("enableDragging", "true");
-//           cy.autolock(false);
+           cy.autolock(false);
          } else {
            $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
            cookieHandler.setCookie("enableDragging", "false");
-//           cy.autolock(true);
+           cy.autolock(true);
          }
          graphHandler.loadSettings();
       });
@@ -263,17 +262,16 @@ $(function() { // on dom ready
 
         layout: { name: 'preset', padding: 10 }
       });
+
       this.bindUIEvents();
 //      cy.userPanningEnabled( false );
 //cy.on('zoom', function(evt){
-        $(document).scroll(function(event) {
-            currentMousePos.x = event.pageX;
-            currentMousePos.y = event.pageY;
-            cy.pan({
-                    x: currentMousePos.x + ($('body').offset().left*2),
-                    y: currentMousePos.y + ($('body').offset().top/2)
-                  });
-        });
+      $(document).scroll(function(event) {
+          currentMousePos.x = event.pageX;
+          currentMousePos.y = event.pageY;
+          $('.cytoscape-navigatorView').offset().top = currentMousePos.x + $('body').offset().top / 2;
+          $('.cytoscape-navigatorView').offset().left = currentMousePos.x + $('body').offset().left * 2;
+      });
 //        $(document).mouseleave(function(event) { });
 //        $(document).mouseout(function(event) { });
 //});
@@ -295,33 +293,8 @@ $(function() { // on dom ready
 //
 //            });
 //      });
-  cy.on('ready', function () {
-      updateBounds();
-
-      var defaults = {
-        zoomFactor: 0.05, // zoom factor per zoom tick
-        zoomDelay: 45, // how many ms between zoom ticks
-        minZoom: 0.1, // min zoom level
-        maxZoom: 10, // max zoom level
-        fitPadding: 50, // padding when fitting
-        panSpeed: 10, // how many ms in between pan ticks
-        panDistance: 10, // max pan distance per tick
-        panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
-        panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
-        panInactiveArea: 8, // radius of inactive area in pan drag box
-        panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
-        zoomOnly: false, // a minimal version of the ui only with zooming (useful on systems with bad mousewheel resolution)
-
-        // icon class names
-        sliderHandleIcon: 'fa fa-minus',
-        zoomInIcon: 'fa fa-plus',
-        zoomOutIcon: 'fa fa-minus',
-        resetIcon: 'fa fa-expand'
-      };
-
-      cy.panzoom( defaults );
-      graphHandler.loadSettings();
-  });
+      this.zoom = cy.zoom();
+      console.log("Start zoom: " + this.zoom);
   }
 
   GraphHandler.prototype.loadSettings = function() {
@@ -365,6 +338,18 @@ $(function() { // on dom ready
     $("#zoomButton").click(() => {
        console.log(graphHandler.getDimensions());
        $("#cy").toggle();
+    });
+
+    cy.on("zoom", function() {
+       console.log("zooming: " + cy.zoom())
+    });
+
+    $(".phylogeneticTree").click(() => {
+       console.log("Phylogenetic tree");
+       $("#cy").toggle();
+       $(".cytoscape-navigator").toggle();
+       $("#tree").css("display", "block");
+       $("#rotation").toggle();
     });
   }
 
@@ -421,12 +406,40 @@ $(function() { // on dom ready
       $("#cy").css("top", $("#nav").height() + $("#options").height());
       cy.center();
       cy.resize();
-//      //fix the Edgehandles
+      //fix the Edgehandles
       //$('#cy').cytoscapeEdgehandles('resize');
   };
   updateBounds();
 
   graphHandler.loadSettings();
-  cy.autolock(false);
-  cy.boxSelectionEnabled(true);
+//  cy.autolock(false);
+//  cy.boxSelectionEnabled(true);
+
+  cy.on('ready', function () {
+      updateBounds();
+
+      var defaults = {
+        zoomFactor: 0.05, // zoom factor per zoom tick
+        zoomDelay: 45, // how many ms between zoom ticks
+        minZoom: 0.1, // min zoom level
+        maxZoom: 10, // max zoom level
+        fitPadding: 50, // padding when fitting
+        panSpeed: 10, // how many ms in between pan ticks
+        panDistance: 10, // max pan distance per tick
+        panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
+        panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
+        panInactiveArea: 8, // radius of inactive area in pan drag box
+        panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
+        zoomOnly: false, // a minimal version of the ui only with zooming (useful on systems with bad mousewheel resolution)
+
+        // icon class names
+        sliderHandleIcon: 'fa fa-minus',
+        zoomInIcon: 'fa fa-plus',
+        zoomOutIcon: 'fa fa-minus',
+        resetIcon: 'fa fa-expand'
+      };
+
+      cy.panzoom(defaults);
+      graphHandler.loadSettings();
+  });
 }); // on dom ready
