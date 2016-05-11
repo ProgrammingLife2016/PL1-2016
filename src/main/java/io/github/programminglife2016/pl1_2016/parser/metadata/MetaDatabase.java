@@ -1,8 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by ravishivam on 8-5-16.
@@ -11,9 +9,9 @@ public class MetaDatabase {
 
     private static final String DATABASE_DRIVER = "org.postgresql.Driver";
 
-    private static final String HOST = "jdbc:postgresql://127.0.0.1:5432/PL1";
+    private static final String HOST = "jdbc:postgresql://145.94.157.33:5432/pl1";
 
-    private static final String ROLL = "postgres";
+    private static final String ROLL = "pl";
 
     private static final String PASSWORD = "visual";
 
@@ -24,6 +22,7 @@ public class MetaDatabase {
     }
 
     /**
+h
      * Sets up the driver and creates a connection with database with given host and rolls.
      */
     private void connectDatabase() {
@@ -42,7 +41,15 @@ public class MetaDatabase {
         this.connection = connection;
     }
 
-    public static void main(String[] argv) {
-
-    }
+    public static void main(String[] argv) throws SQLException {
+        MetaDatabase db = new MetaDatabase();
+        String sql = "SELECT Specimen_ID, Age, Sex FROM specimen;";
+        PreparedStatement stm = db.connection.prepareStatement(sql);
+        ResultSet set = stm.executeQuery();
+        while(set.next()){
+            System.out.println(set.getString(1));
+        }
+        stm.close();
+        db.connection.close();
+        }
 }
