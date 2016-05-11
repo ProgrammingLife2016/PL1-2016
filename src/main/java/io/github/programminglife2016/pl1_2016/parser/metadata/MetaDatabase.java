@@ -1,10 +1,14 @@
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
-import java.sql.*;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeList;
 
-/**
- * Created by ravishivam on 8-5-16.
- */
+import java.io.IOException;
+import java.sql.*;
+import java.util.Collection;
+
+
 public class MetaDatabase {
 
     private static final String DATABASE_DRIVER = "org.postgresql.Driver";
@@ -41,15 +45,28 @@ h
         this.connection = connection;
     }
 
-    public static void main(String[] argv) throws SQLException {
-        MetaDatabase db = new MetaDatabase();
-        String sql = "SELECT Specimen_ID, Age, Sex FROM specimen;";
-        PreparedStatement stm = db.connection.prepareStatement(sql);
+    /**
+     * This method is used for loading the pre-calculated positions from a nodeCollection with the database into a nodeCollection.
+     *
+     * @param nodes The nodes that get positioned.
+     * @param zoomlevel The zoomlevel that is requested (Not used yet)
+     * @return The correctly positioned nodes.
+     * @throws SQLException
+     */
+    public NodeCollection getPositions(NodeCollection nodes, int zoomlevel) throws SQLException {
+        String sql = "SELECT nodeid, positionx, positiony FROM nodes;";
+        PreparedStatement stm = this.connection.prepareStatement(sql);
         ResultSet set = stm.executeQuery();
+        NodeList newList = new NodeList(nodes.getNodes().size());
+        Collection<Node> list = nodes.getNodes();
+        System.out.println(list.size());
+        Object[] nodesarray = list.toArray();
         while(set.next()){
-            System.out.println(set.getString(1));
+            ((Node)nodesarray[Integer.parseInt(set.getString(1))-1]).setXY(Integer.parseInt(set.getString(2)), Integer.parseInt(set.getString(3)));
+            newList.put(Integer.parseInt(set.getString(1)), ((Node)nodesarray[Integer.parseInt(set.getString(1))-1]));
         }
-        stm.close();
-        db.connection.close();
-        }
+
+        return newList;
+    }
+
 }

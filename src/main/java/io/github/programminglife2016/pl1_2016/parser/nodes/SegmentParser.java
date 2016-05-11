@@ -2,16 +2,19 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.metadata.MetaDatabase;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.DatabaseMetaData;
+import java.util.Iterator;
 
 /**
  * Temporary simple parser for parsing .gfa files.
  */
 public class SegmentParser implements Parser {
-    private static final int SIZE = 9000;
+    private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
 
     /**
@@ -48,8 +51,11 @@ public class SegmentParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-            PositionManager positionHandler = new PositionHandler(this.nodeCollection);
-            positionHandler.calculatePositions();
+            PositionHandler ph = new PositionHandler(nodeCollection);
+            ph.calculatePositions();
+//            The lines above have to be removed and the lines below have to be uncommented to use the loading from the database
+//            MetaDatabase db = new MetaDatabase();
+//            nodeCollection = db.getPositions(nodeCollection, 1);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
