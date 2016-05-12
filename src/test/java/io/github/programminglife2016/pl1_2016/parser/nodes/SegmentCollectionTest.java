@@ -4,8 +4,6 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

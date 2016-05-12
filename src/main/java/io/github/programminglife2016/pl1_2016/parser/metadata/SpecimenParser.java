@@ -35,6 +35,10 @@ public class SpecimenParser implements Parser {
         return specimens;
     }
 
+    /**
+     * Get the collection of the specimenmap.
+     * @return the collection which contains all specimen.
+     */
     public SpecimenCollection getSpecimenCollection() {
         return this.specimens;
     }
@@ -52,8 +56,12 @@ public class SpecimenParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-        } catch (Exception e) {}
-        try {reader.close();} catch (IOException e) { e.printStackTrace(); }
+        } catch (Exception e) { }
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
