@@ -1,9 +1,9 @@
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -15,7 +15,7 @@ public class SpecimenParser implements Parser {
     /**
      * Map containing all the specimen.
      */
-    private SpecimenMap specimens;
+    private SpecimenCollection specimens;
 
     /**
      * Constructor for the parser.
@@ -30,9 +30,13 @@ public class SpecimenParser implements Parser {
      * @return JsonSerializable version of the specimenmap.
      */
     @Override
-    public JsonSerializable parse(InputStream inputStream) {
+    public SpecimenCollection parse(InputStream inputStream) {
         read(inputStream);
         return specimens;
+    }
+
+    public SpecimenCollection getSpecimenCollection() {
+        return this.specimens;
     }
 
     /**
@@ -49,16 +53,8 @@ public class SpecimenParser implements Parser {
                 parseLine(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
+        try {reader.close();} catch (IOException e) { e.printStackTrace(); }
     }
 
     /**
