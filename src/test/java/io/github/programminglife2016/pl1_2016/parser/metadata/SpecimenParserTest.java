@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 //CHECKSTYLE.OFF: MagicNumber
 
 /** Tests for SpecimenParser.
@@ -84,7 +83,6 @@ public class SpecimenParserTest {
         InputStream stream = stringToInputStream(file);
         specimenParser.parse(stream);
         SpecimenCollection specimenCollection = specimenParser.getSpecimenCollection();
-        Iterator<Subject> col = specimenCollection.iterator();
         assertEquals("TKK-01-0006", specimenCollection.get("TKK-01-0006").getNameId());
         assertEquals(70, specimenCollection.get("TKK-01-0006").getAge());
         assertEquals(true, specimenCollection.get("TKK-01-0006").isMale());

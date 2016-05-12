@@ -3,6 +3,8 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Test class for NodeList, using the tests in SegmentCollectionTest.
