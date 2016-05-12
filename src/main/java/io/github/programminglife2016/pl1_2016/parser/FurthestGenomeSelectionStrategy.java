@@ -1,6 +1,11 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.util.*;
+import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
 public class FurthestGenomeSelectionStrategy implements GenomeSelectionStrategy {
     @Override

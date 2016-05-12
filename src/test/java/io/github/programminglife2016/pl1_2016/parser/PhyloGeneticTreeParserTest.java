@@ -1,11 +1,13 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import io.github.programminglife2016.pl1_2016.parser.phylotree.PhyloGeneticTreeParser;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

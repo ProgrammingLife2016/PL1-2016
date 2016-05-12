@@ -1,7 +1,7 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.parser.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.TreeNode;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 import io.github.programminglife2016.pl1_2016.server.api.actions.GetLeveledNodesApiAction;
 

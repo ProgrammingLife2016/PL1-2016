@@ -1,5 +1,6 @@
 $(function() {
-var r = $('html').height() / 2;//960 / 2;
+var r = 1000;
+console.log("r: " + r);
 var svgId = "phyloTree";
 var panX = 0, panY = 0;
 
@@ -38,8 +39,9 @@ var wrap = d3.select("#tree")
 //    .attr("width", r * 2)
 //    .attr("height", r * 2)
     .append("svg")
-    .attr("width", $('html').width())//r * 2)
-    .attr("height", $('html').height())//r * 2)
+    .attr("width", 1000)//r * 2)
+    .attr("height", 700)//r * 2))
+    .attr("top", 200)
     .attr("id", svgId)
     .style("-webkit-backface-visibility", "hidden");
 
@@ -113,7 +115,7 @@ function phylo(n, offset) {
     });
 }
 
-d3.text("../genomes/340tree.rooted.TKK.nwk", function(text) {
+d3.text("file.nwk", function(text) {
   var x = newick.parse(text);
   var treenodes = cluster.nodes(x);
   phylo(treenodes[0], 0);
@@ -241,5 +243,4 @@ function colorTKKs(obj, colorLine, colorText){
     $(str).css('stroke', colorLine);
     $('text'+str.replace(/,\s./g, ", text.")).css('fill', colorText);
 }
-
 });

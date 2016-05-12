@@ -1,9 +1,8 @@
 package io.github.programminglife2016.pl1_2016.server.api;
 
 import com.sun.net.httpserver.HttpServer;
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
-import io.github.programminglife2016.pl1_2016.parser.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.TreeNode;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetLeveledNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;

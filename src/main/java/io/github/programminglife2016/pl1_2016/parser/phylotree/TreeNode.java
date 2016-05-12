@@ -1,4 +1,6 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.phylotree;
+
+import io.github.programminglife2016.pl1_2016.parser.TreeNodeCollection;
 
 import java.util.List;
 
@@ -42,13 +44,12 @@ public interface TreeNode {
      * Set the weight of the tree node.
      * @param weight double value of the weight of the tree.
      */
-    public void setWeight(double weight);
+    void setWeight(double weight);
 
-
-        /**
-         * Get the children from this node.
-         * @return list of children.
-         */
+    /**
+     * Get the children from this node.
+     * @return list of children.
+     */
     List<TreeNode> getChildren();
 
     void setParent(TreeNode node);

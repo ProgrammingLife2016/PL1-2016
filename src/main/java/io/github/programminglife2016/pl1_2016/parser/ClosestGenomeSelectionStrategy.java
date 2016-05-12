@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,4 +19,5 @@ public class ClosestGenomeSelectionStrategy implements GenomeSelectionStrategy {
 //        return genomes;
         return Arrays.asList("TKK 02 0007", "TKK 02 0006");
     }
+
 }

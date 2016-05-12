@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import java.util.*;
 
@@ -155,6 +155,39 @@ public class Segment implements Node {
      */
     public int getY() {
         return y;
+    }
+
+
+    @Override
+    public void calculatePosition(NodeCollection nodeCollection, Collection<Node> processed,
+                                  int verticalSpacing, int currx) {
+        Collection<Node> nodes = new ArrayList<Node>();
+        for (Node node2 : nodeCollection) {
+            Collection<Node> intersectionBack = new ArrayList<Node>(node2.getBackLinks());
+            intersectionBack.retainAll(getBackLinks());
+            Collection<Node> intersectionFront = new ArrayList<Node>(node2.getLinks());
+            intersectionFront.retainAll(getLinks());
+            if (!intersectionBack.isEmpty() && !intersectionFront.isEmpty()) {
+                nodes.add(node2);
+            }
+        }
+        int height = nodes.size() * verticalSpacing / 2;
+        for (Node node2 : nodes) {
+            node2.setXY(currx, height);
+            height -= verticalSpacing;
+        }
+        processed.addAll(nodes);
+    }
+
+    @Override
+    public void correctIndelPosition(int spacing) {
+        for (Node nodeBack : getBackLinks()) {
+            Collection<Node> intersection = new ArrayList<Node>(nodeBack.getLinks());
+            intersection.retainAll(getLinks());
+            if (!intersection.isEmpty()) {
+                setXY(getX(), getY() + spacing / 2);
+            }
+        }
     }
 
     /**

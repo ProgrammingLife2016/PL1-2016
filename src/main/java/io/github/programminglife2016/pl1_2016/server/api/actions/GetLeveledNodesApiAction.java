@@ -1,6 +1,9 @@
 package io.github.programminglife2016.pl1_2016.server.api.actions;
 
 import io.github.programminglife2016.pl1_2016.parser.*;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.PositionHandler;
+import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -15,7 +18,7 @@ public class GetLeveledNodesApiAction implements ApiAction {
     public GetLeveledNodesApiAction(NodeCollection nodeCollection, TreeNode rootNode) {
         this.nodeCollection = nodeCollection;
         this.rootNode = rootNode;
-        this.genomeSelectionStrategy = new ClosestGenomeSelectionStrategy();
+        this.genomeSelectionStrategy = new FurthestGenomeSelectionStrategy();
     }
 
     /**

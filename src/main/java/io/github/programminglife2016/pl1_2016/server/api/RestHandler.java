@@ -52,7 +52,11 @@ public class RestHandler implements ApiHandler {
                 break;
             }
         }
-        httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length());
+        if(input.contains("lib/panzoom.js"))
+            httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length() + 8);
+        else
+            httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length());
+
         OutputStream os = httpExchange.getResponseBody();
         os.write(message.getBytes("UTF-8"));
         os.close();

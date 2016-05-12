@@ -5,6 +5,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.Exchanger;
 
 /**
  * Return a static file (HTML, CSS, JS, etc.) upon request.
@@ -23,7 +24,7 @@ public class GetStaticFileApiAction implements ApiAction {
             InputStream is = GetStaticFileApiAction.class.getResourceAsStream(uri);
             String ret = IOUtils.toString(is, "UTF-8");
             return ret;
-        } catch (IOException | NullPointerException e) {
+        } catch (Exception e) {
             System.err.println(args.get(0));
             return "404";
         }

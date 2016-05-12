@@ -1,7 +1,13 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.phylotree;
+
+import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.TreeNodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.TreeNodeList;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -76,6 +82,9 @@ public class PhyloGeneticTreeParser implements Parser {
                     break;
             }
         }
+        Collection<TreeNode> nw = nodes.stream()
+                                       .filter(n -> n.getChildren().size() == 0)
+                                       .collect(Collectors.toList());
         return nodes;
     }
 }

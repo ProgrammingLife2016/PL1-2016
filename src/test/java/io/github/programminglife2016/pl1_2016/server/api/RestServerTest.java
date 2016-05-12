@@ -1,8 +1,7 @@
 //CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.server.api;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
-import io.github.programminglife2016.pl1_2016.parser.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
