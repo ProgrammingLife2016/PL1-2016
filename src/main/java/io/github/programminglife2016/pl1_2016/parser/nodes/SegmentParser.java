@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.database.SimpleDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.MetaDatabase;
 
 import java.io.BufferedReader;
@@ -53,6 +54,8 @@ public class SegmentParser implements Parser {
             }
             PositionHandler ph = new PositionHandler(nodeCollection);
             ph.calculatePositions();
+            SimpleDatabase db = new SimpleDatabase();
+            db.writeSegments(nodeCollection);
 //            The lines above have to be removed and the lines below have to be uncommented to use the loading from the database
 //            MetaDatabase db = new MetaDatabase();
 //            nodeCollection = db.getPositions(nodeCollection, 1);
