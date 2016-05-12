@@ -1,9 +1,14 @@
 $(function() { // on dom ready
+  var setting = {
+     animationDuration: 500,
+     zoomTreshold: 0.2
+  };
   $("#options").css("top", $("#nav").height());
   $("#options").css("height", $(document).height() - $("#nav").height());
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
   $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
   $("html, body").stop().animate({ scrollTop: 0}, "swing");
+  $("iframe").toggle();
 
   /*
     Factory for creating Graph objects.
@@ -21,11 +26,6 @@ $(function() { // on dom ready
 
   GraphFactory.prototype.createNode = function(node) {
     var getName = name => name.length > 4 ? name.substring(0, 4) + "..." : name;
-    this.nodeTemplate["data"]["id"] = node.id;
-    this.nodeTemplate["data"]["name"] = getName(node.data);
-    this.nodeTemplate["data"]["weight"] = node.bubble ? 100 : 50;
-    this.nodeTemplate["position"]["x"] = node.x + 550;
-    this.nodeTemplate["position"]["y"] = node.y + 450;
     return {
       data: {
         id: node.id,
@@ -58,8 +58,7 @@ $(function() { // on dom ready
       Adapter for converting JSON data from server to correct format for cytoscape
 
   */
-  function JSONAdapter() {
-  }
+  function JSONAdapter() {}
 
   /*
     Convert JSON data received from server.
@@ -104,7 +103,7 @@ $(function() { // on dom ready
   }
 
   ServerConnection.prototype.sendZoomlevel = function(z) {
-      var r = {
+      var request = {
             url: "/api/nodes/" + z,
             error: this.handleError,
             succes: this.handleSuccesZoomLevel,
@@ -112,8 +111,8 @@ $(function() { // on dom ready
                default: this.handleStatusCode
             }
       };
-      $.ajax(r);
-      console.log("Send zoomlevel");
+      $.ajax(request);
+      console.log("Send zoomlevel to server");
   }
 
   /*
@@ -143,20 +142,21 @@ $(function() { // on dom ready
         $("#startConnection i").attr("class", "fa fa-circle-o-notch fa-spin fa-fw fa-lg");
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
+
         setTimeout(function(){
             $("#options").stop().animate({height: 0}, duration, "swing");
             $("#container").stop().animate({height: 0}, duration, "swing");
             $("#startConnection").stop().animate({opacity: 0}, duration, "swing");
             $("#optionButton").stop().animate({opacity: 0}, duration, "swing");
             $("#cy").stop().animate({
-              top: $("#nav").height(),
-              opacity: 1
+                top: $("#nav").height(),
+                opacity: 1
               }, duration, "swing");
             $(".cytoscape-navigator").stop().animate({opacity: 1}, duration, "swing");
         }, duration);
+
         setTimeout(function() {
             $("#options").css("display", "none");
-            $("#tree").toggle();
         }, duration);
       });
 
@@ -388,9 +388,12 @@ $(function() { // on dom ready
        $("#cy").toggle();
     });
 
+    /*
+      Send zoom level to server if the difference in zoom level is more than the zoomTreshold
+    */
     cy.on("zoom", () => {
        var z = cy.zoom();
-       console.log("zooming: " + z)
+       console.log("zooming: " + z);
        console.log("current zoom: " + this.zoom);
        var p = Math.abs(z - this.zoom) / this.zoom;
        if (p > this.zoomTreshold) {
@@ -403,8 +406,11 @@ $(function() { // on dom ready
        console.log("Phylogenetic tree");
        $("#cy").toggle();
        $(".cytoscape-navigator").toggle();
-       $("#tree").css("display", "block");
+       $("iframe").css("display", "block");
+//       $("#tree").toggle();
        $("#rotation").toggle();
+       $(".frame").css("top", $("#nav").height());
+       $(".frame").css("height", $(document).height() - $("#nav").height());
     });
   }
 
@@ -474,5 +480,17 @@ $(function() { // on dom ready
      console.log("Zooming: " + cy.zoom())
   });
   cy.zoom(0.1);
-
+//  $("#tree").css("height", $(document).height() - $("#nav").height());
+//  $("#phyloTree, #tree").css({
+//       "top": $("#nav").height(),
+//       "width": "300px",
+//       "height": "300px",
+//  });
+  $("#phyloTree").css({
+     "height": "100%",
+     "width": "100%"
+  });
+  var sv = document.getElementsByClassName('frame')[0].contentWindow.document.getElementById('phyloTree');
+  console.log("... " + $("#phyloTree").height());
+  console.log(sv);
 }); // on dom ready

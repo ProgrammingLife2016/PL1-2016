@@ -1,7 +1,13 @@
+.frame {
+  z-index: 10000;
+}
+
 html, body, #tree{
-    height: 100%;
-    overflow: hidden;
-    background: #EBEFF0;
+  height: 100%;
+  overflow: hidden;
+  background: #EBEFF0;
+  z-index: 1000000;
+  display: block;
 }
 
 .treenode circle {
