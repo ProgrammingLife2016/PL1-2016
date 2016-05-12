@@ -83,7 +83,7 @@ $(function() { // on dom ready
   */
   function ServerConnection() {
      this.req = {
-                   url: "/api/nodes",
+                   url: "/api/nodes/1",
                    data: {},
                    dataType: 'json',
                    success : this.handleSucces,

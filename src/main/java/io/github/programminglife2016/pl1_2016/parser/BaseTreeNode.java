@@ -54,6 +54,17 @@ public class BaseTreeNode implements TreeNode {
         this.children.add(child);
     }
 
+    @Override
+    public TreeNodeCollection flatten() {
+        TreeNodeCollection treeNodes = new TreeNodeList();
+        if (children.isEmpty()) {
+            treeNodes.add(this);
+        } else {
+            children.stream().map(TreeNode::flatten).forEach(treeNodes::addAll);
+        }
+        return treeNodes;
+    }
+
     /**
      * Set the list of children tree nodes.
      * @param children list of tree node objects.

@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * An object that represents a displayable bubble/segment.
  */
-public interface Node {
+public interface Node extends Cloneable {
     /**
      * Set the x and y coordinates of the node.
      *
@@ -105,4 +105,6 @@ public interface Node {
      * @return the genomes this segment belongs to
      */
     Set<String> getGenomes();
+
+    Node clone();
 }

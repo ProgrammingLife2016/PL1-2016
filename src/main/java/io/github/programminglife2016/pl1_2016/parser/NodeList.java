@@ -67,6 +67,11 @@ public class NodeList implements NodeCollection {
     }
 
     @Override
+    public void removeNode(Node node) {
+        array[node.getId() - 1] = null;
+    }
+
+    @Override
     public String toJson() {
         Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class, new NodeCollectionSerializer()).create();
         return gson.toJson(this);

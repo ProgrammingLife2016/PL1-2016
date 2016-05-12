@@ -29,6 +29,11 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     }
 
     @Override
+    public void removeNode(Node node) {
+        remove(node.getId());
+    }
+
+    @Override
     public String toJson() {
         Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class, new NodeCollectionSerializer()).create();
         return gson.toJson(this);

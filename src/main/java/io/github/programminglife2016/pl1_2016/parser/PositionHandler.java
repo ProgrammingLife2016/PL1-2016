@@ -24,7 +24,7 @@ public class PositionHandler implements PositionManager {
      * @param nodeCollection Map containing all the segments which positions need to be calculated.
      */
     public PositionHandler(NodeCollection nodeCollection) {
-        this.nodeCollection = new NodeList(nodeCollection.getNodes().size());
+        this.nodeCollection = new NodeMap(nodeCollection.getNodes().size());
         for (Node node : nodeCollection) {
             this.nodeCollection.put(node.getId(), node);
         }

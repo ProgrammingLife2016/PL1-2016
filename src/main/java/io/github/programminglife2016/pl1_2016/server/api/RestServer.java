@@ -2,7 +2,10 @@ package io.github.programminglife2016.pl1_2016.server.api;
 
 import com.sun.net.httpserver.HttpServer;
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.TreeNode;
 import io.github.programminglife2016.pl1_2016.server.Server;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetLeveledNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
@@ -17,15 +20,12 @@ public class RestServer implements Server {
     public static final int PORT = 8081;
 
     private HttpServer server;
-    private JsonSerializable jsonSerializable;
+    private NodeCollection nodeCollection;
+    private TreeNode rootNode;
 
-    /**
-     * Construct a RestServer, that uses a JsonSerializable to respond.
-     *
-     * @param jsonSerializable used for responses
-     */
-    public RestServer(JsonSerializable jsonSerializable) {
-        this.jsonSerializable = jsonSerializable;
+    public RestServer(NodeCollection nodeCollection, TreeNode rootNode) {
+        this.nodeCollection = nodeCollection;
+        this.rootNode = rootNode;
     }
 
     /**
@@ -35,9 +35,10 @@ public class RestServer implements Server {
      */
     public void startServer() throws IOException {
         ApiHandler apiHandler = new RestHandler();
-        apiHandler.addQuery(new ReturnAllNodesApiQuery(jsonSerializable));
+        apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection));
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
+        apiHandler.addQuery(new GetLeveledNodesApiQuery(nodeCollection, rootNode));
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);

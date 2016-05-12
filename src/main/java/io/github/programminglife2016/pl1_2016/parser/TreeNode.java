@@ -56,4 +56,6 @@ public interface TreeNode {
     TreeNode getParent();
 
     void addChild(TreeNode node);
+
+    TreeNodeCollection flatten();
 }

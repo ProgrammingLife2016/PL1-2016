@@ -9,8 +9,8 @@ public class Segment implements Node {
     private int id;
     private String data;
     private int column;
-    private List<Node> links = new ArrayList<>();
-    private List<Node> backLinks = new ArrayList<>();
+    private Set<Node> links = new HashSet<>();
+    private Set<Node> backLinks = new HashSet<>();
     private int x;
     private int y;
     private Set<String> genomes = new HashSet<>();
@@ -164,5 +164,36 @@ public class Segment implements Node {
     @Override
     public String toString() {
         return String.format("Segment{id=%d, x=%d, y=%d, column=%d}", id, x, y, column);
+    }
+
+    @Override
+    public Segment clone() {
+        try {
+            Segment segment = (Segment) super.clone();
+            segment.links = new HashSet<>(links);
+            segment.backLinks = new HashSet<>(backLinks);
+            segment.genomes = new HashSet<>(genomes);
+            return segment;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            assert false : "Clone should be supported";
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Segment segment = (Segment) o;
+
+        return id == segment.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -10,7 +10,7 @@ import java.util.*;
 public class PhyloGeneticTreeParser implements Parser {
 
     @Override
-    public JsonSerializable parse(InputStream inputStream) {
+    public TreeNodeCollection parse(InputStream inputStream) {
         String s = inputStreamToString(inputStream);
         return parseTokensFromString(s);
     }
@@ -72,7 +72,7 @@ public class PhyloGeneticTreeParser implements Parser {
                 case ";":
                     break;
                 default:
-                    current.setName(currentToken);
+                    current.setName(currentToken.replace("_", " "));
                     break;
             }
         }

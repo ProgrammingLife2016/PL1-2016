@@ -38,6 +38,8 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      */
     Collection<Node> getNodes();
 
+    void removeNode(Node node);
+
     /**
      * Iterator for the collection.
      * @return iterator

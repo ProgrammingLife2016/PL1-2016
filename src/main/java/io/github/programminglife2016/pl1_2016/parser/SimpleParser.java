@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * Temporary simple parser for parsing .gfa files.
  */
 public class SimpleParser implements Parser {
-    private static final int SIZE = 9000;
+    private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
     private static final String ATTR_ORI = "ORI:";
 
@@ -32,7 +32,7 @@ public class SimpleParser implements Parser {
      * @param inputStream input data
      * @return Data structure with parsed data.
      */
-    public JsonSerializable parse(InputStream inputStream) {
+    public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
         return nodeCollection;
     }
@@ -49,8 +49,8 @@ public class SimpleParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-            PositionManager positionHandler = new PositionHandler(this.nodeCollection);
-            positionHandler.calculatePositions();
+//            PositionManager positionHandler = new PositionHandler(this.nodeCollection);
+//            positionHandler.calculatePositions();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -95,7 +95,8 @@ public class SimpleParser implements Parser {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
         Collection<String> genomes = Arrays.asList(data[4].substring(6).split(";")).stream()
-                .map(x -> x.substring(0, x.length() - 6)).collect(Collectors.toList());
+                .map(x -> x.substring(0, x.length() - 6))
+                .map(x -> x.replace("_", " ").replace("-", " ")).collect(Collectors.toList());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
         } else {
