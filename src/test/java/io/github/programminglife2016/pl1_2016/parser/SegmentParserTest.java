@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 //CHECKSTYLE.OFF: MagicNumber
+//CHECKSTYLE.OFF: LineLength
 
 /**
  * Tests for the BasicServer class
@@ -46,9 +47,9 @@ public class SegmentParserTest {
     @Test
     public void testLinkLine() {
         final String gfaFile = "H	VN:Z:1.0\n"
-                               + "S 1 AGAT\n"
-                               + "S 2 TTGC\n"
-                               + "S 3 ATGC\n"
+                               + "S 1 AGAT *\tORI:Z:MT_H37RV_BRD_V5.ref.fasta;\n"
+                               + "S 2 TTGC *\tORI:Z:MT_H37RV_BRD_V5.ref.fasta;\n"
+                               + "S 3 ATGC *\tORI:Z:MT_H37RV_BRD_V5.ref.fasta;\n"
                                + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection segmentMap = parser.getSegmentCollection();
@@ -64,10 +65,9 @@ public class SegmentParserTest {
     @Test
     public void testParseZIndex() {
         final String gfaFile = "H	VN:Z:1.0\n"
-                + "S 1 AGAT\n"
-                + "S 2 TTGC\n"
-                + "S	3	C	*	ORI:Z:TKK_02_0008.fasta	CRD:Z:TKK_02_0008.fasta	CRDCTG:Z:NZ_KK"
-                + "327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n"
+                + "S 1 AGAT * ORI:Z:TKK_02_0008.fasta\n"
+                + "S 2 TTGC * ORI:Z:TKK_02_0008.fasta\n"
+                + "S	3	C	*	ORI:Z:TKK_02_0008.fasta	CRD:Z:TKK_02_0008.fasta	CRDCTG:Z:NZ_KK327777.1	CTG:Z:NZ_KK327777.1	START:Z:1451\n"
                 + "L	1	+	2	+	0M";
         parser.parse(stringToInputStream(gfaFile));
         NodeCollection segmentMap = parser.getSegmentCollection();
