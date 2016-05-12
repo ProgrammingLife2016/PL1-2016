@@ -39,9 +39,9 @@ var wrap = d3.select("#tree")
 //    .attr("width", r * 2)
 //    .attr("height", r * 2)
     .append("svg")
-    .attr("width", 1000)//r * 2)
-    .attr("height", 700)//r * 2))
-    .attr("top", 200)
+    .attr("width", $(document).width())//r * 2)
+    .attr("height", $(document).height()*0.40)//r * 2))
+    .attr("top", $("#nav").height())
     .attr("id", svgId)
     .style("-webkit-backface-visibility", "hidden");
 
@@ -243,4 +243,5 @@ function colorTKKs(obj, colorLine, colorText){
     $(str).css('stroke', colorLine);
     $('text'+str.replace(/,\s./g, ", text.")).css('fill', colorText);
 }
+
 });

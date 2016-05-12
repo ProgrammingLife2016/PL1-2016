@@ -1,5 +1,5 @@
 $(function() { // on dom ready
-  var setting = {
+  var settings = {
      animationDuration: 500,
      zoomTreshold: 0.2
   };
@@ -8,7 +8,6 @@ $(function() { // on dom ready
   $("#logo").stop().animate({opacity: 1}, 800,"swing");
   $("#container").stop().animate({opacity: 1, "padding-top": 120}, 800,"swing");
   $("html, body").stop().animate({ scrollTop: 0}, "swing");
-  $("iframe").toggle();
 
   /*
     Factory for creating Graph objects.
@@ -409,8 +408,8 @@ $(function() { // on dom ready
        $("iframe").css("display", "block");
 //       $("#tree").toggle();
        $("#rotation").toggle();
-       $(".frame").css("top", $("#nav").height());
-       $(".frame").css("height", $(document).height() - $("#nav").height());
+       $("#tree").css("top", $("#nav").height());
+       $("#tree").css("height", $(document).height() - $("#nav").height());
     });
   }
 
@@ -486,11 +485,4 @@ $(function() { // on dom ready
 //       "width": "300px",
 //       "height": "300px",
 //  });
-  $("#phyloTree").css({
-     "height": "100%",
-     "width": "100%"
-  });
-  var sv = document.getElementsByClassName('frame')[0].contentWindow.document.getElementById('phyloTree');
-  console.log("... " + $("#phyloTree").height());
-  console.log(sv);
 }); // on dom ready
