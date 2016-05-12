@@ -2,7 +2,7 @@ package io.github.programminglife2016.pl1_2016.parser;
 
 import java.util.*;
 
-public class RandomGenomeSelectionStrategy implements GenomeSelectionStrategy {
+public class FurthestGenomeSelectionStrategy implements GenomeSelectionStrategy {
     @Override
     public Collection<String> genomes(TreeNode rootNode, int level) {
         if (level == 0) {

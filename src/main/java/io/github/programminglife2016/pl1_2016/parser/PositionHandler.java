@@ -81,5 +81,15 @@ public class PositionHandler implements PositionManager {
                 }
             }
         }
+        // Remove long links.
+        for (Node node : nodeCollection) {
+            Iterator<Node> linkIterator = node.getLinks().iterator();
+            while (linkIterator.hasNext()) {
+                Node node2 = linkIterator.next();
+                if (Math.abs(node2.getX() - node.getX()) > 1000) {
+                    linkIterator.remove();
+                }
+            }
+        }
     }
 }

@@ -23,14 +23,14 @@ $(function() { // on dom ready
   GraphFactory.prototype.createNode = function(node) {
     var getName = name => name.length > 4 ? name.substring(0, 4) + "..." : name;
     this.nodeTemplate["data"]["id"] = node.id;
-    this.nodeTemplate["data"]["name"] = getName(node.data);
+    this.nodeTemplate["data"]["name"] = node.id;
     this.nodeTemplate["data"]["weight"] = node.bubble ? 100 : 50;
     this.nodeTemplate["position"]["x"] = node.x + 550;
     this.nodeTemplate["position"]["y"] = node.y + 450;
     return {
       data: {
         id: node.id,
-        name: getName(node.data),
+        name: node.id,
         weight: node.bubble ? 100 : 50,
         faveColor: '#6FB1FC',
         faveShape: 'ellipse'

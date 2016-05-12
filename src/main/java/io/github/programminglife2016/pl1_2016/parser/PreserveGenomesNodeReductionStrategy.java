@@ -17,18 +17,11 @@ public class PreserveGenomesNodeReductionStrategy implements NodeReductionStrate
         this.totalSize = original.getNodes().size();
         NodeCollection filter = filter(original);
         NodeCollection aggregate = filter;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             this.totalSize = aggregate.getNodes().size();
             this.currnode = 0;
             aggregate = aggregate(aggregate);
         }
-        Node newRoot = new Segment(999999, "-", 0);
-        aggregate.getNodes().stream().filter(x -> x.getBackLinks().isEmpty()).forEach(x -> {
-            System.out.println(x.getId());
-            newRoot.addLink(x);
-            x.addBackLink(newRoot);
-        });
-        aggregate.put(999999, newRoot);
         return aggregate;
     }
 
