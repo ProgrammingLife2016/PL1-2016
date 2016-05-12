@@ -52,8 +52,7 @@ public class SpecimenParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         try {reader.close();} catch (IOException e) { e.printStackTrace(); }
     }
 
