@@ -4,10 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.queries.GetLeveledNodesApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,6 +35,7 @@ public class RestServer implements Server {
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
         apiHandler.addQuery(new GetLeveledNodesApiQuery(nodeCollection, rootNode));
+        apiHandler.addQuery(new GetLeveledBoundedNodesApiQuery(nodeCollection, rootNode));
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);
