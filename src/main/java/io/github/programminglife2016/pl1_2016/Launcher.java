@@ -12,6 +12,7 @@ import java.io.InputStream;
  * Reads the input and launches the server.
  */
 public final class Launcher {
+    private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
     private Launcher() {
     }
     /**
@@ -20,8 +21,14 @@ public final class Launcher {
      * @throws IOException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException {
+
         InputStream is = Launcher.class.getResourceAsStream("/genomes/TB328/TB328.gfa");
+        System.out.println("Started loading.");
+        long startTime = System.nanoTime();
         JsonSerializable jsonSerializable = new SegmentParser().parse(is);
+        long endTime = System.nanoTime();
+        System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
+                / NANOSECONDS_PER_SECOND));
         Server server = new RestServer(jsonSerializable);
         server.startServer();
     }

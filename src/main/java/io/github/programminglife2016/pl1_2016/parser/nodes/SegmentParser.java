@@ -45,6 +45,7 @@ public class SegmentParser implements Parser {
      * @param inputStream stream of data.
      */
     private void read(InputStream inputStream) {
+        System.out.println("Parsing...");
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));

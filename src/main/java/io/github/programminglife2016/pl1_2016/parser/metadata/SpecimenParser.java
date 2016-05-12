@@ -85,7 +85,7 @@ public class SpecimenParser implements Parser {
      */
     private void parseBasicInfo(String[] string, Subject specimen) {
         specimen.setNameId(string[0]);
-        if(string[1].equals("unknown")) {
+        if (string[1].equals("unknown")) {
             specimen.setAge(0);
         }
         else {
@@ -104,13 +104,14 @@ public class SpecimenParser implements Parser {
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private void parseSecondaryInfo(String[] string, Subject specimen) {
         switch (string[3]) {
-            case "Positive" : specimen.setHIV(1);
+            case "Positive" : specimen.setHivStatus(1);
                 break;
-            case "Negative" : specimen.setHIV(-1);
+            case "Negative" : specimen.setHivStatus(-1);
                 break;
-            case "unknown" : specimen.setHIV(0);
+            case "unknown" : specimen.setHivStatus(0);
                 break;
             default : break;
         }
@@ -125,6 +126,7 @@ public class SpecimenParser implements Parser {
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private void parseFirstSpecs(String[] string, Subject specimen) {
         switch (string[8]) {
             case "Positive" : specimen.setSmear(1);
@@ -136,22 +138,25 @@ public class SpecimenParser implements Parser {
             default : break;
         }
         if (string[9].equals("single colony")) {
-            specimen.setSinglecolony(true);
+            specimen.setSingleColony(true);
         }
         else {
-            specimen.setSinglecolony(false);
+            specimen.setSingleColony(false);
         }
     }
 
     /**
-     * Parse method to parse the rest of the data. This mostly indicate de amount of which the substance was in de body.*
+     * Parse method to parse the rest of the data. This mostly indicate the amount of which the
+     * substance was in de body.
+     *
      * @param string Array containing data belonging to the specimen.
      * @param specimen The specimen for whom the data belongs to.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private void parseSecondSpecs(String[] string, Subject specimen) {
-        specimen.setpDSTPattern(string[10]);
+        specimen.setPdstpattern(string[10]);
         specimen.setCapreomycin(string[11].charAt(0));
-        specimen.setEthamButol(string[12].charAt(0));
+        specimen.setEthambutol(string[12].charAt(0));
         specimen.setEthionamide(string[13].charAt(0));
         specimen.setIsoniazid(string[14].charAt(0));
         specimen.setKanamycin(string[15].charAt(0));
@@ -161,7 +166,7 @@ public class SpecimenParser implements Parser {
         specimen.setStreptomycin(string[19].charAt(0));
         specimen.setSpoligotype(string[20].charAt(0));
         specimen.setLineage(string[21].charAt(0));
-        specimen.setgDSTPattern(string[22]);
+        specimen.setGdstPattern(string[22]);
         specimen.setXdr(string[23]);
     }
 }
