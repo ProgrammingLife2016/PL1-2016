@@ -287,7 +287,7 @@ $(function() { // on dom ready
 
       });
 
-      this.zoom = cy.zoom();
+//      this.zoom = cy.zoom();
       this.zoomTreshold = 0.20;
       console.log("Start zoom: " + this.zoom);
 
@@ -325,16 +325,19 @@ $(function() { // on dom ready
 //        $(document).mouseout(function(event) { });
 //});
       cy.on('layoutready', function(evt){
-            var lastX1 =  cy.extent().x1, zoom = cy.zoom();
-//            var lastX2 = cy.extent().x2;
+            var lastX1 =  cy.extent().x1,
+                lastX2 = cy.extent().x2,
+                zoom = cy.zoom();
             cy.on('pan', function(evt){
-                if(Math.abs(cy.zoom() - zoom) / zoom){//Math.abs(cy.extent().x1 - lastX1) >= 95 || Math.abs(cy.extent().x2 - lastX2) >= 95){
-                    console.log("cyMinX: " + cy.extent().x1 + " cyMinY: " + cy.extent().y1 + " zoom: " + cy.zoom());
+                if(Math.abs(cy.extent().x1 - lastX1) >= 95 || Math.abs(cy.zoom() - zoom) / zoom < this.zoomTreshold){//Math.abs(cy.extent().x2 - lastX2) >= 95){
+                    console.log("minX: " + Math.min.apply(Math,cy.nodes().positions().map(function(o){return o.position().x;})));
+                    console.log("maxX: " + Math.max.apply(Math,cy.nodes().positions().map(function(o){return o.position().x;})));
+                    console.log("cyMinX: " + cy.extent().x1 + " cyMinY: " + cy.extent().x2 + " zoom: " + cy.zoom());
                     lastX1 =  cy.extent().x1;
-//                    lastX2 = cy.extent().x2;
+                    lastX2 = cy.extent().x2;
                     zoom = cy.zoom();
                     ///api/nodes/<zoomlevel>/<minx>/<miny>
-                    serverConnection.sendZoomlevel(zoom, lastX1, cy.extent().y1);
+                    serverConnection.sendZoomlevel(zoom, lastX1, lastX2);
                 }
 
             });
