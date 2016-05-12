@@ -101,9 +101,9 @@ $(function() { // on dom ready
       $.ajax(this.req);
   }
 
-  ServerConnection.prototype.sendZoomlevel = function(z) {
+  ServerConnection.prototype.sendZoomlevel = function(z, minX, maxX) {
       var request = {
-            url: "/api/nodes/" + z,
+            url: "/api/nodes/" + z + "/" + minX + "/" + maxX,
             error: this.handleError,
             succes: this.handleSuccesZoomLevel,
             statusCode: {
@@ -324,24 +324,21 @@ $(function() { // on dom ready
 //        $(document).mouseleave(function(event) { });
 //        $(document).mouseout(function(event) { });
 //});
-//      cy.on('layoutready', function(evt){
-//          var upperBoundary = $('.cytoscape-navigatorView').offset().top;
-//          var lowerBoundary = $('.cytoscape-navigatorView').height() + upperBoundary;
-//          var leftBoundary = $('.cytoscape-navigatorView').offset().left;
-//          var rightBoundary = $('.cytoscape-navigatorView').width() + leftBoundary;
-//
-//            cy.on('pan', function(evt){
-//                  console.log("left: " + $('.cytoscape-navigatorView').offset().left +
-//                              " top: " + $('.cytoscape-navigatorView').offset().top);
-//                  console.log("width: " + $('.cytoscape-navigatorView').width() +
-//                              " height: " + $('.cytoscape-navigatorView').height());
-//                  console.log("upperBoundary: " + upperBoundary +
-//                                  " lowerBoundary: " + lowerBoundary );
-//                  console.log("leftBoundary: " + leftBoundary +
-//                              " rightBoundary: " + rightBoundary);
-//
-//            });
-//      });
+      cy.on('layoutready', function(evt){
+            var lastX1 =  cy.extent().x1, zoom = cy.zoom();
+//            var lastX2 = cy.extent().x2;
+            cy.on('pan', function(evt){
+                if(Math.abs(cy.zoom() - zoom) / zoom){//Math.abs(cy.extent().x1 - lastX1) >= 95 || Math.abs(cy.extent().x2 - lastX2) >= 95){
+                    console.log("cyMinX: " + cy.extent().x1 + " cyMinY: " + cy.extent().y1 + " zoom: " + cy.zoom());
+                    lastX1 =  cy.extent().x1;
+//                    lastX2 = cy.extent().x2;
+                    zoom = cy.zoom();
+                    ///api/nodes/<zoomlevel>/<minx>/<miny>
+                    serverConnection.sendZoomlevel(zoom, lastX1, cy.extent().y1);
+                }
+
+            });
+      });
   }
 
   GraphHandler.prototype.loadSettings = function() {
@@ -390,16 +387,16 @@ $(function() { // on dom ready
     /*
       Send zoom level to server if the difference in zoom level is more than the zoomTreshold
     */
-    cy.on("zoom", () => {
-       var z = cy.zoom();
-       console.log("zooming: " + z);
-       console.log("current zoom: " + this.zoom);
-       var p = Math.abs(z - this.zoom) / this.zoom;
-       if (p > this.zoomTreshold) {
-          serverConnection.sendZoomlevel(z);
-          this.zoom = z;
-       }
-    });
+//    cy.on("zoom", () => {
+//       var z = cy.zoom();
+//       console.log("zooming: " + z);
+//       console.log("current zoom: " + this.zoom);
+//       var p = Math.abs(z - this.zoom) / this.zoom;
+//       if (p > this.zoomTreshold) {
+//          serverConnection.sendZoomlevel(z);
+//          this.zoom = z;
+//       }
+//    });
 
     $(".phylogeneticTree").click(function() {
        console.log("Phylogenetic tree");
