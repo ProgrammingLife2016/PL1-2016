@@ -110,6 +110,16 @@ public class SpecimenParserTest {
     }
 
     /**
+     * Test all getters for specimen.
+     */
+    @Test
+    public void testJson() {
+        InputStream stream = stringToInputStream(file);
+        specimenParser.parse(stream);
+        SpecimenCollection specimenCollection = specimenParser.getSpecimenCollection();
+        assertEquals("", specimenCollection.toJson());
+    }
+    /**
      * Converts a String to an InputStream
      * @param s String
      * @return InputStream of that String.

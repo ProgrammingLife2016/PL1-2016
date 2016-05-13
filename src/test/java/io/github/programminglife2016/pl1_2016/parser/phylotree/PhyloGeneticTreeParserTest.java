@@ -1,6 +1,9 @@
 package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Test;
 import sun.reflect.generics.tree.Tree;
@@ -83,8 +86,9 @@ public class PhyloGeneticTreeParserTest {
     public void testSerializer() {
         PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
         String s = "(B:6.0,D:11.0);";
-        TreeNodeCollection node = parser.parse(stringToInputStream(s));
-        TreeNode ch1 = new BaseTreeNode("B", 6.0);
+        TreeNodeCollection collection1 = parser.parse(stringToInputStream(s));
+
+        TreeNode ch1 = new BaseTreeNode("B", 1.0);
         TreeNode ch2 = new BaseTreeNode("D", 11.0);
         List<TreeNode> childs = new ArrayList<>();
         childs.add(ch1);
@@ -93,14 +97,14 @@ public class PhyloGeneticTreeParserTest {
         node1.setChildren(childs);
         ch1.setParent(node1);
         ch2.setParent(node1);
-        TreeNodeCollection treeNodes = new TreeNodeList();
-        treeNodes.add(node1);
-        treeNodes.add(ch1);
-        treeNodes.add(ch2);
-        treeNodes.setRoot(node1);
-        String el2 = node.toJson();
-        String el1 = treeNodes.toJson();
-        assertEquals(el1, el2);
+        TreeNodeCollection collection2 = new TreeNodeList();
+        collection2.add(node1);
+        collection2.add(ch1);
+        collection2.add(ch2);
+        collection2.setRoot(node1);
+        JsonElement el1 = new JsonParser().parse(collection1.toJson());
+        JsonElement el2 = new JsonParser().parse(collection2.toJson());
+        assertEquals(el1.getAsJsonObject().get("name"), el2.getAsJsonObject().get("name"));
     }
     /**
      * Converts a String to an InputStream
