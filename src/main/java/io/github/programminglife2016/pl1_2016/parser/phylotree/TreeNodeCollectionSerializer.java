@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 
 import java.lang.reflect.Type;
 
