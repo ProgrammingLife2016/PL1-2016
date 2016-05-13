@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
-import io.github.programminglife2016.pl1_2016.parser.TreeNodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.parser.phylotree.PhyloGeneticTreeParser;

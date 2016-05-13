@@ -1,8 +1,7 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 
 import java.util.ArrayList;
 
