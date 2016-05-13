@@ -1,5 +1,6 @@
 $(function() {
-var r = 1000;
+//var r = 1000;
+var r = $('html').height() / 2;//960 / 2;
 console.log("r: " + r);
 var svgId = "phyloTree";
 var panX = 0, panY = 0;
@@ -40,8 +41,8 @@ var wrap = d3.select("#tree")
 //    .attr("height", r * 2)
     .append("svg")
     .attr("width", $(document).width())//r * 2)
-    .attr("height", $(document).height()*0.40)//r * 2))
-    .attr("top", $("#nav").height())
+    .attr("height", r * 3)
+    .attr("align", "center")
     .attr("id", svgId)
     .style("-webkit-backface-visibility", "hidden");
 
@@ -52,7 +53,8 @@ wrap.append("rect")
     .attr("fill", "none")
 
 var tree = wrap.append("g")
-    .attr("transform", "translate(" + r + "," + r + ")");
+    .attr("transform", "translate(" + $(document).width()/3 + "," + $(document).height()/4 + ")")
+
 
 var start = null,
     rotate = 0,
@@ -109,10 +111,11 @@ d3.select(window)
 function phylo(n, offset) {
   if (n.length != null) offset += n.length * 5000*r/480;//115;
   n.y = offset;
-  if (n.children)
-    n.children.forEach(function(n) {
-      phylo(n, offset);
-    });
+  if (n.children) {
+      n.children.forEach(function(n) {
+          phylo(n, offset);
+      });
+  }
 }
 
 d3.text("file.nwk", function(text) {
@@ -175,25 +178,24 @@ d3.text("file.nwk", function(text) {
            zoomEnabled: true,
            disablePan: true,
            center: true,
-           minZoom: 0.95,
+           minZoom: 0.5,
            maxZoom: 4,
            dblClickZoomEnabled: false
        });
 
       // Initially zoom out
-       panZoomInstance.zoom(0.95);
+       panZoomInstance.zoom(0.6);
        panZoomInstance.setOnPan(function(){
             panX = panZoomInstance.getPan().x;
             panY = panZoomInstance.getPan().y
        });
 
        panZoomInstance.setOnZoom(function(){
-                  var delta = Math.abs(1/panZoomInstance.getZoom());
-                  $('circle').attr('r', 2.5 * delta);
-                  $('circle').css('stroke-width', 1.5 * delta + "px");
-                  $('.treelink').css('stroke-width', 1.5 * delta + "px");
-                  console.log(panZoomInstance.getZoom());
-              });
+            var delta = Math.abs(1/panZoomInstance.getZoom());
+            $('circle').attr('r', 2.5 * delta);
+            $('circle').css('stroke-width', 1.5 * delta + "px");
+            $('.treelink').css('stroke-width', 1.5 * delta + "px");
+       });
    });
 }
 function setClassNames(tree) {
@@ -217,12 +219,12 @@ function setClassNames(tree) {
 
 function getChildrenIDsAndClasses(children) {
     var ids = '';
-    children.forEach(function(obj){
-            ids += " " + obj.id;
-            if(obj.className != undefined)
-                ids += obj.className;
-         });
-     return ids;
+    children.forEach(function(obj) {
+        ids += " " + obj.id;
+        if(obj.className != undefined)
+            ids += obj.className;
+    });
+    return ids;
 }
 
 function getClassName(d) {

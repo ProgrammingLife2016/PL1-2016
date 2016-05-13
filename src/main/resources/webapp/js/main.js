@@ -402,11 +402,18 @@ $(function() { // on dom ready
        console.log("Phylogenetic tree");
        $("#cy").toggle();
        $(".cytoscape-navigator").toggle();
-       $("iframe").css("display", "block");
 //       $("#tree").toggle();
        $("#rotation").toggle();
        $("#tree").css("top", $("#nav").height());
        $("#tree").css("height", $(document).height() - $("#nav").height());
+
+       var el = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
+       var tr = el.getAttribute("transform");
+       var values = tr.split('(')[1].split(')')[0].split(',');
+       console.log(values);
+       var wrap = d3.select(".svg-pan-zoom_viewport")
+                    .attr("transform", "matrix(0.809726453085347,0,0,0.809726453085347," + values[4] + ",120)");
+
     });
   }
 
