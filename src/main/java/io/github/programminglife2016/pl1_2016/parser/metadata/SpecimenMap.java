@@ -21,4 +21,6 @@ public class SpecimenMap extends HashMap<String, Subject> implements SpecimenCol
     public Collection<Subject> getSpecimen() {
         return values();
     }
+
+    public String toJson() { return ""; }
 }

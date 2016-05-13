@@ -1,11 +1,12 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * An object that represents a displayable bubble/segment.
  */
-public interface Node {
+public interface Node extends Cloneable {
     /**
      * Set the x and y coordinates of the node.
      *
@@ -92,6 +93,21 @@ public interface Node {
     int getColumn();
 
     /**
+     * Add the genomes this segment belongs to.
+     *
+     * @param genomes the genomes this segment belongs to
+     */
+    void addGenomes(Collection<String> genomes);
+
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
+    Set<String> getGenomes();
+
+    Node clone();
+    /*
      * Calculate the position of this node, and the sibling nodes (in the case of a snip). Indels
      * are not yet accounted for.
      *

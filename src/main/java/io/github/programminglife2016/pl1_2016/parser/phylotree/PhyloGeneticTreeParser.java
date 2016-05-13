@@ -1,13 +1,10 @@
 package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -16,12 +13,9 @@ import java.util.StringTokenizer;
 public class PhyloGeneticTreeParser implements Parser {
 
     @Override
-    public JsonSerializable parse(InputStream inputStream) {
+    public TreeNodeCollection parse(InputStream inputStream) {
         String s = inputStreamToString(inputStream);
-        StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
-        TreeNode root = constructTree(null, tokenizer);
-        root = root.getChildren().get(0);
-        return null;
+        return parseTokensFromString(s);
     }
 
     private String inputStreamToString(InputStream inputStream) {
@@ -32,49 +26,62 @@ public class PhyloGeneticTreeParser implements Parser {
     }
 
     /**
+     * Create tree from string.
+     * @param s string representin the tree.
+     * @return root of tree
+     */
+    public TreeNodeCollection parseTokensFromString(String s) {
+        StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
+        TreeNodeCollection nodes = construct(tokenizer);
+        return nodes;
+    }
+
+    /**
      * Construct tree from the input of the String Tokenizer.
-     * @param parent parent of the current node.
      * @param tokenizer tokenizer with the contents of the .nwk file.
      * @return parsed Tree Node object.
      */
-    public TreeNode constructTree(TreeNode parent, StringTokenizer tokenizer) {
-        TreeNode current = new BaseTreeNode();
-        String next;
-        double weight;
-        List<TreeNode> nodes = new ArrayList<>();
-        while (tokenizer.hasMoreElements()) {
-            next = tokenizer.nextToken();
-            switch (next) {
+    public TreeNodeCollection construct(StringTokenizer tokenizer) {
+        TreeNodeCollection nodes = new TreeNodeList();
+        TreeNode root = new BaseTreeNode();
+        nodes.add(root);
+        nodes.setRoot(root);
+        TreeNode current = root;
+        while (tokenizer.hasMoreTokens()) {
+            String currentToken = tokenizer.nextToken();
+            switch (currentToken) {
                 case "(":
-                    TreeNode newNode = constructTree(current, tokenizer);
-                    nodes.add(newNode);
-                    if (tokenizer.hasMoreTokens()) {
-                        tokenizer.nextToken();
-                    }
+                    TreeNode child = new BaseTreeNode();
+                    nodes.add(child);
+                    child.setParent(current);
+                    current.addChild(child);
+                    current = child;
                     break;
                 case ":":
-                    current.setWeight(Double.parseDouble(tokenizer.nextToken()));
+                    double weight = Double.parseDouble(tokenizer.nextToken());
+                    current.setWeight(weight);
                     break;
                 case ",":
-                    nodes.add(current);
-                    current = new BaseTreeNode();
+                    TreeNode newnode = new BaseTreeNode();
+                    nodes.add(newnode);
+                    current = current.getParent();
+                    newnode.setParent(current);
+                    current.addChild(newnode);
+                    current = newnode;
                     break;
                 case ")":
-                    nodes.add(current);
-                    weight = 0;
-                    if (tokenizer.hasMoreTokens() && tokenizer.nextToken().equals(":")) {
-                        weight = Double.parseDouble(tokenizer.nextToken());
-                    }
-                    return new BaseTreeNode("-", weight, nodes, parent);
+                    current = current.getParent();
+                    break;
                 case ";":
-                    current.setChildren(nodes);
-                    return current;
+                    break;
                 default:
-                    current.setId(next);
+                    current.setName(currentToken.replace("_", " "));
                     break;
             }
         }
-        current.setChildren(nodes);
-        return current;
+        Collection<TreeNode> nw = nodes.stream()
+                                       .filter(n -> n.getChildren().size() == 0)
+                                       .collect(Collectors.toList());
+        return nodes;
     }
 }

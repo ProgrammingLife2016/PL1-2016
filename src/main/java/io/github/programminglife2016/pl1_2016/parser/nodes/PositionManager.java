@@ -8,5 +8,5 @@ public interface PositionManager {
     /**
      * Method for calculating the positions of nodes in the graph.
      */
-    void calculatePositions();
+    NodeCollection calculatePositions();
 }

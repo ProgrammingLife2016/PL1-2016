@@ -1,7 +1,7 @@
 //CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.server.api;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +28,9 @@ public class RestServerTest {
      */
     @Before
     public void setUp() throws InterruptedException {
-        JsonSerializable jsonSerializable = mock(JsonSerializable.class);
-        when(jsonSerializable.toJson()).thenReturn("{\"hi\": 2}");
-        restServer = new RestServer(jsonSerializable);
+        NodeCollection nodeCollection = mock(NodeCollection.class);
+        when(nodeCollection.toJson()).thenReturn("{\"hi\": 2}");
+        restServer = new RestServer(nodeCollection, null);
         RestServerThread restServerThread = new RestServerThread(restServer);
         new Thread(restServerThread).start();
         // Sleep such that the server has a chance to actually start.
