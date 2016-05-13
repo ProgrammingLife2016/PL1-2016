@@ -41,7 +41,7 @@ public class PositionHandler implements PositionManager {
     /**
      * Calculate the positions of the nodes, and set the positions in each node.
      */
-    public void calculatePositions() {
+    public NodeCollection calculatePositions() {
         int currx = 0;
         Collection<Node> processed = new ArrayList<Node>();
         // Detect and position snips.
@@ -65,6 +65,7 @@ public class PositionHandler implements PositionManager {
                 Node node2 = linkIterator.next();
                 if (node2.getX() < node.getX()) {
                     linkIterator.remove();
+                    node2.getBackLinks().remove(node);
                 }
             }
         }
@@ -73,11 +74,20 @@ public class PositionHandler implements PositionManager {
             Iterator<Node> linkIterator = node.getLinks().iterator();
             while (linkIterator.hasNext()) {
                 Node node2 = linkIterator.next();
-                if (Math.abs(node2.getX() - node.getX()) > 1000) {
+                if (Math.abs(node2.getX() - node.getX()) > 2000) {
                     linkIterator.remove();
                 }
             }
         }
+        // Remove orphans.
+        Collection<Node> toRemove = new ArrayList<>();
+        for (Node node : nodeCollection) {
+            if (node.getLinks().isEmpty() && node.getBackLinks().isEmpty()) {
+                toRemove.add(node);
+            }
+        }
+        toRemove.stream().forEach(nodeCollection::removeNode);
+        return nodeCollection;
     }
 
     /**

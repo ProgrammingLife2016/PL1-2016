@@ -33,8 +33,8 @@ public class GetLeveledNodesApiAction implements ApiAction {
             Collection<String> genomes = genomeSelectionStrategy.genomes(rootNode, Integer.parseInt(args.get(0)));
             NodeReductionStrategy nodeReductionStrategy = new PreserveGenomesNodeReductionStrategy(genomes);
             NodeCollection reduced = nodeReductionStrategy.reduce(nodeCollection);
-            new PositionHandler(reduced).calculatePositions();
-            return reduced.toJson();
+            NodeCollection reducedReduced = new PositionHandler(reduced).calculatePositions();
+            return reducedReduced.toJson();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
