@@ -1,10 +1,6 @@
-.frame {
-  z-index: 10000;
-}
-
 html, body, #tree{
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   background: #EBEFF0;
   z-index: 1000000;
   display: block;
@@ -33,13 +29,17 @@ treetext {
 g text {
   stroke-width: 0;
 }
+g {
+  top: 0px;
+}
 
 #tree, #phyloTree{
     display: block;
-    margin: 0 auto;
+    margin: 0;
 }
 
 #rotation{
+  display: none;
   border: 20px solid transparent;
   border-top-color: #32B2B7;
   border-left-color: #32B2B7;
