@@ -10,12 +10,12 @@
 |-------------------------------------|------------|-----------|----------------|-----------------------|----------------|------------|
 |  | User Story |  |  | Learning From History |  |  |
 | Group | Definition | Splitting | Responsibility | Estimation | Prioritisation | Reflection |
-| PL1 (Byzantine Generals) | 8 | 6 | 9 | 8 | 8 | 8 |
+| PL1 (Byzantine Generals) | 8 | 8 | 9 | 8 | 8 | 8 |
 
 |  | Code Evolution Quality 2 |  |  |  |  |  |  |  |  |  |  |
 |-------------------------------------|--------------------------|---------|---------------------|------------------|--------|----------|------------------------|---------|---------|------------------------|-------------|
 |  | Architecture |  |  | Code Readability |  |  | Continuous Integration |  |  | Pull-based Development |  |
 | Group | Changes | Arch-DD | Code Change Quality | Formatting | Naming | Comments | Building | Testing | Tooling | Branching | Code Review |
-| PL1 (Byzantine Generals) | 8 | 7 | 8 | 7 | 10 | 10 | 10 | 7 | 7 | 8 | 4 |
+| PL1 (Byzantine Generals) | 8 | 7 | 8 | 8 | 10 | 10 | 10 | 7 | 7 | 8 | 4 |
 
 Please prepare the next SE meeting with questions.
