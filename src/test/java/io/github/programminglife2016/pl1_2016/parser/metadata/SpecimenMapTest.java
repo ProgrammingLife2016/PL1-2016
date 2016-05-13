@@ -2,7 +2,7 @@ package io.github.programminglife2016.pl1_2016.parser.metadata;
 
 import org.junit.Before;
 
-/**
+/** Test for extended class specimenMap.
  * Created by ravishivam on 12-5-16.
  */
 public class SpecimenMapTest extends SpecimenCollectionTest {

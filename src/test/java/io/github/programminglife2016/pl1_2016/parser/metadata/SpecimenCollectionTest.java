@@ -7,7 +7,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Iterator;
 
-import static com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver.iterator;
 import static org.junit.Assert.assertEquals;
 
 /** Abstract test class for classes extending SpecimenCollection.
@@ -46,6 +45,6 @@ public abstract class SpecimenCollectionTest {
         collection.put("specimen1", specimen);
         collection.put("specimen1", specimen);
         Iterator<Subject> it = collection.iterator();
-        assertEquals(false, collection.containsKey((Specimen)it.next()));
+        assertEquals(false, collection.containsKey(it.next()));
     }
 }
