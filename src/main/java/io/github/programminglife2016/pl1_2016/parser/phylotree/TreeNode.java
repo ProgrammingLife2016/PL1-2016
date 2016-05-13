@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
-import io.github.programminglife2016.pl1_2016.parser.TreeNodeCollection;
-
 import java.util.List;
 
 /** TreeNode interface to make a contruct tree datastructure.
