@@ -1,5 +1,6 @@
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
+import io.github.programminglife2016.pl1_2016.parser.TreeNodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.phylotree.PhyloGeneticTreeParser;
 import org.junit.Before;
 import org.junit.Test;
