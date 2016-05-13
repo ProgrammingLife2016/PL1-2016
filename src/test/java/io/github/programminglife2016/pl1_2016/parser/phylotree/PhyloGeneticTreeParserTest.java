@@ -1,7 +1,9 @@
 package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
+import com.google.gson.JsonElement;
 import org.junit.Before;
 import org.junit.Test;
+import sun.reflect.generics.tree.Tree;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -75,6 +77,30 @@ public class PhyloGeneticTreeParserTest {
         lst.add(new BaseTreeNode());
         node.getRoot().setChildren(lst);
         assertEquals("[- 0.0 {}]", node.getRoot().getChildren().get(0).toString());
+    }
+
+    @Test
+    public void testSerializer() {
+        PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
+        String s = "(B:6.0,D:11.0);";
+        TreeNodeCollection node = parser.parse(stringToInputStream(s));
+        TreeNode ch1 = new BaseTreeNode("B", 6.0);
+        TreeNode ch2 = new BaseTreeNode("D", 11.0);
+        List<TreeNode> childs = new ArrayList<>();
+        childs.add(ch1);
+        childs.add(ch2);
+        TreeNode node1 = new BaseTreeNode("-", 0.0);
+        node1.setChildren(childs);
+        ch1.setParent(node1);
+        ch2.setParent(node1);
+        TreeNodeCollection treeNodes = new TreeNodeList();
+        treeNodes.add(node1);
+        treeNodes.add(ch1);
+        treeNodes.add(ch2);
+        treeNodes.setRoot(node1);
+        String el2 = node.toJson();
+        String el1 = treeNodes.toJson();
+        assertEquals(el1, el2);
     }
     /**
      * Converts a String to an InputStream
