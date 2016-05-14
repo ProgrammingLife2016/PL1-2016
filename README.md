@@ -33,7 +33,7 @@ Not officially supported.
     git clone https://github.com/ProgrammingLife2016/PL1-2016.git
     cd PL1-2016
     mvn package
-    java -cp target/byzantinegenerals-0.1.3.jar io.github.programminglife2016.pl1_2016.Launcher
+    java -cp target/byzantinegenerals-0.2.0.jar io.github.programminglife2016.pl1_2016.Launcher
 
 ### Subsequent runs
 
@@ -41,13 +41,13 @@ Go to the `PL1-2016` directory.
 
     git pull
     mvn package
-    java -cp target/byzantinegenerals-0.1.3.jar io.github.programminglife2016.pl1_2016.Launcher
+    java -cp target/byzantinegenerals-0.2.0.jar io.github.programminglife2016.pl1_2016.Launcher
 
 ## Usage
 
 The server is running on `http://localhost:8081`.
 
-Open the web app at `http://localhost:8081/static/index.html`.
+Open the web app at `http://localhost:8081`.
 
 If you are a developer, you might be interested in interacting with the server
 directly. In that case, consult the API documentation below.
