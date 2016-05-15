@@ -18,14 +18,12 @@ public class BubbleMain {
     public static void main(String[] args) {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10_100.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         BubbleDetector detector = new BubbleDetector(nodeCollection);
-        System.out.println(nodeCollection.get(2));
         detector.DFS(nodeCollection, nodeCollection.get(1));
-
     }
 }

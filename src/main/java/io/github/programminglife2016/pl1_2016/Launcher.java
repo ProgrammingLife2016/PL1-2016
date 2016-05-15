@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016;
 
-import io.github.programminglife2016.pl1_2016.collapser.BubbleDetector;
-import io.github.programminglife2016.pl1_2016.collapser.BubbleMain;
 import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -27,14 +25,15 @@ public final class Launcher {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = Launcher.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        BubbleDetector detector = new BubbleDetector(nodeCollection);
-        System.out.println(nodeCollection.get(2));
-        detector.DFS(nodeCollection, nodeCollection.get(1));
+        InputStream nwk = Launcher.class.getResourceAsStream("/genomes/TB10.nwk");
+        TreeNodeCollection treeNodes = new PhyloGeneticTreeParser().parse(nwk);
+        Server server = new RestServer(nodeCollection, treeNodes.getRoot());
+        server.startServer();
     }
 }
 
