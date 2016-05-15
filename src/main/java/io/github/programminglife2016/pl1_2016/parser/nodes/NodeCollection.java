@@ -40,6 +40,10 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      */
     Collection<Node> getNodes();
 
+    /**
+     * Removes a node from the collection.
+     * @param node Node to be removed.
+     */
     void removeNode(Node node);
 
     /**
@@ -48,5 +52,13 @@ public interface NodeCollection extends JsonSerializable, Iterable<Node> {
      */
     default Iterator<Node> iterator() {
         return getNodes().iterator();
+    }
+
+    /**
+     * Get the size of the nodecollection
+     * @return size of the nodeCollection
+     */
+    default int size() {
+        return getNodes().size();
     }
 }
