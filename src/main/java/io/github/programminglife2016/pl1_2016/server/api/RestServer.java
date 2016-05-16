@@ -34,8 +34,6 @@ public class RestServer implements Server {
         apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection));
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
-        apiHandler.addQuery(new GetLeveledNodesApiQuery(nodeCollection, rootNode));
-        apiHandler.addQuery(new GetLeveledBoundedNodesApiQuery(nodeCollection, rootNode));
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);
