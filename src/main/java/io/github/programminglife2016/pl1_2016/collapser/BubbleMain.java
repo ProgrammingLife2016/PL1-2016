@@ -24,11 +24,9 @@ public class BubbleMain {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         BubbleDetector detector = new BubbleDetector(nodeCollection);
-//        for (int i = 1; i < nodeCollection.size(); i++) {
-//            if(nodeCollection.get(i).getGenomes().size() == 11){
-//                System.out.println(nodeCollection.get(i).getId() + ": " + nodeCollection.get(i).getGenomes());
-//            }
-//        }
         detector.findLevelBubbles(nodeCollection);
+        for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
+                System.out.println("Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode() + " and " + detector.getBubbleBoundaries().get(i).getEndNode());
+        }
     }
 }

@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import javafx.util.Pair;
 import org.mockito.internal.matchers.Not;
 
 import java.util.*;
@@ -17,16 +18,20 @@ public class BubbleDetector {
 
     private static final int BUBBLE_DETECTED = 1;
 
+
     private static final int FOUND_MORE_GENOMES = 2;
 
     private boolean[] visited;
 
     private NodeCollection collection;
 
+    private List<Bubble> bubbleBoundaries;
+
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
         initVisited(collection);
         this.collection = collection;
+        this.bubbleBoundaries = new ArrayList<>();
     }
 
     public void findLevelBubbles(NodeCollection collection) {
@@ -35,12 +40,13 @@ public class BubbleDetector {
         while (bubbleAt != null) {
             switch (bubbleAt.getKey()) {
                 case BUBBLE_DETECTED :
-                    System.out.println("Bubble detected between: " + starting.getId() + " and " + bubbleAt.getValue().getId());
+//                    System.out.println("Bubble detected between: " + starting.getId() + " and " + bubbleAt.getValue().getId());
+                    this.bubbleBoundaries.add(new Bubble(starting, bubbleAt.getValue()));
                     starting = bubbleAt.getValue();
                     bubbleAt = searchBubble(collection, starting, starting.getGenomes());
                     break;
                 case FOUND_MORE_GENOMES :
-                    System.out.println("Found more genomes at: " + bubbleAt.getValue().getId());
+//                    System.out.println("Found more genomes at: " + bubbleAt.getValue().getId());
                     starting = bubbleAt.getValue();
                     bubbleAt = searchBubble(collection,bubbleAt.getValue(), bubbleAt.getValue().getGenomes());
                     break;
@@ -88,5 +94,9 @@ public class BubbleDetector {
         for (Node node : collection.getNodes()) {
             visited[node.getId()] = false;
         }
+    }
+
+    public List<Bubble> getBubbleBoundaries() {
+        return bubbleBoundaries;
     }
 }
