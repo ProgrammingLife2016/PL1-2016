@@ -3,15 +3,16 @@ package io.github.programminglife2016.pl1_2016.parser.phylotree;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.Collection;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 
 /**
  * Class for parsing a .nwk file to an internal tree structure.
  */
-public class PhyloGeneticTreeParser implements Parser {
-
+public class PhylogeneticTreeParser implements Parser {
     @Override
     public TreeNodeCollection parse(InputStream inputStream) {
         String s = inputStreamToString(inputStream);
@@ -51,23 +52,14 @@ public class PhyloGeneticTreeParser implements Parser {
             String currentToken = tokenizer.nextToken();
             switch (currentToken) {
                 case "(":
-                    TreeNode child = new BaseTreeNode();
-                    nodes.add(child);
-                    child.setParent(current);
-                    current.addChild(child);
-                    current = child;
+                    current = parseChild(nodes, current);
                     break;
                 case ":":
                     double weight = Double.parseDouble(tokenizer.nextToken());
                     current.setWeight(weight);
                     break;
                 case ",":
-                    TreeNode newnode = new BaseTreeNode();
-                    nodes.add(newnode);
-                    current = current.getParent();
-                    newnode.setParent(current);
-                    current.addChild(newnode);
-                    current = newnode;
+                    current = parseParent(nodes, current);
                     break;
                 case ")":
                     current = current.getParent();
@@ -83,5 +75,22 @@ public class PhyloGeneticTreeParser implements Parser {
                                        .filter(n -> n.getChildren().size() == 0)
                                        .collect(Collectors.toList());
         return nodes;
+    }
+
+    private TreeNode parseChild(TreeNodeCollection nodes, TreeNode current) {
+        TreeNode child = new BaseTreeNode();
+        nodes.add(child);
+        child.setParent(current);
+        current.addChild(child);
+        return child;
+    }
+
+    private TreeNode parseParent(TreeNodeCollection nodes, TreeNode current) {
+        TreeNode newnode = new BaseTreeNode();
+        nodes.add(newnode);
+        current = current.getParent();
+        newnode.setParent(current);
+        current.addChild(newnode);
+        return newnode;
     }
 }

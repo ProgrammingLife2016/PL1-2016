@@ -2,9 +2,10 @@ package io.github.programminglife2016.pl1_2016.server.api;
 
 import com.sun.net.httpserver.HttpServer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNode;
 import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.queries.*;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -18,6 +19,11 @@ public class RestServer implements Server {
     private HttpServer server;
     private NodeCollection nodeCollection;
 
+    /**
+     * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
+     *
+     * @param nodeCollection NodeCollection to be used for API queries
+     */
     public RestServer(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
     }

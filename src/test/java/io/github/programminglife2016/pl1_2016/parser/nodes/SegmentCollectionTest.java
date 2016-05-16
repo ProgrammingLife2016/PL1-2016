@@ -147,7 +147,7 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(4, segment4);
         nodeCollection.put(5, segment5);
         segment1.setData("data");
-        assertEquals("data",segment1.getData());
+        assertEquals("data", segment1.getData());
         Node seg = segment1.clone();
         assertEquals(seg, segment1);
     }
@@ -158,7 +158,7 @@ public abstract class SegmentCollectionTest {
     @Test
     public void testGettersSegment() {
         Segment segment1 = new Segment(1);
-        segment1.setXY(2,3);
+        segment1.setXY(2, 3);
         segment1.setColumn(1);
         assertEquals(2, segment1.getX());
         assertEquals(3, segment1.getY());

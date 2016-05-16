@@ -1,6 +1,9 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Data structure for representing a DNA sequence
@@ -216,13 +219,14 @@ public class Segment implements Node {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Segment segment = (Segment) o;
-
         return id == segment.id;
-
     }
 
     @Override

@@ -8,9 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -64,10 +62,18 @@ public class RestServerTest {
     public static class RestServerThread implements Runnable {
         private RestServer restServer;
 
+        /**
+         * Construct the RestServer thread.
+         *
+         * @param restServer RestServer to eventually start
+         */
         public RestServerThread(RestServer restServer) {
             this.restServer = restServer;
         }
 
+        /**
+         * Start the RestServer.
+         */
         public void run() {
             try {
                 restServer.startServer();

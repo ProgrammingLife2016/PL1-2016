@@ -106,8 +106,14 @@ public interface Node extends Cloneable {
      */
     Set<String> getGenomes();
 
+    /**
+     * Make a shallow clone of this node. Only the links are cloned one level more.
+     *
+     * @return the cloned node.
+     */
     Node clone();
-    /*
+
+    /**
      * Calculate the position of this node, and the sibling nodes (in the case of a snip). Indels
      * are not yet accounted for.
      *

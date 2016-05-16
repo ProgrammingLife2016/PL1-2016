@@ -9,9 +9,13 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
+/**
+ * Serialize the TreeNodeCollection into JSON conforming the API.
+ */
 public class TreeNodeCollectionSerializer implements JsonSerializer<TreeNodeCollection> {
     @Override
-    public JsonElement serialize(TreeNodeCollection treeNodeCollection, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(TreeNodeCollection treeNodeCollection, Type type,
+                                 JsonSerializationContext jsonSerializationContext) {
         JsonObject jsonObject = new JsonObject();
         JsonArray treeNodes = new JsonArray();
         for (TreeNode treeNode : treeNodeCollection) {

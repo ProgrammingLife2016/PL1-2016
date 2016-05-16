@@ -12,6 +12,7 @@ public interface ApiAction {
      *
      * @param args query arguments
      * @return response to the client
+     * @throws IOException thrown if there's an error with the local file system
      */
     String response(List<String> args) throws IOException;
 }

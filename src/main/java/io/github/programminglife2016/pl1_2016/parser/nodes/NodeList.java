@@ -73,7 +73,8 @@ public class NodeList implements NodeCollection {
 
     @Override
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class, new NodeCollectionSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(NodeList.class,
+                new NodeCollectionSerializer()).create();
         return gson.toJson(this);
     }
 }

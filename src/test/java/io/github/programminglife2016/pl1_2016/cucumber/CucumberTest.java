@@ -5,6 +5,9 @@ import cucumber.api.SnippetType;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
+/**
+ * Used as a placeholder to run the Cucumber tests
+ */
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty"},
