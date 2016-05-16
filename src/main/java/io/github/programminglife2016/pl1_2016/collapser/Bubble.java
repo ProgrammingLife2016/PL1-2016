@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class Bubble implements Node {
 
     private Node endNode;
 
-    private List<Node> container;
+    private List<Node> container = new ArrayList<>();
 
     public Bubble(Node startNode, Node endNode) {
         this.startNode = startNode;

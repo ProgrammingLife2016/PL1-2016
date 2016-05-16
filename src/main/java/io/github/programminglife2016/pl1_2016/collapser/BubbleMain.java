@@ -2,10 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.parser.phylotree.PhyloGeneticTreeParser;
-import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNodeCollection;
-import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.InputStream;
 
@@ -26,7 +22,11 @@ public class BubbleMain {
         BubbleDetector detector = new BubbleDetector(nodeCollection);
         detector.findLevelBubbles(nodeCollection);
         for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
-                System.out.println("Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode() + " and " + detector.getBubbleBoundaries().get(i).getEndNode());
+                System.out.println("Id: " + i + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode() + " and " + detector.getBubbleBoundaries().get(i).getEndNode());
         }
+
+        //1454
+        BubbleCollapser collapser = new BubbleCollapser();
+        collapser.collapseBubbles(detector.getBubbleBoundaries());
     }
 }
