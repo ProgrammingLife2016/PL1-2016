@@ -71,9 +71,6 @@ public class PhylogeneticTreeParser implements Parser {
                     break;
             }
         }
-        Collection<TreeNode> nw = nodes.stream()
-                                       .filter(n -> n.getChildren().size() == 0)
-                                       .collect(Collectors.toList());
         return nodes;
     }
 
