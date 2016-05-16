@@ -26,6 +26,22 @@ public class StaticFilesStepDefinitions {
     private static RestServer restServer;
     private static HttpURLConnection connection;
 
+    private static void setRestServer(RestServer restServer) {
+        StaticFilesStepDefinitions.restServer = restServer;
+    }
+
+    private static RestServer getRestServer() {
+        return restServer;
+    }
+
+    private static void setConnection(HttpURLConnection connection) {
+        StaticFilesStepDefinitions.connection = connection;
+    }
+
+    private static HttpURLConnection getConnection() {
+        return connection;
+    }
+
     /**
      * Start the server in a thread.
      *
@@ -33,9 +49,9 @@ public class StaticFilesStepDefinitions {
      */
     @Given("^the server is started$")
     public void theServerHasStarted() throws InterruptedException {
-        restServer = new RestServer(mock(NodeCollection.class));
+        setRestServer(new RestServer(mock(NodeCollection.class)));
         RestServerTest.RestServerThread restServerThread =
-                new RestServerTest.RestServerThread(restServer);
+                new RestServerTest.RestServerThread(getRestServer());
         new Thread(restServerThread).start();
         Thread.sleep(500L);
     }
@@ -60,7 +76,7 @@ public class StaticFilesStepDefinitions {
     @When("^the client requests (\\S+)$")
     public void theClientRequests(String uri) throws IOException {
         String url = String.format("http://localhost:%d%s", RestServer.PORT, uri);
-        connection = (HttpURLConnection) new URL(url).openConnection();
+        setConnection((HttpURLConnection) new URL(url).openConnection());
     }
 
     /**
@@ -74,7 +90,7 @@ public class StaticFilesStepDefinitions {
         InputStream expected = StaticFilesStepDefinitions.class.getResourceAsStream(
                 String.format("/webapp%s", uri));
         assertEquals(IOUtils.toString(expected, "UTF-8"), IOUtils.toString(
-                connection.getInputStream(), "UTF-8"));
+                getConnection().getInputStream(), "UTF-8"));
     }
 
     /**
@@ -93,8 +109,8 @@ public class StaticFilesStepDefinitions {
      */
     @After
     public void cleanUp() {
-        if (restServer != null) {
-            restServer.stopServer();
+        if (getRestServer() != null) {
+            getRestServer().stopServer();
         }
         if (connection != null) {
             connection.disconnect();

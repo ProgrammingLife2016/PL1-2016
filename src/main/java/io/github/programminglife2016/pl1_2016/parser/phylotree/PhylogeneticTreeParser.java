@@ -1,13 +1,11 @@
 package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-
 
 /**
  * Class for parsing a .nwk file to an internal tree structure.
@@ -15,15 +13,14 @@ import java.util.stream.Collectors;
 public class PhylogeneticTreeParser implements Parser {
     @Override
     public TreeNodeCollection parse(InputStream inputStream) {
-        String s = inputStreamToString(inputStream);
+        String s = null;
+        try {
+            s = IOUtils.toString(inputStream, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         return parseTokensFromString(s);
-    }
-
-    private String inputStreamToString(InputStream inputStream) {
-        Scanner sc = new Scanner(inputStream);
-        String s = sc.useDelimiter("\\A").next();
-        sc.close();
-        return s;
     }
 
     /**

@@ -6,11 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Parser class for the metadata.
- * Created by ravishivam on 4-5-16.
  */
 public class SpecimenParser implements Parser {
     /**
