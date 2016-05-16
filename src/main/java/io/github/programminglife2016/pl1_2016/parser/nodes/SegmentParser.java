@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class SegmentParser implements Parser {
     private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
-    private static final String ATTR_ORI = "ORI:";
 
     /**
      * Map containing the DNA seqments.

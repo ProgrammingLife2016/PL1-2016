@@ -24,6 +24,11 @@ public class BubbleMain {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         BubbleDetector detector = new BubbleDetector(nodeCollection);
-        detector.DFS(nodeCollection, nodeCollection.get(1));
+//        for (int i = 1; i < nodeCollection.size(); i++) {
+//            if(nodeCollection.get(i).getGenomes().size() == 11){
+//                System.out.println(nodeCollection.get(i).getId() + ": " + nodeCollection.get(i).getGenomes());
+//            }
+//        }
+        detector.findLevelBubbles(nodeCollection);
     }
 }
