@@ -17,11 +17,9 @@ public class RestServer implements Server {
 
     private HttpServer server;
     private NodeCollection nodeCollection;
-    private TreeNode rootNode;
 
-    public RestServer(NodeCollection nodeCollection, TreeNode rootNode) {
+    public RestServer(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
-        this.rootNode = rootNode;
     }
 
     /**

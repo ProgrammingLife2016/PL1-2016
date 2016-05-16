@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.server.api.actions;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,5 +13,5 @@ public interface ApiAction {
      * @param args query arguments
      * @return response to the client
      */
-    String response(List<String> args);
+    String response(List<String> args) throws IOException;
 }

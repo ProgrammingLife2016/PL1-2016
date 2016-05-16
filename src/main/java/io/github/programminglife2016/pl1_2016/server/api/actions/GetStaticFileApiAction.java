@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.server.api.actions;
 
 import org.apache.commons.io.IOUtils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -18,15 +19,12 @@ public class GetStaticFileApiAction implements ApiAction {
      * @return response to the client
      */
     @Override
-    public String response(List<String> args) {
-        try {
-            String uri = String.format("/webapp/%s", args.get(0));
-            InputStream is = GetStaticFileApiAction.class.getResourceAsStream(uri);
-            String ret = IOUtils.toString(is, "UTF-8");
-            return ret;
-        } catch (Exception e) {
-            System.err.println(args.get(0));
-            return "404";
+    public String response(List<String> args) throws IOException {
+        String uri = String.format("/webapp/%s", args.get(0));
+        InputStream is = GetStaticFileApiAction.class.getResourceAsStream(uri);
+        if (is == null) {
+            throw new FileNotFoundException();
         }
+        return IOUtils.toString(is, "UTF-8");
     }
 }
