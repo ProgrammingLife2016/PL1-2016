@@ -6,6 +6,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
+import io.github.programminglife2016.pl1_2016.server.api.RestServerTest;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class StaticFilesStepDefinitions {
     @Given("^the server is started$")
     public void theServerHasStarted() throws InterruptedException {
         restServer = new RestServer(mock(NodeCollection.class));
-        RestServerThread restServerThread = new RestServerThread(restServer);
+        RestServerTest.RestServerThread restServerThread = new RestServerTest.RestServerThread(restServer);
         new Thread(restServerThread).start();
         Thread.sleep(500L);
     }
@@ -59,25 +60,6 @@ public class StaticFilesStepDefinitions {
         }
         if (connection != null) {
             connection.disconnect();
-        }
-    }
-
-    /**
-     * A Thread that contains a RestServer. Used because the server is blocking.
-     */
-    private static class RestServerThread implements Runnable {
-        private RestServer restServer;
-
-        RestServerThread(RestServer restServer) {
-            this.restServer = restServer;
-        }
-
-        public void run() {
-            try {
-                restServer.startServer();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
