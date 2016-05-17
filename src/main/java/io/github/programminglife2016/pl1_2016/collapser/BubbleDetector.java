@@ -36,9 +36,15 @@ public class BubbleDetector {
     public void findMultiLevelBubbles() {
         if(this.reachedLevel==1) {
             findLevelBubbles(this.collection.get(1), null);
-            this.reachedLevel++;
         }
-//        for(Bubble bubble : )
+        Map<Integer, List<Bubble>> levelBubbles = new HashMap<>();
+        levelBubbles.put(1, this.bubbleBoundaries);
+        this.reachedLevel++;
+        for (Bubble bubble : levelBubbles.get(reachedLevel - 1)) {
+            for (Node node : bubble.getStartNode().getLinks()) {
+
+            }
+        }
     }
 
     public void findLevelBubbles(Node startNode, Node endNode) {
