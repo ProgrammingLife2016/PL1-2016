@@ -112,23 +112,4 @@ public interface Node extends Cloneable {
      * @return the cloned node.
      */
     Node clone();
-
-    /**
-     * Calculate the position of this node, and the sibling nodes (in the case of a snip). Indels
-     * are not yet accounted for.
-     *
-     * @param nodeCollection collection of all nodes to be positioned
-     * @param processed the positioned nodes
-     * @param verticalSpacing spacing between snip siblings
-     * @param currx the x-coordinate of this node.
-     */
-    void calculatePosition(NodeCollection nodeCollection, Collection<Node> processed,
-                           int verticalSpacing, int currx);
-
-    /**
-     * If this node is part of an indel, then move the node down.
-     *
-     * @param spacing vertical distance to move indel node down
-     */
-    void correctIndelPosition(int spacing);
 }
