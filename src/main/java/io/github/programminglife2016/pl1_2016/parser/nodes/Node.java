@@ -140,6 +140,11 @@ public interface Node extends Cloneable {
     int getZoomLevel();
 
     /**
+     * Set the zoom level of the node
+     */
+    void setZoomLevel(int level);
+
+    /**
      * If this node is part of an indel, then move the node down.
      *
      * @param spacing vertical distance to move indel node down

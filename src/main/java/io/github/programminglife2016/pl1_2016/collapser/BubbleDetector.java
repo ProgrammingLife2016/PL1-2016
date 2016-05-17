@@ -22,7 +22,7 @@ public class BubbleDetector {
     private List<Bubble> bubbleBoundaries;
 
     private int lastId;
-    
+
     private int reachedLevel = 1;
 
     public BubbleDetector(NodeCollection collection) {

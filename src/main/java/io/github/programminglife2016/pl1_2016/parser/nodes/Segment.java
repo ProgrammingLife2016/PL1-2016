@@ -245,6 +245,11 @@ public class Segment implements Node {
     }
 
     @Override
+    public void setZoomLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
     public int hashCode() {
         return id;
     }

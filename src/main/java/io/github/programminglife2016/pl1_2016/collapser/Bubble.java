@@ -136,6 +136,11 @@ public class Bubble implements Node {
     }
 
     @Override
+    public void setZoomLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
     public void correctIndelPosition(int spacing) {
 
     }
