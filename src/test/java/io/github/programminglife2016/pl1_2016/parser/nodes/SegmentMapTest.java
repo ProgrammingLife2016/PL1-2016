@@ -13,6 +13,6 @@ public class SegmentMapTest extends SegmentCollectionTest {
      */
     @Before
     public void setUp() {
-        setNodeCollection(new NodeMap(5));
+        setNodeCollection(new NodeMap());
     }
 }

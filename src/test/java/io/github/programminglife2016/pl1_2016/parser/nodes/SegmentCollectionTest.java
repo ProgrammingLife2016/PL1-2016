@@ -72,7 +72,7 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(3, segment);
         assertTrue(nodeCollection.containsKey(3));
         Mockito.when(segment.getId()).thenReturn(3);
-        nodeCollection.removeNode(segment);
+        nodeCollection.remove(segment.getId());
         assertFalse(nodeCollection.containsKey(3));
     }
 
@@ -83,17 +83,6 @@ public abstract class SegmentCollectionTest {
     public void testContainsKeyFalse() {
         nodeCollection.put(2, segment);
         assertFalse(nodeCollection.containsKey(3));
-    }
-
-    /**
-     * Test containsKey with no segment in that place.
-     */
-    @Test
-    public void testIterator() {
-        Node node = new Segment(10);
-        nodeCollection.put(2, node);
-        Iterator<Node> it = nodeCollection.iterator();
-        assertEquals(it.next(), nodeCollection.get(2));
     }
 
     private void createFiveNodes() {

@@ -27,7 +27,7 @@ public class SegmentParser implements Parser {
      * Create parser object.
      */
     public SegmentParser() {
-        nodeCollection = new NodeList(SIZE);
+        nodeCollection = new NodeMap();
     }
 
     /**

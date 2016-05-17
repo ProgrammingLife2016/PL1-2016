@@ -1,5 +1,3 @@
-//CHECKSTYLE.OFF: MagicNumber
-
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import org.junit.Before;
@@ -13,6 +11,6 @@ public class SegmentListTest extends SegmentCollectionTest {
      */
     @Before
     public void setUp() {
-        setNodeCollection(new NodeList(5));
+        setNodeCollection(new NodeMap());
     }
 }
