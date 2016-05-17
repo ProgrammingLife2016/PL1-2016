@@ -22,7 +22,7 @@ public class BubbleMain {
         BubbleDetector detector = new BubbleDetector(nodeCollection);
         detector.findLevelBubbles(nodeCollection);
         for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
-                System.out.println("Id: " + detector.getBubbleBoundaries().get(i).getId() + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode() + " and " + detector.getBubbleBoundaries().get(i).getEndNode());
+                System.out.println("Id: " + detector.getBubbleBoundaries().get(i).getId() + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode().getId() + " and " + detector.getBubbleBoundaries().get(i).getEndNode().getId() + " ,zoomlevel: " + detector.getBubbleBoundaries().get(i).getZoomLevel());
         }
 
         //1454
