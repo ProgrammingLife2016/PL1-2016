@@ -5,6 +5,7 @@ import io.github.programminglife2016.pl1_2016.server.api.queries.ApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.CompiledApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.EquivalentCompiledApiQuery;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.regex.Matcher;
  */
 public class RestHandler implements ApiHandler {
     private static final int HTTP_STATUS_OK = 200;
-    private static final String ERROR_MESSAGE = "{\"status\": \"error\"}";
+    private static final int HTTP_STATUS_NOT_FOUND = 404;
 
     private Collection<CompiledApiQuery> queries;
 
@@ -37,7 +38,8 @@ public class RestHandler implements ApiHandler {
      */
     public void handle(HttpExchange httpExchange) throws IOException {
         String input = httpExchange.getRequestURI().toString();
-        String message = ERROR_MESSAGE;
+        String message = "";
+        int statusCode = 0;
 
         for (CompiledApiQuery q : queries) {
             Matcher m = q.getCompiledQuery().matcher(input);
@@ -48,11 +50,17 @@ public class RestHandler implements ApiHandler {
                 for (int i = 1; i <= count; i++) {
                     args.add(m.group(i));
                 }
-                message = q.getApiAction().response(args);
+                try {
+                    message = q.getApiAction().response(args);
+                    statusCode = HTTP_STATUS_OK;
+                } catch (FileNotFoundException e) {
+                    statusCode = HTTP_STATUS_NOT_FOUND;
+                }
                 break;
             }
         }
-        httpExchange.sendResponseHeaders(HTTP_STATUS_OK, message.length());
+
+        httpExchange.sendResponseHeaders(statusCode, 0);
         OutputStream os = httpExchange.getResponseBody();
         os.write(message.getBytes("UTF-8"));
         os.close();

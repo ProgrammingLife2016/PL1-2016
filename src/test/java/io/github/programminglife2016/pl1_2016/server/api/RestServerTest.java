@@ -1,15 +1,14 @@
 //CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.server.api;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -28,9 +27,9 @@ public class RestServerTest {
      */
     @Before
     public void setUp() throws InterruptedException {
-        JsonSerializable jsonSerializable = mock(JsonSerializable.class);
-        when(jsonSerializable.toJson()).thenReturn("{\"hi\": 2}");
-        restServer = new RestServer(jsonSerializable);
+        NodeCollection nodeCollection = mock(NodeCollection.class);
+        when(nodeCollection.toJson()).thenReturn("{\"hi\": 2}");
+        restServer = new RestServer(nodeCollection);
         RestServerThread restServerThread = new RestServerThread(restServer);
         new Thread(restServerThread).start();
         // Sleep such that the server has a chance to actually start.
@@ -52,50 +51,29 @@ public class RestServerTest {
      */
     @Test
     public void testSingleRequestToServer() throws IOException {
-        String ret = httpRequest(new URL(String.format("http://localhost:%d/api/nodes",
-                RestServer.PORT)));
+        String ret = IOUtils.toString(new URL(String.format("http://localhost:%d/api/nodes",
+                RestServer.PORT)), "UTF-8");
         assertEquals("{\"hi\": 2}", ret);
-    }
-
-    /**
-     * Send a single GET request to a static file.
-     *
-     * @throws IOException thrown when the TCP connection refuses
-     */
-    @Test
-    public void testSingleRequestToStaticFile() throws IOException {
-        String ret = httpRequest(new URL(String.format("http://localhost:%d/static/statictestfile",
-                RestServer.PORT)));
-        assertEquals("hello-from-file", ret.trim());
-    }
-
-    /**
-     * Issue a simple GET request to the url, and return the response body.
-     *
-     * @param url destination url
-     * @return response body
-     * @throws IOException thrown when the connection refuses
-     */
-    private String httpRequest(URL url) throws IOException {
-        InputStream is = url.openStream();
-        Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
-        if (s.hasNext()) {
-            return s.next();
-        } else {
-            return "";
-        }
     }
 
     /**
      * A Thread that contains a RestServer. Used because the server is blocking.
      */
-    private static class RestServerThread implements Runnable {
+    public static class RestServerThread implements Runnable {
         private RestServer restServer;
 
-        RestServerThread(RestServer restServer) {
+        /**
+         * Construct the RestServer thread.
+         *
+         * @param restServer RestServer to eventually start
+         */
+        public RestServerThread(RestServer restServer) {
             this.restServer = restServer;
         }
 
+        /**
+         * Start the RestServer.
+         */
         public void run() {
             try {
                 restServer.startServer();

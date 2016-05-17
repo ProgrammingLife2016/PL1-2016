@@ -14,19 +14,16 @@ public class SpecimenMap extends HashMap<String, Subject> implements SpecimenCol
     public SpecimenMap() {
     }
     /**
-     * Create segment hashmap.
-     * @param initialCapacity capacity of the hashmap.
-     */
-    public SpecimenMap(int initialCapacity) {
-        super(initialCapacity);
-    }
-
-    /**
      * Return all segments.
      *
      * @return all segments
      */
     public Collection<Subject> getSpecimen() {
         return values();
+    }
+
+    @Override
+    public String toJson() {
+        return "";
     }
 }

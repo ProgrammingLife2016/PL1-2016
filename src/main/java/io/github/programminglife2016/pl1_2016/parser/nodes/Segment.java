@@ -1,43 +1,21 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Data structure for representing a DNA sequence
  */
 public class Segment implements Node {
-    /**
-     * Id of DNA segment.
-     */
     private int id;
-
-    /**
-     * Contents of DNA segment.
-     */
     private String data;
-
-    /**
-     * z-index of Segment in graph.
-     */
     private int column;
-
-    /**
-     * Links to other DNA segments in the graph.
-     */
-    private List<Node> links;
-    private List<Node> backLinks;
-
-    /**
-     * x position of the segment in the graph.
-     */
+    private Set<Node> links = new HashSet<>();
+    private Set<Node> backLinks = new HashSet<>();
     private int x;
-
-    /**
-     * y position of the segment in the graph.
-     */
     private int y;
+    private Set<String> genomes = new HashSet<>();
 
     /**
      * Create segment with id and sequence data.
@@ -49,8 +27,6 @@ public class Segment implements Node {
         this.id = id;
         this.data = data;
         this.column = column;
-        this.links = new ArrayList<Node>();
-        this.backLinks = new ArrayList<Node>();
     }
 
     /**
@@ -59,8 +35,6 @@ public class Segment implements Node {
      */
     public Segment(int id) {
         this.id = id;
-        this.links = new ArrayList<Node>();
-        this.backLinks = new ArrayList<Node>();
     }
 
     /**
@@ -132,6 +106,26 @@ public class Segment implements Node {
     }
 
     /**
+     * Add the genomes this segment belongs to.
+     *
+     * @param genomes the genomes this segment belongs to
+     */
+    @Override
+    public void addGenomes(Collection<String> genomes) {
+        this.genomes.addAll(genomes);
+    }
+
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
+    @Override
+    public Set<String> getGenomes() {
+        return genomes;
+    }
+
+    /**
      * Set column index if this DNA segment.
      * @param column index in graph.
      */
@@ -165,39 +159,6 @@ public class Segment implements Node {
         return y;
     }
 
-
-    @Override
-    public void calculatePosition(NodeCollection nodeCollection, Collection<Node> processed,
-                                  int verticalSpacing, int currx) {
-        Collection<Node> nodes = new ArrayList<Node>();
-        for (Node node2 : nodeCollection) {
-            Collection<Node> intersectionBack = new ArrayList<Node>(node2.getBackLinks());
-            intersectionBack.retainAll(getBackLinks());
-            Collection<Node> intersectionFront = new ArrayList<Node>(node2.getLinks());
-            intersectionFront.retainAll(getLinks());
-            if (!intersectionBack.isEmpty() && !intersectionFront.isEmpty()) {
-                nodes.add(node2);
-            }
-        }
-        int height = nodes.size() * verticalSpacing / 2;
-        for (Node node2 : nodes) {
-            node2.setXY(currx, height);
-            height -= verticalSpacing;
-        }
-        processed.addAll(nodes);
-    }
-
-    @Override
-    public void correctIndelPosition(int spacing) {
-        for (Node nodeBack : getBackLinks()) {
-            Collection<Node> intersection = new ArrayList<Node>(nodeBack.getLinks());
-            intersection.retainAll(getLinks());
-            if (!intersection.isEmpty()) {
-                setXY(getX(), getY() + spacing / 2);
-            }
-        }
-    }
-
     /**
      * Return string representation of segment.
      * @return string representing segment.
@@ -205,5 +166,37 @@ public class Segment implements Node {
     @Override
     public String toString() {
         return String.format("Segment{id=%d, x=%d, y=%d, column=%d}", id, x, y, column);
+    }
+
+    @Override
+    public Segment clone() {
+        try {
+            Segment segment = (Segment) super.clone();
+            segment.links = new HashSet<>(links);
+            segment.backLinks = new HashSet<>(backLinks);
+            segment.genomes = new HashSet<>(genomes);
+            return segment;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            assert false : "Clone should be supported";
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Segment segment = (Segment) o;
+        return id == segment.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

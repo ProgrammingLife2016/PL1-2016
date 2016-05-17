@@ -1,15 +1,16 @@
 //CHECKSTYLE.OFF: MagicNumber
 
-package io.github.programminglife2016.pl1_2016.parser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.Iterator;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -70,6 +71,9 @@ public abstract class SegmentCollectionTest {
     public void testContainsKeyTrue() {
         nodeCollection.put(3, segment);
         assertTrue(nodeCollection.containsKey(3));
+        Mockito.when(segment.getId()).thenReturn(3);
+        nodeCollection.removeNode(segment);
+        assertFalse(nodeCollection.containsKey(3));
     }
 
     /**
@@ -82,10 +86,17 @@ public abstract class SegmentCollectionTest {
     }
 
     /**
-     * Test conversion into JSON.
+     * Test containsKey with no segment in that place.
      */
     @Test
-    public void testToJson() {
+    public void testIterator() {
+        Node node = new Segment(10);
+        nodeCollection.put(2, node);
+        Iterator<Node> it = nodeCollection.iterator();
+        assertEquals(it.next(), nodeCollection.get(2));
+    }
+
+    private void createFiveNodes() {
         Segment segment1 = new Segment(1, "one", 1);
         Segment segment2 = new Segment(2, "two", 2);
         Segment segment3 = new Segment(3, "three", 3);
@@ -101,6 +112,13 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(3, segment3);
         nodeCollection.put(4, segment4);
         nodeCollection.put(5, segment5);
+    }
+    /**
+     * Test conversion into JSON.
+     */
+    @Test
+    public void testToJson() {
+        createFiveNodes();
         JsonParser jsonParser = new JsonParser();
         JsonElement actual = jsonParser.parse(nodeCollection.toJson());
         JsonElement expected = jsonParser.parse("{\"status\":\"success\",\"nodes\":[{\"id\":1,\"bu"
@@ -111,5 +129,31 @@ public abstract class SegmentCollectionTest {
                 + "\":1,\"to\":2},{\"from\":1,\"to\":3},{\"from\":1,\"to\":5},{\"from\":3,\"to\":4"
                 + "},{\"from\":4,\"to\":5}]}");
         assertEquals(expected, actual);
+    }
+    /**
+     * Test Basic segment operations.
+     */
+    @Test
+    public void testBasicNodeOperations() {
+        createFiveNodes();
+        Segment segment1 = (Segment) nodeCollection.get(1);
+        segment1.setData("data");
+        assertEquals("data", segment1.getData());
+        Node seg = segment1.clone();
+        assertEquals(seg, segment1);
+    }
+
+    /**
+     * Test basic getter functions.
+     */
+    @Test
+    public void testGettersSegment() {
+        Segment segment1 = new Segment(1);
+        segment1.setXY(2, 3);
+        segment1.setColumn(1);
+        assertEquals(2, segment1.getX());
+        assertEquals(3, segment1.getY());
+        assertEquals(1, segment1.getColumn());
+        assertEquals("Segment{id=1, x=2, y=3, column=1}", segment1.toString());
     }
 }

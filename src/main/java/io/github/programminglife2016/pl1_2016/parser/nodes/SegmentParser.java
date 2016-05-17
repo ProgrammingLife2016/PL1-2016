@@ -1,15 +1,14 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 import io.github.programminglife2016.pl1_2016.parser.database.SimpleDatabase;
-import io.github.programminglife2016.pl1_2016.parser.metadata.MetaDatabase;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.DatabaseMetaData;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Temporary simple parser for parsing .gfa files.
@@ -17,6 +16,8 @@ import java.util.Iterator;
 public class SegmentParser implements Parser {
     private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
+    private static final String ATTR_ORI = "ORI:Z:";
+    private static final String GENOME_SUFFIX = ".fasta";
 
     /**
      * Map containing the DNA seqments.
@@ -35,7 +36,7 @@ public class SegmentParser implements Parser {
      * @param inputStream input data
      * @return Data structure with parsed data.
      */
-    public JsonSerializable parse(InputStream inputStream) {
+    public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
         return nodeCollection;
     }
@@ -56,9 +57,11 @@ public class SegmentParser implements Parser {
 //            PositionHandler ph = new PositionHandler(nodeCollection);
 //            ph.calculatePositions();
             SimpleDatabase db = new SimpleDatabase();
-//            The lines above have to be removed and the lines below have to be uncommented to use the loading from the database
-//            MetaDatabase db = new MetaDatabase();
-//            nodeCollection = db.getPositions(nodeCollection, 1);
+//          The lines above have to be removed and the lines below have to be uncommented
+//          to use the loading from the database
+//          MetaDatabase db = new MetaDatabase();
+//          nodeCollection = db.getPositions(nodeCollection, 1);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -95,6 +98,7 @@ public class SegmentParser implements Parser {
      * Parse a segment line according to the GFA specification.
      * @param data contents of line separated by whitespace.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private void parseSegmentLine(String[] data) {
         int id = Integer.parseInt(data[1]);
         String seq = data[2];
@@ -102,12 +106,17 @@ public class SegmentParser implements Parser {
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
+        Collection<String> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                .stream()
+                .map(x -> x.substring(0, x.length() - GENOME_SUFFIX.length()))
+                .map(x -> x.replace("_", " ").replace("-", " ")).collect(Collectors.toList());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
         } else {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
+        nodeCollection.get(id).addGenomes(genomes);
     }
 
     /**

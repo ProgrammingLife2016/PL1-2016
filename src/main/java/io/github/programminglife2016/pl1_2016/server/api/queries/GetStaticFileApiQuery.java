@@ -4,7 +4,7 @@ import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 import io.github.programminglife2016.pl1_2016.server.api.actions.GetStaticFileApiAction;
 
 /**
- * Listen to /static/<path> and return /resources/webapp/<path>.
+ * Listen to /static/{path} and return /resources/webapp/{path}.
  */
 public class GetStaticFileApiQuery implements ApiQuery {
     /**

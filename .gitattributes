@@ -1,3 +1,1 @@
-src/main/resources/genomes/TB328/340tree.rooted.TKK.nwk filter=lfs diff=lfs merge=lfs -text
-src/main/resources/genomes/TB328/metadata.xlsx filter=lfs diff=lfs merge=lfs -text
-src/main/resources/genomes/TB328/TB328.gfa filter=lfs diff=lfs merge=lfs -text
+*.gfa filter=lfs diff=lfs merge=lfs -text

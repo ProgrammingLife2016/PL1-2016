@@ -1,7 +1,7 @@
 package io.github.programminglife2016.pl1_2016.server.api;
 
 import com.sun.net.httpserver.HttpServer;
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
@@ -17,15 +17,15 @@ public class RestServer implements Server {
     public static final int PORT = 8081;
 
     private HttpServer server;
-    private JsonSerializable jsonSerializable;
+    private NodeCollection nodeCollection;
 
     /**
-     * Construct a RestServer, that uses a JsonSerializable to respond.
+     * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
      *
-     * @param jsonSerializable used for responses
+     * @param nodeCollection NodeCollection to be used for API queries
      */
-    public RestServer(JsonSerializable jsonSerializable) {
-        this.jsonSerializable = jsonSerializable;
+    public RestServer(NodeCollection nodeCollection) {
+        this.nodeCollection = nodeCollection;
     }
 
     /**
@@ -35,7 +35,7 @@ public class RestServer implements Server {
      */
     public void startServer() throws IOException {
         ApiHandler apiHandler = new RestHandler();
-        apiHandler.addQuery(new ReturnAllNodesApiQuery(jsonSerializable));
+        apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection));
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
         server = HttpServer.create(new InetSocketAddress(PORT), 0);

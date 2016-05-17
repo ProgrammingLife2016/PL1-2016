@@ -1,11 +1,12 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * An object that represents a displayable bubble/segment.
  */
-public interface Node {
+public interface Node extends Cloneable {
     /**
      * Set the x and y coordinates of the node.
      *
@@ -92,21 +93,23 @@ public interface Node {
     int getColumn();
 
     /**
-     * Calculate the position of this node, and the sibling nodes (in the case of a snip). Indels
-     * are not yet accounted for.
+     * Add the genomes this segment belongs to.
      *
-     * @param nodeCollection collection of all nodes to be positioned
-     * @param processed the positioned nodes
-     * @param verticalSpacing spacing between snip siblings
-     * @param currx the x-coordinate of this node.
+     * @param genomes the genomes this segment belongs to
      */
-    void calculatePosition(NodeCollection nodeCollection, Collection<Node> processed,
-                           int verticalSpacing, int currx);
+    void addGenomes(Collection<String> genomes);
 
     /**
-     * If this node is part of an indel, then move the node down.
+     * Get the genomes this segment belongs to.
      *
-     * @param spacing vertical distance to move indel node down
+     * @return the genomes this segment belongs to
      */
-    void correctIndelPosition(int spacing);
+    Set<String> getGenomes();
+
+    /**
+     * Make a shallow clone of this node. Only the links are cloned one level more.
+     *
+     * @return the cloned node.
+     */
+    Node clone();
 }
