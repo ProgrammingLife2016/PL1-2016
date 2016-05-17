@@ -12,12 +12,21 @@ import java.util.Set;
  * Created by ravishivam on 16-5-16.
  */
 public class Bubble implements Node {
+    private int id;
+
+    private int x;
+
+    private int y;
 
     private Node startNode;
 
     private Node endNode;
 
     private List<Node> container = new ArrayList<>();
+
+    private int containerid;
+
+    private int level;
 
     public Bubble(Node startNode, Node endNode) {
         this.startNode = startNode;
@@ -26,17 +35,18 @@ public class Bubble implements Node {
 
     @Override
     public void setXY(int x, int y) {
-
+        this.x = x;
+        this.y = y;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return this.y;
     }
 
     @Override
@@ -61,7 +71,7 @@ public class Bubble implements Node {
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
@@ -105,6 +115,16 @@ public class Bubble implements Node {
     }
 
     @Override
+    public int getContainerId() {
+        return this.containerid;
+    }
+
+    @Override
+    public int getZoomLevel() {
+        return this.level;
+    }
+
+    @Override
     public void correctIndelPosition(int spacing) {
 
     }
@@ -112,6 +132,11 @@ public class Bubble implements Node {
     public Node getStartNode() {
         return startNode;
     }
+
+    public int getLevel() {
+        return this.level;
+    }
+
 
     public Node getEndNode() {
         return endNode;

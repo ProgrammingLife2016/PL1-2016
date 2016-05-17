@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by ravishivam on 16-5-16.
+ *
  */
 public class BubbleCollapser {
 
@@ -29,7 +30,6 @@ public class BubbleCollapser {
         List<Node> visited = new ArrayList<>();
         while (!q.isEmpty()) {
             Node n = q.poll();
-//            if(n.getId() != startId)
             for (Node v : n.getLinks()) {
                 if (visited.contains(v) || v.getId() == startId || v.getId() == endId)
                     continue;

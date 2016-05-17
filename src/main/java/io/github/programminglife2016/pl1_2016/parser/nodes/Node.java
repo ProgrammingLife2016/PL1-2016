@@ -120,9 +120,22 @@ public interface Node extends Cloneable {
                            int verticalSpacing, int currx);
 
     /**
+     * Return the id of the container the node resides in.
+     * @return id of the container.
+     */
+    int getContainerId();
+
+    /**
+     * Return the zoomlevel the node resides in.
+     * @return the depth of the level.
+     */
+    int getZoomLevel();
+
+    /**
      * If this node is part of an indel, then move the node down.
      *
      * @param spacing vertical distance to move indel node down
      */
     void correctIndelPosition(int spacing);
+
 }

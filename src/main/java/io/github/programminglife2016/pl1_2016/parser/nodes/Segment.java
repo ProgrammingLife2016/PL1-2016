@@ -14,6 +14,8 @@ public class Segment implements Node {
     private int x;
     private int y;
     private Set<String> genomes = new HashSet<>();
+    private int containerid;
+    private int level;
 
     /**
      * Create segment with id and sequence data.
@@ -179,6 +181,7 @@ public class Segment implements Node {
         processed.addAll(nodes);
     }
 
+
     @Override
     public void correctIndelPosition(int spacing) {
         for (Node nodeBack : getBackLinks()) {
@@ -223,6 +226,16 @@ public class Segment implements Node {
 
         return id == segment.id;
 
+    }
+
+    @Override
+    public int getContainerId() {
+        return this.containerid;
+    }
+
+    @Override
+    public int getZoomLevel() {
+        return this.level;
     }
 
     @Override

@@ -40,13 +40,11 @@ public class BubbleDetector {
         while (bubbleAt != null) {
             switch (bubbleAt.getKey()) {
                 case BUBBLE_DETECTED :
-//                    System.out.println("Bubble detected between: " + starting.getId() + " and " + bubbleAt.getValue().getId());
                     this.bubbleBoundaries.add(new Bubble(starting, bubbleAt.getValue()));
                     starting = bubbleAt.getValue();
                     bubbleAt = searchBubble(collection, starting, starting.getGenomes());
                     break;
                 case FOUND_MORE_GENOMES :
-//                    System.out.println("Found more genomes at: " + bubbleAt.getValue().getId());
                     starting = bubbleAt.getValue();
                     bubbleAt = searchBubble(collection,bubbleAt.getValue(), bubbleAt.getValue().getGenomes());
                     break;
