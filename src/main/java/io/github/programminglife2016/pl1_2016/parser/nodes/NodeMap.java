@@ -35,7 +35,8 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
 
     @Override
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class, new NodeCollectionSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class,
+                new NodeCollectionSerializer()).create();
         return gson.toJson(this);
     }
 }

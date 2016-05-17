@@ -2,9 +2,8 @@ package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
 import java.util.List;
 
-/** TreeNode interface to make a contruct tree datastructure.
- *
- * Created by ravishivam on 6-5-16.
+/**
+ * TreeNode interface to make a contruct tree datastructure.
  */
 public interface TreeNode {
     /**
@@ -50,11 +49,30 @@ public interface TreeNode {
      */
     List<TreeNode> getChildren();
 
+    /**
+     * Set the parent of this node.
+     *
+     * @param node the parent of this node
+     */
     void setParent(TreeNode node);
 
+    /**
+     * Return the parent of this node, or null if this node is a root.
+     *
+     * @return the parent of this node, or null if this node is a root.
+     */
     TreeNode getParent();
 
+    /**
+     * Add a child to the current tree node.
+     * @param node child tree node of this tree node.
+     */
     void addChild(TreeNode node);
 
+    /**
+     * Convert the tree with this node as the root into a one-dimensional collection.
+     *
+     * @return a TreeNodeColleciton containing all the nodes under this node, including this node.
+     */
     TreeNodeCollection flatten();
 }

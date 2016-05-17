@@ -2,13 +2,14 @@ package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.stream.Collectors.*;
+
+import static java.util.stream.Collectors.joining;
 
 /**
  * Class for representing a node in the phylogenetic tree.
  */
 public class BaseTreeNode implements TreeNode {
-    private static int STATIC_ID = 1;
+    private static int staticId = 1;
     private int id;
     private String name;
     private double weight;
@@ -39,7 +40,7 @@ public class BaseTreeNode implements TreeNode {
      * @param parent parent tree node of this tree node.
      */
     public BaseTreeNode(String name, double weight, List<TreeNode> children, TreeNode parent) {
-        this.id = STATIC_ID++;
+        this.id = staticId++;
         this.name = name;
         this.weight = weight;
         this.children = children;
@@ -123,10 +124,20 @@ public class BaseTreeNode implements TreeNode {
         return children;
     }
 
+    /**
+     * Return the parent of this node, or null if this node is a root.
+     *
+     * @return the parent of this node, or null if this node is a root.
+     */
     public TreeNode getParent() {
         return parent;
     }
 
+    /**
+     * Set the parent of this node.
+     *
+     * @param parent the parent of this node
+     */
     public void setParent(TreeNode parent) {
         this.parent = parent;
     }

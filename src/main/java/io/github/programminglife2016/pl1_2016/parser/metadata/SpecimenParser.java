@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 
 /**
  * Parser class for the metadata.
- * Created by ravishivam on 4-5-16.
  */
 public class SpecimenParser implements Parser {
     /**
@@ -56,8 +55,6 @@ public class SpecimenParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-        } catch (Exception e) { }
-        try {
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,9 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
-import io.github.programminglife2016.pl1_2016.parser.phylotree.TreeNodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.parser.phylotree.PhyloGeneticTreeParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
 
@@ -30,9 +28,7 @@ public final class Launcher {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        InputStream nwk = Launcher.class.getResourceAsStream("/genomes/TB10.nwk");
-        TreeNodeCollection treeNodes = new PhyloGeneticTreeParser().parse(nwk);
-        Server server = new RestServer(nodeCollection, treeNodes.getRoot());
+        Server server = new RestServer(nodeCollection);
         server.startServer();
     }
 }
