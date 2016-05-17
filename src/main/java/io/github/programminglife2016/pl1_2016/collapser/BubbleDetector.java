@@ -22,6 +22,8 @@ public class BubbleDetector {
     private List<Bubble> bubbleBoundaries;
 
     private int lastId;
+    
+    private int reachedLevel = 1;
 
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
