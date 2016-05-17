@@ -126,6 +126,14 @@ public interface Node extends Cloneable {
     int getContainerId();
 
     /**
+     * Set the id of the container the node resides in.
+     *
+     * @param containerId id of the bubble in which current node is located
+     */
+    void setContainerId(int containerId);
+
+
+    /**
      * Return the zoomlevel the node resides in.
      * @return the depth of the level.
      */

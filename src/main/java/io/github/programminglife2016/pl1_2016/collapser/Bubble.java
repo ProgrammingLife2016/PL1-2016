@@ -33,6 +33,12 @@ public class Bubble implements Node {
         this.endNode = endNode;
     }
 
+    public Bubble(int id, Node startNode, Node endNode) {
+        this.startNode = startNode;
+        this.endNode = endNode;
+        this.id = id;
+    }
+
     @Override
     public void setXY(int x, int y) {
         this.x = x;
@@ -117,6 +123,11 @@ public class Bubble implements Node {
     @Override
     public int getContainerId() {
         return this.containerid;
+    }
+
+    @Override
+    public void setContainerId(int containerid) {
+        this.containerid = containerid;
     }
 
     @Override

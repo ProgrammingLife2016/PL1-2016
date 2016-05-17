@@ -2,13 +2,8 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import javafx.util.Pair;
-import org.mockito.internal.matchers.Not;
 
 import java.util.*;
-
-import static javafx.scene.input.KeyCode.K;
-import static org.mockito.asm.tree.InsnList.check;
 
 /**
  * Created by ravishivam on 15-5-16.
@@ -18,7 +13,6 @@ public class BubbleDetector {
 
     private static final int BUBBLE_DETECTED = 1;
 
-
     private static final int FOUND_MORE_GENOMES = 2;
 
     private boolean[] visited;
@@ -27,8 +21,11 @@ public class BubbleDetector {
 
     private List<Bubble> bubbleBoundaries;
 
+    private int lastId;
+
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
+        this.lastId = collection.size() + 1;
         initVisited(collection);
         this.collection = collection;
         this.bubbleBoundaries = new ArrayList<>();
@@ -40,7 +37,10 @@ public class BubbleDetector {
         while (bubbleAt != null) {
             switch (bubbleAt.getKey()) {
                 case BUBBLE_DETECTED :
-                    this.bubbleBoundaries.add(new Bubble(starting, bubbleAt.getValue()));
+                    Bubble found = new Bubble(lastId, starting, bubbleAt.getValue());
+                    found.getStartNode().setContainerId(found.getId());
+                    this.bubbleBoundaries.add(found);
+                    lastId++;
                     starting = bubbleAt.getValue();
                     bubbleAt = searchBubble(collection, starting, starting.getGenomes());
                     break;

@@ -233,6 +233,12 @@ public class Segment implements Node {
         return this.containerid;
     }
 
+
+    @Override
+    public void setContainerId(int containerid) {
+        this.containerid = containerid;
+    }
+
     @Override
     public int getZoomLevel() {
         return this.level;
