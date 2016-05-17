@@ -5,12 +5,16 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter pattern of ArrayList. Used to contain TreeNodes.
+ */
 public class TreeNodeList extends ArrayList<TreeNode> implements TreeNodeCollection {
     private TreeNode root;
 
     @Override
     public String toJson() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(TreeNodeList.class, new TreeNodeCollectionSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(TreeNodeList.class,
+                new TreeNodeCollectionSerializer()).create();
         return gson.toJson(this);
     }
 

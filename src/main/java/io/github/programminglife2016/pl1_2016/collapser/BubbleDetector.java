@@ -111,7 +111,7 @@ public class BubbleDetector {
     }
 
     private void initVisited(NodeCollection collection) {
-        for (Node node : collection.getNodes()) {
+        for (Node node : collection.values()) {
             visited[node.getId()] = false;
         }
     }

@@ -108,11 +108,6 @@ public class Bubble implements Node {
     }
 
     @Override
-    public void calculatePosition(NodeCollection nodeCollection, Collection<Node> processed, int verticalSpacing, int currx) {
-
-    }
-
-    @Override
     public int getContainerId() {
         return this.containerid;
     }
@@ -132,11 +127,6 @@ public class Bubble implements Node {
         this.level = level;
     }
 
-    @Override
-    public void correctIndelPosition(int spacing) {
-
-    }
-
     public Node getStartNode() {
         return startNode;
     }
@@ -144,7 +134,6 @@ public class Bubble implements Node {
     public int getLevel() {
         return this.level;
     }
-
 
     public Node getEndNode() {
         return endNode;

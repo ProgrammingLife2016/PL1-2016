@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 public class SegmentParser implements Parser {
     private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
+    private static final String ATTR_ORI = "ORI:Z:";
+    private static final String GENOME_SUFFIX = ".fasta";
 
     /**
      * Map containing the DNA seqments.
@@ -25,7 +27,7 @@ public class SegmentParser implements Parser {
      * Create parser object.
      */
     public SegmentParser() {
-        nodeCollection = new NodeList(SIZE);
+        nodeCollection = new NodeMap();
     }
 
     /**
@@ -51,8 +53,6 @@ public class SegmentParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
-//            PositionManager positionHandler = new PositionHandler(this.nodeCollection);
-//            positionHandler.calculatePositions();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -89,6 +89,7 @@ public class SegmentParser implements Parser {
      * Parse a segment line according to the GFA specification.
      * @param data contents of line separated by whitespace.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private void parseSegmentLine(String[] data) {
         int id = Integer.parseInt(data[1]);
         String seq = data[2];
@@ -96,8 +97,9 @@ public class SegmentParser implements Parser {
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
-        Collection<String> genomes = Arrays.asList(data[4].substring(6).split(";")).stream()
-                .map(x -> x.substring(0, x.length() - 6))
+        Collection<String> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                .stream()
+                .map(x -> x.substring(0, x.length() - GENOME_SUFFIX.length()))
                 .map(x -> x.replace("_", " ").replace("-", " ")).collect(Collectors.toList());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));

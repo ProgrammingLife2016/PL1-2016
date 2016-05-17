@@ -106,19 +106,6 @@ public interface Node extends Cloneable {
      */
     Set<String> getGenomes();
 
-    Node clone();
-    /*
-     * Calculate the position of this node, and the sibling nodes (in the case of a snip). Indels
-     * are not yet accounted for.
-     *
-     * @param nodeCollection collection of all nodes to be positioned
-     * @param processed the positioned nodes
-     * @param verticalSpacing spacing between snip siblings
-     * @param currx the x-coordinate of this node.
-     */
-    void calculatePosition(NodeCollection nodeCollection, Collection<Node> processed,
-                           int verticalSpacing, int currx);
-
     /**
      * Return the id of the container the node resides in.
      * @return id of the container.
@@ -145,10 +132,9 @@ public interface Node extends Cloneable {
     void setZoomLevel(int level);
 
     /**
-     * If this node is part of an indel, then move the node down.
+     * Make a shallow clone of this node. Only the links are cloned one level more.
      *
-     * @param spacing vertical distance to move indel node down
+     * @return the cloned node.
      */
-    void correctIndelPosition(int spacing);
-
+    Node clone();
 }

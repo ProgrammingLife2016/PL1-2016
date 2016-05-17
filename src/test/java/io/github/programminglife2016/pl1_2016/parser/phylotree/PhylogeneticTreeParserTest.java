@@ -1,12 +1,10 @@
+//CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.parser.phylotree;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the PhylogeneticTreeParser.
  */
-public class PhyloGeneticTreeParserTest {
+public class PhylogeneticTreeParserTest {
 
     /**
      * Create parser object.
@@ -29,9 +26,12 @@ public class PhyloGeneticTreeParserTest {
     public void setUp() {
     }
 
+    /**
+     * Verify the correct name when parsing a single node
+     */
     @Test
     public void testTreeWithSingleNode() {
-        PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
+        PhylogeneticTreeParser parser = new PhylogeneticTreeParser();
         String s = "(B:6.0,A:5.0);";
         TreeNodeCollection node  = parser.parseTokensFromString(s);
         assertEquals("B", node.getRoot().getChildren().get(0).getName());
@@ -42,7 +42,7 @@ public class PhyloGeneticTreeParserTest {
      */
     @Test
     public void testTreeWithOneNestedLevel() {
-        PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
+        PhylogeneticTreeParser parser = new PhylogeneticTreeParser();
         String s = "(B:6.0,(A:5.0,(Z:9.0,T:10):3.0):5.0,D:11.0);";
         TreeNodeCollection node = parser.parse(stringToInputStream(s));
         assertEquals("B", node.getRoot().getChildren().get(0).getName());
@@ -53,7 +53,7 @@ public class PhyloGeneticTreeParserTest {
      */
     @Test
     public void testBasicBaseTreeNodeFunctions() {
-        PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
+        PhylogeneticTreeParser parser = new PhylogeneticTreeParser();
         String s = "(B:6.0,D:11.0);";
         TreeNodeCollection node = parser.parse(stringToInputStream(s));
         TreeNodeCollection collection = node.getRoot().flatten();
@@ -72,7 +72,7 @@ public class PhyloGeneticTreeParserTest {
      */
     @Test
     public void testSettingBaseNodeChild() {
-        PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
+        PhylogeneticTreeParser parser = new PhylogeneticTreeParser();
         String s = "(B:6.0,D:11.0);";
         TreeNodeCollection node = parser.parse(stringToInputStream(s));
         List<TreeNode> lst = new ArrayList<>();
@@ -82,9 +82,13 @@ public class PhyloGeneticTreeParserTest {
         assertEquals("[- 0.0 {}]", node.getRoot().getChildren().get(0).toString());
     }
 
+    /**
+     * Verify if JSON serializing a treeNodeCollection leads to the correct JSON object, conforming
+     * the API.
+     */
     @Test
     public void testSerializer() {
-        PhyloGeneticTreeParser parser = new PhyloGeneticTreeParser();
+        PhylogeneticTreeParser parser = new PhylogeneticTreeParser();
         String s = "(B:6.0,D:11.0);";
         TreeNodeCollection collection1 = parser.parse(stringToInputStream(s));
 

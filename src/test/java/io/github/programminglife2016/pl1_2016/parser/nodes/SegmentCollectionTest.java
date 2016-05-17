@@ -72,7 +72,7 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(3, segment);
         assertTrue(nodeCollection.containsKey(3));
         Mockito.when(segment.getId()).thenReturn(3);
-        nodeCollection.removeNode(segment);
+        nodeCollection.remove(segment.getId());
         assertFalse(nodeCollection.containsKey(3));
     }
 
@@ -85,21 +85,7 @@ public abstract class SegmentCollectionTest {
         assertFalse(nodeCollection.containsKey(3));
     }
 
-    /**
-     * Test containsKey with no segment in that place.
-     */
-    @Test
-    public void testIterator() {
-        Node node = new Segment(10);
-        nodeCollection.put(2, node);
-        Iterator<Node> it = nodeCollection.iterator();
-        assertEquals(it.next(), nodeCollection.get(2));
-    }
-    /**
-     * Test conversion into JSON.
-     */
-    @Test
-    public void testToJson() {
+    private void createFiveNodes() {
         Segment segment1 = new Segment(1, "one", 1);
         Segment segment2 = new Segment(2, "two", 2);
         Segment segment3 = new Segment(3, "three", 3);
@@ -115,6 +101,13 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(3, segment3);
         nodeCollection.put(4, segment4);
         nodeCollection.put(5, segment5);
+    }
+    /**
+     * Test conversion into JSON.
+     */
+    @Test
+    public void testToJson() {
+        createFiveNodes();
         JsonParser jsonParser = new JsonParser();
         JsonElement actual = jsonParser.parse(nodeCollection.toJson());
         JsonElement expected = jsonParser.parse("{\"status\":\"success\",\"nodes\":[{\"id\":1,\"bu"
@@ -131,23 +124,10 @@ public abstract class SegmentCollectionTest {
      */
     @Test
     public void testBasicNodeOperations() {
-        Segment segment1 = new Segment(1, "one", 1);
-        Segment segment2 = new Segment(2, "two", 2);
-        Segment segment3 = new Segment(3, "three", 3);
-        Segment segment4 = new Segment(4, "four", 4);
-        Segment segment5 = new Segment(5, "five", 5);
-        segment1.addLink(segment2);
-        segment1.addLink(segment3);
-        segment1.addLink(segment5);
-        segment3.addLink(segment4);
-        segment4.addLink(segment5);
-        nodeCollection.put(1, segment1);
-        nodeCollection.put(2, segment2);
-        nodeCollection.put(3, segment3);
-        nodeCollection.put(4, segment4);
-        nodeCollection.put(5, segment5);
+        createFiveNodes();
+        Segment segment1 = (Segment) nodeCollection.get(1);
         segment1.setData("data");
-        assertEquals("data",segment1.getData());
+        assertEquals("data", segment1.getData());
         Node seg = segment1.clone();
         assertEquals(seg, segment1);
     }
@@ -158,7 +138,7 @@ public abstract class SegmentCollectionTest {
     @Test
     public void testGettersSegment() {
         Segment segment1 = new Segment(1);
-        segment1.setXY(2,3);
+        segment1.setXY(2, 3);
         segment1.setColumn(1);
         assertEquals(2, segment1.getX());
         assertEquals(3, segment1.getY());
