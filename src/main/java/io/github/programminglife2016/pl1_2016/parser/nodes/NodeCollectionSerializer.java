@@ -30,12 +30,12 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("status", new JsonPrimitive("success"));
         JsonArray nodes = new JsonArray();
-        nodeCollection.getNodes().stream()
+        nodeCollection.values().stream()
                 .map(nodeBuilder::toJsonTree)
                 .forEach(nodes::add);
         jsonObject.add("nodes", nodes);
         JsonArray edges = new JsonArray();
-        for (Node node : nodeCollection.getNodes()) {
+        for (Node node : nodeCollection.values()) {
             for (Node link : node.getLinks()) {
                 JsonObject edge = new JsonObject();
                 edge.add("from", new JsonPrimitive(node.getId()));
