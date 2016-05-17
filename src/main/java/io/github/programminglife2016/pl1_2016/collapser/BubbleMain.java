@@ -26,7 +26,7 @@ public class BubbleMain {
         }
 
         //1454
-        BubbleCollapser collapser = new BubbleCollapser();
-        collapser.collapseBubbles(detector.getBubbleBoundaries());
+        BubbleCollapser collapser = new BubbleCollapser(detector.getBubbleBoundaries());
+        collapser.collapseBubbles();
     }
 }

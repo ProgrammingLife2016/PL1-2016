@@ -3,29 +3,21 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by ravishivam on 16-5-16.
  */
 public class Bubble implements Node {
     private int id;
-
     private int x;
-
     private int y;
-
     private Node startNode;
-
     private Node endNode;
-
     private List<Node> container = new ArrayList<>();
-
+    private Set<Node> links = new HashSet<>();
+    private Set<Node> backLinks = new HashSet<>();
     private int containerid;
-
     private int level;
 
     public Bubble(Node startNode, Node endNode) {
@@ -87,12 +79,12 @@ public class Bubble implements Node {
 
     @Override
     public Collection<Node> getLinks() {
-        return endNode.getLinks();
+        return links;
     }
 
     @Override
     public Collection<Node> getBackLinks() {
-        return startNode.getBackLinks();
+        return backLinks;
     }
 
     @Override

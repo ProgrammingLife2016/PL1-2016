@@ -41,6 +41,7 @@ public class BubbleDetector {
                 case BUBBLE_DETECTED :
                     Bubble found = new Bubble(lastId, starting, bubbleAt.getValue());
                     found.getStartNode().setContainerId(found.getId());
+                    found.getEndNode().setContainerId(found.getId());
                     this.bubbleBoundaries.add(found);
                     lastId++;
                     starting = bubbleAt.getValue();
