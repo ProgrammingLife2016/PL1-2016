@@ -20,7 +20,7 @@ public class BubbleMain {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         BubbleDetector detector = new BubbleDetector(nodeCollection);
-        detector.findLevelBubbles(nodeCollection.get(1),null);
+        detector.findMultiLevelBubbles();
         for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
                 System.out.println("Id: " + detector.getBubbleBoundaries().get(i).getId() + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode().getId() + " and " + detector.getBubbleBoundaries().get(i).getEndNode().getId() + " ,zoomlevel: " + detector.getBubbleBoundaries().get(i).getZoomLevel());
         }
