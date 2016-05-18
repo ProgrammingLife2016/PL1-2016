@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +16,8 @@ public class Segment implements Node {
     private int x;
     private int y;
     private Set<String> genomes = new HashSet<>();
+    private int containerid;
+    private int level;
 
     /**
      * Create segment with id and sequence data.
@@ -166,7 +167,7 @@ public class Segment implements Node {
      */
     @Override
     public String toString() {
-        return String.format("Segment{id=%d, x=%d, y=%d, column=%d}", id, x, y, column);
+        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y, column, containerid);
     }
 
     @Override
@@ -194,6 +195,27 @@ public class Segment implements Node {
         }
         Segment segment = (Segment) o;
         return id == segment.id;
+    }
+
+    @Override
+    public int getContainerId() {
+        return this.containerid;
+    }
+
+
+    @Override
+    public void setContainerId(int containerid) {
+        this.containerid = containerid;
+    }
+
+    @Override
+    public int getZoomLevel() {
+        return this.level;
+    }
+
+    @Override
+    public void setZoomLevel(int level) {
+        this.level = level;
     }
 
     @Override

@@ -107,6 +107,31 @@ public interface Node extends Cloneable {
     Set<String> getGenomes();
 
     /**
+     * Return the id of the container the node resides in.
+     * @return id of the container.
+     */
+    int getContainerId();
+
+    /**
+     * Set the id of the container the node resides in.
+     *
+     * @param containerId id of the bubble in which current node is located
+     */
+    void setContainerId(int containerId);
+
+
+    /**
+     * Return the zoomlevel the node resides in.
+     * @return the depth of the level.
+     */
+    int getZoomLevel();
+
+    /**
+     * Set the zoom level of the node
+     */
+    void setZoomLevel(int level);
+
+    /**
      * Make a shallow clone of this node. Only the links are cloned one level more.
      *
      * @return the cloned node.

@@ -2,8 +2,6 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
