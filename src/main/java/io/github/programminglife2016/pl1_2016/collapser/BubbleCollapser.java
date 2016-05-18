@@ -2,11 +2,9 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 /**
  * Created by ravishivam on 16-5-16.
@@ -53,26 +51,40 @@ public class BubbleCollapser {
     }
 
     private void addBackLinks(Bubble bubble){
-        Optional<Bubble> container;
+        Collection<Bubble> container;
         for(Node node: bubble.getStartNode().getBackLinks()) {
-            container = bubbles.stream().filter(x -> x.getId() == node.getContainerId()).findFirst();
-            if (container.isPresent())
-                bubble.getBackLinks().add(container.get());
+            container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
+                    x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
+            if (container.size() > 0)
+                bubble.getBackLinks().addAll(container);
             else
                 bubble.getBackLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " BackLinks:" + bubble.getBackLinks().size());
+        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
     }
 
     private void addForwardLinks(Bubble bubble){
-        Optional<Bubble> container;
+        Collection<Bubble> container;
         for(Node node: bubble.getEndNode().getLinks()) {
-            container = bubbles.stream().filter(x -> x.getId() == node.getContainerId()).findFirst();
-            if (container.isPresent())
-                bubble.getLinks().add(container.get());
+            container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
+                    x.getStartNode().getId() == bubble.getEndNode().getId()).collect(Collectors.toSet());
+            if (container.size() > 0)
+                bubble.getLinks().addAll(container);
             else
                 bubble.getLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + bubble.getBackLinks().size());
+        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + linksToString(bubble.getLinks()));
+    }
+
+    /**
+     * Temporary method to view changes in links
+     * @param links
+     * @return
+     */
+    private String linksToString(Collection<Node> links){
+        String result = "";
+        for (Node n: links)
+            result += n.getId() + ", ";
+        return result;
     }
 }
