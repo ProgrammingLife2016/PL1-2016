@@ -40,6 +40,9 @@ public class BubbleDetector {
         for (int i = 0; i < 3; i++) {
             List<Bubble> currLevelList = new ArrayList<>();
             for (Bubble bubble : levelBubbles.get(reachedLevel - 1)) {
+                if(bubble.getStartNode().getLinks().size()==0 || bubble.getStartNode() == bubble.getEndNode()) {
+                    continue;
+                }
                 for (Node node : bubble.getStartNode().getLinks()) {
                     List<Bubble> newBubbles = findLevelBubbles(node, bubble.getEndNode());
                     currLevelList.addAll(newBubbles);
