@@ -58,8 +58,9 @@ public class BubbleDetector {
                     bubbleAt = searchBubble(startNode, startNode.getGenomes());
                     break;
                 case FOUND_MORE_GENOMES :
+                    handleDetectedBubble(startNode, startNode);
                     startNode = bubbleAt.getValue();
-                    bubbleAt = searchBubble(bubbleAt.getValue(), bubbleAt.getValue().getGenomes());
+                    bubbleAt = searchBubble(startNode, startNode.getGenomes());
                     break;
             }
         }
