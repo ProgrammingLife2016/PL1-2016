@@ -42,7 +42,7 @@ public class BubbleDetector {
         this.reachedLevel++;
         for (Bubble bubble : levelBubbles.get(reachedLevel - 1)) {
             for (Node node : bubble.getStartNode().getLinks()) {
-
+                findLevelBubbles(node, bubble.getEndNode());
             }
         }
     }
