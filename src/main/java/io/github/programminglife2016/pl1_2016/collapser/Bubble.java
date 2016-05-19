@@ -5,18 +5,15 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
 import java.util.*;
 
-/**
- * Created by ravishivam on 16-5-16.
- */
 public class Bubble implements Node {
     private int id;
     private int x;
     private int y;
     private Node startNode;
     private Node endNode;
-    private List<Node> container = new ArrayList<>();
-    private Set<Node> links = new HashSet<>();
-    private Set<Node> backLinks = new HashSet<>();
+    private transient List<Node> container = new ArrayList<>();
+    private transient Set<Node> links = new HashSet<>();
+    private transient Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
 

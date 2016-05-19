@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.collapser.PositionHandler;
 import io.github.programminglife2016.pl1_2016.collapser.PositionManager;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -31,8 +32,9 @@ public final class Launcher {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         PositionManager positioner = new PositionHandler();
-
-        Server server = new RestServer(positioner.calculatePositions(nodeCollection));
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        System.out.println(nodeCollection.size());
+        Server server = new RestServer(positioner.calculatePositions(dispatcher.getLevelBubbles(1)));
         server.startServer();
     }
 }
