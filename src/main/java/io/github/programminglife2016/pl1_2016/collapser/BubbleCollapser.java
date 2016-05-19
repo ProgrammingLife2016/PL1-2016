@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -11,11 +12,12 @@ import java.util.stream.Collectors;
  *
  */
 public class BubbleCollapser {
-
     List<Bubble> bubbles;
 
-    public BubbleCollapser(List<Bubble> bubbles){
-        this.bubbles = bubbles;
+    public BubbleCollapser(NodeCollection collection){
+        BubbleDetector detector = new BubbleDetector(collection);
+        detector.findMultiLevelBubbles();
+        this.bubbles = detector.getBubbleBoundaries();
     }
 
     public void collapseBubbles(){
@@ -63,7 +65,7 @@ public class BubbleCollapser {
 
     private void addLinks(List<Bubble> bubbles){
         for (Bubble bubble : bubbles){
-            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
+//            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
             addBackLinks(bubble);
             addForwardLinks(bubble);
         }
@@ -79,7 +81,7 @@ public class BubbleCollapser {
             else
                 bubble.getBackLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
+//        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
     }
 
     private void addForwardLinks(Bubble bubble){
@@ -92,7 +94,7 @@ public class BubbleCollapser {
             else
                 bubble.getLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + linksToString(bubble.getLinks()));
+//        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + linksToString(bubble.getLinks()));
     }
 
     /**
@@ -106,4 +108,9 @@ public class BubbleCollapser {
             result += n.getId() + ", ";
         return result;
     }
+
+    public List<Bubble> getBubbles() {
+        return bubbles;
+    }
+
 }

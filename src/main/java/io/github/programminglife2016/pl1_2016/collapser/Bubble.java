@@ -94,14 +94,12 @@ public class Bubble implements Node {
 
     @Override
     public void addGenomes(Collection<String> genomes) {
-
     }
 
     @Override
     public Set<String> getGenomes() {
-        return null;
+        return this.startNode.getGenomes();
     }
-
     @Override
     public Node clone() {
         return null;
