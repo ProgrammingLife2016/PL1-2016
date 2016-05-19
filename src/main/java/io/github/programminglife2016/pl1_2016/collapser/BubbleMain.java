@@ -15,7 +15,7 @@ public class BubbleMain {
     public static void main(String[] args) {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)

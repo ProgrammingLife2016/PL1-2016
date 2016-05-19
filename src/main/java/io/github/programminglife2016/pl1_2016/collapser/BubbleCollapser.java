@@ -2,11 +2,9 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 /**
  * Created by ravishivam on 16-5-16.
@@ -23,10 +21,14 @@ public class BubbleCollapser {
     public void collapseBubbles(){
         for (Bubble bubble : bubbles)
             bubble.getContainer().addAll(breadth(bubble));
+        for (Bubble bubble : bubbles)
+            modifyContainer(bubble);
         addLinks(bubbles);
     }
 
     private List<Node> breadth(Bubble bubble) {
+        bubble.getStartNode().setContainerId(bubble.getId());
+        bubble.getEndNode().setContainerId(bubble.getId());
         int startId =  bubble.getStartNode().getId();
         int endId =  bubble.getEndNode().getId();
         Queue<Node> q = new ConcurrentLinkedQueue<>();
@@ -45,34 +47,63 @@ public class BubbleCollapser {
         return visited;
     }
 
+    private void modifyContainer(Bubble bubble){
+        Set<Integer> innerBubbles = new HashSet<>();
+        for(Node n : bubble.getContainer()){
+            if(n.getContainerId() > 0 && n.getContainerId() != bubble.getId()) {
+                innerBubbles.add(n.getContainerId());
+            }
+        }
+//        bubble.getContainer().clear();
+        bubble.getContainer().removeIf(n -> n.getContainerId() != bubble.getId());
+        for (int id : innerBubbles){
+            bubble.getContainer().add(bubbles.stream().filter(b -> b.getId() == id).findFirst().get());
+        }
+    }
+
     private void addLinks(List<Bubble> bubbles){
         for (Bubble bubble : bubbles){
+            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
             addBackLinks(bubble);
             addForwardLinks(bubble);
         }
     }
 
     private void addBackLinks(Bubble bubble){
-        Optional<Bubble> container;
+        Collection<Bubble> container;
         for(Node node: bubble.getStartNode().getBackLinks()) {
-            container = bubbles.stream().filter(x -> x.getId() == node.getContainerId()).findFirst();
-            if (container.isPresent())
-                bubble.getBackLinks().add(container.get());
+            container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
+                    x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
+            if (container.size() > 0)
+                bubble.getBackLinks().addAll(container);
             else
                 bubble.getBackLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " BackLinks:" + bubble.getBackLinks().size());
+        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
     }
 
     private void addForwardLinks(Bubble bubble){
-        Optional<Bubble> container;
+        Collection<Bubble> container;
         for(Node node: bubble.getEndNode().getLinks()) {
-            container = bubbles.stream().filter(x -> x.getId() == node.getContainerId()).findFirst();
-            if (container.isPresent())
-                bubble.getLinks().add(container.get());
+            container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
+                    x.getStartNode().getId() == bubble.getEndNode().getId()).collect(Collectors.toSet());
+            if (container.size() > 0)
+                bubble.getLinks().addAll(container);
             else
                 bubble.getLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + bubble.getBackLinks().size());
+        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + linksToString(bubble.getLinks()));
+    }
+
+    /**
+     * Temporary method to view changes in links
+     * @param links
+     * @return
+     */
+    private String linksToString(Collection<Node> links){
+        String result = "";
+        for (Node n: links)
+            result += n.getId() + ", ";
+        return result;
     }
 }
