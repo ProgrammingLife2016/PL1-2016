@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by ravishivam on 19-5-16.
- */
 public class BubbleDispatcher {
 
     private List<Bubble> bubbleCollection;
