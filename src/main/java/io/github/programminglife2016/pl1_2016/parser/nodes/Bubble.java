@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.collapser;
+package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -129,6 +129,11 @@ public class Bubble implements Node {
     @Override
     public void setContainerSize(int size) {
        this.containersize = size;
+    }
+
+    @Override
+    public Boolean isBubble(){
+        return true;
     }
 
     public Node getStartNode() {
