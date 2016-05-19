@@ -32,7 +32,7 @@ public class BubbleDetector {
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
         this.reachedLevel++;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             initVisited(collection);
             List<Bubble> currLevelList = new ArrayList<>();
             for (Bubble bubble : levelBubbles.get(reachedLevel - 1)) {
@@ -47,10 +47,11 @@ public class BubbleDetector {
             levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
         }
-        System.out.println(collection.get(11).getGenomes());
-        System.out.println(collection.get(14).getGenomes());
-        this.bubbleBoundaries = levelBubbles.get(1);
-        this.bubbleBoundaries.addAll(levelBubbles.get(2));
+        System.out.println(levelBubbles.size());
+        this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
+        for (int i = 1; i < levelBubbles.size()+1; i++) {
+            this.bubbleBoundaries.addAll(levelBubbles.get(i));
+        }
     }
 
     public List<Bubble> findLevelBubbles(Node startNode, Node destination) {
@@ -91,8 +92,7 @@ public class BubbleDetector {
                 return searchBubble(child, genomes, destination);
             }
         }
-        System.out.println(curr.getId());
-        return null;
+        return new AbstractMap.SimpleEntry<>(REACHED_FINAL_DESTINATION, curr);
     }
 
     private int checkGenomeMatch(Collection initGenomes, Node secondNode, Node destination) {
