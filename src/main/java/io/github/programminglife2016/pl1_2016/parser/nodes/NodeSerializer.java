@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -39,6 +40,9 @@ public class NodeSerializer implements JsonSerializer<Node> {
         }
         jsonObject.add("x", new JsonPrimitive(node.getX()));
         jsonObject.add("y", new JsonPrimitive(node.getY()));
+        JsonArray genomes = new JsonArray();
+        node.getGenomes().stream().forEach(genomes::add);
+        jsonObject.add("genomes", genomes);
         return jsonObject;
     }
 }
