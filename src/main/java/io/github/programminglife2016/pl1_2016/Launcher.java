@@ -1,9 +1,13 @@
 package io.github.programminglife2016.pl1_2016;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.collapser.PositionHandler;
 import io.github.programminglife2016.pl1_2016.collapser.PositionManager;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
@@ -32,9 +36,8 @@ public final class Launcher {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         PositionManager positioner = new PositionHandler();
-//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-//        System.out.println(nodeCollection.size());
-        Server server = new RestServer(positioner.calculatePositions(nodeCollection));
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        Server server = new RestServer(positioner.calculatePositions(positioner.calculatePositions(nodeCollection)));
         server.startServer();
     }
 }

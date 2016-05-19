@@ -9,13 +9,15 @@ public class Bubble implements Node {
     private int id;
     private int x;
     private int y;
-    private Node startNode;
-    private Node endNode;
+    private final Boolean isBubble = true;
+    private transient Node startNode;
+    private transient Node endNode;
     private transient List<Node> container = new ArrayList<>();
     private transient Set<Node> links = new HashSet<>();
     private transient Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
+    private String data = "";
     private int containersize;
 
     public Bubble(Node startNode, Node endNode) {
@@ -27,6 +29,7 @@ public class Bubble implements Node {
         this.startNode = startNode;
         this.endNode = endNode;
         this.id = id;
+
     }
 
     @Override
@@ -133,7 +136,7 @@ public class Bubble implements Node {
 
     @Override
     public Boolean isBubble(){
-        return true;
+        return isBubble;
     }
 
     public Node getStartNode() {
