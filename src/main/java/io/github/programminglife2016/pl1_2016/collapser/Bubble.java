@@ -5,20 +5,18 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
 import java.util.*;
 
-/**
- * Created by ravishivam on 16-5-16.
- */
 public class Bubble implements Node {
     private int id;
     private int x;
     private int y;
     private Node startNode;
     private Node endNode;
-    private List<Node> container = new ArrayList<>();
-    private Set<Node> links = new HashSet<>();
-    private Set<Node> backLinks = new HashSet<>();
+    private transient List<Node> container = new ArrayList<>();
+    private transient Set<Node> links = new HashSet<>();
+    private transient Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
+    private int containersize;
 
     public Bubble(Node startNode, Node endNode) {
         this.startNode = startNode;
@@ -49,12 +47,10 @@ public class Bubble implements Node {
 
     @Override
     public void setData(String data) {
-
     }
 
     @Override
     public void setColumn(int column) {
-
     }
 
     @Override
@@ -94,14 +90,12 @@ public class Bubble implements Node {
 
     @Override
     public void addGenomes(Collection<String> genomes) {
-
     }
 
     @Override
     public Set<String> getGenomes() {
-        return null;
+        return this.startNode.getGenomes();
     }
-
     @Override
     public Node clone() {
         return null;
@@ -127,18 +121,27 @@ public class Bubble implements Node {
         this.level = level;
     }
 
+    @Override
+    public int getContainerSize() {
+        return this.containersize;
+    }
+
+    @Override
+    public void setContainerSize(int size) {
+       this.containersize = size;
+    }
+
+    @Override
     public Node getStartNode() {
         return startNode;
     }
 
-    public int getLevel() {
-        return this.level;
-    }
-
+    @Override
     public Node getEndNode() {
         return endNode;
     }
 
+    @Override
     public List<Node> getContainer() {
         return container;
     }
@@ -158,5 +161,13 @@ public class Bubble implements Node {
         int maxX = coordsFront.stream().map(Coordinate::getX).mapToInt(x -> x).max().getAsInt();
         endNode.setXY(maxX, c2.getY());
         return new Coordinate(maxX + 100, c2.getY());
+    }
+
+    public String toString() {
+        return "Bubble{" +
+                "id=" + id +
+                ", startNode=" + startNode +
+                ", endNode=" + endNode +
+                '}';
     }
 }

@@ -218,6 +218,20 @@ public class Segment implements Node {
     }
 
     @Override
+    public List<Node> getContainer() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 1;
+    }
+
+    @Override
+    public void setContainerSize(int size) {
+    }
+
+    @Override
     public void setZoomLevel(int level) {
         this.level = level;
     }
@@ -240,5 +254,13 @@ public class Segment implements Node {
         }
         endNode.setXY(coordinate.getX() + 2 * X_SPACING, coordinate.getY());
         return new Coordinate(coordinate.getX() + 3 * X_SPACING, coordinate.getY());
+    }
+    public Node getStartNode() {
+        return this;
+    }
+
+    @Override
+    public Node getEndNode() {
+        return this;
     }
 }
