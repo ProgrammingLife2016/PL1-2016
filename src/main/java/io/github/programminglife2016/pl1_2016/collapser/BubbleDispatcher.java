@@ -25,7 +25,9 @@ public class BubbleDispatcher {
     private void initDispatcher() {
         for (int i = 0; i < bubbleCollection.size(); i++) {
             Node bubble = bubbleCollection.get(i);
-            bubble.setContainerSize(getBubbleSize(bubble));
+//            System.out.println("reached");
+//            bubble.setContainerSize(getBubbleSize(bubble));
+//            System.out.println("reached");
             int currlevel = bubble.getZoomLevel();
             if (!levelCollection.containsKey(currlevel)) {
                 levelCollection.put(currlevel, new NodeMap());

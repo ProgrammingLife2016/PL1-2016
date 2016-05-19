@@ -16,13 +16,13 @@ public class BubbleMain {
     public static void main(String[] args) {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        Node node = dispatcher.getLevelBubbles(1).get(17);
+        Node node = dispatcher.getLevelBubbles(1).get(9000);
         System.out.println(node);
     }
 }
