@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class BubbleDispatcher {
 
-    private List<Node> bubbleCollection;
+    public List<Node> bubbleCollection;
 
     private Map<Integer, NodeCollection> levelCollection;
 

@@ -161,7 +161,7 @@ public interface Node extends Cloneable {
      */
     Node clone();
 
-    Coordinate position(Coordinate start, Node endNode);
+    Coordinate position(Coordinate start, List<Node> bubbleList, Node endNode, int level);
     Node getStartNode();
     Node getEndNode();
 }
