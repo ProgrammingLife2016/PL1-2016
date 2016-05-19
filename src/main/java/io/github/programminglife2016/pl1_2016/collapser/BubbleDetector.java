@@ -47,7 +47,6 @@ public class BubbleDetector {
             levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
         }
-        System.out.println(levelBubbles.size());
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
             this.bubbleBoundaries.addAll(levelBubbles.get(i));
