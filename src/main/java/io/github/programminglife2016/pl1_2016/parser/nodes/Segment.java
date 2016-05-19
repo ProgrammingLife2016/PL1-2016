@@ -1,7 +1,11 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -221,5 +225,20 @@ public class Segment implements Node {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public Coordinate position(Coordinate coordinate, Node endNode) {
+        setXY(coordinate.getX(), coordinate.getY());
+        if (this == endNode) {
+            return new Coordinate(coordinate.getX() + X_SPACING, coordinate.getY());
+        }
+        int height = (links.size() - 1) * Y_SPACING / 2;
+        for (Node nodeFront : links) {
+            nodeFront.setXY(coordinate.getX() + X_SPACING, coordinate.getY() + height);
+            height -= Y_SPACING;
+        }
+        endNode.setXY(coordinate.getX() + 2 * X_SPACING, coordinate.getY());
+        return new Coordinate(coordinate.getX() + 3 * X_SPACING, coordinate.getY());
     }
 }

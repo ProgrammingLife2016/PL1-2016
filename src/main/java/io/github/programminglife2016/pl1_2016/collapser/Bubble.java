@@ -142,4 +142,21 @@ public class Bubble implements Node {
     public List<Node> getContainer() {
         return container;
     }
+
+    @Override
+    public Coordinate position(Coordinate coordinate, Node endNode) {
+        Coordinate c2 = startNode.position(coordinate, this.endNode);
+        if (this == endNode || endNode == null) {
+            return c2;
+        }
+        int height = (links.size() - 1) * 500 / 2;
+        List<Coordinate> coordsFront = new ArrayList<>();
+        for (Node nodeFront : links) {
+            coordsFront.add(nodeFront.position(new Coordinate(c2.getX(), c2.getY() + height), endNode));
+            height -= 500;
+        }
+        int maxX = coordsFront.stream().map(Coordinate::getX).mapToInt(x -> x).max().getAsInt();
+        endNode.setXY(maxX, c2.getY());
+        return new Coordinate(maxX + 100, c2.getY());
+    }
 }

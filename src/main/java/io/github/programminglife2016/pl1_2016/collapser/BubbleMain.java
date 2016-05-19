@@ -4,6 +4,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by ravishivam on 15-5-16.
