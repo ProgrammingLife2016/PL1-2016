@@ -22,12 +22,12 @@ public class BubbleMain {
                 / NANOSECONDS_PER_SECOND));
         BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
         collapser.collapseBubbles();
-        for (int i = 0; i < collapser.getBubbles().size(); i++) {
-            Bubble bubble = collapser.getBubbles().get(i);
-            System.out.println("Id: " + bubble.getId() + " Bubble detected between: " + bubble.getStartNode().getId() + " and " + bubble.getEndNode().getId() + " ,zoomlevel: " + bubble.getZoomLevel());
-            System.out.println("Container: ");
-            bubble.getContainer().forEach(node -> System.out.println(node.getId()));
-        }
+//        for (int i = 0; i < collapser.getBubbles().size(); i++) {
+//            Bubble bubble = collapser.getBubbles().get(i);
+//            System.out.println("Id: " + bubble.getId() + " Bubble detected between: " + bubble.getStartNode().getId() + " and " + bubble.getEndNode().getId() + " ,zoomlevel: " + bubble.getZoomLevel());
+//            System.out.println("Container: ");
+//            bubble.getContainer().forEach(node -> System.out.println(node.getId()));
+//        }
 
 //        BubbleDetector detector = new BubbleDetector(nodeCollection);
 //        detector.findMultiLevelBubbles();
