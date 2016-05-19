@@ -50,7 +50,9 @@ public class BubbleDetector {
             levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
         }
-        levelBubbles.remove(reachedLevel-1);
+        if (levelBubbles.size() > 1){
+            levelBubbles.remove(reachedLevel-1);
+        }
         maxLevels = levelBubbles.size();
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
