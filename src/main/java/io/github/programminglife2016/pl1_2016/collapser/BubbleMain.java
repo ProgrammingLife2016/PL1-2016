@@ -21,20 +21,8 @@ public class BubbleMain {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-//        BubbleDetector detector = new BubbleDetector(nodeCollection);
-//        detector.findMultiLevelBubbles();
-//        for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
-//            System.out.println("Id: " + detector.getBubbleBoundaries().get(i).getId() + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode().getId() + " and " + detector.getBubbleBoundaries().get(i).getEndNode().getId() + " ,zoomlevel: " + detector.getBubbleBoundaries().get(i).getZoomLevel());
-//        }
-///        for (int i = 0; i < collapser.getBubbles().size(); i++) {
-//            Bubble bubble = collapser.getBubbles().get(i);
-//            System.out.println("Id: " + bubble.getId() + " Bubble detected between: " + bubble.getStartNode().getId() + " and " + bubble.getEndNode().getId() + " ,zoomlevel: " + bubble.getZoomLevel());
-//            System.out.println("Container: ");
-//            bubble.getContainer().forEach(node -> System.out.println(node.getId()));
-//        }
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         Node node = dispatcher.getLevelBubbles(1).get(17);
-        System.out.println(node.getContainerSize());
-
+        System.out.println(node);
     }
 }
