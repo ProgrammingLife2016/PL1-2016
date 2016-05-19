@@ -29,12 +29,19 @@ public class BubbleMain {
         Node firstNode = dispatcher.getLevelBubbles(1).get(8729);
         firstNode.getLinks().clear();
         firstNode.getLinks().add(dispatcher.getLevelBubbles(1).get(8730));
-        Coordinate coord = new Coordinate(0, 0);
-        for (int i = 8729; i <= 11800; i++) {
-            Node node = dispatcher.getLevelBubbles(1).get(i);
-            coord = node.position(coord, dispatcher.bubbleCollection, null, 1);
-
+        for (int i = 0; i < dispatcher.bubbleCollection.size(); i++) {
+            Node bubble = dispatcher.bubbleCollection.get(i);
+            if (bubble.getLinks().contains(bubble)) {
+                bubble.getLinks().remove(bubble);
+                try {
+                    bubble.getLinks().add(dispatcher.bubbleCollection.get(i + 1));
+                } catch (IndexOutOfBoundsException e) {
+                    
+                }
+            }
         }
+        Coordinate coord = new Coordinate(0, 0);
+        coord = dispatcher.getLevelBubbles(1).get(8730).position(coord, dispatcher.bubbleCollection, null, 1);
         for (Node node : nodeCollection.values()) {
             Iterator<Node> linkIterator = node.getLinks().iterator();
             while (linkIterator.hasNext()) {
