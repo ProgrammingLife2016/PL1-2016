@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.collapser.PositionHandler;
+import io.github.programminglife2016.pl1_2016.collapser.PositionManager;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
@@ -23,12 +25,14 @@ public final class Launcher {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10.gfa");
+        InputStream is = Launcher.class.getResourceAsStream("/genomes/testGraph.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        Server server = new RestServer(nodeCollection);
+        PositionManager positioner = new PositionHandler();
+
+        Server server = new RestServer(positioner.calculatePositions(nodeCollection));
         server.startServer();
     }
 }
