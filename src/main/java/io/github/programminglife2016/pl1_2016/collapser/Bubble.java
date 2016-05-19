@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser.nodes;
+package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -131,7 +131,7 @@ public class Bubble implements Node {
 
     @Override
     public void setContainerSize(int size) {
-       this.containersize = size;
+        this.containersize = size;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.parser.nodes.Bubble;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 public class BubbleDispatcher {
 
-    private List<Bubble> bubbleCollection;
+    private List<BubbleDetector.Bubble> bubbleCollection;
 
     private Map<Integer, NodeCollection> levelCollection;
 
