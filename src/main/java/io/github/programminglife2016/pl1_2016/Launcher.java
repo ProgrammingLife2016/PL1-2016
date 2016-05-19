@@ -32,9 +32,9 @@ public final class Launcher {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         PositionManager positioner = new PositionHandler();
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        System.out.println(nodeCollection.size());
-        Server server = new RestServer(positioner.calculatePositions(dispatcher.getLevelBubbles(1)));
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        System.out.println(nodeCollection.size());
+        Server server = new RestServer(positioner.calculatePositions(nodeCollection));
         server.startServer();
     }
 }
