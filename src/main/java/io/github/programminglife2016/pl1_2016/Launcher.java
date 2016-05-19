@@ -34,7 +34,7 @@ public final class Launcher {
         PositionManager positioner = new PositionHandler();
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         System.out.println(nodeCollection.size());
-        Server server = new RestServer(positioner.calculatePositions(dispatcher.getLevelBubbles(1)));
+        Server server = new RestServer(positioner.calculatePositions(dispatcher.getLevelBubbles(0,4)));
         server.startServer();
     }
 }
