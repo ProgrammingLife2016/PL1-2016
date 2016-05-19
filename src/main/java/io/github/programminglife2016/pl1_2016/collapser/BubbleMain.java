@@ -1,10 +1,11 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
-import java.awt.*;
 import java.io.InputStream;
+
 
 /**
  * Created by ravishivam on 15-5-16.
@@ -20,18 +21,20 @@ public class BubbleMain {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
-        collapser.collapseBubbles();
-//        for (int i = 0; i < collapser.getBubbles().size(); i++) {
+//        BubbleDetector detector = new BubbleDetector(nodeCollection);
+//        detector.findMultiLevelBubbles();
+//        for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
+//            System.out.println("Id: " + detector.getBubbleBoundaries().get(i).getId() + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode().getId() + " and " + detector.getBubbleBoundaries().get(i).getEndNode().getId() + " ,zoomlevel: " + detector.getBubbleBoundaries().get(i).getZoomLevel());
+//        }
+///        for (int i = 0; i < collapser.getBubbles().size(); i++) {
 //            Bubble bubble = collapser.getBubbles().get(i);
 //            System.out.println("Id: " + bubble.getId() + " Bubble detected between: " + bubble.getStartNode().getId() + " and " + bubble.getEndNode().getId() + " ,zoomlevel: " + bubble.getZoomLevel());
 //            System.out.println("Container: ");
 //            bubble.getContainer().forEach(node -> System.out.println(node.getId()));
 //        }
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        Node node = dispatcher.getLevelBubbles(1).get(17);
+        System.out.println(node.getContainerSize());
 
-//        BubbleDetector detector = new BubbleDetector(nodeCollection);
-//        detector.findMultiLevelBubbles();
-//        for (int i = 0; i < detector.getBubbleBoundaries().size(); i++) {
-//                System.out.println("Id: " + detector.getBubbleBoundaries().get(i).getId() + " Bubble detected between: " + detector.getBubbleBoundaries().get(i).getStartNode().getId() + " and " + detector.getBubbleBoundaries().get(i).getEndNode().getId() + " ,zoomlevel: " + detector.getBubbleBoundaries().get(i).getZoomLevel());
     }
 }
