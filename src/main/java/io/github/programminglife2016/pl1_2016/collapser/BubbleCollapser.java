@@ -27,13 +27,15 @@ public class BubbleCollapser {
     }
 
     private List<Node> breadth(Bubble bubble) {
-        bubble.getStartNode().setContainerId(bubble.getId());
-        bubble.getEndNode().setContainerId(bubble.getId());
+        List<Node> visited = new ArrayList<>();
         int startId =  bubble.getStartNode().getId();
         int endId =  bubble.getEndNode().getId();
+        if(startId == endId)
+            return visited;
+        bubble.getStartNode().setContainerId(bubble.getId());
+        bubble.getEndNode().setContainerId(bubble.getId());
         Queue<Node> q = new ConcurrentLinkedQueue<>();
         q.add(bubble.getStartNode());
-        List<Node> visited = new ArrayList<>();
         while (!q.isEmpty()) {
             Node n = q.poll();
             for (Node v : n.getLinks()) {
@@ -72,7 +74,7 @@ public class BubbleCollapser {
     private void addBackLinks(Bubble bubble){
         Collection<Bubble> container;
         for(Node node: bubble.getStartNode().getBackLinks()) {
-            container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
+            container = bubbles.stream().filter(x -> (x.getStartNode().getId() != x.getEndNode().getId()) &&
                     x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
             if (container.size() > 0)
                 bubble.getBackLinks().addAll(container);
@@ -85,7 +87,7 @@ public class BubbleCollapser {
     private void addForwardLinks(Bubble bubble){
         Collection<Bubble> container;
         for(Node node: bubble.getEndNode().getLinks()) {
-            container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
+            container = bubbles.stream().filter(x -> (x.getStartNode().getId() != x.getEndNode().getId()) &&
                     x.getStartNode().getId() == bubble.getEndNode().getId()).collect(Collectors.toSet());
             if (container.size() > 0)
                 bubble.getLinks().addAll(container);
