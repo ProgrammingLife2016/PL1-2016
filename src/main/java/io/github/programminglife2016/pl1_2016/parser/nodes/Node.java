@@ -155,4 +155,12 @@ public interface Node extends Cloneable {
      * @return the cloned node.
      */
     Node clone();
+
+    /**
+     * 
+     * @return
+     */
+    Node getStartNode();
+
+    Node getEndNode();
 }

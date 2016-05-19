@@ -131,16 +131,27 @@ public class Bubble implements Node {
        this.containersize = size;
     }
 
+    @Override
     public Node getStartNode() {
         return startNode;
     }
 
+    @Override
     public Node getEndNode() {
         return endNode;
     }
 
+    @Override
     public List<Node> getContainer() {
         return container;
     }
 
+    @Override
+    public String toString() {
+        return "Bubble{" +
+                "id=" + id +
+                ", startNode=" + startNode +
+                ", endNode=" + endNode +
+                '}';
+    }
 }

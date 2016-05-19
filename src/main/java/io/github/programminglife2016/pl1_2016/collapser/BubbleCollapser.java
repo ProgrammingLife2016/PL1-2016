@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  *
  */
 public class BubbleCollapser {
-    List<Bubble> bubbles;
+    List<Node> bubbles;
 
     public BubbleCollapser(NodeCollection collection){
         BubbleDetector detector = new BubbleDetector(collection);
@@ -21,14 +21,14 @@ public class BubbleCollapser {
     }
 
     public void collapseBubbles(){
-        for (Bubble bubble : bubbles)
+        for (Node bubble : bubbles)
             bubble.getContainer().addAll(breadth(bubble));
-        for (Bubble bubble : bubbles)
+        for (Node bubble : bubbles)
             modifyContainer(bubble);
         addLinks(bubbles);
     }
 
-    private List<Node> breadth(Bubble bubble) {
+    private List<Node> breadth(Node bubble) {
         bubble.getStartNode().setContainerId(bubble.getId());
         bubble.getEndNode().setContainerId(bubble.getId());
         int startId =  bubble.getStartNode().getId();
@@ -49,7 +49,7 @@ public class BubbleCollapser {
         return visited;
     }
 
-    private void modifyContainer(Bubble bubble){
+    private void modifyContainer(Node bubble){
         Set<Integer> innerBubbles = new HashSet<>();
         for(Node n : bubble.getContainer()){
             if(n.getContainerId() > 0 && n.getContainerId() != bubble.getId()) {
@@ -63,16 +63,16 @@ public class BubbleCollapser {
         }
     }
 
-    private void addLinks(List<Bubble> bubbles){
-        for (Bubble bubble : bubbles){
+    private void addLinks(List<Node> bubbles){
+        for (Node bubble : bubbles){
 //            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
             addBackLinks(bubble);
             addForwardLinks(bubble);
         }
     }
 
-    private void addBackLinks(Bubble bubble){
-        Collection<Bubble> container;
+    private void addBackLinks(Node bubble){
+        Collection<Node> container;
         for(Node node: bubble.getStartNode().getBackLinks()) {
             container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
                     x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
@@ -84,8 +84,8 @@ public class BubbleCollapser {
 //        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
     }
 
-    private void addForwardLinks(Bubble bubble){
-        Collection<Bubble> container;
+    private void addForwardLinks(Node bubble){
+        Collection<Node> container;
         for(Node node: bubble.getEndNode().getLinks()) {
             container = bubbles.stream().filter(x -> //x.getId() == node.getContainerId() &&
                     x.getStartNode().getId() == bubble.getEndNode().getId()).collect(Collectors.toSet());
@@ -109,7 +109,7 @@ public class BubbleCollapser {
         return result;
     }
 
-    public List<Bubble> getBubbles() {
+    public List<Node> getBubbles() {
         return bubbles;
     }
 

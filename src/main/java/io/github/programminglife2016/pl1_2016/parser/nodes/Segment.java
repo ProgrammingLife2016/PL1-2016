@@ -234,4 +234,15 @@ public class Segment implements Node {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public Node getStartNode() {
+        return this;
+    }
+
+    @Override
+    public Node getEndNode() {
+        return this;
+    }
+
 }
