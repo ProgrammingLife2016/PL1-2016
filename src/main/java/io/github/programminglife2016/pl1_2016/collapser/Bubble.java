@@ -16,6 +16,7 @@ public class Bubble implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
+    private int containersize;
 
     public Bubble(Node startNode, Node endNode) {
         this.startNode = startNode;
@@ -46,12 +47,10 @@ public class Bubble implements Node {
 
     @Override
     public void setData(String data) {
-
     }
 
     @Override
     public void setColumn(int column) {
-
     }
 
     @Override
@@ -122,12 +121,18 @@ public class Bubble implements Node {
         this.level = level;
     }
 
-    public Node getStartNode() {
-        return startNode;
+    @Override
+    public int getContainerSize() {
+        return this.containersize;
     }
 
-    public int getLevel() {
-        return this.level;
+    @Override
+    public void setContainerSize(int size) {
+       this.containersize = size;
+    }
+
+    public Node getStartNode() {
+        return startNode;
     }
 
     public Node getEndNode() {
@@ -137,4 +142,5 @@ public class Bubble implements Node {
     public List<Node> getContainer() {
         return container;
     }
+
 }

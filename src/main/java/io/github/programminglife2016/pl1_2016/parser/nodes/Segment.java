@@ -1,8 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Data structure for representing a DNA sequence
@@ -211,6 +209,20 @@ public class Segment implements Node {
     @Override
     public int getZoomLevel() {
         return this.level;
+    }
+
+    @Override
+    public List<Node> getContainer() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 1;
+    }
+
+    @Override
+    public void setContainerSize(int size) {
     }
 
     @Override

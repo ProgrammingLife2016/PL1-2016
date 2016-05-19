@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
@@ -23,12 +24,26 @@ public class BubbleDispatcher {
 
     private void initDispatcher() {
         for (int i = 0; i < bubbleCollection.size(); i++) {
-            Bubble bubble = bubbleCollection.get(i);
-            int currlevel = bubble.getLevel();
+            Node bubble = bubbleCollection.get(i);
+            bubble.setContainerSize(getBubbleSize(bubble));
+            int currlevel = bubble.getZoomLevel();
             if (!levelCollection.containsKey(currlevel)) {
                 levelCollection.put(currlevel, new NodeMap());
             }
             levelCollection.get(currlevel).put(bubble.getId(), bubble);
+        }
+    }
+
+    public int getBubbleSize(Node bubble) {
+        if (bubble.getContainer().size() == 0) {
+            return 1;
+        }
+        else {
+            int size = 2;
+            for (int i = 0; i < bubble.getContainer().size(); i++) {
+                size += getBubbleSize(bubble.getContainer().get(i));
+            }
+            return size;
         }
     }
 

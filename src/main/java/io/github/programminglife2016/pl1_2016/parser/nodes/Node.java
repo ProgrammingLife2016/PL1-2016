@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -126,6 +127,23 @@ public interface Node extends Cloneable {
      */
     int getZoomLevel();
 
+    /**
+     * Get the nodes if the nodes has a container.
+     * @return List of the nodes the node contains.
+     */
+    List<Node> getContainer();
+
+    /**
+     * Returns the size of the container.
+     * @return size of the container.
+     */
+    int getContainerSize();
+
+    /**
+     * Sets the set size of the bubble.
+     * @param size size of the bubble.
+     */
+    void setContainerSize(int size);
     /**
      * Set the zoom level of the node
      */
