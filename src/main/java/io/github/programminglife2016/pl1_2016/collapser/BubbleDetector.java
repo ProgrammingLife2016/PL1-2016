@@ -18,6 +18,7 @@ public class BubbleDetector {
     private List<Bubble> bubbleBoundaries;
     private int lastId;
     private int reachedLevel = 1;
+    private int maxLevels;
 
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
@@ -47,6 +48,8 @@ public class BubbleDetector {
             levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
         }
+//        System.out.println(reachedLevel);
+//        System.out.println(levelBubbles.size());
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
             this.bubbleBoundaries.addAll(levelBubbles.get(i));
