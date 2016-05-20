@@ -271,4 +271,8 @@ public class Segment implements Node {
     public Node getEndNode() {
         return this;
     }
+
+    @Override
+    public void setEndNode(Node node) {
+    }
 }
