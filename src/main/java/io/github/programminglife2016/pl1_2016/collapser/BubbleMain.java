@@ -2,7 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
@@ -40,7 +39,7 @@ public class BubbleMain {
                 }
             }
         }
-        Server server = new RestServer(dispatcher.getLevelBubbles(0, 4));
+        Server server = new RestServer(nodeCollection);
         server.startServer();
     }
 }
