@@ -74,10 +74,6 @@ public class BubbleDetector {
                     startNode = bubbleAt.getValue();
                     bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
-//                    handleDetectedBubble(startNode, startNode, levelCollection);
-//                    startNode = bubbleAt.getValue();
-//                    bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
-//                    break;
             }
         }
         if (startNode.getGenomes().equals(bubbleAt.getValue().getGenomes())) {

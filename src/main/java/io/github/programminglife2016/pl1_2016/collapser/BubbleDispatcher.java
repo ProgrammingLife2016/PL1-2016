@@ -14,16 +14,12 @@ public class BubbleDispatcher {
 
     private HashMap<Node, Node> endToBubble;
 
-//    private Map<Integer, NodeCollection> levelCollection;
-
     private NodeCollection collection;
 
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
-//        levelCollection = new HashMap<>();
-//        endToBubble = new HashMap<>();
         this.collection = collection;
         initDispatcher();
     }
@@ -32,12 +28,7 @@ public class BubbleDispatcher {
         for (int i = 0; i < bubbleCollection.size(); i++) {
             Node bubble = bubbleCollection.get(i);
             bubble.setContainerSize(getBubbleSize(bubble));
-//            int currlevel = bubble.getZoomLevel();
-//            if (!levelCollection.containsKey(currlevel)) {
-//                levelCollection.put(currlevel, new NodeMap());
             }
-//            levelCollection.get(currlevel).put(bubble.getId(), bubble);
-//        }
     }
 
     public int getBubbleSize(Node bubble) {
@@ -74,10 +65,6 @@ public class BubbleDispatcher {
                 List<Node> x = getMissingNodes(bubble.getLinks());
                 tempList.addAll(x);
             }
-//            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
-//            System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
-//            System.out.println("StartNode: " + bubble.getStartNode());
-//            System.out.println();
         }
         filtered.addAll(tempList);
         return listAsNodeCollection(filtered);
@@ -93,28 +80,9 @@ public class BubbleDispatcher {
                 continue;
             }
             return true;
-//            int containerId = link.getContainerId();
         }
         return false;
     }
-//    public NodeCollection getLevelBubbles(int level, int threshold) {
-//        List<Node> res = new ArrayList<>(levelCollection.get(level).values());
-//        List<Node> nextLevel = new ArrayList<>(levelCollection.get(level+1).values());
-//
-//        for(Node node : res) {
-//            if (node.getContainerSize() > threshold) {
-//                Node start = node.getStartNode();
-//                for (Node startchildren : start.getLinks()) {
-//                    int idcontainer = startchildren.getContainerId();
-//
-//                }
-//
-//                res.remove(node);
-//            }
-//        }
-//        return listAsNodeCollection(res);
-////        return levelCollection.get(level);
-//    }
 
     private NodeCollection listAsNodeCollection(List<Node> res) {
         NodeCollection collection = new NodeMap();
