@@ -25,23 +25,20 @@ public class BubbleMain {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        Node firstNode = dispatcher.getLevelBubbles(1).get(16);
-        firstNode.getLinks().clear();
-        firstNode.getLinks().add(dispatcher.getLevelBubbles(1).get(17));
-        for (int i = 0; i < dispatcher.bubbleCollection.size(); i++) {
-            Node bubble = dispatcher.bubbleCollection.get(i);
-            if (bubble.getLinks().contains(bubble)) {
-                bubble.getLinks().remove(bubble);
-                try {
-                    bubble.getLinks().add(dispatcher.bubbleCollection.get(i + 1));
-                } catch (IndexOutOfBoundsException e) {
+//        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
+//        collapser.collapseBubbles();
 
-                }
-            }
-        }
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
+        collapser.collapseBubbles();
+        Node firstNode = collapser.bubbles.get(0);
+        firstNode.getLinks().clear();
+        firstNode.getLinks().add(collapser.bubbles.get(1));
         Coordinate coord = new Coordinate(0, 0);
-        coord = dispatcher.getLevelBubbles(1).get(16).position(coord, dispatcher.bubbleCollection, null, 1);
+        coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
+        for (Node bubble : dispatcher.getLevelBubbles(0, 4).values()) {
+            bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
+        }
         for (Node node : nodeCollection.values()) {
             Iterator<Node> linkIterator = node.getLinks().iterator();
             while (linkIterator.hasNext()) {
@@ -51,7 +48,7 @@ public class BubbleMain {
                 }
             }
         }
-        Server server = new RestServer(nodeCollection);
+        Server server = new RestServer(dispatcher.getLevelBubbles(0, 4));
         server.startServer();
     }
 }

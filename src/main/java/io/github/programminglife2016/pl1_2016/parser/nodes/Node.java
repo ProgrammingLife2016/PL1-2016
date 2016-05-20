@@ -133,6 +133,12 @@ public interface Node extends Cloneable {
     int getZoomLevel();
 
     /**
+     * Return whether the node is a bubble.
+     * @return true if it is a bubble.
+     */
+    Boolean isBubble();
+
+    /**
      * Get the nodes if the nodes has a container.
      * @return List of the nodes the node contains.
      */
