@@ -2,16 +2,14 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 
 public class BubbleMain {
@@ -31,9 +29,8 @@ public class BubbleMain {
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
         collapser.collapseBubbles();
-        Node firstNode = collapser.bubbles.get(0);
-        firstNode.getLinks().clear();
-        firstNode.getLinks().add(collapser.bubbles.get(1));
+        collapser.bubbles.get(0).getLinks().clear();
+        collapser.bubbles.get(0).getLinks().add(collapser.bubbles.get(1));
         Coordinate coord = new Coordinate(0, 0);
         coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
         for (Node bubble : dispatcher.getLevelBubbles(0, 4).values()) {
@@ -48,7 +45,7 @@ public class BubbleMain {
                 }
             }
         }
-        Server server = new RestServer(dispatcher.getLevelBubbles(0, 4));
+        Server server = new RestServer(new NodeCocollapser.);
         server.startServer();
     }
 }

@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.*;
@@ -151,6 +150,11 @@ public class Bubble implements Node {
     }
 
     @Override
+    public void setEndNode(Node node) {
+        this.endNode = node;
+    }
+
+    @Override
     public List<Node> getContainer() {
         return container;
     }
@@ -178,7 +182,7 @@ public class Bubble implements Node {
         }
     }
 
-    private Node getBubble(List<Node> bubbles, int containerId) {
+    public static Node getBubble(List<Node> bubbles, int containerId) {
         return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
     }
 

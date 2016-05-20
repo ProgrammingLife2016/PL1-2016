@@ -5,10 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import static javax.swing.text.html.HTML.Tag.LI;
 
 
 public class BubbleDispatcher {
@@ -19,12 +16,15 @@ public class BubbleDispatcher {
 
 //    private Map<Integer, NodeCollection> levelCollection;
 
+    private NodeCollection collection;
+
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
 //        levelCollection = new HashMap<>();
 //        endToBubble = new HashMap<>();
+        this.collection = collection;
         initDispatcher();
     }
 
@@ -54,9 +54,9 @@ public class BubbleDispatcher {
     }
     public NodeCollection getLevelBubbles(int level, int threshold) {
         List<Node> filtered = bubbleCollection.stream().filter(x -> x.getContainerSize() <= threshold).collect(Collectors.toList());
+        List<Node> tempList = new ArrayList<>();
         for (Node bubble : filtered) {
             if (needReplace(bubble.getLinks(), filtered)) {
-//                bubble.getLinks().addAll(bubble.getEndNode().getLinks().stream().map(x -> );
                 Collection<Node> newlinks = new HashSet<>();
                 for (Node endNodelink : bubble.getEndNode().getLinks()) {
                     Optional<Node> link = filtered.stream().filter(y -> y.getId() == endNodelink.getContainerId()).findFirst();
@@ -68,12 +68,24 @@ public class BubbleDispatcher {
                     bubble.getLinks().addAll(newlinks);
                 }
             }
+            List<Node> intersection = new ArrayList<>(filtered);
+            intersection.retainAll(bubble.getLinks());
+            if(intersection.size() == 0){
+                List<Node> x = getMissingNodes(bubble.getLinks());
+                tempList.addAll(x);
+            }
             System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
             System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
             System.out.println("StartNode: " + bubble.getStartNode());
             System.out.println();
         }
+        filtered.addAll(tempList);
+        System.out.println(filtered);
         return listAsNodeCollection(filtered);
+    }
+
+    private List<Node> getMissingNodes(Collection<Node> links){
+        return links.stream().filter(node -> bubbleCollection.contains(node) == false).collect(Collectors.toList());
     }
 
     private boolean needReplace(Collection<Node> links, List<Node> bubble) {
