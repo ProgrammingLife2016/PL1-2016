@@ -110,13 +110,11 @@ public abstract class SegmentCollectionTest {
         createFiveNodes();
         JsonParser jsonParser = new JsonParser();
         JsonElement actual = jsonParser.parse(nodeCollection.toJson());
-        JsonElement expected = jsonParser.parse("{\"status\":\"success\",\"nodes\":[{\"id\":1,\"bu"
-                + "bble\":false,\"data\":\"one\",\"x\":0,\"y\":0},{\"id\":2,\"bubble\":false,\"dat"
-                + "a\":\"two\",\"x\":0,\"y\":0},{\"id\":3,\"bubble\":false,\"data\":\"three\",\"x"
-                + "\":0,\"y\":0},{\"id\":4,\"bubble\":false,\"data\":\"four\",\"x\":0,\"y\":0},{\""
-                + "id\":5,\"bubble\":false,\"data\":\"five\",\"x\":0,\"y\":0}],\"edges\":[{\"from"
-                + "\":1,\"to\":2},{\"from\":1,\"to\":3},{\"from\":1,\"to\":5},{\"from\":3,\"to\":4"
-                + "},{\"from\":4,\"to\":5}]}");
+        JsonElement expected = jsonParser.parse("{\"status\":\"success\",\"nodes\":[{\"id\":1,\"bubble\":false,\"data\":\"one\",\"x\":0,"
+                + "\"y\":0},{\"id\":2,\"bubble\":false,\"data\":\"two\",\"x\":0,\"y\":0},{\"id\":3,\"bubble\":false,"
+                + "\"data\":\"three\",\"x\":0,\"y\":0},{\"id\":4,\"bubble\":false,\"data\":\"four\",\"x\":0,\"y\":0},{"
+                + "\"id\":5,\"bubble\":false,\"data\":\"five\",\"x\":0,\"y\":0}],\"edges\":[{\"from\":1,\"to\":2},{\"from\""
+                + ":1,\"to\":3},{\"from\":1,\"to\":5},{\"from\":3,\"to\":4},{\"from\":4,\"to\":5}]}");
         assertEquals(expected, actual);
     }
     /**

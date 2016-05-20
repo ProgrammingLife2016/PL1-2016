@@ -8,15 +8,16 @@ import java.util.*;
 public class Segment implements Node {
     private int id;
     private String data;
-    private int column;
-    private Set<Node> links = new HashSet<>();
-    private Set<Node> backLinks = new HashSet<>();
+    private transient int column;
+    private transient Set<Node> links = new HashSet<>();
+    private transient Set<Node> backLinks = new HashSet<>();
     private int x;
     private int y;
+    private final Boolean isBubble = false;
     private Set<String> genomes = new HashSet<>();
-    private int containerid;
-    private int level;
-
+    private transient int containerid;
+    private transient int level;
+    private final int containersize = 1;
     /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
@@ -218,7 +219,12 @@ public class Segment implements Node {
 
     @Override
     public int getContainerSize() {
-        return 1;
+        return containersize;
+    }
+
+    @Override
+    public Boolean isBubble(){
+        return isBubble;
     }
 
     @Override
