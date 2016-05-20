@@ -1,8 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.collapser.Bubble;
-import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -155,8 +152,11 @@ public interface Node extends Cloneable {
      * @param size size of the bubble.
      */
     void setContainerSize(int size);
+
     /**
-     * Set the zoom level of the node
+     * Set the zoom level of the node.
+     *
+     * @param level the zoom level to set
      */
     void setZoomLevel(int level);
 
@@ -167,8 +167,17 @@ public interface Node extends Cloneable {
      */
     Node clone();
 
-    Coordinate position(Coordinate start, List<Node> bubbleList, Node endNode, int level);
+    /**
+     * Get the first child node of this node. If this is a segment, returns this.
+     *
+     * @return the first child node of this node
+     */
     Node getStartNode();
+
+    /**
+     * Get the last child node of this node. If this is a segment, returns this.
+     *
+     * @return the last child node of this node
+     */
     Node getEndNode();
-    void setEndNode(Node node);
 }

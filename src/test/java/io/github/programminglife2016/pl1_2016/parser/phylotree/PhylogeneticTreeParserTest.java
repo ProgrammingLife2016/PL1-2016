@@ -58,7 +58,7 @@ public class PhylogeneticTreeParserTest {
         TreeNodeCollection node = parser.parse(stringToInputStream(s));
         TreeNodeCollection collection = node.getRoot().flatten();
         collection.setRoot(node.getRoot());
-        node.getRoot().getId();
+        assertEquals(23, node.getRoot().getId());
         assertEquals(node.getRoot().getChildren().get(0),
                     collection.getRoot().getChildren().get(0));
         assertEquals("B",
