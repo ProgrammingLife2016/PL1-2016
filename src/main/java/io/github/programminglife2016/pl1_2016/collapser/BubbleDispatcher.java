@@ -4,6 +4,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
+import java.nio.BufferUnderflowException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,10 @@ public class BubbleDispatcher {
                     if(link.isPresent())
                         newlinks.add(link.get());
                 }
+                for (Node link : bubble.getLinks()) {
+                    if(link instanceof Bubble)
+                        newlinks.addAll(link.getContainer());
+                }
                 if(!newlinks.isEmpty()) {
                     bubble.getLinks().clear();
                     bubble.getLinks().addAll(newlinks);
@@ -94,7 +99,6 @@ public class BubbleDispatcher {
                 continue;
             }
             return true;
-//            int containerId = link.getContainerId();
         }
         return false;
     }

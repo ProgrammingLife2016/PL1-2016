@@ -23,15 +23,12 @@ public class BubbleMain {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-//        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
-//        collapser.collapseBubbles();
-
-//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
         collapser.collapseBubbles();
         Coordinate coord = new Coordinate(0, 0);
         coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
-        for (Node bubble : collapser.bubbles) {
+        for (Node bubble : dispatcher.bubbleCollection) {
             bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
         }
         for (Node node : nodeCollection.values()) {
@@ -43,11 +40,7 @@ public class BubbleMain {
                 }
             }
         }
-        NodeCollection nodeCollection1 = new NodeMap();
-        for (Node node : collapser.bubbles) {
-            nodeCollection1.put(node.getId(), node);
-        }
-        Server server = new RestServer(nodeCollection1);
+        Server server = new RestServer(dispatcher.getLevelBubbles(0, 4));
         server.startServer();
     }
 }
