@@ -15,7 +15,7 @@ public class BubbleMain {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10_200.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
@@ -24,7 +24,7 @@ public class BubbleMain {
         NodeCollection testCol = dispatcher.getLevelBubbles(0,4);
 
         PositionHandler ph = new PositionHandler();
-        Server server = new RestServer(ph.calculatePositions(testCol));
+        Server server = new RestServer(ph.calculatePositions(ph.calculatePositions(testCol)));
         server.startServer();
     }
 }
