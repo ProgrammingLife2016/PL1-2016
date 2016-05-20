@@ -23,7 +23,6 @@ public class Bubble implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
-    private String data = "";
     private int containersize;
 
     /**

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  * Temporary simple parser for parsing .gfa files.
  */
 public class SegmentParser implements Parser {
-    private static final int SIZE = 95000;
     private static final String ATTR_ZINDEX = "START:Z:";
     private static final String ATTR_ORI = "ORI:Z:";
     private static final String GENOME_SUFFIX = ".fasta";
