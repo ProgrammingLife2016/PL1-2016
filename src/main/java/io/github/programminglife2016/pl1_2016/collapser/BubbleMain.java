@@ -18,7 +18,7 @@ public class BubbleMain {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10_200.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
@@ -26,14 +26,12 @@ public class BubbleMain {
 //        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
 //        collapser.collapseBubbles();
 
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
         collapser.collapseBubbles();
-        collapser.bubbles.get(0).getLinks().clear();
-        collapser.bubbles.get(0).getLinks().add(collapser.bubbles.get(1));
         Coordinate coord = new Coordinate(0, 0);
         coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
-        for (Node bubble : dispatcher.getLevelBubbles(0, 4).values()) {
+        for (Node bubble : collapser.bubbles) {
             bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
         }
         for (Node node : nodeCollection.values()) {
@@ -45,7 +43,11 @@ public class BubbleMain {
                 }
             }
         }
-        Server server = new RestServer(new NodeCocollapser.);
+        NodeCollection nodeCollection1 = new NodeMap();
+        for (Node node : collapser.bubbles) {
+            nodeCollection1.put(node.getId(), node);
+        }
+        Server server = new RestServer(nodeCollection1);
         server.startServer();
     }
 }
