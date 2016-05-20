@@ -8,6 +8,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
+/**
+ * Dispatcher that determines which bubbles are more important to visualize at the given
+ * (zoom) level the user is in. It un-collapses a bubble into it's smaller components if it
+ * contains valuable information. It leaves the bubble intact if the information contain in
+ * the bubble is not relevant for the given (zoom) level.
+ */
 public class BubbleDispatcher {
 
     public List<Node> bubbleCollection;
