@@ -1,11 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,11 +15,8 @@ public class Segment implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private int x;
     private int y;
-    private final Boolean isBubble = false;
     private Set<String> genomes = new HashSet<>();
-    private transient int containerid;
-    private transient int level;
-    private final int containersize = 1;
+
     /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
@@ -172,7 +165,7 @@ public class Segment implements Node {
      */
     @Override
     public String toString() {
-        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y, column, containerid);
+        return String.format("Segment{id=%d, x=%d, y=%d, column=%d}", id, x, y, column);
     }
 
     @Override
@@ -203,76 +196,7 @@ public class Segment implements Node {
     }
 
     @Override
-    public int getContainerId() {
-        return this.containerid;
-    }
-
-
-    @Override
-    public void setContainerId(int containerid) {
-        this.containerid = containerid;
-    }
-
-    @Override
-    public int getZoomLevel() {
-        return this.level;
-    }
-
-    @Override
-    public List<Node> getContainer() {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public int getContainerSize() {
-        return containersize;
-    }
-
-    @Override
-    public Boolean isBubble(){
-        return isBubble;
-    }
-
-    @Override
-    public void setContainerSize(int size) {
-    }
-
-    @Override
-    public void setZoomLevel(int level) {
-        this.level = level;
-    }
-
-    @Override
     public int hashCode() {
         return id;
-    }
-
-    @Override
-    public Coordinate position(Coordinate coordinate, List<Node> bubbles, Node endNode, int level) {
-        setXY(coordinate.getX(), coordinate.getY());
-        if (this == endNode) {
-            return new Coordinate(coordinate.getX() + X_SPACING, coordinate.getY());
-        }
-        int height = (links.size() - 1) * Y_SPACING / 2 / level;
-        for (Node nodeFront : links) {
-            if (nodeFront != endNode) {
-                nodeFront.setXY(coordinate.getX() + X_SPACING, coordinate.getY() + height);
-                height -= Y_SPACING / level;
-            }
-        }
-        endNode.setXY(coordinate.getX() + 2 * X_SPACING, coordinate.getY());
-        return new Coordinate(coordinate.getX() + 3 * X_SPACING, coordinate.getY());
-    }
-    public Node getStartNode() {
-        return this;
-    }
-
-    @Override
-    public Node getEndNode() {
-        return this;
-    }
-
-    @Override
-    public void setEndNode(Node node) {
     }
 }
