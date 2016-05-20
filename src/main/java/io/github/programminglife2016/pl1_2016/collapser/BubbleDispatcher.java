@@ -4,14 +4,11 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
+import static javax.swing.text.html.HTML.Tag.HEAD;
+
 
 /**
  * Dispatcher that determines which bubbles are more important to visualize at the given
@@ -19,16 +16,9 @@ import java.util.stream.Collectors;
  * contains valuable information. It leaves the bubble intact if the information contain in
  * the bubble is not relevant for the given (zoom) level.
  */
-=======
->>>>>>> origin/hotfix/tooling
 public class BubbleDispatcher {
     public List<Node> bubbleCollection;
 
-<<<<<<< HEAD
-    private HashMap<Node, Node> endToBubble;
-
-=======
->>>>>>> origin/hotfix/tooling
     private NodeCollection collection;
 
     /**
@@ -48,11 +38,7 @@ public class BubbleDispatcher {
         for (int i = 0; i < bubbleCollection.size(); i++) {
             Node bubble = bubbleCollection.get(i);
             bubble.setContainerSize(getBubbleSize(bubble));
-<<<<<<< HEAD
-            }
-=======
         }
->>>>>>> origin/hotfix/tooling
     }
 
     /**
@@ -107,14 +93,6 @@ public class BubbleDispatcher {
                 List<Node> x = getMissingNodes(bubble.getLinks());
                 tempList.addAll(x);
             }
-<<<<<<< HEAD
-=======
-            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer()
-                    .stream().map(x -> x.getId()).collect(Collectors.toList()));
-            System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
-            System.out.println("StartNode: " + bubble.getStartNode());
-            System.out.println();
->>>>>>> origin/hotfix/tooling
         }
         filtered.addAll(tempList);
         return listAsNodeCollection(filtered);
