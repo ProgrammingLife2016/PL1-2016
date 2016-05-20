@@ -3,7 +3,6 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
