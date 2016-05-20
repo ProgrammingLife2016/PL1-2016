@@ -20,15 +20,15 @@ public class BubbleMain {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        Node firstNode = dispatcher.getLevelBubbles(1).get(8729);
+        Node firstNode = dispatcher.getLevelBubbles(1).get(16);
         firstNode.getLinks().clear();
-        firstNode.getLinks().add(dispatcher.getLevelBubbles(1).get(8730));
+        firstNode.getLinks().add(dispatcher.getLevelBubbles(1).get(17));
         for (int i = 0; i < dispatcher.bubbleCollection.size(); i++) {
             Node bubble = dispatcher.bubbleCollection.get(i);
             if (bubble.getLinks().contains(bubble)) {
@@ -36,12 +36,12 @@ public class BubbleMain {
                 try {
                     bubble.getLinks().add(dispatcher.bubbleCollection.get(i + 1));
                 } catch (IndexOutOfBoundsException e) {
-                    
+
                 }
             }
         }
         Coordinate coord = new Coordinate(0, 0);
-        coord = dispatcher.getLevelBubbles(1).get(8730).position(coord, dispatcher.bubbleCollection, null, 1);
+        coord = dispatcher.getLevelBubbles(1).get(16).position(coord, dispatcher.bubbleCollection, null, 1);
         for (Node node : nodeCollection.values()) {
             Iterator<Node> linkIterator = node.getLinks().iterator();
             while (linkIterator.hasNext()) {
