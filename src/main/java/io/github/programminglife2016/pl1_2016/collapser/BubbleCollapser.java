@@ -92,7 +92,7 @@ public class BubbleCollapser {
         Collection<Node> container;
         for (Node node : bubble.getStartNode().getBackLinks()) {
             container = bubbles.stream()
-                    .filter(x -> (x.getStartNode().getId() != x.getEndNode().getId())
+                    .filter(x -> x.getStartNode().getId() != x.getEndNode().getId()
                             && x.getEndNode().getId() == bubble.getStartNode().getId())
                     .collect(Collectors.toSet());
             if (container.size() > 0) {
@@ -107,7 +107,7 @@ public class BubbleCollapser {
         Collection<Node> container;
         for (Node node : bubble.getEndNode().getLinks()) {
             container = bubbles.stream()
-                    .filter(x -> (x.getStartNode().getId() != x.getEndNode().getId())
+                    .filter(x -> x.getStartNode().getId() != x.getEndNode().getId()
                             && x.getStartNode().getId() == bubble.getEndNode().getId())
                     .collect(Collectors.toSet());
             if (container.size() > 0) {
@@ -121,10 +121,9 @@ public class BubbleCollapser {
     private Node getBestParentNode(Node leaf, int boundZoom) {
         Node bestParent = leaf;
         for (Node newCont : bubbles) {
-            if (newCont.getId() == bestParent.getContainerId()) {
-                if (newCont.getZoomLevel() >= boundZoom) {
-                    bestParent = newCont;
-                }
+            if (newCont.getId() == bestParent.getContainerId()
+                    && newCont.getZoomLevel() >= boundZoom) {
+                bestParent = newCont;
             }
         }
         if (bestParent.getId() != leaf.getId()) {

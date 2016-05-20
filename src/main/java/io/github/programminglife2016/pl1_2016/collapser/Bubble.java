@@ -23,7 +23,6 @@ public class Bubble implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
-    private String data = "";
     private int containersize;
 
     /**
@@ -109,7 +108,11 @@ public class Bubble implements Node {
 
     @Override
     public Node clone() {
-        return null;
+        try {
+            return (Bubble) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

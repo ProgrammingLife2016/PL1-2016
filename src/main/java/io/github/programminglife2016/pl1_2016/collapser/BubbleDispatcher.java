@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 public class BubbleDispatcher {
     public List<Node> bubbleCollection;
 
-    private NodeCollection collection;
-
     /**
      * Collapse the collection, and construct a BubbleDispatcher.
      *
@@ -27,7 +25,6 @@ public class BubbleDispatcher {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
-        this.collection = collection;
         initDispatcher();
     }
 

@@ -40,11 +40,15 @@ public class BaseTreeNode implements TreeNode {
      * @param parent parent tree node of this tree node.
      */
     public BaseTreeNode(String name, double weight, List<TreeNode> children, TreeNode parent) {
-        this.id = staticId++;
+        this.id = getStaticId();
         this.name = name;
         this.weight = weight;
         this.children = children;
         this.parent = parent;
+    }
+
+    private static int getStaticId() {
+        return staticId++;
     }
 
     /**
