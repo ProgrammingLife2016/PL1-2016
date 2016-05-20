@@ -108,18 +108,6 @@ public class BubbleCollapser {
         return bestParent;
     }
 
-    /**
-     * Temporary method to view changes in links
-     * @param links
-     * @return
-     */
-    private String linksToString(Collection<Node> links){
-        String result = "";
-        for (Node n: links)
-            result += n.getId() + ", ";
-        return result;
-    }
-
     public List<Node> getBubbles() {
         return bubbles;
     }

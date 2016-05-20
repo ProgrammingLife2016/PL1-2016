@@ -10,6 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import static junit.framework.TestCase.assertEquals;
+
 /**
  * Created by ravishivam on 21-5-16.
  */
@@ -61,12 +63,23 @@ public class BubbleCollapserTest {
      * Create parser object.
      */
     @Before
-    private void setUp() {
+    public void setUp() {
         InputStream is = stringToInputStream(data);
         nodeCollection = new SegmentParser().parse(is);
         collapser = new BubbleCollapser(nodeCollection);
     }
 
+    @Test
+    public void testSimpleBubbleCollapsing() {
+        collapser.collapseBubbles();
+        Node bubble = collapser.getBubbles().get(2);
+        assertEquals(bubble.toString(), "Bubble{id=19, startNode=Segment{id=5, x=0, y=0, column=0, containerid=19}" +
+                ", endNode=Segment{id=16, x=0, y=0, column=0, containerid=19}}");
+    }
+
+    @Test
+    public void testBubblingInContainer() {
+    }
     /**
      * Converts a String to an InputStream
      * @param s String
