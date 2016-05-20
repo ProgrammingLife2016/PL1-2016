@@ -63,6 +63,17 @@ public class BubbleDispatcher {
                     if(link.isPresent())
                         newlinks.add(link.get());
                 }
+                for (Node link : bubble.getStartNode().getLinks()) {
+                    if(link instanceof Bubble) {
+                        for (Node linkSegment : link.getContainer()){
+                            linkSegment.getLinks().clear();
+                            for(Node oldLink : bubble.getLinks()) {
+                                linkSegment.getLinks().addAll(oldLink.getLinks());
+                            }
+                        }
+                        newlinks.addAll(link.getContainer());
+                    }
+                }
                 if(!newlinks.isEmpty()) {
                     bubble.getLinks().clear();
                     bubble.getLinks().addAll(newlinks);
@@ -94,7 +105,6 @@ public class BubbleDispatcher {
                 continue;
             }
             return true;
-//            int containerId = link.getContainerId();
         }
         return false;
     }
