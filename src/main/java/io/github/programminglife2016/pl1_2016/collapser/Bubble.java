@@ -150,6 +150,11 @@ public class Bubble implements Node {
     }
 
     @Override
+    public void setEndNode(Node node) {
+        this.endNode = node;
+    }
+
+    @Override
     public List<Node> getContainer() {
         return container;
     }
@@ -177,7 +182,7 @@ public class Bubble implements Node {
         }
     }
 
-    private Node getBubble(List<Node> bubbles, int containerId) {
+    public static Node getBubble(List<Node> bubbles, int containerId) {
         return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
     }
 
