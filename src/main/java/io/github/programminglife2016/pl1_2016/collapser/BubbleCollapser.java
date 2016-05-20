@@ -58,7 +58,6 @@ public class BubbleCollapser {
                 innerBubbles.add(n.getContainerId());
             }
         }
-//        bubble.getContainer().clear();
         bubble.getContainer().removeIf(n -> n.getContainerId() != bubble.getId());
         for (int id : innerBubbles){
             bubble.getContainer().add(bubbles.stream().filter(b -> b.getId() == id).findFirst().get());
@@ -68,6 +67,7 @@ public class BubbleCollapser {
     private void addLinks(List<Node> bubbles){
         for (Node bubble : bubbles){
             System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
+            System.out.println("ZoomLevel: " + bubble.getZoomLevel());
             addBackLinks(bubble);
             addForwardLinks(bubble);
         }
@@ -94,9 +94,22 @@ public class BubbleCollapser {
             if (container.size() > 0)
                 bubble.getLinks().addAll(container);
             else
-                bubble.getLinks().add(node);
+                bubble.getLinks().add(getBestParentNode(node, bubble.getZoomLevel()));//
         }
         System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + linksToString(bubble.getLinks()));
+    }
+
+    private Node getBestParentNode(Node leaf, int boundZoom){
+        Node bestParent = leaf;
+        for (Node newCont : bubbles){
+            if(newCont.getId() == bestParent.getContainerId()) {
+                if(newCont.getZoomLevel() >= boundZoom)
+                    bestParent = newCont;
+            }
+        }
+        if(bestParent.getId() != leaf.getId())
+            return getBestParentNode(bestParent, boundZoom);
+        return bestParent;
     }
 
     /**
