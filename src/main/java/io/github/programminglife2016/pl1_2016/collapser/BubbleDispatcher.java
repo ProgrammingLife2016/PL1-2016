@@ -63,7 +63,7 @@ public class BubbleDispatcher {
                     if(link.isPresent())
                         newlinks.add(link.get());
                 }
-                for (Node link : bubble.getLinks()) {
+                for (Node link : bubble.getStartNode().getLinks()) {
                     if(link instanceof Bubble) {
                         for (Node linkSegment : link.getContainer()){
                             linkSegment.getLinks().clear();
