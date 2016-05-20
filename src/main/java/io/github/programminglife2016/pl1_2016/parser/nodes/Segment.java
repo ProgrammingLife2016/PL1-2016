@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -19,7 +17,6 @@ public class Segment implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private int x;
     private int y;
-    private final Boolean isBubble = false;
     private Set<String> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
@@ -172,7 +169,8 @@ public class Segment implements Node {
      */
     @Override
     public String toString() {
-        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y, column, containerid);
+        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y,
+                column, containerid);
     }
 
     @Override
@@ -229,8 +227,8 @@ public class Segment implements Node {
     }
 
     @Override
-    public Boolean isBubble(){
-        return isBubble;
+    public Boolean isBubble() {
+        return false;
     }
 
     @Override
@@ -248,21 +246,6 @@ public class Segment implements Node {
     }
 
     @Override
-    public Coordinate position(Coordinate coordinate, List<Node> bubbles, Node endNode, int level) {
-        setXY(coordinate.getX(), coordinate.getY());
-        if (this == endNode) {
-            return new Coordinate(coordinate.getX() + X_SPACING, coordinate.getY());
-        }
-        int height = (links.size() - 1) * Y_SPACING / 2 / level;
-        for (Node nodeFront : links) {
-            if (nodeFront != endNode) {
-                nodeFront.setXY(coordinate.getX() + X_SPACING, coordinate.getY() + height);
-                height -= Y_SPACING / level;
-            }
-        }
-        endNode.setXY(coordinate.getX() + 2 * X_SPACING, coordinate.getY());
-        return new Coordinate(coordinate.getX() + 3 * X_SPACING, coordinate.getY());
-    }
     public Node getStartNode() {
         return this;
     }
@@ -270,9 +253,5 @@ public class Segment implements Node {
     @Override
     public Node getEndNode() {
         return this;
-    }
-
-    @Override
-    public void setEndNode(Node node) {
     }
 }

@@ -70,55 +70,6 @@ public class BubbleDispatcherTest {
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
-    @Test
-    public void testBubblingPosition() {
-        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
-        collapser.collapseBubbles();
-        Coordinate coord = new Coordinate(0, 0);
-        coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
-        for (Node bubble : dispatcher.bubbleCollection) {
-            bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
-        }
-        for (Node node : nodeCollection.values()) {
-            Iterator<Node> linkIterator = node.getLinks().iterator();
-            while (linkIterator.hasNext()) {
-                Node nodeLink = linkIterator.next();
-                if (nodeLink.getX() < node.getX()) {
-                    linkIterator.remove();
-                }
-            }
-        }
-        assertEquals(nodeCollection.get(1).getId(), 1);
-    }
-    @Test
-    public void testBubbleFirstZoomLevel() {
-        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
-        collapser.collapseBubbles();
-        Coordinate coord = new Coordinate(0, 0);
-        coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
-        for (Node bubble : dispatcher.bubbleCollection) {
-            bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
-        }
-        for (Node node : nodeCollection.values()) {
-            Iterator<Node> linkIterator = node.getLinks().iterator();
-            while (linkIterator.hasNext()) {
-                Node nodeLink = linkIterator.next();
-                if (nodeLink.getX() < node.getX()) {
-                    linkIterator.remove();
-                }
-            }
-        }
-        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
-        assertEquals(nodeCollection.get(1).getId(), 1);
-    }
-
-    @Test
-    public void testSecondHandler() {
-        PositionHandler ph = new PositionHandler();
-        ph.calculatePositions(nodeCollection);
-        assertEquals(nodeCollection.get(1).getX(), 0);
-    }
-
     /**
      * Converts a String to an InputStream
      * @param s String
