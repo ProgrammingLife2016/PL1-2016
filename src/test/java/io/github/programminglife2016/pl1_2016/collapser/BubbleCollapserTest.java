@@ -68,6 +68,12 @@ public class BubbleCollapserTest {
         nodeCollection = new SegmentParser().parse(is);
         collapser = new BubbleCollapser(nodeCollection);
     }
+    @Test
+    public void testRetainEndNode() {
+        collapser.collapseBubbles();
+        Node bubble = collapser.getBubbles().get(2).getEndNode();
+        assertEquals(bubble, nodeCollection.get(16));
+    }
 
     @Test
     public void testSimpleBubbleCollapsing() {
