@@ -1,15 +1,10 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.Launcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-
-import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -21,11 +16,10 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by ravishivam on 20-5-16.
  */
-public class BubbleDetectorTest {
-
+public class BubbleDispatcherTest {
     private NodeCollection nodeCollection;
 
-    private BubbleDetector detector;
+    private BubbleDispatcher dispatcher;
 
     private static final String data = "H\tVN:Z:1.0\n" +
             "H\tORI:Z:G-1.fasta;G-2.fasta;G-3.fasta;G-4.fasta;G-5.fasta;\n" +
@@ -73,22 +67,58 @@ public class BubbleDetectorTest {
     public void setUp() {
         InputStream is = stringToInputStream(data);
         nodeCollection = new SegmentParser().parse(is);
-        detector = new BubbleDetector(nodeCollection);
+        dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
     @Test
-    public void testBubbleFirstLevel() {
-        detector.findMultiLevelBubbles();
-        assertEquals(detector.getBubbleBoundaries().get(1).getId(), 18);
+    public void testBubblingPosition() {
+        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
+        collapser.collapseBubbles();
+        Coordinate coord = new Coordinate(0, 0);
+        coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
+        for (Node bubble : dispatcher.bubbleCollection) {
+            bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
+        }
+        for (Node node : nodeCollection.values()) {
+            Iterator<Node> linkIterator = node.getLinks().iterator();
+            while (linkIterator.hasNext()) {
+                Node nodeLink = linkIterator.next();
+                if (nodeLink.getX() < node.getX()) {
+                    linkIterator.remove();
+                }
+            }
+        }
+        assertEquals(nodeCollection.get(1).getId(), 1);
+    }
+    @Test
+    public void testBubbleFirstZoomLevel() {
+        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
+        collapser.collapseBubbles();
+        Coordinate coord = new Coordinate(0, 0);
+        coord = collapser.bubbles.get(0).position(coord, collapser.bubbles, null, 1);
+        for (Node bubble : dispatcher.bubbleCollection) {
+            bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
+        }
+        for (Node node : nodeCollection.values()) {
+            Iterator<Node> linkIterator = node.getLinks().iterator();
+            while (linkIterator.hasNext()) {
+                Node nodeLink = linkIterator.next();
+                if (nodeLink.getX() < node.getX()) {
+                    linkIterator.remove();
+                }
+            }
+        }
+        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
+        assertEquals(nodeCollection.get(1).getId(), 1);
     }
 
     @Test
-    public void testBubblingInContainer() {
-        detector.findMultiLevelBubbles();
-        Node node = detector.getBubbleBoundaries().get(5);
-        int container = node.getContainerSize();
-        assertEquals(container, 0);
+    public void testSecondHandler() {
+        PositionHandler ph = new PositionHandler();
+        ph.calculatePositions(nodeCollection);
+        assertEquals(nodeCollection.get(1).getX(), 0);
     }
+
     /**
      * Converts a String to an InputStream
      * @param s String

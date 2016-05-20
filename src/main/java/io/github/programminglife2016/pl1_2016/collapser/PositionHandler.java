@@ -53,7 +53,6 @@ public class PositionHandler implements PositionManager{
             int boundary = (nodes.size() - 1) * FACTOR;
             for (Node no : nodes) {
                 int index = no.getId();
-                System.out.println("Id: " + index);
                 nodeMap.get(index).setXY(currx, boundary);
                 boundary = boundary - SPACING;
             }
