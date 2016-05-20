@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.Server;
@@ -8,10 +7,6 @@ import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 
 public class BubbleMain {
@@ -25,35 +20,11 @@ public class BubbleMain {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-//        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
-//        collapser.collapseBubbles();
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        Node firstNode = dispatcher.getLevelBubbles(0,4).get(16);
-        firstNode.getLinks().clear();
-        firstNode.getLinks().add(dispatcher.getLevelBubbles(0,4).get(17));
-        for (int i = 0; i < dispatcher.bubbleCollection.size(); i++) {
-            Node bubble = dispatcher.bubbleCollection.get(i);
-            if (bubble.getLinks().contains(bubble)) {
-                bubble.getLinks().remove(bubble);
-                try {
-                    bubble.getLinks().add(dispatcher.bubbleCollection.get(i + 1));
-                } catch (IndexOutOfBoundsException e) {
-                    
-                }
-            }
-        }
-        Coordinate coord = new Coordinate(0, 0);
-        coord = dispatcher.getLevelBubbles(0,4).get(16).position(coord, dispatcher.bubbleCollection, null, 1);
-        for (Node node : nodeCollection.values()) {
-            Iterator<Node> linkIterator = node.getLinks().iterator();
-            while (linkIterator.hasNext()) {
-                Node nodeLink = linkIterator.next();
-                if (nodeLink.getX() < node.getX()) {
-                    linkIterator.remove();
-                }
-            }
-        }
-        Server server = new RestServer(nodeCollection);
+        NodeCollection testCol = dispatcher.getLevelBubbles(0,4);
+
+        PositionHandler ph = new PositionHandler();
+        Server server = new RestServer(ph.calculatePositions(testCol));
         server.startServer();
     }
 }

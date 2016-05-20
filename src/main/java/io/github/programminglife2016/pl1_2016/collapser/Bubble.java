@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.*;
@@ -157,7 +156,7 @@ public class Bubble implements Node {
 
     @Override
     public Coordinate position(Coordinate coordinate, List<Node> bubbles, Node endNode, int level) {
-        if (container.get(0) instanceof Segment) {
+        if (container.isEmpty() || container.get(0) instanceof Segment) {
             Coordinate c2 = startNode.position(coordinate, bubbles, this.endNode, level + 1);
             if (links.iterator().next() instanceof Segment) {
                 return c2;
