@@ -69,6 +69,17 @@ public class BubbleDispatcherTest {
         nodeCollection = new SegmentParser().parse(is);
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
+    @Test
+    public void testDispatchingCorrectView() {
+        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
+        assertEquals(testCollection.size(), 6);
+    }
+
+    @Test
+    public void testGenomesMatchAfterDispatch() {
+        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
+        assertEquals(testCollection.get(18).getGenomes(), testCollection.get(16).getGenomes());
+    }
 
     @Test
     public void testBubblingPosition() {
