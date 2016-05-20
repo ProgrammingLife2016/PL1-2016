@@ -4,13 +4,15 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Dispatcher that determines which bubbles are more important to visualize at the given
+ * (zoom) level the user is in. It un-collapses a bubble into it's smaller components if it
+ * contains valuable information. It leaves the bubble intact if the information contain in
+ * the bubble is not relevant for the given (zoom) level.
+ */
 public class BubbleDispatcher {
     public List<Node> bubbleCollection;
 
@@ -85,14 +87,8 @@ public class BubbleDispatcher {
                 List<Node> x = getMissingNodes(bubble.getLinks());
                 tempList.addAll(x);
             }
-            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer()
-                    .stream().map(x -> x.getId()).collect(Collectors.toList()));
-            System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
-            System.out.println("StartNode: " + bubble.getStartNode());
-            System.out.println();
         }
         filtered.addAll(tempList);
-        System.out.println(filtered);
         return listAsNodeCollection(filtered);
     }
 
