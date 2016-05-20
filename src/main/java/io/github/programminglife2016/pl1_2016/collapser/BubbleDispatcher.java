@@ -13,7 +13,7 @@ import static javax.swing.text.html.HTML.Tag.LI;
 
 public class BubbleDispatcher {
 
-    private List<Node> bubbleCollection;
+    public List<Node> bubbleCollection;
 
     private HashMap<Node, Node> endToBubble;
 

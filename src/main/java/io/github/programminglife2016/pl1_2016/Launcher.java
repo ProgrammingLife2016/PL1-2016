@@ -37,7 +37,6 @@ public final class Launcher {
                 / NANOSECONDS_PER_SECOND));
         PositionManager positioner = new PositionHandler();
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-//<<<<<<< HEAD
 //        System.out.println(nodeCollection.size());
 //        Server server = new RestServer(positioner.calculatePositions());
         Server server = new RestServer(positioner.calculatePositions(dispatcher.getLevelBubbles(0,4)));

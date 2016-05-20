@@ -1,6 +1,12 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.*;
+import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Data structure for representing a DNA sequence
@@ -242,6 +248,21 @@ public class Segment implements Node {
     }
 
     @Override
+    public Coordinate position(Coordinate coordinate, List<Node> bubbles, Node endNode, int level) {
+        setXY(coordinate.getX(), coordinate.getY());
+        if (this == endNode) {
+            return new Coordinate(coordinate.getX() + X_SPACING, coordinate.getY());
+        }
+        int height = (links.size() - 1) * Y_SPACING / 2 / level;
+        for (Node nodeFront : links) {
+            if (nodeFront != endNode) {
+                nodeFront.setXY(coordinate.getX() + X_SPACING, coordinate.getY() + height);
+                height -= Y_SPACING / level;
+            }
+        }
+        endNode.setXY(coordinate.getX() + 2 * X_SPACING, coordinate.getY());
+        return new Coordinate(coordinate.getX() + 3 * X_SPACING, coordinate.getY());
+    }
     public Node getStartNode() {
         return this;
     }
@@ -250,5 +271,4 @@ public class Segment implements Node {
     public Node getEndNode() {
         return this;
     }
-
 }

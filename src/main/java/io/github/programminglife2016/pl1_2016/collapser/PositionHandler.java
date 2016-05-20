@@ -4,8 +4,8 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
-import java.lang.instrument.Instrumentation;
 import java.util.*;
+
 
 public class PositionHandler implements PositionManager{
 
@@ -60,6 +60,5 @@ public class PositionHandler implements PositionManager{
         }
         return nodeMap;
     }
-
 }
 

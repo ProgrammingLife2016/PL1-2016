@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.*;
 
@@ -155,6 +156,32 @@ public class Bubble implements Node {
     }
 
     @Override
+    public Coordinate position(Coordinate coordinate, List<Node> bubbles, Node endNode, int level) {
+        if (container.get(0) instanceof Segment) {
+            Coordinate c2 = startNode.position(coordinate, bubbles, this.endNode, level + 1);
+            if (links.iterator().next() instanceof Segment) {
+                return c2;
+            } else {
+                return links.iterator().next().position(c2, bubbles, endNode, level);
+            }
+        } else {
+            startNode.setXY(coordinate.getX(), coordinate.getY());
+            int height = (startNode.getLinks().size() - 1) * 500 / 2 / level;
+            List<Coordinate> coords = new ArrayList<>();
+            for (Node nodeFront : startNode.getLinks()) {
+                coords.add(getBubble(bubbles, nodeFront.getContainerId()).position(new Coordinate(coordinate.getX() + 100, coordinate.getY() + height), bubbles, endNode, level + 1));
+                height -= 500 / level;
+            }
+            Coordinate penultimate = new Coordinate(coords.stream().map(Coordinate::getX).mapToInt(x -> x).max().getAsInt() + 100, coordinate.getY());
+            this.endNode.setXY(penultimate.getX(), penultimate.getY());
+            return new Coordinate(penultimate.getX() + 100, penultimate.getY());
+        }
+    }
+
+    private Node getBubble(List<Node> bubbles, int containerId) {
+        return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
+    }
+
     public String toString() {
         return "Bubble{" +
                 "id=" + id +

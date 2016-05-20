@@ -1,5 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import io.github.programminglife2016.pl1_2016.collapser.Bubble;
+import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +11,8 @@ import java.util.Set;
  * An object that represents a displayable bubble/segment.
  */
 public interface Node extends Cloneable {
+    int X_SPACING = 100;
+    int Y_SPACING = 500;
     /**
      * Set the x and y coordinates of the node.
      *
@@ -162,11 +167,7 @@ public interface Node extends Cloneable {
      */
     Node clone();
 
-    /**
-     * 
-     * @return
-     */
+    Coordinate position(Coordinate start, List<Node> bubbleList, Node endNode, int level);
     Node getStartNode();
-
     Node getEndNode();
 }
