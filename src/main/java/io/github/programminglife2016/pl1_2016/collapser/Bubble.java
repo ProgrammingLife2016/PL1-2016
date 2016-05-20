@@ -108,7 +108,11 @@ public class Bubble implements Node {
 
     @Override
     public Node clone() {
-        return null;
+        try {
+            return (Bubble) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

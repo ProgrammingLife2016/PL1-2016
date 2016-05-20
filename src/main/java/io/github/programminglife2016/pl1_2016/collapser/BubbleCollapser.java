@@ -140,11 +140,12 @@ public class BubbleCollapser {
     }
 
     private String linksToString(Collection<Node> links) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Node n : links) {
-            result += n.getId() + ", ";
+            result.append(n.getId());
+            result.append(", ");
         }
-        return result;
+        return result.toString();
     }
 
     /**
