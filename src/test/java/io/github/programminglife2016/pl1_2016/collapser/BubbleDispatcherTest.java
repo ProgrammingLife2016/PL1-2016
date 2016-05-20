@@ -70,6 +70,12 @@ public class BubbleDispatcherTest {
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
+    @Test
+    public void testBubblingPosition() {
+        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
+        assertEquals(testCollection.get(17).getId(), 17);
+    }
+
     /**
      * Converts a String to an InputStream
      * @param s String

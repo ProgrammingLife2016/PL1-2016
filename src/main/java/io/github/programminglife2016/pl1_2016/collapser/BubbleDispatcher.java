@@ -7,9 +7,6 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static javax.swing.text.html.HTML.Tag.HEAD;
-
-
 /**
  * Dispatcher that determines which bubbles are more important to visualize at the given
  * (zoom) level the user is in. It un-collapses a bubble into it's smaller components if it

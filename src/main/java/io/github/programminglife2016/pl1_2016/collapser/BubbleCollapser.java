@@ -83,9 +83,6 @@ public class BubbleCollapser {
 
     private void addLinks(List<Node> bubbles) {
         for (Node bubble : bubbles) {
-            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer()
-                    .stream().map(x -> x.getId()).collect(Collectors.toList()));
-            System.out.println("ZoomLevel: " + bubble.getZoomLevel());
             addBackLinks(bubble);
             addForwardLinks(bubble);
         }
