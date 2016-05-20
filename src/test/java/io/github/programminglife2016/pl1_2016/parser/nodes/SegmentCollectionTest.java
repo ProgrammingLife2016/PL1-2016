@@ -109,10 +109,8 @@ public abstract class SegmentCollectionTest {
     public void testToJson() {
         createFiveNodes();
         JsonParser jsonParser = new JsonParser();
-        String actual = jsonParser.parse(nodeCollection.toJson()).getAsJsonObject().get("nodes")
-                .getAsJsonArray().get(1).getAsJsonObject().get("data").getAsString();
-        String expected = "two";
-        assertEquals(expected, actual);
+        JsonElement actual = jsonParser.parse(nodeCollection.toJson());
+        assertEquals("two", actual.getAsJsonObject().get("nodes").getAsJsonArray().get(1).getAsJsonObject().get("data").getAsString());
     }
     /**
      * Test Basic segment operations.
@@ -138,6 +136,6 @@ public abstract class SegmentCollectionTest {
         assertEquals(2, segment1.getX());
         assertEquals(3, segment1.getY());
         assertEquals(1, segment1.getColumn());
-        assertEquals("Segment{id=1, x=2, y=3, column=1}", segment1.toString());
+        assertEquals("Segment{id=1, x=2, y=3, column=1, containerid=0}", segment1.toString());
     }
 }

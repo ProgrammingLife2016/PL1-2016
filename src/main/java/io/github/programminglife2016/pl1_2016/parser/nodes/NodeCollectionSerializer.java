@@ -28,7 +28,7 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
     public JsonElement serialize(NodeCollection nodeCollection, Type type,
                                  JsonSerializationContext jsonSerializationContext) {
         final Gson nodeBuilder = new GsonBuilder()
-                .registerTypeAdapter(Segment.class, new NodeSerializer()).create();
+                .registerTypeAdapter(Node.class, new NodeSerializer()).create();
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("status", new JsonPrimitive("success"));
         JsonArray nodes = new JsonArray();
