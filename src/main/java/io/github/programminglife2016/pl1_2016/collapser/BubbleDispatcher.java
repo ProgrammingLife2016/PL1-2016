@@ -85,14 +85,22 @@ public class BubbleDispatcher {
                 List<Node> x = getMissingNodes(bubble.getLinks());
                 tempList.addAll(x);
             }
-            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
-            System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
-            System.out.println("StartNode: " + bubble.getStartNode());
-            System.out.println();
+//            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
+//            System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
+//            System.out.println("StartNode: " + bubble.getStartNode());
+//            System.out.println("EndNode: " + bubble.getEndNode());
+//            System.out.println();
+//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
         }
         filtered.addAll(tempList);
         System.out.println(filtered);
         return listAsNodeCollection(filtered);
+    }
+    private String linksToString(int bId, Collection<Node> links){
+        String result = "";
+        for (Node n: links)
+            result += bId + " -> " + n.getId() + "\n";
+        return result;
     }
 
     private List<Node> getMissingNodes(Collection<Node> links){

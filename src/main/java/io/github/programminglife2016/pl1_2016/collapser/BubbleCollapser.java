@@ -66,8 +66,8 @@ public class BubbleCollapser {
 
     private void addLinks(List<Node> bubbles){
         for (Node bubble : bubbles){
-            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
-            System.out.println("ZoomLevel: " + bubble.getZoomLevel());
+//            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
+//            System.out.println("ZoomLevel: " + bubble.getZoomLevel());
             addBackLinks(bubble);
             addForwardLinks(bubble);
         }
@@ -83,7 +83,7 @@ public class BubbleCollapser {
             else
                 bubble.getBackLinks().add(node);
         }
-        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
+//        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
     }
 
     private void addForwardLinks(Node bubble){
@@ -96,7 +96,7 @@ public class BubbleCollapser {
             else
                 bubble.getLinks().add(getBestParentNode(node, bubble.getZoomLevel()));//
         }
-        System.out.println("Id: " + bubble.getId() + " ForwardLinks:" + linksToString(bubble.getLinks()));
+        System.out.print("" + linksToString(bubble.getId(), bubble.getLinks()));
     }
 
     private Node getBestParentNode(Node leaf, int boundZoom){
@@ -117,12 +117,13 @@ public class BubbleCollapser {
      * @param links
      * @return
      */
-    private String linksToString(Collection<Node> links){
+    private String linksToString(int bId, Collection<Node> links){
         String result = "";
         for (Node n: links)
-            result += n.getId() + ", ";
+            result += bId + " -> " + n.getId() + ",\n";
         return result;
     }
+
 
     public List<Node> getBubbles() {
         return bubbles;

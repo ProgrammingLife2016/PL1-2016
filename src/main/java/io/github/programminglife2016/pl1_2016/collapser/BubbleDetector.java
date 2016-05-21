@@ -69,15 +69,15 @@ public class BubbleDetector {
         while (bubbleAt.getKey() != REACHED_FINAL_DESTINATION) {
             switch (bubbleAt.getKey()) {
                 case BUBBLE_DETECTED :
-                case FOUND_MORE_GENOMES :
                     handleDetectedBubble(startNode, bubbleAt.getValue(), levelCollection);
                     startNode = bubbleAt.getValue();
                     bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
-//                    handleDetectedBubble(startNode, startNode, levelCollection);
-//                    startNode = bubbleAt.getValue();
-//                    bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
-//                    break;
+                case FOUND_MORE_GENOMES :
+                    handleDetectedBubble(startNode, startNode, levelCollection);
+                    startNode = bubbleAt.getValue();
+                    bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
+                    break;
             }
         }
         if (startNode.getGenomes().equals(bubbleAt.getValue().getGenomes())) {
