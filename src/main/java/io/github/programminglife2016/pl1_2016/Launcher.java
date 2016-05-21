@@ -1,13 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
-import io.github.programminglife2016.pl1_2016.collapser.PositionHandler;
-import io.github.programminglife2016.pl1_2016.collapser.PositionManager;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
@@ -20,6 +14,8 @@ import java.io.InputStream;
  */
 public final class Launcher {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
+    private static final int BUBBLE_THRESHOLD = 4;
+
     private Launcher() {
     }
     /**
@@ -35,11 +31,8 @@ public final class Launcher {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        PositionManager positioner = new PositionHandler();
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-//        System.out.println(nodeCollection.size());
-//        Server server = new RestServer(positioner.calculatePositions());
-        Server server = new RestServer(positioner.calculatePositions(dispatcher.getLevelBubbles(0,4)));
+        Server server = new RestServer(dispatcher.getLevelBubbles(0, BUBBLE_THRESHOLD));
         server.startServer();
     }
 }
