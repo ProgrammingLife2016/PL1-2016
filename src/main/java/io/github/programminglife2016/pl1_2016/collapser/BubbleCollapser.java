@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
  */
 public class BubbleCollapser {
     List<Node> bubbles;
-    List<Node> newBubbles = new ArrayList<>();
     int lastId;
+    int bubblesListSize;
 
     public BubbleCollapser(NodeCollection collection){
         BubbleDetector detector = new BubbleDetector(collection);
@@ -27,6 +27,7 @@ public class BubbleCollapser {
         }
         System.out.println();
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
+        bubblesListSize = bubbles.size();
     }
 
     public void collapseBubbles(){
@@ -35,7 +36,6 @@ public class BubbleCollapser {
         for (Node bubble : bubbles)
             modifyContainer(bubble);
         addLinks(bubbles);
-        bubbles.addAll(newBubbles);
     }
 
     private List<Node> breadth(Node bubble) {
@@ -75,26 +75,26 @@ public class BubbleCollapser {
     }
 
     private void addLinks(List<Node> bubbles){
-        for (Node bubble : bubbles){
+        for (int i = 0; i < bubblesListSize; i++){//Node bubble : bubbles){
 //            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
 //            System.out.println("ZoomLevel: " + bubble.getZoomLevel());
-            addBackLinks(bubble);
-            addForwardLinks(bubble);
+//            addBackLinks(bubbles.get(i));
+            addForwardLinks(bubbles.get(i));
         }
     }
 
-    private void addBackLinks(Node bubble){
-        Collection<Node> container;
-        for(Node node: bubble.getStartNode().getBackLinks()) {
-            container = bubbles.stream().filter(x -> (x.getStartNode().getId() != x.getEndNode().getId()) &&
-                    x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
-            if (container.size() > 0)
-                bubble.getBackLinks().addAll(container);
-            else
-                bubble.getBackLinks().add(node);
-        }
-//        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
-    }
+//    private void addBackLinks(Node bubble){
+//        Collection<Node> container;
+//        for(Node node: bubble.getStartNode().getBackLinks()) {
+//            container = bubbles.stream().filter(x -> (x.getStartNode().getId() != x.getEndNode().getId()) &&
+//                    x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
+//            if (container.size() > 0)
+//                bubble.getBackLinks().addAll(container);
+//            else
+//                bubble.getBackLinks().add(node);
+//        }
+////        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
+//    }
 
     private void addForwardLinks(Node bubble){
         Collection<Node> container;
@@ -103,8 +103,10 @@ public class BubbleCollapser {
                     x.getStartNode().getId() == bubble.getEndNode().getId()).collect(Collectors.toSet());
             if (container.size() > 0)
                 bubble.getLinks().addAll(container);
-            else
+            else {
+                bubble.getLinks().remove(node);
                 bubble.getLinks().add(getBestParentNode(node, bubble.getZoomLevel()));//
+            }
         }
 //        System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
 //        System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
@@ -114,8 +116,16 @@ public class BubbleCollapser {
     }
 
     private Node getBestParentNode(Node leaf, int boundZoom){
-        if(leaf instanceof Segment)
-            leaf = createNewBubbleFromSegment((Segment) leaf);
+        if(leaf instanceof Segment) {
+            final int leafId = leaf.getId();
+            Optional<Node> bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId
+//                    && x.getEndNode().getId() == leafId
+                                                                ).findFirst();
+            if(bubble.isPresent())
+                leaf = bubble.get();
+            else
+                leaf = createNewBubbleFromSegment((Segment) leaf);
+        }
         Node bestParent = leaf;
         for (Node newCont : bubbles){
             if(newCont.getId() == bestParent.getContainerId()) {
@@ -133,7 +143,10 @@ public class BubbleCollapser {
         Bubble newB = new Bubble(lastId, segment, segment);
         newB.setZoomLevel(segment.getZoomLevel());
         newB.setContainerId(segment.getContainerId());
-        newBubbles.add(newB);
+        newB.getLinks().addAll(segment.getLinks());
+        newB.getBackLinks().addAll(segment.getBackLinks());
+        bubbles.add(newB);
+        bubblesListSize++;
         return newB;
     }
 
