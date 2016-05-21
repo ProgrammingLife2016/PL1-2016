@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
 /**
+ * Collapser populates detected bubbles with bubbles of the lower level or with segments.
+ *
  * Created by ravishivam on 16-5-16.
  *
  */
@@ -29,6 +31,9 @@ public class BubbleCollapser {
         bubblesListSize = bubbles.size();
     }
 
+    /**
+     * Main method that collapses all bubbles.
+     */
     public void collapseBubbles(){
         for (Node bubble : bubbles)
             bubble.getContainer().addAll(bfs(bubble));
@@ -37,6 +42,11 @@ public class BubbleCollapser {
         addLinks(bubbles);
     }
 
+    /**
+     * Find all segments that given bubble contains using breadth-first-search .
+     * @param bubble bubble to collapse
+     * @return
+     */
     private List<Node> bfs(Node bubble) {
         List<Node> visited = new ArrayList<>();
         int startId =  bubble.getStartNode().getId();
@@ -60,6 +70,10 @@ public class BubbleCollapser {
         return visited;
     }
 
+    /**
+     * Replace segments by bubbles of higher level in the container of given bubble.
+     * @param bubble bubble populated with segments
+     */
     private void modifyContainer(Node bubble){
         Set<Integer> innerBubbles = new HashSet<>();
         for(Node n : bubble.getContainer()){
@@ -73,28 +87,20 @@ public class BubbleCollapser {
         }
     }
 
+    /**
+     * Connect all bubbles per level with each other to get representative graph.
+     * @param bubbles list of all collapsed bubbles
+     */
     private void addLinks(List<Node> bubbles){
-        for (int i = 0; i < bubblesListSize; i++){//Node bubble : bubbles){
-//            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
-//            System.out.println("ZoomLevel: " + bubble.getZoomLevel());
-//            addBackLinks(bubbles.get(i));
+        for (int i = 0; i < bubblesListSize; i++){
             addForwardLinks(bubbles.get(i));
         }
     }
 
-//    private void addBackLinks(Node bubble){
-//        Collection<Node> container;
-//        for(Node node: bubble.getStartNode().getBackLinks()) {
-//            container = bubbles.stream().filter(x -> (x.getStartNode().getId() != x.getEndNode().getId()) &&
-//                    x.getEndNode().getId() == bubble.getStartNode().getId()).collect(Collectors.toSet());
-//            if (container.size() > 0)
-//                bubble.getBackLinks().addAll(container);
-//            else
-//                bubble.getBackLinks().add(node);
-//        }
-////        System.out.println("Id: " + bubble.getId() + " BackLinks:" + linksToString(bubble.getBackLinks()));
-//    }
-
+    /**
+     * Add forward links to the given bubble
+     * @param bubble bubble to link with the rest of the graph
+     */
     private void addForwardLinks(Node bubble){
         Collection<Node> container;
         for(Node node: bubble.getEndNode().getLinks()) {

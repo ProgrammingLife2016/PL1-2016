@@ -197,8 +197,9 @@ public class Bubble implements Node {
     }
 
     /**
-     * Return highest level bubble container of the leaf node in the given bubble if it exists, else creates new bubble with the startNode == endNode
-     * @param newId
+     * Return highest level bubble container of the leaf node in the given bubble if it exists,
+     * else creates new bubble with the startNode == endNode.
+     * @param newId new Id that will be assigned to the bubble if it is just created
      * @param leaf
      * @param bubbles
      * @param boundZoom
@@ -208,13 +209,11 @@ public class Bubble implements Node {
         if(leaf instanceof Segment) {
             final int leafId = leaf.getId();
             Optional<Node> bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId
-//                    && x.getEndNode().getId() == leafId
             ).findFirst();
             if(bubble.isPresent())
                 leaf = bubble.get();
             else {
                 leaf = new Bubble(newId, boundZoom, (Segment) leaf);
-//                bubbles.add(leaf);
                 newId++;
             }
         }

@@ -6,6 +6,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import java.util.*;
 
 /**
+ * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
  * Created by ravishivam on 15-5-16.
  */
 public class BubbleDetector {
