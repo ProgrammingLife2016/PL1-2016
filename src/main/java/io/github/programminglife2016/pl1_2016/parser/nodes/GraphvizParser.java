@@ -13,7 +13,9 @@ import java.io.InputStreamReader;
  * @author Ravi Autar
  */
 public class GraphvizParser implements Parser {
-    NodeCollection nodeCollection;
+    private static final int FACTOR = 100;
+
+    private NodeCollection nodeCollection;
 
     /**
      * Contructs a new parser object to parse an given inputstream.
@@ -54,6 +56,10 @@ public class GraphvizParser implements Parser {
         }
     }
 
+    /**
+     * Parses a string line and handles each found input accordingly.
+     * @param line line that contains information to be parsed.
+     */
     private void parseLine(String line) {
         String[] data = line.split(" ");
         switch (data[0]) {
@@ -69,16 +75,23 @@ public class GraphvizParser implements Parser {
         }
     }
 
+    /**
+     * Handler for when the line to be parsed is a node.
+     * @param data data that contains information about the node.
+     */
     private void handleNode(String[] data) {
         Node node = new Segment(Integer.parseInt(data[1]));
-        node.setXY(Integer.parseInt(data[2]), Integer.parseInt(data[3]));
+        node.setXY((int) Double.parseDouble(data[2]) * FACTOR, (int) Double.parseDouble(data[3]) * FACTOR);
         this.nodeCollection.put(node.getId(), node);
     }
 
+    /**
+     * Handler for when the line to be parsed is a edge.
+     * @param data data that contains information about an edge.
+     */
     private void handleEdge(String[] data) {
         int from = Integer.parseInt(data[1]);
         int to = Integer.parseInt(data[2]);
         this.nodeCollection.get(from).addLink(this.nodeCollection.get(to));
     }
-
 }
