@@ -109,6 +109,7 @@ public class BubbleCollapser {
                 bubble.getLinks().add(newBubble);//
                 bubbles.add(newBubble);
                 bubblesListSize++;
+
             }
         }
 //        System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));

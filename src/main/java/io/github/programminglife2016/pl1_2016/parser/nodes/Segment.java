@@ -13,17 +13,17 @@ import java.util.Set;
  */
 public class Segment implements Node {
     private int id;
-    private String data;
+    private int x;
+    private int y;
+    private transient String data;
     private transient int column;
     private transient Set<Node> links = new HashSet<>();
     private transient Set<Node> backLinks = new HashSet<>();
-    private int x;
-    private int y;
-    private final Boolean isBubble = false;
-    private Set<String> genomes = new HashSet<>();
+    private transient final Boolean isBubble = false;
+    private transient Set<String> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
-    private final int containersize = 1;
+    private transient final int containersize = 1;
     /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.

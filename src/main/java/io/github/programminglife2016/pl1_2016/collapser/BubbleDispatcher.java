@@ -7,6 +7,8 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static javax.swing.text.html.HTML.Tag.HEAD;
+
 
 public class BubbleDispatcher {
 
@@ -97,6 +99,7 @@ public class BubbleDispatcher {
 //            System.out.println("StartNode: " + bubble.getStartNode());
 //            System.out.println("EndNode: " + bubble.getEndNode());
 //            System.out.println();
+
         }
         filtered.addAll(tempList);
         for(Node bubble: filtered)
