@@ -1,7 +1,9 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +18,9 @@ public class Segment implements Node {
     private int x;
     private int y;
     private Set<String> genomes = new HashSet<>();
-
+    private transient int containerid;
+    private transient int level;
+    private final int containersize = 1;
     /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
@@ -165,7 +169,8 @@ public class Segment implements Node {
      */
     @Override
     public String toString() {
-        return String.format("Segment{id=%d, x=%d, y=%d, column=%d}", id, x, y, column);
+        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y,
+                column, containerid);
     }
 
     @Override
@@ -196,7 +201,57 @@ public class Segment implements Node {
     }
 
     @Override
+    public int getContainerId() {
+        return this.containerid;
+    }
+
+
+    @Override
+    public void setContainerId(int containerid) {
+        this.containerid = containerid;
+    }
+
+    @Override
+    public int getZoomLevel() {
+        return this.level;
+    }
+
+    @Override
+    public List<Node> getContainer() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getContainerSize() {
+        return containersize;
+    }
+
+    @Override
+    public Boolean isBubble() {
+        return false;
+    }
+
+    @Override
+    public void setContainerSize(int size) {
+    }
+
+    @Override
+    public void setZoomLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public Node getStartNode() {
+        return this;
+    }
+
+    @Override
+    public Node getEndNode() {
+        return this;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
@@ -13,6 +14,8 @@ import java.io.InputStream;
  */
 public final class Launcher {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
+    private static final int BUBBLE_THRESHOLD = 4;
+
     private Launcher() {
     }
     /**
@@ -23,12 +26,13 @@ public final class Launcher {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10_200.gfa");
+        InputStream is = Launcher.class.getResourceAsStream("/genomes/testGraph.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        Server server = new RestServer(nodeCollection);
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        Server server = new RestServer(dispatcher.getLevelBubbles(0, BUBBLE_THRESHOLD));
         server.startServer();
     }
 }
