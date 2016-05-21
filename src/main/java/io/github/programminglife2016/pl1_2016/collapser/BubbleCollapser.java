@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -13,11 +14,14 @@ import java.util.stream.Collectors;
  */
 public class BubbleCollapser {
     List<Node> bubbles;
+    List<Node> newBubbles = new ArrayList<>();
+    int lastId;
 
     public BubbleCollapser(NodeCollection collection){
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
         this.bubbles = detector.getBubbleBoundaries();
+        lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
     }
 
     public void collapseBubbles(){
@@ -26,6 +30,7 @@ public class BubbleCollapser {
         for (Node bubble : bubbles)
             modifyContainer(bubble);
         addLinks(bubbles);
+        bubbles.addAll(newBubbles);
     }
 
     private List<Node> breadth(Node bubble) {
@@ -96,10 +101,16 @@ public class BubbleCollapser {
             else
                 bubble.getLinks().add(getBestParentNode(node, bubble.getZoomLevel()));//
         }
+//        System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
+//        System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
+//        System.out.println("StartNode: " + bubble.getStartNode());
+//        System.out.println("EndNode: " + bubble.getEndNode());
         System.out.print("" + linksToString(bubble.getId(), bubble.getLinks()));
     }
 
     private Node getBestParentNode(Node leaf, int boundZoom){
+        if(leaf instanceof Segment)
+            leaf = createNewBubbleFromSegment((Segment) leaf);
         Node bestParent = leaf;
         for (Node newCont : bubbles){
             if(newCont.getId() == bestParent.getContainerId()) {
@@ -112,6 +123,15 @@ public class BubbleCollapser {
         return bestParent;
     }
 
+    private Bubble createNewBubbleFromSegment(Segment segment){
+        lastId++;
+        Bubble newB = new Bubble(lastId, segment, segment);
+        newB.setZoomLevel(segment.getZoomLevel());
+        newB.setContainerId(segment.getContainerId());
+        newBubbles.add(newB);
+        return newB;
+    }
+
     /**
      * Temporary method to view changes in links
      * @param links
@@ -120,7 +140,7 @@ public class BubbleCollapser {
     private String linksToString(int bId, Collection<Node> links){
         String result = "";
         for (Node n: links)
-            result += bId + " -> " + n.getId() + ",\n";
+            result += bId + " -> " + n.getId() + "\n";
         return result;
     }
 

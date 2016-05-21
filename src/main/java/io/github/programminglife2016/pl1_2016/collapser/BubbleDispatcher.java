@@ -93,7 +93,7 @@ public class BubbleDispatcher {
 //            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
         }
         filtered.addAll(tempList);
-        System.out.println(filtered);
+        System.out.println("Filtered: " + filtered + " TotalBubbles: " + bubbleCollection.size());
         return listAsNodeCollection(filtered);
     }
     private String linksToString(int bId, Collection<Node> links){
