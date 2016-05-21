@@ -2,7 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -21,10 +20,10 @@ public class BubbleCollapser {
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
         this.bubbles = detector.getBubbleBoundaries();
-        System.out.println("Detected");
-        for (int i = 0; i < bubbles.size(); i++) {
-            System.out.println(bubbles.get(i));
-        }
+//        System.out.println("Detected");
+//        for (int i = 0; i < bubbles.size(); i++) {
+//            System.out.println(bubbles.get(i));
+//        }
         System.out.println();
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();
@@ -32,13 +31,13 @@ public class BubbleCollapser {
 
     public void collapseBubbles(){
         for (Node bubble : bubbles)
-            bubble.getContainer().addAll(breadth(bubble));
+            bubble.getContainer().addAll(bfs(bubble));
         for (Node bubble : bubbles)
             modifyContainer(bubble);
         addLinks(bubbles);
     }
 
-    private List<Node> breadth(Node bubble) {
+    private List<Node> bfs(Node bubble) {
         List<Node> visited = new ArrayList<>();
         int startId =  bubble.getStartNode().getId();
         int endId =  bubble.getEndNode().getId();
@@ -105,50 +104,21 @@ public class BubbleCollapser {
                 bubble.getLinks().addAll(container);
             else {
                 bubble.getLinks().remove(node);
-                bubble.getLinks().add(getBestParentNode(node, bubble.getZoomLevel()));//
+                lastId++;
+                Node newBubble = Bubble.getBestParentNode(lastId, node, bubbles, bubble.getZoomLevel());
+                bubble.getLinks().add(newBubble);//
+                bubbles.add(newBubble);
+                bubblesListSize++;
             }
         }
 //        System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
 //        System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
 //        System.out.println("StartNode: " + bubble.getStartNode());
 //        System.out.println("EndNode: " + bubble.getEndNode());
-        System.out.print("" + linksToString(bubble.getId(), bubble.getLinks()));
+//        System.out.print("" + linksToString(bubble.getId(), bubble.getLinks()));
     }
 
-    private Node getBestParentNode(Node leaf, int boundZoom){
-        if(leaf instanceof Segment) {
-            final int leafId = leaf.getId();
-            Optional<Node> bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId
-//                    && x.getEndNode().getId() == leafId
-                                                                ).findFirst();
-            if(bubble.isPresent())
-                leaf = bubble.get();
-            else
-                leaf = createNewBubbleFromSegment((Segment) leaf);
-        }
-        Node bestParent = leaf;
-        for (Node newCont : bubbles){
-            if(newCont.getId() == bestParent.getContainerId()) {
-                if(newCont.getZoomLevel() >= boundZoom)
-                    bestParent = newCont;
-            }
-        }
-        if(bestParent.getId() != leaf.getId())
-            return getBestParentNode(bestParent, boundZoom);
-        return bestParent;
-    }
 
-    private Bubble createNewBubbleFromSegment(Segment segment){
-        lastId++;
-        Bubble newB = new Bubble(lastId, segment, segment);
-        newB.setZoomLevel(segment.getZoomLevel());
-        newB.setContainerId(segment.getContainerId());
-        newB.getLinks().addAll(segment.getLinks());
-        newB.getBackLinks().addAll(segment.getBackLinks());
-        bubbles.add(newB);
-        bubblesListSize++;
-        return newB;
-    }
 
     /**
      * Temporary method to view changes in links

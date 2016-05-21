@@ -32,6 +32,16 @@ public class Bubble implements Node {
 
     }
 
+    public Bubble (int newId, int zoomLvl, Segment segment){
+        this.id = newId;
+        this.startNode = segment;
+        this.endNode = segment;
+        this.level = zoomLvl;
+        this.containerid = segment.getContainerId();
+        this.links.addAll(segment.getLinks());
+        this.backLinks.addAll(segment.getBackLinks());
+    }
+
     @Override
     public void setXY(int x, int y) {
         this.x = x;
@@ -186,11 +196,46 @@ public class Bubble implements Node {
         return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
     }
 
+    /**
+     * Return highest level bubble container of the leaf node in the given bubble if it exists, else creates new bubble with the startNode == endNode
+     * @param newId
+     * @param leaf
+     * @param bubbles
+     * @param boundZoom
+     * @return
+     */
+    public static Node getBestParentNode(int newId, Node leaf, Collection<Node> bubbles, int boundZoom){
+        if(leaf instanceof Segment) {
+            final int leafId = leaf.getId();
+            Optional<Node> bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId
+//                    && x.getEndNode().getId() == leafId
+            ).findFirst();
+            if(bubble.isPresent())
+                leaf = bubble.get();
+            else {
+                leaf = new Bubble(newId, boundZoom, (Segment) leaf);
+//                bubbles.add(leaf);
+                newId++;
+            }
+        }
+        Node bestParent = leaf;
+        for (Node newCont : bubbles){
+            if(newCont.getId() == bestParent.getContainerId()) {
+                if(newCont.getZoomLevel() >= boundZoom)
+                    bestParent = newCont;
+            }
+        }
+        if(bestParent.getId() != leaf.getId())
+            return getBestParentNode(newId, bestParent, bubbles, boundZoom);
+        return bestParent;
+    }
+
     public String toString() {
         return "Bubble{" +
                 "id=" + id +
                 ", startNode=" + startNode +
                 ", endNode=" + endNode +
+                ", containerSize=" + containersize +
                 '}';
     }
 }

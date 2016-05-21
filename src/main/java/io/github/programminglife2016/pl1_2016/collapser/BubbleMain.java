@@ -28,6 +28,7 @@ public class BubbleMain {
 //        for (Node bubble : dispatcher.bubbleCollection) {
 //            bubble.setXY(bubble.getStartNode().getX(), bubble.getStartNode().getY());
 //        }
+
         Server server = new RestServer(dispatcher.getLevelBubbles(0, 4));
         server.startServer();
     }

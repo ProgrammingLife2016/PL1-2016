@@ -32,12 +32,7 @@ public class BubbleDispatcher {
         for (int i = 0; i < bubbleCollection.size(); i++) {
             Node bubble = bubbleCollection.get(i);
             bubble.setContainerSize(getBubbleSize(bubble));
-//            int currlevel = bubble.getZoomLevel();
-//            if (!levelCollection.containsKey(currlevel)) {
-//                levelCollection.put(currlevel, new NodeMap());
-            }
-//            levelCollection.get(currlevel).put(bubble.getId(), bubble);
-//        }
+        }
     }
 
     public int getBubbleSize(Node bubble) {
@@ -53,15 +48,27 @@ public class BubbleDispatcher {
         }
     }
     public NodeCollection getLevelBubbles(int level, int threshold) {
-        List<Node> filtered = bubbleCollection.stream().filter(x -> x.getContainerSize() <= threshold).collect(Collectors.toList());
-        List<Node> tempList = new ArrayList<>();
+        Set<Node> filtered = bubbleCollection.stream().filter(x -> x.getContainerSize() <= threshold).collect(Collectors.toSet());
+        int lastId = bubbleCollection.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
+        Set<Node> tempList = new HashSet<>();
+        Node tempBubble;
         for (Node bubble : filtered) {
             if (needReplace(bubble.getLinks(), filtered)) {
                 Collection<Node> newlinks = new HashSet<>();
                 for (Node endNodelink : bubble.getEndNode().getLinks()) {
-                    Optional<Node> link = filtered.stream().filter(y -> y.getId() == endNodelink.getContainerId()).findFirst();
-                    if(link.isPresent())
-                        newlinks.add(link.get());
+//                    Optional<Node> link = filtered.stream().filter(y -> y.getId() == endNodelink.getContainerId()).findFirst();
+//                    if(link.isPresent())
+                    lastId++;
+                    tempBubble = Bubble.getBestParentNode(lastId, endNodelink, filtered, bubble.getZoomLevel());
+                            //new Bubble(lastId, bubble.getZoomLevel(), (Segment) endNodelink);
+                    tempBubble.getLinks().clear();
+                    Set<Node> tbl = new HashSet<>();
+//                    tbl.retainAll(endNodelink.getLinks());
+                    for(Node link : bubble.getLinks())
+                        tbl.addAll(link.getLinks());
+                    tempBubble.getLinks().addAll(tbl);//getContainer(bubble.getLinks(), endNodelink.getLinks()));
+                    newlinks.add(tempBubble);//link.get());
+
                 }
                 for (Node link : bubble.getStartNode().getLinks()) {
                     if(link instanceof Bubble) {
@@ -90,12 +97,33 @@ public class BubbleDispatcher {
 //            System.out.println("StartNode: " + bubble.getStartNode());
 //            System.out.println("EndNode: " + bubble.getEndNode());
 //            System.out.println();
-//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
         }
         filtered.addAll(tempList);
+        for(Node bubble: filtered)
+            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
+
         System.out.println("Filtered: " + filtered + " TotalBubbles: " + bubbleCollection.size());
         return listAsNodeCollection(filtered);
     }
+
+    /**
+     * Returns existing bubble-containers of the given leafs
+     * TODO: fix deeper for levels
+     * @param bubbleLinks
+     * @param leafLinks
+     * @return
+     */
+    private Set<Node> getContainer(Collection<Node> bubbleLinks, Collection<Node> leafLinks){
+        Set<Node> result = new HashSet<>();
+        for(Node bubbleL : bubbleLinks){
+            for(Node leafL : leafLinks) {
+                if (bubbleL.getContainer().stream().filter(x -> x.getId() == leafL.getId()).count() > 0)
+                    result.add(bubbleL);
+            }
+        }
+        return result;
+    }
+
     private String linksToString(int bId, Collection<Node> links){
         String result = "";
         for (Node n: links)
@@ -107,7 +135,7 @@ public class BubbleDispatcher {
         return links.stream().filter(node -> bubbleCollection.contains(node) == false).collect(Collectors.toList());
     }
 
-    private boolean needReplace(Collection<Node> links, List<Node> bubble) {
+    private boolean needReplace(Collection<Node> links, Collection<Node> bubble) {
         for (Node link : links) {
             if (bubble.contains(link)) {
                 continue;
@@ -116,26 +144,8 @@ public class BubbleDispatcher {
         }
         return false;
     }
-//    public NodeCollection getLevelBubbles(int level, int threshold) {
-//        List<Node> res = new ArrayList<>(levelCollection.get(level).values());
-//        List<Node> nextLevel = new ArrayList<>(levelCollection.get(level+1).values());
-//
-//        for(Node node : res) {
-//            if (node.getContainerSize() > threshold) {
-//                Node start = node.getStartNode();
-//                for (Node startchildren : start.getLinks()) {
-//                    int idcontainer = startchildren.getContainerId();
-//
-//                }
-//
-//                res.remove(node);
-//            }
-//        }
-//        return listAsNodeCollection(res);
-////        return levelCollection.get(level);
-//    }
 
-    private NodeCollection listAsNodeCollection(List<Node> res) {
+    private NodeCollection listAsNodeCollection(Collection<Node> res) {
         NodeCollection collection = new NodeMap();
         for(Node node: res) {
             collection.put(node.getId(), node);
