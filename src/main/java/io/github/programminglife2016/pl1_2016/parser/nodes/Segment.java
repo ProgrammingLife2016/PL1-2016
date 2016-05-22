@@ -172,7 +172,7 @@ public class Segment implements Node {
      */
     @Override
     public String toString() {
-        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y, column, containerid);
+        return String.format("Segment{id=%d, x=%d, y=%d, containerid=%d}", id, x, y, containerid);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.parser.Parser;
 
 import java.io.BufferedReader;
@@ -14,17 +13,17 @@ import java.io.InputStreamReader;
  */
 public class GraphvizParser implements Parser {
     private static final int FACTOR = 100;
-
     private NodeCollection nodeCollection;
 
     /**
      * Contructs a new parser object to parse an given inputstream.
      */
-    public GraphvizParser() {
-        nodeCollection = new NodeMap();
+    public GraphvizParser(NodeCollection nodeCollection) {
+        this.nodeCollection = nodeCollection;
     }
+
     @Override
-    public JsonSerializable parse(InputStream inputStream) throws IOException {
+    public NodeCollection parse(InputStream inputStream) throws IOException {
         readFile(inputStream);
         return nodeCollection;
     }
@@ -80,9 +79,10 @@ public class GraphvizParser implements Parser {
      * @param data data that contains information about the node.
      */
     private void handleNode(String[] data) {
-        Node node = new Segment(Integer.parseInt(data[1]));
-        node.setXY((int) Double.parseDouble(data[2]) * FACTOR, (int) Double.parseDouble(data[3]) * FACTOR);
-        this.nodeCollection.put(node.getId(), node);
+        int id = Integer.parseInt(data[1]);
+        int x = (int) Double.parseDouble(data[2]) * FACTOR;
+        int y = (int) Double.parseDouble(data[3]) * FACTOR;
+        nodeCollection.get(id).setXY(x, y);
     }
 
     /**

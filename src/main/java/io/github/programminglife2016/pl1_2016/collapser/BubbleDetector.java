@@ -82,7 +82,10 @@ public class BubbleDetector {
                     stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
                 case NO_CHILDREN_FOUND:
-//                    System.out.println("reached");
+                    System.out.println(startNode + "   " + destination);
+                    if (startNode==destination) {
+                        return new ArrayList<>();
+                    }
                     if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
                         handleDetectedBubble(startNode,stoppedNode,levelCollection);
                     }
