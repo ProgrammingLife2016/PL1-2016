@@ -4,6 +4,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Bubble implements Node {
     private int id;
@@ -164,6 +165,10 @@ public class Bubble implements Node {
         this.endNode = node;
     }
 
+    public void setStartNode(Node node) {
+        this.startNode = node;
+    }
+
     @Override
     public List<Node> getContainer() {
         return container;
@@ -205,11 +210,17 @@ public class Bubble implements Node {
      * @param boundZoom
      * @return
      */
-    public static Node getBestParentNode(int newId, Node leaf, Collection<Node> bubbles, int boundZoom){
+    public static Node getBestParentNode(int newId, Node leaf, Collection<Node> bubbles, int boundZoom, boolean start){
         if(leaf instanceof Segment) {
+            final Node tempLeaf = leaf;
             final int leafId = leaf.getId();
-            Optional<Node> bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId
+            Optional<Node> bubble;
+            if(start)
+            bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId// || x.getEndNode().getId() == leafId //
+//            Optional<Node> bubble = bubbles.stream().filter(x -> x.getContainer().contains(tempLeaf)
             ).findFirst();
+            else
+                bubble = bubbles.stream().filter(x -> x.getEndNode().getId() == leafId).findFirst();
             if(bubble.isPresent())
                 leaf = bubble.get();
             else {
@@ -225,14 +236,27 @@ public class Bubble implements Node {
             }
         }
         if(bestParent.getId() != leaf.getId())
-            return getBestParentNode(newId, bestParent, bubbles, boundZoom);
+            return getBestParentNode(newId, bestParent, bubbles, boundZoom, start);
         return bestParent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Bubble bubble = (Bubble) o;
+        return id == bubble.id;
     }
 
     public String toString() {
         return "Bubble{" +
                 "id=" + id +
                 ", startNode=" + startNode +
+                ", container=" + container.stream().map(x -> x.getId()).collect(Collectors.toList()) +
                 ", endNode=" + endNode +
                 ", containerSize=" + containersize +
                 '}';

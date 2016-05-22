@@ -15,7 +15,7 @@ public class BubbleMain {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraphLSEE.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph3LVL.gfa");//TB10_200.gfa");//
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)

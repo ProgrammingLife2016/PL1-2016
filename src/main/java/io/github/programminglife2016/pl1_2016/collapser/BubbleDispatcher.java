@@ -7,8 +7,6 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static javax.swing.text.html.HTML.Tag.HEAD;
-
 
 public class BubbleDispatcher {
 
@@ -24,8 +22,10 @@ public class BubbleDispatcher {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
-//        levelCollection = new HashMap<>();
-//        endToBubble = new HashMap<>();
+        System.out.println("Collapsed:");
+        for (Node bubble : bubbleCollection) {
+            System.out.println("ID: " + bubble.getId() + "  Container: " + bubble.getContainer());
+        }
         this.collection = collection;
         initDispatcher();
     }
@@ -61,7 +61,7 @@ public class BubbleDispatcher {
 //                    Optional<Node> link = filtered.stream().filter(y -> y.getId() == endNodelink.getContainerId()).findFirst();
 //                    if(link.isPresent())
                     lastId++;
-                    tempBubble = Bubble.getBestParentNode(lastId, endNodelink, filtered, bubble.getZoomLevel());
+                    tempBubble = Bubble.getBestParentNode(lastId, endNodelink, filtered, bubble.getZoomLevel(), true);
                             //new Bubble(lastId, bubble.getZoomLevel(), (Segment) endNodelink);
                     tempBubble.getLinks().clear();
                     Set<Node> tbl = new HashSet<>();

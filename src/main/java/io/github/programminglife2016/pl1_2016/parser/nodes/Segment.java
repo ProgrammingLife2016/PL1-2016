@@ -275,4 +275,7 @@ public class Segment implements Node {
     @Override
     public void setEndNode(Node node) {
     }
+    @Override
+    public void setStartNode(Node node) {
+    }
 }
