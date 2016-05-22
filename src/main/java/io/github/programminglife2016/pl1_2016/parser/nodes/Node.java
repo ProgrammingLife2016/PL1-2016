@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.collapser.Bubble;
 import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
 
 import java.util.Collection;
@@ -171,4 +170,5 @@ public interface Node extends Cloneable {
     Node getStartNode();
     Node getEndNode();
     void setEndNode(Node node);
+    void setStartNode(Node node);
 }
