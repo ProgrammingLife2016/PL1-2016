@@ -22,10 +22,10 @@ public class BubbleCollapser {
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
         this.bubbles = detector.getBubbleBoundaries();
-//        System.out.println("Detected");
-//        for (int i = 0; i < bubbles.size(); i++) {
-//            System.out.println(bubbles.get(i));
-//        }
+        System.out.println("Detected");
+        for (int i = 0; i < bubbles.size(); i++) {
+            System.out.println(bubbles.get(i));
+        }
         System.out.println();
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();

@@ -71,6 +71,9 @@ public class BubbleDetector {
         int status = stoppedAtNode.getKey();
         Node stoppedNode = stoppedAtNode.getValue();
         while (status != REACHED_FINAL_DESTINATION) {
+            if (startNode==stoppedNode) {
+                return new ArrayList<>();
+            }
             switch (status) {
                 case BUBBLE_DETECTED :
                     handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
@@ -81,25 +84,22 @@ public class BubbleDetector {
                     startNode = stoppedAtNode.getValue();
                     stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
-                case NO_CHILDREN_FOUND:
-                    System.out.println(startNode + "   " + destination);
-                    if (startNode==destination) {
-                        return new ArrayList<>();
+            }
+            if (status == NO_CHILDREN_FOUND) {
+                if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
+                    handleDetectedBubble(startNode, stoppedNode, levelCollection);
+                } else {
+                    for (Node childNode : startNode.getLinks()) {
+                        initVisited(collection);
+                        levelCollection.addAll(findLevelBubbles(childNode, destination));
                     }
-                    if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
-                        handleDetectedBubble(startNode,stoppedNode,levelCollection);
-                    }
-                    else {
-                        for (Node childNode : startNode.getLinks()) {
-                            levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));
-                        }
-                    }
-                    break;
+                }
+                break;
             }
             status = stoppedAtNode.getKey();
             stoppedNode = stoppedAtNode.getValue();
         }
-        if (startNode.getGenomes().equals(stoppedAtNode.getValue().getGenomes())) {
+        if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
             handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
         }
         else {

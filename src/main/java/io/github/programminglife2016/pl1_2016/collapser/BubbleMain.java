@@ -17,9 +17,9 @@ public class BubbleMain {
         InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
         InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.txt");
         NodeCollection nodeCollection = (new GraphvizParser((new SegmentParser()).parse(segis))).parse(dotis);
-//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-//        System.out.println("reached");
-//        System.out.println(nodeCollection.size());
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        nodeCollection = dispatcher.getLevelBubbles(0,4);
+        System.out.println(nodeCollection.size());
 //        Server server = new RestServer(dispatcher.getLevelBubbles(0,7));
         Server server = new RestServer(nodeCollection);
         server.startServer();
