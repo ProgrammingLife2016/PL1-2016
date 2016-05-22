@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.database.SimpleDatabase;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -52,6 +53,14 @@ public class SegmentParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
+//            PositionHandler ph = new PositionHandler(nodeCollection);
+//            ph.calculatePositions();
+            SimpleDatabase db = new SimpleDatabase();
+//          The lines above have to be removed and the lines below have to be uncommented
+//          to use the loading from the database
+//          MetaDatabase db = new MetaDatabase();
+//          nodeCollection = db.getPositions(nodeCollection, 1);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
