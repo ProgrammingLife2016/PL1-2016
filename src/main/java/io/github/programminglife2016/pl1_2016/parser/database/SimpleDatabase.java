@@ -5,7 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenCollection
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeList;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.sql.Connection;
@@ -14,7 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class for creating a database.
@@ -88,7 +90,7 @@ public class SimpleDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public NodeCollection fetchSegments() throws SQLException {
-        NodeCollection nodes = new NodeList(SIZE);
+        NodeCollection nodes = new NodeMap();
         Statement stmt = null;
         String query = "select segment_id, data, column_index, positionx, "
                 + "positiony "
@@ -106,12 +108,81 @@ public class SimpleDatabase implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-         if (stmt != null) {
-             stmt.close();
-         }
+        if (stmt != null) {
+            stmt.close();
+        }
         return fetchLinks(nodes);
 
     }
+
+    /**
+     * Fetch all positions of segments in nodeCollection in database.
+     *
+     * @return collection of nodes in database
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public NodeCollection fetchPositions(NodeCollection nodeCollection) throws SQLException {
+        for (Node node: nodeCollection.values()) {
+            List<Integer> positions = fetchPosition(node.getId());
+            node.setXY(positions.get(0), positions.get(1));
+        }
+        return nodeCollection;
+
+    }
+
+    /**
+     * Fetch position of segment based on id of the segment.
+     *
+     * @param id the id of the segment
+     * @return the positions as List<Integer>
+     */
+    private List<Integer> fetchPosition(int id) {
+        Statement stmt = null;
+        String query = "select positionx, "
+                + "positiony "
+                + "from " + SEGMENT_TABLE
+                + " WHERE segment_id='" + id + "'";
+        List<Integer> res = new ArrayList<>();
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            int x = rs.getInt("positionx");
+            int y = rs.getInt("positiony");
+            res.addAll(Arrays.asList(x, y));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+
+    }
+
+    public void updatePositions(NodeCollection nodeCollection) throws SQLException {
+        for (Node node : nodeCollection.values()) {
+            updatePosition(node.getId(), node.getX(), node.getY());
+        }
+    }
+
+    public void updatePosition(int id, int x, int y) throws SQLException {
+        Statement stmt = null;
+        String query = "UPDATE " + SEGMENT_TABLE
+                + " SET positionx = '"
+                + x + "', positiony = '"
+                + y + "' WHERE segment_id = '"
+                + id + "'";
+        try {
+            System.out.println(query);
+            stmt = connection.createStatement();
+            stmt.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
 
     /**
      * fetch links for segments
@@ -127,7 +198,7 @@ public class SimpleDatabase implements Database {
                 + " WHERE from_id='";
         try {
             stmt = connection.createStatement();
-            for (Node node : nodes) {
+            for (Node node : nodes.values()) {
                 ResultSet rs = stmt.executeQuery(query + node.getId() + "'");
                 while (rs.next()) {
                     int segmentid = rs.getInt("to_id");
@@ -184,6 +255,7 @@ public class SimpleDatabase implements Database {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     public void writeSegments(NodeCollection nodes) throws SQLException {
+        clearTable(SEGMENT_TABLE);
         writeLinks(nodes);
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + SEGMENT_TABLE
@@ -191,9 +263,7 @@ public class SimpleDatabase implements Database {
                 + "(?,?,?,?,?)";
         try {
             stmt = connection.prepareStatement(query);
-            Iterator<Node> iterator = nodes.getNodes().iterator();
-            while (iterator.hasNext()) {
-                Node node = iterator.next();
+            for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
                 stmt.setString(2, node.getData());
                 stmt.setInt(3, node.getColumn());
@@ -211,16 +281,25 @@ public class SimpleDatabase implements Database {
         }
     }
 
+    private void clearTable(String tableName) {
+        Statement stmt;
+        try{
+            stmt = connection.createStatement();
+            String query = "DELETE FROM " + tableName;
+        } catch(SQLException s){
+            s.printStackTrace();
+        }
+    }
+
     private void writeLinks(NodeCollection nodes) throws SQLException {
+        clearTable(LINK_TABLE);
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + LINK_TABLE
                 + "(from_id, to_id) VALUES"
                 + "(?,?)";
         try {
             stmt = connection.prepareStatement(query);
-            Iterator<Node> iterator = nodes.getNodes().iterator();
-            while (iterator.hasNext()) {
-                Node node = iterator.next();
+            for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());

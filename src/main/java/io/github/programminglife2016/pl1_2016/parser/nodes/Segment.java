@@ -1,9 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Data structure for representing a DNA sequence
