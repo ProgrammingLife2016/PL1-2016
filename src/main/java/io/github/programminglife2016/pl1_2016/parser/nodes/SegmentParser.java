@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +37,13 @@ public class SegmentParser implements Parser {
      */
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
+        Scanner sc = new Scanner(SegmentParser.class.getResourceAsStream("/genomes/TB10.dot"));
+        while (sc.hasNextLine()) {
+            String[] line = sc.nextLine().split(" ");
+            if (line[0].equals("node")) {
+                nodeCollection.get(Integer.parseInt(line[1])).setXY((int) (Double.parseDouble(line[2]) * 100), (int) (Double.parseDouble(line[3]) * 100));
+            }
+        }
         return nodeCollection;
     }
 

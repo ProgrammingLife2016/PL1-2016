@@ -26,13 +26,14 @@ public final class Launcher {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = Launcher.class.getResourceAsStream("/genomes/testGraph.gfa");
+        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        Server server = new RestServer(dispatcher.getLevelBubbles(0, BUBBLE_THRESHOLD));
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        Server server = new RestServer(dispatcher.getLevelBubbles(0, BUBBLE_THRESHOLD));
+        Server server = new RestServer(nodeCollection);
         server.startServer();
     }
 }
