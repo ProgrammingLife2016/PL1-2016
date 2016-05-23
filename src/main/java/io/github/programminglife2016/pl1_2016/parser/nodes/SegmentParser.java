@@ -37,7 +37,7 @@ public class SegmentParser implements Parser {
      */
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
-        Scanner sc = new Scanner(SegmentParser.class.getResourceAsStream("/genomes/TB10.dot"));
+        Scanner sc = new Scanner(SegmentParser.class.getResourceAsStream("/genomes/TB328.dot"));
         while (sc.hasNextLine()) {
             String[] line = sc.nextLine().split(" ");
             if (line[0].equals("node")) {

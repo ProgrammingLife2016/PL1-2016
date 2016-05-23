@@ -26,7 +26,7 @@ public final class Launcher {
     public static void main(String[] args) throws IOException {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10.gfa");
+        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB328.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
