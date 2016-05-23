@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.GraphvizParser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -15,18 +16,11 @@ public class BubbleMain {
     private static final double NANOSECONDS_PER_SECOND = 1000000000;
 
     public static void main(String[] args) throws IOException {
-//        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
-//        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.dot");
+        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
+        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
 //        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
 //        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.txt");
-//        NodeCollection nodeCollection = (new GraphvizParser((new SegmentParser()).parse(segis))).parse(dotis);
-        System.out.println("Started loading.");
-        long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph3LVL.gfa");
-        NodeCollection nodeCollection = new SegmentParser().parse(is);
-        long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
-                / NANOSECONDS_PER_SECOND));
+        NodeCollection nodeCollection = (new GraphvizParser((new SegmentParser()).parse(segis))).parse(dotis);
 
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         nodeCollection = dispatcher.getLevelBubbles(0,4);
@@ -38,8 +32,8 @@ public class BubbleMain {
         }
 
         System.out.println(nodeCollection.size());
-//        Server server = new RestServer(dispatcher.getLevelBubbles(0,7));
-        Server server = new RestServer(nodeCollection);
+        Server server = new RestServer(dispatcher.getLevelBubbles(0,7));
+//        Server server = new RestServer(nodeCollection);
         server.startServer();
     }
 }
