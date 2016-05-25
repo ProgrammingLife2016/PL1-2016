@@ -22,10 +22,10 @@ public class BubbleDispatcher {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
-        System.out.println("Collapsed:");
-        for (Node bubble : bubbleCollection) {
-            System.out.println("ID: " + bubble.getId() + "  Container: " + bubble.getContainer());
-        }
+//        System.out.println("Collapsed:");
+//        for (Node bubble : bubbleCollection) {
+//            System.out.println("ID: " + bubble.getId() + "  Container: " + bubble.getContainer());
+//        }
         this.collection = collection;
         initDispatcher();
     }
@@ -102,8 +102,8 @@ public class BubbleDispatcher {
 
         }
         filtered.addAll(tempList);
-        for(Node bubble: filtered)
-            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
+//        for(Node bubble: filtered)
+//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
 
         System.out.println("Filtered: " + filtered + " TotalBubbles: " + bubbleCollection.size());
         return listAsNodeCollection(filtered);

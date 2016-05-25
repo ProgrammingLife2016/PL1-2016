@@ -39,8 +39,9 @@ public class Bubble implements Node {
         this.endNode = segment;
         this.level = zoomLvl;
         this.containerid = segment.getContainerId();
-        this.links.addAll(segment.getLinks());
-        this.backLinks.addAll(segment.getBackLinks());
+        segment.setContainerId(id);
+//        this.links.addAll(segment.getLinks());
+//        this.backLinks.addAll(segment.getBackLinks());
     }
 
     @Override

@@ -27,11 +27,11 @@ public class BubbleCollapser {
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
         this.bubbles = detector.getBubbleBoundaries();
-        System.out.println("Detected");
-        for (int i = 0; i < bubbles.size(); i++) {
-            System.out.println(bubbles.get(i));
-        }
-        System.out.println();
+//        System.out.println("Detected");
+//        for (int i = 0; i < bubbles.size(); i++) {
+//            System.out.println(bubbles.get(i));
+//        }
+//        System.out.println();
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();
     }
@@ -45,6 +45,7 @@ public class BubbleCollapser {
         for (int i = 0; i < bubblesListSize; i++)
             modifyContainer(bubbles.get(i));
         removeUnnecessaryBubbles(bubbles);
+        addContainerIdToNestedBubbles(bubbles);
         collapseSingleSegments(collection);
         collapseStartEndSegments();
         linker = new BubbleLinker(bubbles);
@@ -92,13 +93,14 @@ public class BubbleCollapser {
     }
 
     private void collapseStartEndSegments(){
-        for(int i = 0; i < bubblesListSize; i++){
+        for(int i = 0; i < bubblesListSize; i++) {
             Node segS = bubbles.get(i).getStartNode();
             boolean containsBubbles = bubbles.get(i).getContainer().stream().filter(x -> x.isBubble()).collect(Collectors.toList()).size() != 0;
-            if(containsBubbles) {//segS.getId() != bubbles.get(i).getEndNode().getId() &&
-                if (segS instanceof Segment) {
+            if(containsBubbles) {
+                if (segS.isBubble() == false) {
                     bubbles.get(i).setStartNode(initNewBubble(segS));
                     bubbles.get(i).setEndNode(initNewBubble(bubbles.get(i).getEndNode()));
+
                 }
             }
         }
@@ -106,8 +108,7 @@ public class BubbleCollapser {
 
     private Bubble initNewBubble(Node node){
         lastId++;
-        Bubble newBubble = new Bubble(lastId, -1, (Segment)node);//node.getZoomLevel()
-//        node.setZoomLevel(node.getZoomLevel() + 1);
+        Bubble newBubble = new Bubble(lastId, -1, (Segment)node);
         bubbles.add(newBubble);
         bubblesListSize++;
         return newBubble;
@@ -164,6 +165,15 @@ public class BubbleCollapser {
     private void removeUnnecessaryBubbles(Collection<Node> bubbles){
         for(Node bubble : bubbles)
             bubble.getContainer().removeIf(x -> isNested(bubble.getContainer(), x));
+    }
+
+    private void addContainerIdToNestedBubbles(Collection<Node> bubbles){
+        for(Node bubble : bubbles) {
+            bubble.getContainer().forEach(x -> {if(x.getContainerId() != bubble.getId())
+                                                    x.setContainerId(bubble.getId());});
+            bubble.getStartNode().setContainerId(bubble.getId());
+            bubble.getEndNode().setContainerId(bubble.getId());
+        }
     }
 
     /**

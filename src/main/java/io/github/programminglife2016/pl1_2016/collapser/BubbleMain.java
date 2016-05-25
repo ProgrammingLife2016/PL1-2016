@@ -22,7 +22,10 @@ public class BubbleMain {
 //        NodeCollection nodeCollection = (new GraphvizParser((new SegmentParser()).parse(segis))).parse(dotis);
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph3LVL.gfa");
+//        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+//        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph3LVL.gfa");
+//        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraphLSEE.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
