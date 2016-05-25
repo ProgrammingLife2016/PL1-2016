@@ -34,12 +34,6 @@ function drawGraph() {
         .attr("width", width)
         .attr("height", height);
 
-    circle = svg.selectAll("circle")
-        .data(nodes)
-        .enter().append("circle")
-        .attr("r", 2.5)
-        .attr("transform", transform);
-
     line = svg.selectAll("line")
         .data(edges)
         .enter()
@@ -48,12 +42,11 @@ function drawGraph() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", "#87cefa")
-        .attr("stroke-width", "1");
+        .attr("stroke", function (d) {var x = d.gens * 2; return "rgb(" + (135 - x) + "," + (206 - x) + "," + (250 - x) + ")"})
+        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10)});
 }
 
 function zoom() {
-    circle.attr("transform", transform);
     line.attr("x1", function (d) {return x(d.x1)})
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
