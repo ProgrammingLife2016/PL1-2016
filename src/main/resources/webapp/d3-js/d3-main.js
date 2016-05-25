@@ -27,7 +27,7 @@ function drawGraph() {
         .attr("width", width)
         .attr("height", height)
         .append("g")
-        .call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", zoom));
+        .call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 100]).on("zoom", zoom));
 
     svg.append("rect")
         .attr("class", "overlay")
