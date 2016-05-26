@@ -270,7 +270,7 @@ public class SimpleDatabase implements Database {
         String query = "INSERT INTO " + SEGMENT_TABLE
                 + "(segment_id, data, column_index, positionx, positiony) VALUES"
                 + "(?,?,?,?,?)";
-        try{
+        try {
             stmt = connection.prepareStatement(query);
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
@@ -281,7 +281,7 @@ public class SimpleDatabase implements Database {
 
                 stmt.executeUpdate();
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             if (stmt != null) {
@@ -292,13 +292,14 @@ public class SimpleDatabase implements Database {
 
     private void clearTable(String tableName) {
         Statement stmt;
-        try{
+        try {
             stmt = connection.createStatement();
             String query = "DELETE FROM " + tableName;
             stmt.execute(query);
-            if (stmt == null)
+            if (stmt == null) {
                 stmt.close();
-        } catch(SQLException s){
+            }
+        } catch (SQLException s) {
             s.printStackTrace();
         }
     }
