@@ -24,7 +24,12 @@ public class BubbleLinker {
         this.bubbles = bubbles;
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();
+
+        System.out.println("Started linking.");
+        long startTime = System.currentTimeMillis();
         setCorrectLevelsToNodes();
+        long endTime = System.currentTimeMillis();
+        System.out.println("Linking time: " + (endTime - startTime)/3600 + " m.");
     }
 
     private void setCorrectLevelsToNodes(){
@@ -32,6 +37,7 @@ public class BubbleLinker {
         while(needLowerLevels())
             lowerSegments();
         addLinks();
+        List<Node> level = bubbles.stream().filter(x -> x.getZoomLevel() == 1).collect(Collectors.toList());
         for(Node bubble: bubbles)
             System.out.print(linksToString(bubble.getId(), bubble.getLinks(), true));
 
@@ -112,15 +118,21 @@ public class BubbleLinker {
                         x.getStartNode().getZoomLevel() < lowestLevel)
                 .collect(Collectors.toList());
         while(needLower.size() != 0){
-            for(Node b : needLower)
+            for(Node b : needLower) {
                 lowerSegmentInBubble(b);
+                if(bubbles.stream().filter(x -> x.getStartNode().isBubble() == false && x.getEndNode().getZoomLevel() > lowestLevel).count() > 0) {
+                    // id = 4545
+                    int x23 = 0;
+                }
+            }
             needLower = bubbles.stream().filter(x -> !x.getStartNode().isBubble() && x.getStartNode().getZoomLevel() < lowestLevel).collect(Collectors.toList());
         }
     }
 
     private void lowerSegmentInBubble(Node bubble){
-        int segLevel =  bubble.getStartNode().getZoomLevel();
+        int segLevel =  bubble.getZoomLevel()+1;
         bubble.setStartNode(replaceNode(bubble.getStartNode(), segLevel));
+//        if(bubble.getEndNode().getZoomLevel() != bubble.getStartNode().getZoomLevel())
         bubble.setEndNode(replaceNode(bubble.getEndNode(), segLevel));
         Set<Node> newContainer = new HashSet<>();
         for(Node n : bubble.getContainer()){
@@ -145,6 +157,8 @@ public class BubbleLinker {
     private Node replaceNode(Node node, int level){
         Bubble newBubble = initNewBubble(node, level);//new Bubble(lastId, segLevel, (Segment)bubble.getStartNode());
         node.setZoomLevel(level+1);
+//        if(node.getZoomLevel() > lowestLevel)
+//            lowestLevel = node.getZoomLevel();
         return newBubble;
     }
 

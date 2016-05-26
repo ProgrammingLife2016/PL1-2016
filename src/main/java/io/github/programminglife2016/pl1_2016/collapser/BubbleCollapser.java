@@ -50,7 +50,6 @@ public class BubbleCollapser {
         collapseStartEndSegments();
         linker = new BubbleLinker(bubbles);
         linker.addLinks();
-        int breakHere = 0;
     }
 
     /**
@@ -107,6 +106,10 @@ public class BubbleCollapser {
     }
 
     private Bubble initNewBubble(Node node){
+        Optional<Node> exist = bubbles.stream().filter(x -> x.getStartNode().getId() == node.getStartNode().getId() &&
+                x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
+        if(exist.isPresent())
+            return (Bubble)exist.get();
         lastId++;
         Bubble newBubble = new Bubble(lastId, -1, (Segment)node);
         bubbles.add(newBubble);
