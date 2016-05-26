@@ -22,3 +22,13 @@ svg {
   color: #fff;
   border-radius: 2px;
 }
+
+.minimapRect {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    opacity: 0.4;
+    -webkit-box-shadow: 0 0 5px 2px #000;
+    -moz-box-shadow: 0 0 5px 2px #000;
+    box-shadow: 0 0 5px 2px #000;
+}
