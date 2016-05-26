@@ -108,8 +108,8 @@ public abstract class SegmentCollectionTest {
         createFiveNodes();
         JsonParser jsonParser = new JsonParser();
         JsonElement actual = jsonParser.parse(nodeCollection.toJson());
-        assertEquals("two", actual.getAsJsonObject().get("nodes").getAsJsonArray().get(1)
-                .getAsJsonObject().get("data").getAsString());
+        assertEquals(2, actual.getAsJsonObject().get("nodes").getAsJsonArray().get(1)
+                .getAsJsonObject().get("id").getAsInt());
     }
     /**
      * Test Basic segment operations.
