@@ -51,10 +51,6 @@ public class SimpleDatabase implements Database {
      */
     private static final String SPECIMEN_TABLE = "specimen";
     /**
-     * Size of nodecollection.
-     */
-    private static final int SIZE = 95000;
-    /**
      * The connection to the database.
      */
     private Connection connection;
@@ -117,7 +113,7 @@ public class SimpleDatabase implements Database {
 
     /**
      * Fetch all positions of segments in nodeCollection in database.
-     *
+     * @param  nodeCollection The nodecollection for which the positions should be fetched
      * @return collection of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
@@ -146,10 +142,11 @@ public class SimpleDatabase implements Database {
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            int x = rs.getInt("positionx");
-            int y = rs.getInt("positiony");
-            res.addAll(Arrays.asList(x, y));
+            if (rs.next()) {
+                int x = rs.getInt("positionx");
+                int y = rs.getInt("positiony");
+                res.addAll(Arrays.asList(x, y));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -157,12 +154,23 @@ public class SimpleDatabase implements Database {
 
     }
 
+    /**
+     * Update the positions of the nodeCollection into the database
+     * @param nodeCollection the nodecollection with the correct positions
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
     public void updatePositions(NodeCollection nodeCollection) throws SQLException {
         for (Node node : nodeCollection.values()) {
             updatePosition(node.getId(), node.getX(), node.getY());
         }
     }
-
+    /**
+     * Update the positions of the node whit id id into the database
+     * @param id the id of the node to update
+     * @param x the correct x for the node
+     * @param y the correct y for the node
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
     public void updatePosition(int id, int x, int y) throws SQLException {
         Statement stmt = null;
         String query = "UPDATE " + SEGMENT_TABLE
@@ -189,7 +197,7 @@ public class SimpleDatabase implements Database {
      *
      * @param nodes nodes to which the links will be added
      * @return nodes
-     * @throws SQLException
+     * @throws SQLException thrown if SQL connection or query is not valid
      */
     private NodeCollection fetchLinks(NodeCollection nodes) throws SQLException {
         Statement stmt = null;
@@ -234,10 +242,11 @@ public class SimpleDatabase implements Database {
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            int segmentid = rs.getInt("segment_id");
-            node = new Segment(segmentid, rs.getString("data"), rs.getInt("column_index"));
-            node.setXY(rs.getInt("positionx"), rs.getInt("positiony"));
+            if (rs.next()) {
+                int segmentid = rs.getInt("segment_id");
+                node = new Segment(segmentid, rs.getString("data"), rs.getInt("column_index"));
+                node.setXY(rs.getInt("positionx"), rs.getInt("positiony"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -261,7 +270,7 @@ public class SimpleDatabase implements Database {
         String query = "INSERT INTO " + SEGMENT_TABLE
                 + "(segment_id, data, column_index, positionx, positiony) VALUES"
                 + "(?,?,?,?,?)";
-        try {
+        try{
             stmt = connection.prepareStatement(query);
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
@@ -272,7 +281,7 @@ public class SimpleDatabase implements Database {
 
                 stmt.executeUpdate();
             }
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
         } finally {
             if (stmt != null) {
@@ -286,6 +295,9 @@ public class SimpleDatabase implements Database {
         try{
             stmt = connection.createStatement();
             String query = "DELETE FROM " + tableName;
+            stmt.execute(query);
+            if (stmt == null)
+                stmt.close();
         } catch(SQLException s){
             s.printStackTrace();
         }
