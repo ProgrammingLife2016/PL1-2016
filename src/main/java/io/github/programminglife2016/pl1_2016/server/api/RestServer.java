@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
@@ -38,6 +39,7 @@ public class RestServer implements Server {
         apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection));
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
+        apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);

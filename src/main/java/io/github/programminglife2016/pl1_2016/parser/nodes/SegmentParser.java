@@ -38,10 +38,13 @@ public class SegmentParser implements Parser {
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
         Scanner sc = new Scanner(SegmentParser.class.getResourceAsStream("/genomes/TB328.dot"));
+        sc.nextLine();
         while (sc.hasNextLine()) {
             String[] line = sc.nextLine().split(" ");
             if (line[0].equals("node")) {
                 nodeCollection.get(Integer.parseInt(line[1])).setXY((int) (Double.parseDouble(line[2]) * 100), (int) (Double.parseDouble(line[3]) * 100));
+            } else {
+                break;
             }
         }
         return nodeCollection;
