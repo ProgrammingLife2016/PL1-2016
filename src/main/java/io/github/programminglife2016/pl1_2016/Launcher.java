@@ -31,7 +31,7 @@ public final class Launcher {
         InputStream is = Launcher.class.getResourceAsStream(
                 String.format("/genomes/%s.gfa", dataset));
         InputStream positions = Launcher.class.getResourceAsStream(
-                String.format("/genomes/%s.dot", dataset));
+                String.format("/genomes/%s.positions", dataset));
         NodeCollection nodeCollection = new SegmentParser(positions).parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
