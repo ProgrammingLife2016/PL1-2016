@@ -37,8 +37,8 @@ public class BubbleLinker {
         while(needLowerLevels())
             lowerSegments();
         addLinks();
-        List<Node> level = bubbles.stream().filter(x -> x.getZoomLevel() == 1).collect(Collectors.toList());
-        for(Node bubble: bubbles)
+        List<Node> level = bubbles.stream().filter(x -> x.getZoomLevel() == 2).collect(Collectors.toList());
+        for(Node bubble: level)
             System.out.print(linksToString(bubble.getId(), bubble.getLinks(), true));
 
         for(int i = 0; i < bubbles.size(); i++)
@@ -78,20 +78,38 @@ public class BubbleLinker {
      * Connect all bubbles per level with each other to get representative graph.
      */
     public void addLinks(){
-        Comparator<Node> comparator = (b1, b2) -> Boolean.compare(b1.getStartNode().isBubble(), b2.getStartNode().isBubble());
-        comparator = comparator.thenComparing((b1, b2) ->
-                Integer.compare(b2.getZoomLevel(),b1.getZoomLevel()));
-        comparator = comparator.thenComparing((b1, b2) ->
-                Integer.compare(b1.getContainer().size(),b2.getContainer().size()));
+//        Comparator<Node> comparator = (b1, b2) ->
+//                Boolean.compare(b1.getStartNode().isBubble(), b2.getStartNode().isBubble());
+//        comparator = comparator.thenComparing((b1, b2) ->
+//                Integer.compare(b2.getZoomLevel(),b1.getZoomLevel()));
+//        comparator = comparator.thenComparing((b1, b2) ->
+//                Integer.compare(b1.getContainer().size(),b2.getContainer().size()));
+//
+//        bubbles.sort(comparator);
 
-        bubbles.sort(comparator);
-        for (int i = 0; i < bubblesListSize; i++){
-            addLinkToBubble(bubbles.get(i));
+        List<Node> leafs = bubbles.stream().filter(x -> x.getStartNode().isBubble() == false && x.getEndNode().isBubble() == false).collect(Collectors.toList());
+        int l;
+        Set<Node> nextLevel = new HashSet<>();
+
+        while(!leafs.isEmpty()) {
+            l = leafs.size();
+            for (int i = 0; i < l; i++) {
+                addLinkToBubble(leafs.get(i));
+                final int cId = leafs.get(i).getContainerId();
+                if (cId != 0)
+                    nextLevel.add(bubbles.stream().filter(x -> x.getId() == cId).findFirst().get());
+            }
+            //10570
+            //5880
+            leafs.clear();
+            leafs.addAll(nextLevel);
+            nextLevel.clear();
         }
+        int stop = 0;
     }
 
     /**
-     * Add forward links to the given bubble
+     * Add forward links to the given bubble.
      * @param bubble bubble to link with the rest of the graph
      */
     private void addLinkToBubble(Node bubble){
