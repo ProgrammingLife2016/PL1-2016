@@ -335,7 +335,6 @@ public class SimpleDatabase implements Database {
      * @return the collection of specimen
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    @SuppressWarnings("checkstyle:methodlength")
     public SpecimenCollection fetchSpecimens() throws SQLException {
         SpecimenCollection specimens = new SpecimenMap();
         Statement stmt = null;
@@ -374,10 +373,6 @@ public class SimpleDatabase implements Database {
                 } else {
                     specimen.setHivStatus(0);
                 }
-                specimen.setCohort(rs.getString("cohort"));
-                specimen.setDate(rs.getString("date_of_collection"));
-                specimen.setDistrict(rs.getString("study_geographic_district"));
-                specimen.setType(rs.getString("specimen_type"));
                 if (rs.getString("microscopy_smear_status").equals("Positive")) {
                     specimen.setSmear(1);
                 } else if (rs.getString("microscopy_smear_status").equals("Negative")) {
@@ -391,22 +386,7 @@ public class SimpleDatabase implements Database {
                 } else {
                     specimen.setSingleColony(false);
                 }
-                specimen.setPdstpattern(rs.getString("phenotypic_dst_pattern"));
-                specimen.setCapreomycin(rs.getString("capreomycin_10ugml").charAt(0));
-                specimen.setEthambutol(rs.getString("ethambutol_75ugml").charAt(0));
-                specimen.setEthionamide(rs.getString("ethionamide_10ugml").charAt(0));
-                specimen.setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml").charAt(0));
-                specimen.setKanamycin(rs.getString("kanamycin_6ugml").charAt(0));
-                specimen.setPyrazinamide(rs
-                        .getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit")
-                        .charAt(0));
-                specimen.setOfloxacin(rs.getString("ofloxacin_2ugml").charAt(0));
-                specimen.setRifampin(rs.getString("rifampin_1ugml").charAt(0));
-                specimen.setStreptomycin(rs.getString("streptomycin_2ugml").charAt(0));
-                specimen.setSpoligotype(rs.getString("digital_spoligotype").charAt(0));
-                specimen.setLineage(rs.getString("lineage").charAt(0));
-                specimen.setGdstPattern(rs.getString("genotypic_dst_pattern"));
-                specimen.setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
+                setSecondaryValuesSpecimen(specimen, rs);
                 specimens.put(specimen.getNameId(), specimen);
             }
         } catch (SQLException e) {
@@ -416,6 +396,29 @@ public class SimpleDatabase implements Database {
             stmt.close();
         }
         return specimens;
+    }
+
+    private void setSecondaryValuesSpecimen(Specimen specimen, ResultSet rs) throws SQLException {
+        specimen.setCohort(rs.getString("cohort"));
+        specimen.setDate(rs.getString("date_of_collection"));
+        specimen.setDistrict(rs.getString("study_geographic_district"));
+        specimen.setType(rs.getString("specimen_type"));
+        specimen.setPdstpattern(rs.getString("phenotypic_dst_pattern"));
+        specimen.setCapreomycin(rs.getString("capreomycin_10ugml").charAt(0));
+        specimen.setEthambutol(rs.getString("ethambutol_75ugml").charAt(0));
+        specimen.setEthionamide(rs.getString("ethionamide_10ugml").charAt(0));
+        specimen.setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml").charAt(0));
+        specimen.setKanamycin(rs.getString("kanamycin_6ugml").charAt(0));
+        specimen.setPyrazinamide(rs
+                .getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit")
+                .charAt(0));
+        specimen.setOfloxacin(rs.getString("ofloxacin_2ugml").charAt(0));
+        specimen.setRifampin(rs.getString("rifampin_1ugml").charAt(0));
+        specimen.setStreptomycin(rs.getString("streptomycin_2ugml").charAt(0));
+        specimen.setSpoligotype(rs.getString("digital_spoligotype").charAt(0));
+        specimen.setLineage(rs.getString("lineage").charAt(0));
+        specimen.setGdstPattern(rs.getString("genotypic_dst_pattern"));
+        specimen.setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
     }
 
 }
