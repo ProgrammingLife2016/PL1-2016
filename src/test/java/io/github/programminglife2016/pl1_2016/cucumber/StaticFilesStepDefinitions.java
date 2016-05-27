@@ -75,7 +75,7 @@ public class StaticFilesStepDefinitions {
      */
     @When("^the client requests (\\S+)$")
     public void theClientRequests(String uri) throws IOException {
-        String url = String.format("http://localhost:%d%s", RestServer.PORT, uri);
+        String url = String.format("http://localhost:%d%s", RestServer.DEFAULT_PORT, uri);
         setConnection((HttpURLConnection) new URL(url).openConnection());
     }
 

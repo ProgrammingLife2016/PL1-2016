@@ -4,6 +4,9 @@ var miniWidth = width;
 var miniHeight = 250;
 var maxZoomLevel = 100;
 
+var colorFactor;
+var widthFactor;
+
 var nodes;
 var edges;
 var x;
@@ -29,6 +32,14 @@ $.getJSON("/api/nodes", function (response) {
     miniY = d3.scale.linear()
         .domain([0, max(nodes, "y")])
         .range([miniHeight, 0]);
+
+    if (nodes.length > 9000) {
+        colorFactor = 2;
+        widthFactor = 10;
+    } else {
+        colorFactor = 15;
+        widthFactor = 2;
+    }
     drawGraph();
     drawMinimap();
 });
@@ -68,8 +79,8 @@ function drawGraph() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * 2; return "rgb(" + (135 - x) + "," + (206 - x) + "," + (250 - x) + ")"})
-        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10)});
+        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (135 - x) + "," + (206 - x) + "," + (250 - x) + ")"})
+        .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     circle = svg.selectAll("circle")
         .data(nodes)
@@ -97,8 +108,8 @@ function drawMinimap() {
         .attr("y1", function (d) {return miniY(d.y1)})
         .attr("x2", function (d) {return miniX(d.x2)})
         .attr("y2", function (d) {return miniY(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * 2; return "rgb(" + (255- x) + "," + (127 - x) + "," + (0) + ")"})
-        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10)});
+        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (255- x) + "," + (127 - x) + "," + (0) + ")"})
+        .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     rect = minimap
         .append("rect")

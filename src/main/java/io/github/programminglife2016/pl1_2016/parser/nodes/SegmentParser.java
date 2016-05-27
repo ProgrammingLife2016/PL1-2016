@@ -32,6 +32,7 @@ public class SegmentParser implements Parser {
     }
 
     public SegmentParser(InputStream positions) {
+        this();
         this.positions = positions;
     }
 
