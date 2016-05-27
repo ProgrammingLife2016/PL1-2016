@@ -165,6 +165,18 @@ public class BubbleDetector {
     }
 
     public List<Node> getBubbleBoundaries() {
-        return bubbleBoundaries;
+        List<Node> retrieved = new ArrayList<>();
+        Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
+        for (Node bubble : bubbleBoundaries) {
+            AbstractMap.SimpleEntry<Integer, Integer> entry = new AbstractMap.SimpleEntry<Integer, Integer>(bubble.getStartNode().getId(), bubble.getEndNode().getId());
+            if (uniques.contains(entry)) {
+                continue;
+            }
+            else {
+                retrieved.add(bubble);
+                uniques.add(entry);
+            }
+        }
+        return retrieved;
     }
 }
