@@ -1,4 +1,4 @@
-package io.github.programminglife2016.pl1_2016.parser.database;
+package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenCollection;
