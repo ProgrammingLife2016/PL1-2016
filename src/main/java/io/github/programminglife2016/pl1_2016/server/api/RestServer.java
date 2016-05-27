@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
@@ -14,10 +15,11 @@ import java.net.InetSocketAddress;
  * A RESTful API server.
  */
 public class RestServer implements Server {
-    public static final int PORT = 8081;
+    public static final int DEFAULT_PORT = 8081;
 
     private HttpServer server;
     private NodeCollection nodeCollection;
+    private int port = DEFAULT_PORT;
 
     /**
      * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
@@ -26,6 +28,16 @@ public class RestServer implements Server {
      */
     public RestServer(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
+    }
+
+    /**
+     * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
+     *
+     * @param nodeCollection NodeCollection to be used for API queries
+     */
+    public RestServer(int port, NodeCollection nodeCollection) {
+        this.nodeCollection = nodeCollection;
+        this.port = port;
     }
 
     /**
@@ -38,7 +50,8 @@ public class RestServer implements Server {
         apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection));
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
-        server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
+        server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);
         server.start();

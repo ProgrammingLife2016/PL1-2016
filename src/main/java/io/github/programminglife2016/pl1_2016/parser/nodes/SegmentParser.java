@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -21,12 +22,18 @@ public class SegmentParser implements Parser {
      * Map containing the DNA seqments.
      */
     private NodeCollection nodeCollection;
+    private InputStream positions;
 
     /**
      * Create parser object.
      */
     public SegmentParser() {
         nodeCollection = new NodeMap();
+    }
+
+    public SegmentParser(InputStream positions) {
+        this();
+        this.positions = positions;
     }
 
     /**
@@ -36,6 +43,20 @@ public class SegmentParser implements Parser {
      */
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
+        if (positions != null) {
+            Scanner sc = new Scanner(positions);
+            sc.nextLine();
+            while (sc.hasNextLine()) {
+                String[] line = sc.nextLine().split(" ");
+                if (line[0].equals("node")) {
+                    nodeCollection.get(Integer.parseInt(line[1])).setXY(
+                            (int) (Double.parseDouble(line[2]) * 100),
+                            (int) (Double.parseDouble(line[3]) * 100));
+                } else {
+                    break;
+                }
+            }
+        }
         return nodeCollection;
     }
 
