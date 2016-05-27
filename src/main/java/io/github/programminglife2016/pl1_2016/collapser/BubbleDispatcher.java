@@ -104,8 +104,8 @@ public class BubbleDispatcher {
         filtered.addAll(tempList);
 //        for(Node bubble: filtered)
 //            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
-
-        System.out.println("Filtered: " + filtered + " TotalBubbles: " + bubbleCollection.size());
+//
+//        System.out.println("Filtered: " + filtered + " TotalBubbles: " + bubbleCollection.size());
         return listAsNodeCollection(filtered);
     }
 
