@@ -2,7 +2,7 @@ Specimen ID,Age,Sex,hivStatus Status,Cohort,Date of Collection,Study Geographic 
 TKK-01-0001,28,Female,Positive,KZNSUR,1/16/2008,eThekwini,sputum,Negative,single colony,MDR,S,R,R,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
 TKK-01-0006,70,Male,Negative,KZNSUR,2/15/2008,eThekwini,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,LAM4,LIN 4,MDR,n/a
 TKK-01-0009,27,Female,unknown,KZNSUR,2/19/2008,eThekwini,sputum,Positive,single colony,mono,S,S,S,S,S,S,S,R,S,T1,LIN 4,MDR,n/a
-TKK-01-0011,32,Male,unknown,KZNSUR,2/20/2008,eThekwini,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,LAM11-ZWE,LAM4,LIN 4,MDR,n/a
+TKK-01-0011,32,Male,unknown,KZNSUR,2/20/2008,eThekwini,sputum,Positive,single colony,MDR,S,S,S,R,S,S,S,R,S,LAM11-ZWE LAM4,LIN 4,MDR,n/a
 TKK-01-0012,23,Female,Negative,KZNSUR,2/25/2008,eThekwini,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,LAM4,LIN 4,MDR,n/a
 TKK-01-0014,35,Male,Positive,KZNSUR,2/26/2008,uThungulu,sputum,Positive,single colony,MDR,S,R,S,R,S,R,S,R,R,T1,LIN 4,MDR,n/a
 TKK-01-0015,48,Male,Positive,KZNSUR,2/21/2008,eThekwini,sputum,Positive,single colony,MDR,R,S,S,R,R,S,S,R,R,T1,LIN 4,MDR,n/a
