@@ -17,7 +17,7 @@ import static junit.framework.TestCase.assertEquals;
  * Tests for the BubbleCollapser class.
  */
 public class BubbleCollapserTest {
-    private static final String DATA = "H\tVN:Z:1.0\n"
+    public static final String DATA = "H\tVN:Z:1.0\n"
             + "H\tORI:Z:G-1.fasta;G-2.fasta;G-3.fasta;G-4.fasta;G-5.fasta;\n"
             + "S\t1\tsomedData\t*\tORI:Z:G-1.fasta;G-2.fasta;G-3.fasta\tCRD:Z:G-1.fasta\tCRDCTG:Z:M"
             + "T_H37RV_BRD_V5\tCTG:Z:NZ_KK327777.1\tSTART:Z:0\n"
