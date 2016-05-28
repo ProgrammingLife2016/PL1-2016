@@ -13,7 +13,6 @@ import io.github.programminglife2016.pl1_2016.collapser.Bubble;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -54,7 +53,8 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 edges.add(edge);
             }
         }
-        Collections.sort(edges, (t1, t2) -> Integer.compare(t1.get("gens").getAsInt(), t2.get("gens").getAsInt()));
+        Collections.sort(edges, (t1, t2) -> Integer.compare(t1.get("gens").getAsInt(),
+                t2.get("gens").getAsInt()));
         JsonArray jsonArray = new JsonArray();
         edges.stream().forEach(jsonArray::add);
         jsonObject.add("edges", jsonArray);

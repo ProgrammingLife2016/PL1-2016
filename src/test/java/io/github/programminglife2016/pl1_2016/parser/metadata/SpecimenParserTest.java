@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 //CHECKSTYLE.OFF: MagicNumber
@@ -67,12 +67,20 @@ public class SpecimenParserTest {
 
     /**
      * Test an exception thrown after not finding certain file.
-     * @throws FileNotFoundException Could not locate file.
+     *
+     * @throws IOException Could not locate file.
      */
     @Test (expected = NullPointerException.class)
-    public void testEmptyStringInput() throws FileNotFoundException {
-        InputStream in = SpecimenParserTest.class.getResourceAsStream("/webapp/statictestfil");
-        specimenParser.parse(in);
+    public void testEmptyStringInput() throws IOException {
+        InputStream in = null;
+        try {
+            in = SpecimenParserTest.class.getResourceAsStream("/webapp/statictestfil");
+            specimenParser.parse(in);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
     }
 
     /**

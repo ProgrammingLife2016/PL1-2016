@@ -100,6 +100,8 @@ public class BubbleDetector {
                     startNode = bubbleAt.getValue();
                     bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
+                default:
+                    break;
             }
         }
         if (startNode.getGenomes().equals(bubbleAt.getValue().getGenomes())) {
@@ -108,6 +110,14 @@ public class BubbleDetector {
         return levelCollection;
     }
 
+    /**
+     * Search for the bubble, with curr as start node.
+     *
+     * @param curr start node
+     * @param genomes the genomes to match with the end node.
+     * @param destination the end node
+     * @return s
+     */
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
         visited[curr.getId()] = true;
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
