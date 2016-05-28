@@ -38,9 +38,9 @@ public class BubbleLinker {
         while(needLowerLevels())
             lowerSegments();
         addLinks();
-        List<Node> level = bubbles.stream().filter(x -> x.getZoomLevel() == 1).collect(Collectors.toList());
-        for(Node bubble: level)
-            System.out.print(linksToString(bubble.getId(), bubble.getLinks(), true));
+//        List<Node> level = bubbles.stream().filter(x -> x.getZoomLevel() == 1).collect(Collectors.toList());
+//        for(Node bubble: bubbles)
+//            System.out.print(linksToString(bubble.getId(), bubble.getLinks(), true));
 
         for(int i = 0; i < bubbles.size(); i++)
             if(bubbles.get(i).getZoomLevel() == -1)

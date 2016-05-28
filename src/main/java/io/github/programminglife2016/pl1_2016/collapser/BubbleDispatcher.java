@@ -5,18 +5,13 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 
 public class BubbleDispatcher {
 
     public List<Node> bubbleCollection;
-
-    private HashMap<Node, Node> endToBubble;
-
-//    private Map<Integer, NodeCollection> levelCollection;
-
-    private NodeCollection collection;
 
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
@@ -26,7 +21,6 @@ public class BubbleDispatcher {
 //        for (Node bubble : bubbleCollection) {
 //            System.out.println("ID: " + bubble.getId() + "  Container: " + bubble.getContainer());
 //        }
-        this.collection = collection;
         initDispatcher();
     }
 
@@ -49,103 +43,79 @@ public class BubbleDispatcher {
             return size;
         }
     }
+
+
     public NodeCollection getLevelBubbles(int level, int threshold) {
-        Set<Node> filtered = bubbleCollection.stream().filter(x -> x.getContainerSize() <= threshold).collect(Collectors.toSet());
-        int lastId = bubbleCollection.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
-        Set<Node> tempList = new HashSet<>();
-        Node tempBubble;
-        for (Node bubble : filtered) {
-            if (needReplace(bubble.getLinks(), filtered)) {
-                Collection<Node> newlinks = new HashSet<>();
-                for (Node endNodelink : bubble.getEndNode().getLinks()) {
-//                    Optional<Node> link = filtered.stream().filter(y -> y.getId() == endNodelink.getContainerId()).findFirst();
-//                    if(link.isPresent())
-                    lastId++;
-                    tempBubble = Bubble.getBestParentNode(lastId, endNodelink, filtered, bubble.getZoomLevel(), true);
-                            //new Bubble(lastId, bubble.getZoomLevel(), (Segment) endNodelink);
-                    tempBubble.getLinks().clear();
-                    Set<Node> tbl = new HashSet<>();
-//                    tbl.retainAll(endNodelink.getLinks());
-                    for(Node link : bubble.getLinks())
-                        tbl.addAll(link.getLinks());
-                    tempBubble.getLinks().addAll(tbl);//getContainer(bubble.getLinks(), endNodelink.getLinks()));
-                    newlinks.add(tempBubble);//link.get());
-
-                }
-                for (Node link : bubble.getStartNode().getLinks()) {
-                    if(link instanceof Bubble) {
-                        for (Node linkSegment : link.getContainer()){
-                            linkSegment.getLinks().clear();
-                            for(Node oldLink : bubble.getLinks()) {
-                                linkSegment.getLinks().addAll(oldLink.getLinks());
-                            }
-                        }
-                        newlinks.addAll(link.getContainer());
-                    }
-                }
-                if(!newlinks.isEmpty()) {
-                    bubble.getLinks().clear();
-                    bubble.getLinks().addAll(newlinks);
-                }
-            }
-            List<Node> intersection = new ArrayList<>(filtered);
-            intersection.retainAll(bubble.getLinks());
-            if(intersection.size() == 0){
-                List<Node> x = getMissingNodes(bubble.getLinks());
-                tempList.addAll(x);
-            }
-//            System.out.println("Id: " + bubble.getId() + " Contains:" + bubble.getContainer().stream().map(x -> x.getId()).collect(Collectors.toList()));
-//            System.out.println("Links: " + bubble.getLinks().stream().collect(Collectors.toList()));
-//            System.out.println("StartNode: " + bubble.getStartNode());
-//            System.out.println("EndNode: " + bubble.getEndNode());
-//            System.out.println();
-
-        }
-        filtered.addAll(tempList);
-//        for(Node bubble: filtered)
-//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
-//
-//        System.out.println("Filtered: " + filtered + " TotalBubbles: " + bubbleCollection.size());
+        Set<Node> filtered = filterBubbles(threshold);
+        findNewLinks(filtered);
         return listAsNodeCollection(filtered);
     }
 
-    /**
-     * Returns existing bubble-containers of the given leafs
-     * TODO: fix deeper for levels
-     * @param bubbleLinks
-     * @param leafLinks
-     * @return
-     */
-    private Set<Node> getContainer(Collection<Node> bubbleLinks, Collection<Node> leafLinks){
-        Set<Node> result = new HashSet<>();
-        for(Node bubbleL : bubbleLinks){
-            for(Node leafL : leafLinks) {
-                if (bubbleL.getContainer().stream().filter(x -> x.getId() == leafL.getId()).count() > 0)
-                    result.add(bubbleL);
-            }
+    public Set<Node> filterBubbles(int threshold) {
+        List<Integer> containers = new ArrayList<>();
+        Set<Node> filtered = new HashSet<>();
+        int maxLevel = bubbleCollection.stream().filter(x -> !x.getStartNode().isBubble()).max((b1, b2) -> Integer.compare( b1.getStartNode().getZoomLevel(), b2.getStartNode().getZoomLevel())).get().getStartNode().getZoomLevel();
+        for(int i = 1; i < maxLevel; i++) {
+            final int currentLevel = i;
+            Set<Node> tempFiltered = bubbleCollection
+                    .stream()
+                    .filter(x ->  filtered.stream().filter(b -> b.getEndNode().equals(x)).count() == 0 &&
+                            !containers.contains(x.getContainerId()) && x.getZoomLevel() == currentLevel && x.getContainerSize() <= threshold)
+                    .collect(Collectors.toSet());
+//            containers.clear();
+            for (Node bubble : tempFiltered)
+                containers.add(bubble.getId());
+            filtered.addAll(tempFiltered);
         }
-        return result;
+//        System.out.println("Filtered: ");
+//        filtered.forEach(x -> System.out.println(x.getId()));
+//        System.out.println(" TotalBubbles: " + bubbleCollection.size());
+        return filtered;
+    }
+
+    private void findNewLinks(Collection<Node> filteredBubbles) {
+        for(Node bubble: filteredBubbles){
+            Node primitiveEnd = getPrimitiveEnd(bubble);
+            Node prospectiveLink = getExistingAncestor(primitiveEnd, filteredBubbles, (n1, n2) -> n1.getStartNode().equals(n2));// && !n2.equals(n1.getEndNode())
+            bubble.getLinks().clear();
+            if(prospectiveLink != null && !prospectiveLink.equals(bubble)) {
+                bubble.getLinks().add(prospectiveLink);
+            }
+            else {
+                for (Node primLink : primitiveEnd.getLinks()) {
+                    Node found = getExistingAncestor(primLink, filteredBubbles, (n1, n2) -> n1.getId() == n2.getContainerId());
+                    if(found != null)
+                        bubble.getLinks().add(found);
+                }
+            }
+            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
+        }
+    }
+
+    private Node getPrimitiveEnd(Node node) {
+        if(node.getEndNode().isBubble())
+            return getPrimitiveEnd(node.getEndNode());
+        return node.getEndNode();
+    }
+
+    private Node getExistingAncestor(Node node, Collection<Node> filteredBubbles, BiFunction<Node, Node, Boolean> equals){
+        if(filteredBubbles.contains(node)) {
+            Optional<Node> parent = filteredBubbles.stream().filter(x -> equals.apply(x, node)).findFirst();
+            if(parent.isPresent())
+                return parent.get();
+            return node;
+        }
+        Optional<Node> n = bubbleCollection.stream().filter(x -> equals.apply(x, node)).findFirst();
+        if(n.isPresent())
+            return getExistingAncestor(n.get(), filteredBubbles, equals);
+        return null;
     }
 
     private String linksToString(int bId, Collection<Node> links){
         String result = "";
         for (Node n: links)
-            result += bId + " -> " + n.getId() + "\n";
+            result += bId + " -> " + n.getId() + ";\n";
         return result;
-    }
-
-    private List<Node> getMissingNodes(Collection<Node> links){
-        return links.stream().filter(node -> bubbleCollection.contains(node) == false).collect(Collectors.toList());
-    }
-
-    private boolean needReplace(Collection<Node> links, Collection<Node> bubble) {
-        for (Node link : links) {
-            if (bubble.contains(link)) {
-                continue;
-            }
-            return true;
-        }
-        return false;
     }
 
     private NodeCollection listAsNodeCollection(Collection<Node> res) {

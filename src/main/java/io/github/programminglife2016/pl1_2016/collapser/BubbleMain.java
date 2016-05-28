@@ -11,13 +11,13 @@ public class BubbleMain {
     private static final double NANOSECONDS_PER_SECOND = 1000000000;
 
     public static void main(String[] args) throws IOException {
-        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
-        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
+//        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
+//        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
 //        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
 //        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.txt");
 
 //        NodeCollection nodeCollection = (new GraphvizParser(new SegmentParser().parse(segis))).parse(dotis);
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
 //        BubbleDetector detector = new BubbleDetector(nodeCollection);
 //        detector.findMultiLevelBubbles();
