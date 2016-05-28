@@ -3,12 +3,17 @@ package io.github.programminglife2016.pl1_2016.server.api.queries;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
-import java.io.IOException;
-import java.util.List;
-
+/**
+ * Listens to /api/data/[id] and return the data of segment [id].
+ */
 public class IndividualSegmentDataApiQuery implements ApiQuery {
     private NodeCollection nodeCollection;
 
+    /**
+     * Construct the ApiQuery.
+     *
+     * @param nodeCollection nodeCollection to retrieve the data information from
+     */
     public IndividualSegmentDataApiQuery(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
     }
@@ -30,11 +35,6 @@ public class IndividualSegmentDataApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return new ApiAction() {
-            @Override
-            public String response(List<String> args) throws IOException {
-                return nodeCollection.get(Integer.parseInt(args.get(0))).getData();
-            }
-        };
+        return args -> nodeCollection.get(Integer.parseInt(args.get(0))).getData();
     }
 }

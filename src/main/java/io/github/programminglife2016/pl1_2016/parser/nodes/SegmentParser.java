@@ -17,6 +17,7 @@ public class SegmentParser implements Parser {
     private static final String ATTR_ZINDEX = "START:Z:";
     private static final String ATTR_ORI = "ORI:Z:";
     private static final String GENOME_SUFFIX = ".fasta";
+    private static final int SEGMENT_POSITION_FACTOR = 100;
 
     /**
      * Map containing the DNA seqments.
@@ -31,6 +32,11 @@ public class SegmentParser implements Parser {
         nodeCollection = new NodeMap();
     }
 
+    /**
+     * Create the parser, providing a positions file where the segment positions are stored.
+     *
+     * @param positions information about the positions of the segments
+     */
     public SegmentParser(InputStream positions) {
         this();
         this.positions = positions;
@@ -41,6 +47,7 @@ public class SegmentParser implements Parser {
      * @param inputStream input data
      * @return Data structure with parsed data.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
         if (positions != null) {
@@ -50,8 +57,8 @@ public class SegmentParser implements Parser {
                 String[] line = sc.nextLine().split(" ");
                 if (line[0].equals("node")) {
                     nodeCollection.get(Integer.parseInt(line[1])).setXY(
-                            (int) (Double.parseDouble(line[2]) * 100),
-                            (int) (Double.parseDouble(line[3]) * 100));
+                            (int) (Double.parseDouble(line[2]) * SEGMENT_POSITION_FACTOR),
+                            (int) (Double.parseDouble(line[3]) * SEGMENT_POSITION_FACTOR));
                 } else {
                     break;
                 }
