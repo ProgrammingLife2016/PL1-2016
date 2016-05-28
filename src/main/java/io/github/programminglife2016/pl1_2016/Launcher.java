@@ -13,7 +13,6 @@ import java.io.InputStream;
  */
 public final class Launcher {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
-    private static final int BUBBLE_THRESHOLD = 4;
 
     private Launcher() {
     }

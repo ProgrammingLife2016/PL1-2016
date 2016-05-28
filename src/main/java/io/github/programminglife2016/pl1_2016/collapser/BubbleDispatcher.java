@@ -103,10 +103,9 @@ public class BubbleDispatcher {
 
     private boolean needReplace(Collection<Node> links, List<Node> bubble) {
         for (Node link : links) {
-            if (bubble.contains(link)) {
-                continue;
+            if (!bubble.contains(link)) {
+                return true;
             }
-            return true;
         }
         return false;
     }

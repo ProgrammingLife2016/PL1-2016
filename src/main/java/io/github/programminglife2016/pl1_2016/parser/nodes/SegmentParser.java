@@ -51,7 +51,7 @@ public class SegmentParser implements Parser {
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
         if (positions != null) {
-            Scanner sc = new Scanner(positions);
+            Scanner sc = new Scanner(positions, "UTF-8");
             sc.nextLine();
             while (sc.hasNextLine()) {
                 String[] line = sc.nextLine().split(" ");
