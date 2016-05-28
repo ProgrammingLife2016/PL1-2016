@@ -1,18 +1,10 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.parser.nodes.GraphvizParser;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-
-import static javax.swing.text.html.HTML.Tag.HEAD;
 
 
 public class BubbleMain {
@@ -24,7 +16,9 @@ public class BubbleMain {
 //        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
 //        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.txt");
 
-        NodeCollection nodeCollection = (new GraphvizParser(new SegmentParser().parse(segis))).parse(dotis);
+//        NodeCollection nodeCollection = (new GraphvizParser(new SegmentParser().parse(segis))).parse(dotis);
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
+        NodeCollection nodeCollection = new SegmentParser().parse(is);
 //        BubbleDetector detector = new BubbleDetector(nodeCollection);
 //        detector.findMultiLevelBubbles();
 //        List<Node> list = detector.getBubbleBoundaries();
