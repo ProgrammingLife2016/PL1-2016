@@ -77,8 +77,9 @@ public class SpecimenParserTest {
             in = SpecimenParserTest.class.getResourceAsStream("/webapp/statictestfil");
             specimenParser.parse(in);
         } finally {
-            assert in != null;
-            in.close();
+            if (in != null) {
+                in.close();
+            }
         }
     }
 
