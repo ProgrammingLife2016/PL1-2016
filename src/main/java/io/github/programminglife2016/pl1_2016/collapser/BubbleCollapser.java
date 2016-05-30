@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 /**
  * Collapser populates detected bubbles with bubbles of the lower level or with segments.
  *
- * Created by ravishivam on 16-5-16.
- *
+ * @author Kamran Tadzjibov.
  */
+
 public class BubbleCollapser {
     List<Node> bubbles;
     int lastId;

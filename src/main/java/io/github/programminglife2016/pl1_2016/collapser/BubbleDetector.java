@@ -7,7 +7,8 @@ import java.util.*;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
- * Created by ravishivam on 15-5-16.
+ *
+ * @author Ravi Autar.
  */
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
