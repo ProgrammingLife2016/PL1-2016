@@ -111,12 +111,9 @@ public class BubbleDetector {
     }
 
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
-        Stack<Node> stack = new Stack<>();
+        System.out.println(curr.getId());
         visited[curr.getId()] = true;
-        stack.push(curr);
-        while (!stack.isEmpty()) {
-            Node current
-        }
+        List<Node> connectedTo = new ArrayList<>(curr.getLinks());
         for (Node child : connectedTo) {
             int status = checkGenomeMatch(genomes, child, destination);
             if (status != NOT_A_BUBBLE) {
