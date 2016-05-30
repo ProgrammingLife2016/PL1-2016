@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static sun.java2d.cmm.ColorTransform.In;
-
 /**
  * Temporary simple parser for parsing .gfa files.
  */
