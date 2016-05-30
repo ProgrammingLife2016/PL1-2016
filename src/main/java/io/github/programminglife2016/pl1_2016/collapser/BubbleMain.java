@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.GraphvizParser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -11,13 +12,14 @@ import java.util.List;
 
 public class BubbleMain {
     public static void main(String[] args) throws IOException {
-        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
-        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
+        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
+//        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.txt");
         NodeCollection nodeCollection = new SegmentParser().parse(segis);
         BubbleDetector detector = new BubbleDetector(nodeCollection);
         detector.findMultiLevelBubbles();
         List<Node> list = detector.getBubbleBoundaries();
-        for (Node node: list) {
+        System.out.println(list.size());
+        for (Node node : list) {
             System.out.println(node.getStartNode().getId() + " " + node.getEndNode().getId() + " " + node.getZoomLevel());
         }
 //        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);

@@ -21,7 +21,6 @@ public class BubbleDetector {
     private List<Node> bubbleBoundaries;
     private int lastId;
     private int reachedLevel = 1;
-    private int maxLevels;
 
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
@@ -32,6 +31,7 @@ public class BubbleDetector {
     }
 
     public void findMultiLevelBubbles() {
+        System.out.println("Detecting...");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
@@ -56,7 +56,6 @@ public class BubbleDetector {
         if (levelBubbles.size() > 1){
             levelBubbles.remove(reachedLevel-1);
         }
-        maxLevels = levelBubbles.size();
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
             this.bubbleBoundaries.addAll(levelBubbles.get(i));
@@ -112,8 +111,12 @@ public class BubbleDetector {
     }
 
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
+        Stack<Node> stack = new Stack<>();
         visited[curr.getId()] = true;
-        List<Node> connectedTo = new ArrayList<>(curr.getLinks());
+        stack.push(curr);
+        while (!stack.isEmpty()) {
+            Node current
+        }
         for (Node child : connectedTo) {
             int status = checkGenomeMatch(genomes, child, destination);
             if (status != NOT_A_BUBBLE) {
