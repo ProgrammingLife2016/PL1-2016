@@ -51,7 +51,7 @@ var zm;
 var minimap;
 
 function drawGraph() {
-    zm = d3.behavior.zoom().x(x).y(y).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
+    zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
