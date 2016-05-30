@@ -33,6 +33,7 @@ public class RestServer implements Server {
     /**
      * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
      *
+     * @param port TCP port to run the server on
      * @param nodeCollection NodeCollection to be used for API queries
      */
     public RestServer(int port, NodeCollection nodeCollection) {
