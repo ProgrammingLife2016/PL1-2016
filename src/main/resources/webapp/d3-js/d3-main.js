@@ -121,6 +121,15 @@ function drawMinimap() {
 }
 
 function zoom() {
+    var t = d3.event.translate;
+    var s = d3.event.scale;
+    if (t[0] > 0) {
+        t[0] = 0;
+    } else if (t[0] < - width * (s - 1)) {
+        t[0] = - width * (s - 1);
+    }
+    console.log("t = " + t + ", s = " + s);
+    zm.translate(t);
     var visibleX1 = miniX(x.invert(0));
     var visibleX2 = miniX(x.invert(width));
     var visibleY1 = miniY(y.invert(0));
