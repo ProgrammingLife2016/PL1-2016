@@ -26,7 +26,7 @@ public class BubbleMain {
 //            System.out.println(node.getStartNode().getId() + " " + node.getEndNode().getId() + " " + node.getZoomLevel());
 //        }
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        nodeCollection = dispatcher.getLevelBubbles(0,4);
+        nodeCollection = dispatcher.getThresholdedBubbles(100);
 //        for(Map.Entry<Integer, Node> entry : nodeCollection.entrySet()) {
 //            Node node = entry.getValue();
 //            int x = (node.getStartNode().getX() + node.getEndNode().getX())/2;
@@ -35,7 +35,7 @@ public class BubbleMain {
 //        }
 //
 //        System.out.println(nodeCollection.size());
-//        Server server = new RestServer(dispatcher.getLevelBubbles(0,7));
+//        Server server = new RestServer(dispatcher.getThresholdedBubbles(0,7));
 ////        Server server = new RestServer(nodeCollection);
 //        server.startServer();
     }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Collapser populates detected bubbles with bubbles of the lower level or with segments.
  *
- * Created by ravishivam on 16-5-16.
+ * @autor Kamran Tadzjibov
  *
  */
 public class BubbleCollapser {
@@ -27,11 +27,6 @@ public class BubbleCollapser {
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
         this.bubbles = detector.getBubbleBoundaries();
-//        System.out.println("Detected");
-//        for (int i = 0; i < bubbles.size(); i++) {
-//            System.out.println(bubbles.get(i));
-//        }
-//        System.out.println();
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();
     }
@@ -47,9 +42,21 @@ public class BubbleCollapser {
         removeUnnecessaryBubbles(bubbles);
         addContainerIdToNestedBubbles(bubbles);
         collapseSingleSegments(collection);
-        collapseStartEndSegments();
+        collapseInnerSegments();
+        replaceInconsistentSegments();
         linker = new BubbleLinker(bubbles);
         linker.addLinks();
+    }
+
+    private void replaceInconsistentSegments(){
+        for(Node bubble : bubbles){
+            if(bubble.getStartNode().isBubble() && !bubble.getEndNode().isBubble()){
+                bubble.setEndNode(bubbles.stream().filter(x -> x.getId() == bubble.getEndNode().getContainerId()).findFirst().get());
+            }
+            else if(!bubble.getStartNode().isBubble() && bubble.getEndNode().isBubble()){
+                bubble.setStartNode(bubbles.stream().filter(x -> x.getId() == bubble.getStartNode().getContainerId()).findFirst().get());
+            }
+        }
     }
 
     /**
@@ -91,15 +98,26 @@ public class BubbleCollapser {
         }
     }
 
-    private void collapseStartEndSegments(){
+    private void collapseInnerSegments(){
+        Set<Node> newCont = new HashSet<>();
         for(int i = 0; i < bubblesListSize; i++) {
             Node segS = bubbles.get(i).getStartNode();
             boolean containsBubbles = bubbles.get(i).getContainer().stream().filter(x -> x.isBubble()).collect(Collectors.toList()).size() != 0;
-            if(containsBubbles) {
+            boolean tooComplex = bubbles.get(i).getContainer().size() > 2 &&
+                    bubbles.get(i).getContainer().stream().filter(x -> !x.isBubble()).count() > 0;
+            if(containsBubbles || tooComplex) {
                 if (segS.isBubble() == false) {
                     bubbles.get(i).setStartNode(initNewBubble(segS));
                     bubbles.get(i).setEndNode(initNewBubble(bubbles.get(i).getEndNode()));
-
+                    for(Node n : bubbles.get(i).getContainer()){
+                        if(!n.isBubble())
+                            newCont.add(initNewBubble(n));
+                        else
+                            newCont.add(n);
+                    }
+                    bubbles.get(i).getContainer().clear();
+                    bubbles.get(i).getContainer().addAll(newCont);
+                    newCont.clear();
                 }
             }
         }
