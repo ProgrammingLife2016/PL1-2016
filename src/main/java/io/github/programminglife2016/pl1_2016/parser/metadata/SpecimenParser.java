@@ -6,66 +6,48 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Parser class for the metadata.
  */
-public class SpecimenParser implements Parser {
-    /**
-     * Map containing all the specimen.
-     */
-    private SpecimenCollection specimens;
-
-    /**
-     * Constructor for the parser.
-     */
-    public SpecimenParser() {
-        specimens = new SpecimenMap();
-    }
-
+public class SpecimenParser {
     /**
      * Parse method for Specimen.
      * @param inputStream input data
      * @return JsonSerializable version of the specimenmap.
      */
-    @Override
-    public SpecimenCollection parse(InputStream inputStream) {
-        read(inputStream);
-        return specimens;
-    }
-
-    /**
-     * Get the collection of the specimenmap.
-     * @return the collection which contains all specimen.
-     */
-    public SpecimenCollection getSpecimenCollection() {
-        return this.specimens;
+    public Map<String, Subject> parse(InputStream inputStream) {
+        return read(inputStream);
     }
 
     /**
      * Parse data from inputStream.
      * @param inputStream stream of data.
      */
-    private void read(InputStream inputStream) {
+    private Map<String, Subject> read(InputStream inputStream) {
+        Map<String, Subject> specimens = new HashMap<>();
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             String line;
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                parseLine(line);
+                parseLine(specimens, line);
             }
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return specimens;
     }
 
     /**
      * Line parser that parses individual lines.
      * @param line line to be parsed.
      */
-    private void parseLine(String line) {
+    private void parseLine(Map<String, Subject> specimens, String line) {
         String[] string = line.split(",");
         if (string[0].equals("Specimen ID")) {
             return;
@@ -155,17 +137,17 @@ public class SpecimenParser implements Parser {
     @SuppressWarnings("checkstyle:magicnumber")
     private void parseSecondSpecs(String[] string, Subject specimen) {
         specimen.setPdstpattern(string[10]);
-        specimen.setCapreomycin(string[11].charAt(0));
-        specimen.setEthambutol(string[12].charAt(0));
-        specimen.setEthionamide(string[13].charAt(0));
-        specimen.setIsoniazid(string[14].charAt(0));
-        specimen.setKanamycin(string[15].charAt(0));
-        specimen.setPyrazinamide(string[16].charAt(0));
-        specimen.setOfloxacin(string[17].charAt(0));
-        specimen.setRifampin(string[18].charAt(0));
-        specimen.setStreptomycin(string[19].charAt(0));
-        specimen.setSpoligotype(string[20].charAt(0));
-        specimen.setLineage(string[21].charAt(0));
+        specimen.setCapreomycin(string[11]);
+        specimen.setEthambutol(string[12]);
+        specimen.setEthionamide(string[13]);
+        specimen.setIsoniazid(string[14]);
+        specimen.setKanamycin(string[15]);
+        specimen.setPyrazinamide(string[16]);
+        specimen.setOfloxacin(string[17]);
+        specimen.setRifampin(string[18]);
+        specimen.setStreptomycin(string[19]);
+        specimen.setSpoligotype(string[20]);
+        specimen.setLineage(string[21]);
         specimen.setGdstPattern(string[22]);
         specimen.setXdr(string[23]);
     }

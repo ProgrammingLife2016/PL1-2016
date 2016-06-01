@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,17 +10,18 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 //CHECKSTYLE.OFF: MagicNumber
 
-/** Tests for SpecimenParser.
- * Created by ravishivam on 12-5-16.
+/**
+ * Tests for SpecimenParser.
  */
 public class SpecimenParserTest {
 
     /**
      * Parser to be used in each test.
      */
-    SpecimenParser specimenParser;
+    private SpecimenParser specimenParser;
 
     /**
      * Test string.
@@ -58,10 +60,9 @@ public class SpecimenParserTest {
      * Test the methods of the parser of specimen.
      */
     @Test
-    public void testSpecimenParsedCorrect() {
-        InputStream stream = stringToInputStream(file);
-        specimenParser.parse(stream);
-        SpecimenCollection specimenCollection = specimenParser.getSpecimenCollection();
+    public void testSpecimenParsedCorrect() throws IOException {
+        InputStream stream = IOUtils.toInputStream(file, "UTF-8");
+        Map<String, Subject> specimenCollection = specimenParser.parse(stream);
         assertEquals(70, specimenCollection.get("TKK-01-0006").getAge());
     }
 
@@ -87,10 +88,9 @@ public class SpecimenParserTest {
      * Test all getters for specimen.
      */
     @Test
-    public void testSpecimen() {
-        InputStream stream = stringToInputStream(file);
-        specimenParser.parse(stream);
-        SpecimenCollection specimenCollection = specimenParser.getSpecimenCollection();
+    public void testSpecimen() throws IOException {
+        InputStream stream = IOUtils.toInputStream(file, "UTF-8");
+        Map<String, Subject> specimenCollection = specimenParser.parse(stream);
         assertEquals("TKK-01-0006", specimenCollection.get("TKK-01-0006").getNameId());
         assertEquals(70, specimenCollection.get("TKK-01-0006").getAge());
         assertEquals(true, specimenCollection.get("TKK-01-0006").isMale());
@@ -102,37 +102,18 @@ public class SpecimenParserTest {
         assertEquals(1, specimenCollection.get("TKK-01-0006").getSmear());
         assertEquals(true, specimenCollection.get("TKK-01-0006").isSingleColony());
         assertEquals("MDR", specimenCollection.get("TKK-01-0006").getPdstpattern());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getCapreomycin());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getEthambutol());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getEthionamide());
-        assertEquals(82, specimenCollection.get("TKK-01-0006").getIsoniazid());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getKanamycin());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getPyrazinamide());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getOfloxacin());
-        assertEquals(82, specimenCollection.get("TKK-01-0006").getRifampin());
-        assertEquals(83, specimenCollection.get("TKK-01-0006").getStreptomycin());
-        assertEquals(76, specimenCollection.get("TKK-01-0006").getSpoligotype());
-        assertEquals(76, specimenCollection.get("TKK-01-0006").getLineage());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getCapreomycin());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getEthambutol());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getEthionamide());
+        assertEquals("R", specimenCollection.get("TKK-01-0006").getIsoniazid());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getKanamycin());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getPyrazinamide());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getOfloxacin());
+        assertEquals("R", specimenCollection.get("TKK-01-0006").getRifampin());
+        assertEquals("S", specimenCollection.get("TKK-01-0006").getStreptomycin());
+        assertEquals("LAM4", specimenCollection.get("TKK-01-0006").getSpoligotype());
+        assertEquals("LIN 4", specimenCollection.get("TKK-01-0006").getLineage());
         assertEquals("MDR", specimenCollection.get("TKK-01-0006").getGdstPattern());
         assertEquals("n/a", specimenCollection.get("TKK-01-0006").getXdr());
-    }
-
-    /**
-     * Test all getters for specimen.
-     */
-    @Test
-    public void testJson() {
-        InputStream stream = stringToInputStream(file);
-        specimenParser.parse(stream);
-        SpecimenCollection specimenCollection = specimenParser.getSpecimenCollection();
-        assertEquals("", specimenCollection.toJson());
-    }
-    /**
-     * Converts a String to an InputStream
-     * @param s String
-     * @return InputStream of that String.
-     */
-    public InputStream stringToInputStream(String s) {
-        return new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
     }
 }
