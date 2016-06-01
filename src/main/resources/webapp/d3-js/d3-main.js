@@ -51,7 +51,7 @@ var zm;
 var minimap;
 
 function drawGraph() {
-    zm = d3.behavior.zoom().x(x).y(y).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
+    zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
@@ -121,6 +121,15 @@ function drawMinimap() {
 }
 
 function zoom() {
+    var t = d3.event.translate;
+    var s = d3.event.scale;
+    if (t[0] > 0) {
+        t[0] = 0;
+    } else if (t[0] < - width * (s - 1)) {
+        t[0] = - width * (s - 1);
+    }
+    console.log("t = " + t + ", s = " + s);
+    zm.translate(t);
     var visibleX1 = miniX(x.invert(0));
     var visibleX2 = miniX(x.invert(width));
     var visibleY1 = miniY(y.invert(0));
