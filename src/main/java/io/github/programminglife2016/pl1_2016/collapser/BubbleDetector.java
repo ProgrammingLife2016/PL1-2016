@@ -7,7 +7,8 @@ import java.util.*;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
- * Created by ravishivam on 15-5-16.
+ *
+ * @author Ravi Autar.
  */
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
@@ -20,7 +21,6 @@ public class BubbleDetector {
     private List<Node> bubbleBoundaries;
     private int lastId;
     private int reachedLevel = 1;
-    private int maxLevels;
 
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
@@ -31,6 +31,7 @@ public class BubbleDetector {
     }
 
     public void findMultiLevelBubbles() {
+        System.out.println("Detecting...");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
@@ -55,7 +56,6 @@ public class BubbleDetector {
         if (levelBubbles.size() > 1){
             levelBubbles.remove(reachedLevel-1);
         }
-        maxLevels = levelBubbles.size();
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
             this.bubbleBoundaries.addAll(levelBubbles.get(i));
@@ -111,6 +111,7 @@ public class BubbleDetector {
     }
 
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
+        System.out.println(curr.getId());
         visited[curr.getId()] = true;
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
         for (Node child : connectedTo) {
