@@ -118,7 +118,7 @@ function phylo(n, offset) {
   }
 }
 
-d3.text("file.nwk", function(text) {
+d3.text("/static/file.nwk", function(text) {
   var x = newick.parse(text);
   var treenodes = cluster.nodes(x);
   phylo(treenodes[0], 0);
@@ -132,12 +132,12 @@ d3.text("file.nwk", function(text) {
       .attr("class", getClassName)
       .on("mouseenter", function() {
           var classes = getProperClassFormat($(this).attr("class"));//"."+$(this).attr("class").split(' ').slice(1).join(', .');
-          $(classes).css('stroke', 'red');
+          $(classes).css('stroke', '#dd5f70');
       })
       .on("mouseleave", function() {
           var classes = getProperClassFormat($(this).attr("class"));//"."+$(this).attr("class").split(' ').slice(1).join(', .');
           $(classes).css('stroke', '#ccc');
-      });
+      }) ;
 
   var treenode = tree.selectAll("g.treenode")
       .data(treenodes.filter(function(n) { return n.x !== undefined; }))
@@ -147,6 +147,7 @@ d3.text("file.nwk", function(text) {
 
   treenode.append("circle")
       .attr("r", 2.5);
+  window.tree = tree;
 
   var label = tree.selectAll("text")
       .data(treenodes.filter(function(d) { return d.x !== undefined && !d.children; }))
@@ -160,16 +161,35 @@ d3.text("file.nwk", function(text) {
             return str.replace("treelink", "");
             })
       .on("mouseover", function() {
-          colorTKKs(this, 'red', 'red');
+          console.log($(this).css("fill"));
+          if ($(this).css("fill") === "rgb(0, 0, 0)") {
+              colorTKKs(this, '#dd5f70', '#dd5f70');
+          }
       })
       .on("mouseout", function() {
-          colorTKKs(this, '#ccc', '#000');
+          console.log($(this).css("fill"));
+          if ($(this).css("fill") === "rgb(221, 95, 112") {
+              colorTKKs(this, '#ccc', '#000');
+          }
       })
       .on("mouseleave", function() {
           colorTKKs(this, '#ccc', '#000');
+      })
+      .on("mousedown", function(e) {
+          console.log("Select TKK");
+          console.log(e.name);
+          highlight(e.name);
       });
       enableZooming(svgId);
+
+  window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
 });
+
+ var highlight = function(name) {
+      $(function() {
+          window.graphHandler.highlightGenome(name);
+      });
+ }
 
  function enableZooming(id){
    $(function() {
@@ -246,4 +266,5 @@ function colorTKKs(obj, colorLine, colorText){
     $('text'+str.replace(/,\s./g, ", text.")).css('fill', colorText);
 }
 
+  //tree.selectAll("text")
 });
