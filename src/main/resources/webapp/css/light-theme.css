@@ -345,7 +345,7 @@ html, body {
    display: none;
    position: inline;
    width: 250px;
-   height: 110px;
+   height: 105px;
    border-radius: 5px;
    background-color: #94AAC7;
    color: #ECf0f1;
@@ -358,12 +358,9 @@ html, body {
 }
 
 #info p {
-   font-size: 15px;
-   margin-top: 0;
-}
-
-#info #selectedGenome {
-  margin: 10px 0px;
+   font-size: 20px;
+   margin-top: 0px;
+   margin-bottom: 10px;
 }
 
 #info ul {
