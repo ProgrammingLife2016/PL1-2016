@@ -3,20 +3,12 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
- * @author Ravi Autar.
+ * Created by ravishivam on 15-5-16.
  */
-
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
     private static final int BUBBLE_DETECTED = 1;
@@ -28,12 +20,8 @@ public class BubbleDetector {
     private List<Node> bubbleBoundaries;
     private int lastId;
     private int reachedLevel = 1;
+    private int maxLevels;
 
-    /**
-     * Construct a BubbleDetector using the original dataset.
-     *
-     * @param collection the original dataset
-     */
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
         this.lastId = collection.size() + 1;
@@ -42,53 +30,40 @@ public class BubbleDetector {
         this.bubbleBoundaries = new ArrayList<>();
     }
 
-    /**
-     * Detect the bubbles in the original dataset.
-     */
     public void findMultiLevelBubbles() {
-        System.out.println("Detecting...");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
         this.reachedLevel++;
-        while (true){
-            List<Node> currLevelList = findLevelCollectionBubbles(levelBubbles.get(reachedLevel - 1));
-            if (currLevelList.size() == 0) { break; }
-            levelBubbles.put(reachedLevel, currLevelList);
+        int lastlistsize = levelBubbles.size();
+        while (lastlistsize !=0){
+            initVisited(collection);
+            List<Node> currLevelList = new ArrayList<>();
+            for (Node bubble : levelBubbles.get(reachedLevel - 1)) {
+                if(bubble.getStartNode().getLinks().size()==1 || bubble.getStartNode() == bubble.getEndNode()) {
+                    continue;
+                }
+                for (Node node : bubble.getStartNode().getLinks()) {
+                    List<Node> newBubbles = findLevelBubbles(node, bubble.getEndNode());
+                    currLevelList.addAll(newBubbles);
+                }
+            }
+            lastlistsize = currLevelList.size();
+            levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
         }
-        levelBubbles.values().forEach(this.bubbleBoundaries :: addAll);
-    }
-
-    public List<Node> findLevelCollectionBubbles(List<Node> bubbles) {
-        initVisited(collection);
-        Set<Node> repeat = new HashSet<>();
-        List<Node> currLevelList = new ArrayList<>();
-        for (Node bubble : bubbles)  {
-            if (repeat.contains(bubble.getStartNode()) || (bubble.getStartNode().getLinks().size() == 1)
-                    || (bubble.getStartNode() == bubble.getEndNode())) {
-                continue;
-            }
-            else {
-                repeat.add(bubble.getStartNode());
-            }
-            for (Node node : bubble.getStartNode().getLinks()) {
-                List<Node> newBubbles = findLevelBubbles(node, bubble.getEndNode());
-                currLevelList.addAll(newBubbles);
-            }
+        if (levelBubbles.size() > 1){
+            levelBubbles.remove(reachedLevel-1);
         }
-        return currLevelList;
+        maxLevels = levelBubbles.size();
+        this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
+        for (int i = 2; i < levelBubbles.size()+1; i++) {
+            this.bubbleBoundaries.addAll(levelBubbles.get(i));
+        }
     }
 
-    /**
-     * Find the bubbles from a certain start node to a certain end node.
-     *
-     * @param startNode start node
-     * @param destination end node
-     * @return the bubbles in that level
-     */
     public List<Node> findLevelBubbles(Node startNode, Node destination) {
-        if (startNode == destination) {
+        if (startNode==destination) {
             return new ArrayList<>();
         }
         List<Node> levelCollection = new ArrayList<>();
@@ -135,19 +110,8 @@ public class BubbleDetector {
         return levelCollection;
     }
 
-    /**
-     * Search for the bubble, with curr as start node.
-     *
-     * @param curr start node
-     * @param genomes the genomes to match with the end node.
-     * @param destination the end node
-     * @return s
-     */
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
         visited[curr.getId()] = true;
-        if (curr.getId() > destination.getId()) {
-            return new AbstractMap.SimpleEntry<>(REACHED_FINAL_DESTINATION, curr);
-        }
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
         for (Node child : connectedTo) {
             int status = checkGenomeMatch(genomes, child, destination);
@@ -200,16 +164,11 @@ public class BubbleDetector {
         }
     }
 
-        /**
-         * Return the start and end nodes of all bubbles.
-         *
-         * @return the start and end nodes of all bubbles.
-         */
     public List<Node> getBubbleBoundaries() {
         List<Node> retrieved = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
         for (Node bubble : bubbleBoundaries) {
-            Map.Entry<Integer, Integer> entry = new AbstractMap.SimpleEntry<>(bubble.getStartNode().getId(), bubble.getEndNode().getId());
+            AbstractMap.SimpleEntry<Integer, Integer> entry = new AbstractMap.SimpleEntry<Integer, Integer>(bubble.getStartNode().getId(), bubble.getEndNode().getId());
             if (uniques.contains(entry)) {
                 continue;
             }

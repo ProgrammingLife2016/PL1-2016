@@ -10,7 +10,7 @@ import java.util.function.BiFunction;
 /**
  * Takes apart collapsed layered bubbles and uncollapses most important parts depending on threshold value.
  *
- * @autor Kamran Tadzjibov
+ * @author Kamran Tadzjibov
  */
 public class BubbleDispatcher {
 
@@ -94,10 +94,10 @@ public class BubbleDispatcher {
         Set<Node> tempFiltered = new HashSet<>();
         for (Node x :  bubbleCollection) {
             if (filtered.stream().filter(b -> b.getEndNode().equals(x)).count() == 0 &&
-                                                    x.getZoomLevel() == currentLevel &&
-                                                    x.getContainerSize() <= threshold &&
-                                                    !containers.contains(x.getContainerId())) {
-                    tempFiltered.add(x);
+                    x.getZoomLevel() == currentLevel &&
+                    x.getContainerSize() <= threshold &&
+                    !containers.contains(x.getContainerId())) {
+                tempFiltered.add(x);
             }
             if (containers.contains(x.getContainerId()))
                 containers.add(x.getId());
@@ -189,4 +189,5 @@ public class BubbleDispatcher {
         }
         return collection;
     }
+
 }
