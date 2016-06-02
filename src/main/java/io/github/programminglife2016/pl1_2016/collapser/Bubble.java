@@ -185,44 +185,6 @@ public class Bubble implements Node {
         return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
     }
 
-    /**
-     * Return highest level bubble container of the leaf node in the given bubble if it exists,
-     * else creates new bubble with the startNode == endNode.
-     * @param newId new Id that will be assigned to the bubble if it is just created
-     * @param leaf
-     * @param bubbles
-     * @param boundZoom
-     * @return
-     */
-    public static Node getBestParentNode(int newId, Node leaf, Collection<Node> bubbles, int boundZoom, boolean start){
-        if(leaf instanceof Segment) {
-            final Node tempLeaf = leaf;
-            final int leafId = leaf.getId();
-            Optional<Node> bubble;
-            if(start)
-                bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId// || x.getEndNode().getId() == leafId //
-//            Optional<Node> bubble = bubbles.stream().filter(x -> x.getContainer().contains(tempLeaf)
-                ).findFirst();
-            else
-                bubble = bubbles.stream().filter(x -> x.getEndNode().getId() == leafId).findFirst();
-            if(bubble.isPresent())
-                leaf = bubble.get();
-            else {
-                leaf = new Bubble(newId, boundZoom, (Segment) leaf);
-                newId++;
-            }
-        }
-        Node bestParent = leaf;
-        for (Node newCont : bubbles){
-            if(newCont.getId() == bestParent.getContainerId()) {
-                if(newCont.getZoomLevel() >= boundZoom)
-                    bestParent = newCont;
-            }
-        }
-        if(bestParent.getId() != leaf.getId())
-            return getBestParentNode(newId, bestParent, bubbles, boundZoom, start);
-        return bestParent;
-    }
 
     @Override
     public boolean equals(Object o) {
