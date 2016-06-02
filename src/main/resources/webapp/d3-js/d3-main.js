@@ -12,8 +12,23 @@ var edges;
 var x;
 var y;
 
+var somethingIsHighlighted = false;
+
 var miniX;
 var miniY;
+
+var lineageColors = {
+    "LIN 1": "#ed00c3",
+    "LIN 2": "#0000ff",
+    "LIN 3": "#500079",
+    "LIN 4": "#ff0000",
+    "LIN 5": "#4e2c00",
+    "LIN 6": "#69ca00",
+    "LIN 7": "#ff7e00",
+    "LIN animal": "#00ff9c",
+    "LIN B": "#00ff9c",
+    "LIN CANETTII": "#00ffff"
+}
 
 $.getJSON("/api/nodes", function (response) {
     nodes = response.nodes;
@@ -37,8 +52,8 @@ $.getJSON("/api/nodes", function (response) {
         colorFactor = 2;
         widthFactor = 10;
     } else {
-        colorFactor = 15;
-        widthFactor = 2;
+        colorFactor = 20;
+        widthFactor = 1;
     }
     drawGraph();
     drawMinimap();
@@ -79,7 +94,7 @@ function drawGraph() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (135 - x) + "," + (206 - x) + "," + (250 - x) + ")"})
+        .attr("stroke", defaultColor)
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     circle = svg.selectAll("circle")
@@ -108,7 +123,7 @@ function drawMinimap() {
         .attr("y1", function (d) {return miniY(d.y1)})
         .attr("x2", function (d) {return miniX(d.x2)})
         .attr("y2", function (d) {return miniY(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (255- x) + "," + (127 - x) + "," + (0) + ")"})
+        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (255 - x) + "," + (127 - x) + "," + (0) + ")"})
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     rect = minimap
@@ -142,7 +157,17 @@ function zoom() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10 / zm.scale())});
+        .attr("stroke-width", function (d) {
+            if (somethingIsHighlighted) {
+                if (d.highlighted) {
+                    return 5;
+                } else {
+                    return 1;
+                }
+            } else {
+                return Math.max(1, d.gens / 10 / zm.scale())
+            }
+        });
     if (zm.scale() > 20) {
         circle.attr("transform", transform);
     } else {
@@ -163,5 +188,54 @@ function getData(id) {
         $("#data" + id).html(response);
         console.log(response);
         console.log($("#data" + id));
+    });
+}
+
+var highlightGenome = highlightLineage;
+
+function actuallyHighlightGenome(genome) {
+    somethingIsHighlighted = true;
+    line.attr("stroke", function (d) {
+        d.highlighted = d.genomes.map(function (x) {return x.split("_").join(" ")}).indexOf(genome.split("_").join(" ")) != -1;
+        if (d.highlighted) {
+            return "#eeee00";
+        } else {
+            if (d.lineageHighlighted) {
+                return d.currentColor;
+            } else {
+                return defaultColor(d);
+            }
+        }
+        return d.highlighted ? "#eeee00" : defaultColor(d);
+    })
+        .attr("stroke-width", function (d) {return d.highlighted ? 5 : 1});
+}
+
+function disableHighlighting() {
+    somethingIsHighlighted = false;
+    line.attr("stroke", function (d) {
+        d.highlighted = false;
+        return defaultColor(d);
+    })
+        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10 / zm.scale())});
+}
+
+function defaultColor(d) {
+    var y = 200 - (d.gens - 3) * colorFactor;
+    return "rgb(" + y + "," + y + "," + y + ")";
+}
+
+function highlightLineage(genome) {
+    $.get("/api/lineage/" + genome.split(" ").join("_"), function(lineage) {
+        line.attr("stroke", function (d) {
+            if (d.lineages.indexOf(lineage) != -1) {
+                d.lineageHighlighted = true;
+                d.currentColor = lineageColors[lineage];
+                return lineageColors[lineage];
+            } else {
+                return defaultColor(d);
+            }
+        });
+        actuallyHighlightGenome(genome);
     });
 }

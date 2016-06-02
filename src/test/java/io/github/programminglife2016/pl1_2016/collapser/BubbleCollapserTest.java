@@ -93,7 +93,7 @@ public class BubbleCollapserTest {
     public void testRetainEndNode() {
         collapser.collapseBubbles();
         Node bubble = collapser.getBubbles().get(2).getEndNode();
-        assertEquals(bubble, nodeCollection.get(16));
+        assertEquals(bubble, nodeCollection.get(5));
     }
 
     /**
@@ -103,7 +103,7 @@ public class BubbleCollapserTest {
     public void testSimpleBubbleCollapsing() {
         collapser.collapseBubbles();
         Node bubble = collapser.getBubbles().get(2);
-        assertEquals(5, bubble.getStartNode().getId());
-        assertEquals(16, bubble.getEndNode().getId());
+        assertEquals(3, bubble.getStartNode().getId());
+        assertEquals(5, bubble.getEndNode().getId());
     }
 }
