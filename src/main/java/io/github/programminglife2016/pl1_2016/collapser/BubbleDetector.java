@@ -3,12 +3,20 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
  * @author Ravi Autar.
  */
+
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
     private static final int BUBBLE_DETECTED = 1;
@@ -21,6 +29,11 @@ public class BubbleDetector {
     private int lastId;
     private int reachedLevel = 1;
 
+    /**
+     * Construct a BubbleDetector using the original dataset.
+     *
+     * @param collection the original dataset
+     */
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
         this.lastId = collection.size() + 1;
@@ -29,6 +42,9 @@ public class BubbleDetector {
         this.bubbleBoundaries = new ArrayList<>();
     }
 
+    /**
+     * Detect the bubbles in the original dataset.
+     */
     public void findMultiLevelBubbles() {
         System.out.println("Detecting...");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
@@ -64,6 +80,13 @@ public class BubbleDetector {
         return currLevelList;
     }
 
+    /**
+     * Find the bubbles from a certain start node to a certain end node.
+     *
+     * @param startNode start node
+     * @param destination end node
+     * @return the bubbles in that level
+     */
     public List<Node> findLevelBubbles(Node startNode, Node destination) {
         if (startNode == destination) {
             return new ArrayList<>();
@@ -112,6 +135,14 @@ public class BubbleDetector {
         return levelCollection;
     }
 
+    /**
+     * Search for the bubble, with curr as start node.
+     *
+     * @param curr start node
+     * @param genomes the genomes to match with the end node.
+     * @param destination the end node
+     * @return s
+     */
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
         visited[curr.getId()] = true;
         if (curr.getId() > destination.getId()) {
@@ -169,6 +200,11 @@ public class BubbleDetector {
         }
     }
 
+        /**
+         * Return the start and end nodes of all bubbles.
+         *
+         * @return the start and end nodes of all bubbles.
+         */
     public List<Node> getBubbleBoundaries() {
         List<Node> retrieved = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();

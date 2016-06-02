@@ -13,22 +13,28 @@ import java.io.InputStream;
  */
 public final class Launcher {
     private static final double NANOSECONDS_PER_SECOND = 1000000000.0;
+
     private Launcher() {
     }
     /**
-     * Read the input data and starts the server on the default port.
-     * @param args ignored
+     * Read the input data and starts the server on the provided port.
+     * @param args in the form [port] [dataset] (e.g. 8081 TB10)
      * @throws IOException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException {
+        int port = Integer.parseInt(args[0]);
+        String dataset = args[1];
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        InputStream is = Launcher.class.getResourceAsStream("/genomes/TB10_200.gfa");
+        InputStream is = Launcher.class.getResourceAsStream(
+                String.format("/genomes/%s.gfa", dataset));
+        InputStream positions = Launcher.class.getResourceAsStream(
+                String.format("/genomes/%s.positions", dataset));
         NodeCollection nodeCollection = new SegmentParser().parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        Server server = new RestServer(nodeCollection);
+        Server server = new RestServer(port, nodeCollection);
         server.startServer();
     }
 }

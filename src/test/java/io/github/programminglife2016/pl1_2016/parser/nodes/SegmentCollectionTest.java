@@ -96,6 +96,7 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(4, segment4);
         nodeCollection.put(5, segment5);
     }
+<<<<<<< HEAD
 //    /**
 //     * Test conversion into JSON.
 //     */
@@ -106,6 +107,19 @@ public abstract class SegmentCollectionTest {
 //        JsonElement actual = jsonParser.parse(nodeCollection.toJson());
 //        assertEquals("two", actual.getAsJsonObject().get("nodes").getAsJsonArray().get(1).getAsJsonObject().get("data").getAsString());
 //    }
+=======
+    /**
+     * Test conversion into JSON.
+     */
+    @Test
+    public void testToJson() {
+        createFiveNodes();
+        JsonParser jsonParser = new JsonParser();
+        JsonElement actual = jsonParser.parse(nodeCollection.toJson());
+        assertEquals(2, actual.getAsJsonObject().get("nodes").getAsJsonArray().get(1)
+                .getAsJsonObject().get("id").getAsInt());
+    }
+>>>>>>> develop
     /**
      * Test Basic segment operations.
      */
@@ -145,7 +159,7 @@ public abstract class SegmentCollectionTest {
         assertEquals(2, segment1.getX());
         assertEquals(3, segment1.getY());
         assertEquals(1, segment1.getColumn());
-        assertEquals("Segment{id=1, x=2, y=3, column=1}", segment1.toString());
+        assertEquals("Segment{id=1, x=2, y=3, column=1, containerid=0}", segment1.toString());
     }
 >>>>>>> develop
 }
