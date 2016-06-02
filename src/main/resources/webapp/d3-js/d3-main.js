@@ -15,6 +15,19 @@ var y;
 var miniX;
 var miniY;
 
+var lineageColors = {
+    "LIN 1": "#ed00c3",
+    "LIN 2": "#0000ff",
+    "LIN 3": "#500079",
+    "LIN 4": "#ff0000",
+    "LIN 5": "#4e2c00",
+    "LIN 6": "#69ca00",
+    "LIN 7": "#ff7e00",
+    "LIN animal": "#00ff9c",
+    "LIN B": "#00ff9c",
+    "LIN CANETTII": "#00ffff"
+}
+
 $.getJSON("/api/nodes", function (response) {
     nodes = response.nodes;
     edges = response.edges;
@@ -79,7 +92,7 @@ function drawGraph() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (135 - x) + "," + (206 - x) + "," + (250 - x) + ")"})
+        .attr("stroke", function (d) {return lineageColors[d.mostFreqLineage]})
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     circle = svg.selectAll("circle")
