@@ -178,4 +178,13 @@ public class SegmentParser implements Parser {
     public NodeCollection getSegmentCollection() {
         return nodeCollection;
     }
+
+    /**
+     * Get the parsed metadata information.
+     *
+     * @return the parsed metadata information
+     */
+    public Map<String,Subject> getSubjects() {
+        return specimens;
+    }
 }

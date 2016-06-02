@@ -52,8 +52,8 @@ $.getJSON("/api/nodes", function (response) {
         colorFactor = 2;
         widthFactor = 10;
     } else {
-        colorFactor = 15;
-        widthFactor = 2;
+        colorFactor = 20;
+        widthFactor = 1;
     }
     drawGraph();
     drawMinimap();
@@ -94,7 +94,7 @@ function drawGraph() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", function (d) {return lineageColors[d.mostFreqLineage]})
+        .attr("stroke", defaultColor)
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     circle = svg.selectAll("circle")
@@ -123,7 +123,7 @@ function drawMinimap() {
         .attr("y1", function (d) {return miniY(d.y1)})
         .attr("x2", function (d) {return miniX(d.x2)})
         .attr("y2", function (d) {return miniY(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (255- x) + "," + (127 - x) + "," + (0) + ")"})
+        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (255 - x) + "," + (127 - x) + "," + (0) + ")"})
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     rect = minimap
@@ -191,11 +191,22 @@ function getData(id) {
     });
 }
 
-function highlightGenome(genome) {
+var highlightGenome = highlightLineage;
+
+function actuallyHighlightGenome(genome) {
     somethingIsHighlighted = true;
     line.attr("stroke", function (d) {
         d.highlighted = d.genomes.map(function (x) {return x.split("_").join(" ")}).indexOf(genome.split("_").join(" ")) != -1;
-        return d.highlighted ? "#ffff00" : lineageColors[d.mostFreqLineage];
+        if (d.highlighted) {
+            return "#eeee00";
+        } else {
+            if (d.lineageHighlighted) {
+                return d.currentColor;
+            } else {
+                return defaultColor(d);
+            }
+        }
+        return d.highlighted ? "#eeee00" : defaultColor(d);
     })
         .attr("stroke-width", function (d) {return d.highlighted ? 5 : 1});
 }
@@ -204,7 +215,27 @@ function disableHighlighting() {
     somethingIsHighlighted = false;
     line.attr("stroke", function (d) {
         d.highlighted = false;
-        return lineageColors[d.mostFreqLineage];
+        return defaultColor(d);
     })
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10 / zm.scale())});
+}
+
+function defaultColor(d) {
+    var y = 200 - (d.gens - 3) * colorFactor;
+    return "rgb(" + y + "," + y + "," + y + ")";
+}
+
+function highlightLineage(genome) {
+    $.get("/api/lineage/" + genome.split(" ").join("_"), function(lineage) {
+        line.attr("stroke", function (d) {
+            if (d.lineages.indexOf(lineage) != -1) {
+                d.lineageHighlighted = true;
+                d.currentColor = lineageColors[lineage];
+                return lineageColors[lineage];
+            } else {
+                return defaultColor(d);
+            }
+        });
+        actuallyHighlightGenome(genome);
+    });
 }
