@@ -21,14 +21,15 @@ public class BubbleMain {
 //        NodeCollection nodeCollection = (new GraphvizParser(new SegmentParser().parse(segis))).parse(dotis);
         InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
         NodeCollection nodeCollection = new SegmentParser().parse(is);
-//        BubbleDetector detector = new BubbleDetector(nodeCollection);
-//        detector.findMultiLevelBubbles();
-//        List<Node> list = detector.getBubbleBoundaries();
-//        for (Node node: list) {
-//            System.out.println(node.getStartNode().getId() + " " + node.getEndNode().getId() + " " + node.getZoomLevel());
-//        }
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        nodeCollection = dispatcher.getThresholdedBubbles(100);
+        BubbleDetector detector = new BubbleDetector(nodeCollection);
+        detector.findMultiLevelBubbles();
+        List<Node> list = detector.getBubbleBoundaries();
+//        List<Node> list = detector.findLevelBubbles(nodeCollection.get(81394), nodeCollection.get(91275));
+        for (Node node: list) {
+            System.out.println(node.getStartNode().getId() + " " + node.getEndNode().getId() + " " + node.getZoomLevel());
+        }
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        nodeCollection = dispatcher.getThresholdedBubbles(100);
 //        for(Map.Entry<Integer, Node> entry : nodeCollection.entrySet()) {
 //            Node node = entry.getValue();
 //            int x = (node.getStartNode().getX() + node.getEndNode().getX())/2;
