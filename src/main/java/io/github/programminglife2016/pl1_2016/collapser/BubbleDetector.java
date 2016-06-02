@@ -36,25 +36,26 @@ public class BubbleDetector {
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
         this.reachedLevel++;
-        int lastlistsize = levelBubbles.size();
-        while (lastlistsize !=0){
-            initVisited(collection);
+        int lastlistsize;
+        while (true){
             List<Node> currLevelList = new ArrayList<>();
             for (Node bubble : levelBubbles.get(reachedLevel - 1)) {
                 if(bubble.getStartNode().getLinks().size()==1 || bubble.getStartNode() == bubble.getEndNode()) {
                     continue;
                 }
                 for (Node node : bubble.getStartNode().getLinks()) {
+                    initVisited(collection);
+                    System.out.println();
+                    System.out.println("zoomlevel: " + reachedLevel);
+                    System.out.println("Startnode:  " + bubble.getStartNode().getId() + " " + "Endnode: " + bubble.getEndNode().getId() + " " + "Child: " + node.getId());
                     List<Node> newBubbles = findLevelBubbles(node, bubble.getEndNode());
                     currLevelList.addAll(newBubbles);
                 }
             }
             lastlistsize = currLevelList.size();
+            if (lastlistsize == 0) { break; }
             levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
-        }
-        if (levelBubbles.size() > 1){
-            levelBubbles.remove(reachedLevel-1);
         }
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
@@ -63,7 +64,7 @@ public class BubbleDetector {
     }
 
     public List<Node> findLevelBubbles(Node startNode, Node destination) {
-        if (startNode==destination) {
+        if (startNode == destination) {
             return new ArrayList<>();
         }
         List<Node> levelCollection = new ArrayList<>();
@@ -74,6 +75,7 @@ public class BubbleDetector {
             if (startNode==stoppedNode) {
                 return new ArrayList<>();
             }
+            System.out.println("Status: " + status);
             switch (status) {
                 case BUBBLE_DETECTED :
                     handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
@@ -111,9 +113,12 @@ public class BubbleDetector {
     }
 
     public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
-        System.out.println(curr.getId());
         visited[curr.getId()] = true;
+        if (curr.getId() > destination.getId()) {
+            return new AbstractMap.SimpleEntry<>(REACHED_FINAL_DESTINATION, curr);
+        }
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
+//        System.out.println(linksToString(curr.getId(), curr.getLinks()));
         for (Node child : connectedTo) {
             int status = checkGenomeMatch(genomes, child, destination);
             if (status != NOT_A_BUBBLE) {
@@ -179,5 +184,12 @@ public class BubbleDetector {
             }
         }
         return retrieved;
+    }
+
+    private String linksToString(int bId, Collection<Node> links){
+        String result = "";
+        for (Node n: links)
+            result += bId + " -> " + n.getId() + ";\n";
+        return result;
     }
 }
