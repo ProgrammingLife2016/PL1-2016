@@ -43,7 +43,6 @@ public final class Launcher {
         System.out.print("Starting server... ");
         Server server = new RestServer(port, nodeCollection, subjects);
         server.startServer();
-        System.out.print("started.");
     }
 }
 

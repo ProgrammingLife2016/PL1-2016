@@ -5,6 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenParser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ public class SegmentParser implements Parser {
     }
 
     /**
+<<<<<<< HEAD
      * Create the parser, providing a positions file where the segment positions are stored.
      *
      * @param positions information about the positions of the segments
@@ -51,10 +53,17 @@ public class SegmentParser implements Parser {
      * Create the parser, providing a positions file where the segment positions are stored.
      *
      * @param positions information about the positions of the segments
+=======
+     * Parser to get positions calculated by graphviz.
+     * @param segments Inputstream of the segments.
+     * @param positions InputStream of the positions of the segments.
+     * @return NodeCollection containing segments and their positions
+     * @throws IOException Thrown if file was not found.
+>>>>>>> origin/feature/bubble-collapsing
      */
-    public SegmentParser(InputStream positions) {
-        this();
-        this.positions = positions;
+    public NodeCollection parseWithPositions(InputStream segments, InputStream positions) throws IOException {
+        NodeCollection collection = new GraphvizParser(this.parse(segments)).parse(positions);
+        return collection;
     }
 
     /**

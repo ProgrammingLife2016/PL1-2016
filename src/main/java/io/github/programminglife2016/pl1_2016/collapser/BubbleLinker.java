@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 /**
  * Linker class creates links between the bubbles of the same level, and sets level to the bubbles if it is undefined.
- * @autor Kamran Tadzjibov
+ * @author Kamran Tadzjibov
  */
 public class BubbleLinker {
     private List<Node> bubbles;
@@ -121,9 +121,9 @@ public class BubbleLinker {
 
     private void lowerSegments(){
         List<Node> needLower = bubbles.stream()
-        .filter(x -> (!x.getStartNode().isBubble() && x.getStartNode().getZoomLevel() < lowestLevel) ||
-                (!x.getEndNode().isBubble() && x.getEndNode().getZoomLevel() < lowestLevel) ||
-                x.getContainer().stream().filter(y -> !y.isBubble() && y.getZoomLevel() < lowestLevel).count()>0)
+                .filter(x -> (!x.getStartNode().isBubble() && x.getStartNode().getZoomLevel() < lowestLevel) ||
+                        (!x.getEndNode().isBubble() && x.getEndNode().getZoomLevel() < lowestLevel) ||
+                        x.getContainer().stream().filter(y -> !y.isBubble() && y.getZoomLevel() < lowestLevel).count()>0)
                 .collect(Collectors.toList());
         while(needLower.size() != 0){
             for(Node b : needLower) {
