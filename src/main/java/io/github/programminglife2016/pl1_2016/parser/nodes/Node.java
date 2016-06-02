@@ -109,6 +109,11 @@ public interface Node extends Cloneable {
      */
     Set<String> getGenomes();
 
+    /**
+     * Get the subjects this segment belongs to.
+     *
+     * @return the subjects this segment belongs to
+     */
     Set<Subject> getSubjects();
 
     /**

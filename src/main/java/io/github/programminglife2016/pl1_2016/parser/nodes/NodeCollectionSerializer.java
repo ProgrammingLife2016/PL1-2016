@@ -13,12 +13,8 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Custom serializer for NodeCollection. Conforms API.
@@ -58,12 +54,9 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 JsonArray jsonGenomes = new JsonArray();
                 subjects.stream().map(Subject::getNameId).distinct().forEach(jsonGenomes::add);
                 edge.add("genomes", jsonGenomes);
-                List<String> lineages = node.getSubjects().stream().map(Subject::getLineage).collect(Collectors.toList());
-                lineages.retainAll(link.getSubjects().stream().map(Subject::getLineage).collect(Collectors.toList()));
                 JsonArray jsonLineages = new JsonArray();
-                lineages.stream().forEach(jsonLineages::add);
+                subjects.stream().map(Subject::getLineage).distinct().forEach(jsonLineages::add);
                 edge.add("lineages", jsonLineages);
-                edge.add("mostFreqLineage", new JsonPrimitive(mostFrequentLineage(lineages)));
                 edges.add(edge);
             }
         }
@@ -73,22 +66,5 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
         edges.stream().forEach(jsonArray::add);
         jsonObject.add("edges", jsonArray);
         return jsonObject;
-    }
-
-    private String mostFrequentLineage(Collection<String> lineages) {
-        if (lineages.isEmpty()) {
-            return "";
-        }
-        Map<String, Integer> occurences = new HashMap<>();
-        for (String lineage : lineages) {
-            occurences.put(lineage, occurences.getOrDefault(lineage, 0));
-        }
-        Map.Entry<String, Integer> mostFrequent = occurences.entrySet().iterator().next();
-        for (Map.Entry<String, Integer> entry : occurences.entrySet()) {
-            if (entry.getValue() > mostFrequent.getValue()) {
-                mostFrequent = entry;
-            }
-        }
-        return mostFrequent.getKey();
     }
 }

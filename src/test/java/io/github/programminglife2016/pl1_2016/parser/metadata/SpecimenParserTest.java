@@ -6,10 +6,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 //CHECKSTYLE.OFF: MagicNumber
 
@@ -58,6 +56,8 @@ public class SpecimenParserTest {
 
     /**
      * Test the methods of the parser of specimen.
+     *
+     * @throws IOException thrown if test string contains wrong encoding.
      */
     @Test
     public void testSpecimenParsedCorrect() throws IOException {
@@ -86,6 +86,8 @@ public class SpecimenParserTest {
 
     /**
      * Test all getters for specimen.
+     *
+     * @throws IOException thrown if test string contains wrong encoding.
      */
     @Test
     public void testSpecimen() throws IOException {

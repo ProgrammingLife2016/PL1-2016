@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
-import io.github.programminglife2016.pl1_2016.parser.Parser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
