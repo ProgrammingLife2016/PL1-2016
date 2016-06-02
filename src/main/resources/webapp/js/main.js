@@ -346,8 +346,9 @@ $(function() { // on dom ready
 
     });
 
-    $("#rst").click(function() {
-       graphHandler.resetHighlighting();
+    $("#resetHighlighting").click(function() {
+       console.log("Reset highlighting");
+       disableHighlighting();
     });
   }
 
@@ -386,11 +387,21 @@ $(function() { // on dom ready
           colorFactor = 2;
           widthFactor = 10;
       } else {
-          colorFactor = 15;
-          widthFactor = 2;
+          colorFactor = 20;
+          widthFactor = 1;
       }
       drawGraph();
       drawMinimap();
+  }
+
+  GraphHandler.prototype.show = function() {
+     $("#d3").show();
+     $("#tree").hide();
+     $("#rotation").hide();
+     $("#tree").css("z-index", "1");
+     $("#d3").css("z-index", "2");
+     $("#options").css("z-index", "0");
+     $("#search").css("display", "none");
   }
 
 

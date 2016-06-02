@@ -186,9 +186,8 @@ d3.text("/static/file.nwk", function(text) {
 });
 
  var highlight = function(name) {
-      $(function() {
-          window.graphHandler.highlightGenome(name);
-      });
+      highlightLineage(name);
+      window.graphHandler.show();
  }
 
  function enableZooming(id){
