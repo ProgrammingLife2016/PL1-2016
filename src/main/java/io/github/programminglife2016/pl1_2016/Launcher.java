@@ -35,17 +35,11 @@ public final class Launcher {
         InputStream positions = Launcher.class.getResourceAsStream(
                 String.format("/genomes/%s.positions", dataset));
         SimpleDatabase db = new SimpleDatabase();
-        System.out.println("Started loading.");
-        long startTime2= System.nanoTime();
-        NodeCollection ns = db.fetchSegments();
-        long endTime2 = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.", (endTime2 - startTime2)
-                / NANOSECONDS_PER_SECOND));
         NodeCollection nodeCollection = new SegmentParser(positions).parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-
+        System.out.println(db.fetchLinks(0));
         Server server = new RestServer(port, nodeCollection);
         server.startServer();
     }

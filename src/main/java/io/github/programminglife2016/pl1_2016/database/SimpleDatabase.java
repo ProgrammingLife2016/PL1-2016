@@ -1,5 +1,8 @@
 package io.github.programminglife2016.pl1_2016.database;
 
+import com.sun.org.apache.regexp.internal.RESyntaxException;
+import com.sun.xml.internal.ws.binding.SOAPBindingImpl;
+import io.github.programminglife2016.pl1_2016.collapser.Bubble;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenCollection;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenMap;
@@ -8,6 +11,8 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -85,29 +90,30 @@ public class SimpleDatabase implements Database {
      * @return collection of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    public NodeCollection fetchSegments() throws SQLException {
-        NodeCollection nodes = new NodeMap();
+    public JSONArray fetchNodes(int threshold, int x, int y) throws SQLException {
         Statement stmt = null;
-        String query = "select segment_id, data, column_index, positionx, "
-                + "positiony "
-                + "from " + SEGMENT_TABLE;
+        JSONArray nodes = null;
+        String query = "SELECT DISTINCT segments.* FROM segments, "
+                + "(SELECT DISTINCT n1.id AS from, n1.x AS x1, n1.y AS y1, n2.id AS to, n2.x AS x2, n2.y AS y2 "
+                + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
+                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold +
+                ") sub WHERE sub.from = segments.id OR sub.to = segments.id "
+                + "ORDER BY segments.id";
+
+
+        ResultSet rs;
         try {
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                int segmentid = rs.getInt("segment_id");
-                Node node = new Segment(segmentid,
-                        rs.getString("data"), rs.getInt("column_index"));
-                node.setXY(rs.getInt("positionx"), rs.getInt("positiony"));
-                nodes.put(segmentid, node);
-            }
+            rs = stmt.executeQuery(query);
+            nodes = convertResultSetIntoJSON(rs);
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (stmt != null) {
             stmt.close();
         }
-//        return fetchLinks(nodes);
         return nodes;
 
     }
@@ -196,33 +202,30 @@ public class SimpleDatabase implements Database {
     /**
      * fetch links for segments
      *
-     * @param nodes nodes to which the links will be added
      * @return nodes
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private NodeCollection fetchLinks(NodeCollection nodes) throws SQLException {
+    public JSONArray fetchLinks(int threshold) throws SQLException {
         Statement stmt = null;
-        String query = "select to_id "
-                + "from " + LINK_TABLE
-                + " WHERE from_id='";
+        JSONArray links = null;
+        String query = "SELECT DISTINCT n1.id AS from, n1.x AS x1, n1.y AS y1, n2.id AS to, n2.x AS x2, n2.y AS y2 "
+                + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
+                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold + " LIMIT 10";
+        ResultSet rs;
         try {
             stmt = connection.createStatement();
-            for (Node node : nodes.values()) {
-                ResultSet rs = stmt.executeQuery(query + node.getId() + "'");
-                while (rs.next()) {
-                    int segmentid = rs.getInt("to_id");
-                    node.addLink(nodes.get(segmentid));
-                }
-
-            }
+            rs = stmt.executeQuery(query);
+            links = convertResultSetIntoJSON(rs);
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (stmt != null) {
             stmt.close();
         }
-        return nodes;
+        return links;
 
     }
 
@@ -420,6 +423,32 @@ public class SimpleDatabase implements Database {
         specimen.setLineage(rs.getString("lineage").charAt(0));
         specimen.setGdstPattern(rs.getString("genotypic_dst_pattern"));
         specimen.setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
+    }
+
+
+    /**
+     * Convert a result set into a JSON Array
+     * @param resultSet
+     * @return a JSONArray
+     * @throws Exception
+     */
+    public JSONArray convertResultSetIntoJSON(ResultSet resultSet) throws Exception {
+        JSONArray jsonArray = new JSONArray();
+        while (resultSet.next()) {
+            int total_columns = resultSet.getMetaData().getColumnCount();
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < total_columns; i++) {
+                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                Object columnValue = resultSet.getObject(i + 1);
+                // if value in DB is null, then we set it to default value
+                if (columnValue == null){
+                    columnValue = "null";
+                }
+                obj.put(columnName, columnValue);
+            }
+            jsonArray.put(obj);
+        }
+        return jsonArray;
     }
 
 }

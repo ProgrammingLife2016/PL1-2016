@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016.database;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import org.json.JSONArray;
 
 import java.sql.SQLException;
 
@@ -16,8 +17,7 @@ public interface Database {
      * @return collection of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    NodeCollection fetchSegments() throws SQLException;
-
+    JSONArray fetchNodes(int threshold, int x, int y) throws SQLException;
     /**
      * Fetch segment by id.
      * @param id the id of the node to find
