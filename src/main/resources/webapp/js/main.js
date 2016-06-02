@@ -20,76 +20,6 @@ $(function() { // on dom ready
   $("#status").css("opacity", 0);
 
   /*
-    Factory for creating Graph objects.
-  */
-  function GraphFactory() {
-    this.nodeTemplate = {
-      data: {
-        id: -1,
-        name: "-",
-        weight: 0,
-        faveColor: '#6FB1FC',
-        position: { x: 0, y: 0 }
-      }
-    };
-  }
-
-  GraphFactory.prototype.createNode = function(node) {
-    var getName = name => name.length > 4 ? name.substring(0, 4) + "..." : name;
-    var sh = ((node.bubble === "true") ? "rectangle" : "circle");
-    var gens = (node.genomes !== undefined ? node.genomes.join(",") : "");
-    var isBubble = (node.isBubble ? "true" : "false");
-    return {
-      data: {
-        id: node.id,
-        name: node.id,
-        weight: node.bubble ? 100 : 50,
-        faveColor: '#6FB1FC',
-        faveShape: 'ellipse',
-        refs: gens,
-        bubble: isBubble,
-        containersize: node.containersize,
-        shape: sh
-      },
-      position: {
-        x: node.x + 550,
-        y: node.y + 450
-      }
-    };
-  }
-
-  GraphFactory.prototype.createEdge = function(edge) {
-    return {
-      data: {
-        source: edge.from,
-        target: edge.to,
-        group: "normal"
-      }
-    };
-  }
-
-  /*
-
-      Adapter for converting JSON data from server to correct format for cytoscape
-
-  */
-  function JSONAdapter() {}
-
-  /*
-    Convert JSON data received from server.
-  */
-  JSONAdapter.prototype.convert = function(data) {
-    if (data.hasOwnProperty("nodes") && data.hasOwnProperty("edges")) {
-        var nodes = data.nodes.map(n => graphFactory.createNode(n));
-        var edges = data.edges.map(e => graphFactory.createEdge(e));
-        return { nodes, edges };
-    } else {
-        console.log("ERROR [JSONAdapter.prototype.convert]: Data has wrong format.");
-        return {};
-    }
-  }
-
-  /*
 
       Class for connection with the server
 
@@ -164,8 +94,6 @@ $(function() { // on dom ready
         $("#startConnection i").attr("class", "fa fa-circle-o-notch fa-spin fa-fw fa-lg");
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
-
-        //$.getJSON("/api/nodes", function (response) { });
 
         setTimeout(function(){
             //$("#status").stop().animate({opacity: 1}, duration, "swing");
@@ -423,13 +351,6 @@ $(function() { // on dom ready
        if (this.fuse === undefined) {
            phyloTree.loadFuse();
        }
-
-       //Center phylogenetic tree in view
-//       var el = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
-//       var tr = el.getAttribute("transform");
-//       var values = tr.split('(')[1].split(')')[0].split(',');
-//       var wrap = d3.select(".svg-pan-zoom_viewport > g")
-//                    .attr("transform", "matrix(0.809726453085347,0,0,0.809726453085347," + values[4] + ",120)");
   }
 
   GraphHandler.prototype.setSelectedGenome = function(name) {
@@ -470,7 +391,7 @@ $(function() { // on dom ready
       });
 
       $("#search input").keyup(function(e) {
-         //Reset higlighting
+         //Reset highlighting
          window.tkks
                .filter(function(tkk) {return tkk !== undefined; })
                .forEach(function(tkk) {
@@ -503,7 +424,6 @@ $(function() { // on dom ready
 
   **/
 
-  var graphFactory = new GraphFactory();
   var phyloTree = new PhyloGeneticTree();
   window.graphHandler = new GraphHandler();
   var serverConnection = new ServerConnection();
