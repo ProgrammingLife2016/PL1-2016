@@ -1,14 +1,10 @@
 package io.github.programminglife2016.pl1_2016.database;
 
-import com.sun.org.apache.regexp.internal.RESyntaxException;
-import com.sun.xml.internal.ws.binding.SOAPBindingImpl;
-import io.github.programminglife2016.pl1_2016.collapser.Bubble;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenCollection;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import org.json.JSONArray;
@@ -18,7 +14,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +21,7 @@ import java.util.List;
 /**
  * Class for creating a database.
  */
-public class SimpleDatabase implements Database {
+public class FetchDatabase implements Database {
     /**
      * Driver for the database.
      */
@@ -63,7 +58,7 @@ public class SimpleDatabase implements Database {
     /**
      * Constructor to construct a database.
      */
-    public SimpleDatabase() {
+    public FetchDatabase() {
         connect();
     }
 
@@ -94,7 +89,7 @@ public class SimpleDatabase implements Database {
         Statement stmt = null;
         JSONArray nodes = null;
         String query = "SELECT DISTINCT segments.* FROM segments, "
-                + "(SELECT DISTINCT n1.id AS from, n1.x AS x1, n1.y AS y1, n2.id AS to, n2.x AS x2, n2.y AS y2 "
+                + "(SELECT DISTINCT n1.id AS from, n2.id AS to "
                 + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
                 + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold +
                 ") sub WHERE sub.from = segments.id OR sub.to = segments.id "
@@ -236,7 +231,7 @@ public class SimpleDatabase implements Database {
      * @return the node with id id
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    public Node fetchSegment(int id) throws SQLException {
+    public Node fetchNode(int id) throws SQLException {
         Node node = null;
         Statement stmt = null;
         String query = "select segment_id, data, column_index, positionx, "
@@ -260,78 +255,7 @@ public class SimpleDatabase implements Database {
         return node;
     }
 
-    /**
-     * Write a collection of segments into the database
-     *
-     * @param nodes the collection to write
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    @SuppressWarnings("checkstyle:magicnumber")
-    public void writeSegments(NodeCollection nodes) throws SQLException {
-        clearTable(SEGMENT_TABLE);
-        writeLinks(nodes);
-        PreparedStatement stmt = null;
-        String query = "INSERT INTO " + SEGMENT_TABLE
-                + "(segment_id, data, column_index, positionx, positiony) VALUES"
-                + "(?,?,?,?,?)";
-        try {
-            stmt = connection.prepareStatement(query);
-            for (Node node : nodes.values()) {
-                stmt.setInt(1, node.getId());
-                stmt.setString(2, node.getData());
-                stmt.setInt(3, node.getColumn());
-                stmt.setInt(4, node.getX());
-                stmt.setInt(5, node.getY());
 
-                stmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-    }
-
-    private void clearTable(String tableName) {
-        Statement stmt;
-        try {
-            stmt = connection.createStatement();
-            String query = "DELETE FROM " + tableName;
-            stmt.execute(query);
-            if (stmt == null) {
-                stmt.close();
-            }
-        } catch (SQLException s) {
-            s.printStackTrace();
-        }
-    }
-
-    private void writeLinks(NodeCollection nodes) throws SQLException {
-        clearTable(LINK_TABLE);
-        PreparedStatement stmt = null;
-        String query = "INSERT INTO " + LINK_TABLE
-                + "(from_id, to_id) VALUES"
-                + "(?,?)";
-        try {
-            stmt = connection.prepareStatement(query);
-            for (Node node : nodes.values()) {
-                for (Node link : node.getLinks()) {
-                    stmt.setInt(1, node.getId());
-                    stmt.setInt(2, link.getId());
-                    stmt.executeUpdate();
-                }
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-    }
 
     /**
      * Fetch all specimen from database

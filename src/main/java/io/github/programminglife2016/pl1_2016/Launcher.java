@@ -2,11 +2,10 @@ package io.github.programminglife2016.pl1_2016;
 
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
-import io.github.programminglife2016.pl1_2016.database.SimpleDatabase;
+import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,15 +34,26 @@ public final class Launcher {
                 String.format("/genomes/%s.gfa", dataset));
         InputStream positions = Launcher.class.getResourceAsStream(
                 String.format("/genomes/%s.positions", dataset));
-        SimpleDatabase db = new SimpleDatabase();
         NodeCollection nodeCollection = new SegmentParser(positions).parse(is);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
 
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        Server server = new RestServer(dispatcher.getThresholdedBubbles(4));
-        server.startServer();
+//        SetupDatabase db = new SetupDatabase();
+//        db.setup(nodeCollection);
+
+        FetchDatabase fdb = new FetchDatabase();
+//        BubbleDispatcher bd = new BubbleDispatcher(nodeCollection);
+//        System.out.println(bd.getThresholdedBubbles(1).size());
+        System.out.println("Started loading.");
+        long startTime1 = System.nanoTime();
+        System.out.println(fdb.fetchNodes(16, 0, 0).length());
+        fdb.fetchLinks(16);
+        long endTime1 = System.nanoTime();
+        System.out.println(String.format("Loading time: %f s.", (endTime1 - startTime1)
+                / NANOSECONDS_PER_SECOND));
+//        Server server = new RestServer(dispatcher.getThresholdedBubbles(4));
+//        server.startServer();
     }
 }
 

@@ -12,32 +12,32 @@ import java.sql.SQLException;
  */
 public interface Database {
 
-    /**
-     * Fetch all segments in database.
-     * @return collection of nodes in database
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    JSONArray fetchNodes(int threshold, int x, int y) throws SQLException;
-    /**
-     * Fetch segment by id.
-     * @param id the id of the node to find
-     * @return the node with id id
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    Node fetchSegment(int id) throws SQLException;
-
-    /**
-     * Write a collection of segments into the database.
-     * @param nodes the collection to write
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    void writeSegments(NodeCollection nodes) throws SQLException;
-
-    /**
-     * Fetch all specimen from database.
-     * @return the collection of specimen
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    SpecimenCollection fetchSpecimens() throws SQLException;
+//    /**
+//     * Fetch all segments in database.
+//     * @return collection of nodes in database
+//     * @throws SQLException thrown if SQL connection or query is not valid
+//     */
+//    JSONArray fetchNodes(int threshold, int x, int y) throws SQLException;
+//    /**
+//     * Fetch segment by id.
+//     * @param id the id of the node to find
+//     * @return the node with id id
+//     * @throws SQLException thrown if SQL connection or query is not valid
+//     */
+//    Node fetchNode(int id) throws SQLException;
+//
+//    /**
+//     * Write a collection of nodes into the database.
+//     * @param nodes the collection to write
+//     * @throws SQLException thrown if SQL connection or query is not valid
+//     */
+//    void writeNodes(NodeCollection nodes, int threshold) throws SQLException;
+//
+//    /**
+//     * Fetch all specimen from database.
+//     * @return the collection of specimen
+//     * @throws SQLException thrown if SQL connection or query is not valid
+//     */
+//    SpecimenCollection fetchSpecimens() throws SQLException;
 
 }

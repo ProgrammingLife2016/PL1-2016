@@ -126,9 +126,9 @@ public class BubbleDispatcher {
                     }
                 }
             }
-            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
+//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
         }
-        System.out.println("Aantal verkeerd opgestelde bubbles: " + fout);
+//        System.out.println("Aantal verkeerd opgestelde bubbles: " + fout);
     }
 
     /**

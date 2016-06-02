@@ -1,7 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.Parser;
-import io.github.programminglife2016.pl1_2016.database.SimpleDatabase;
+import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -83,7 +83,7 @@ public class SegmentParser implements Parser {
             }
 //            PositionHandler ph = new PositionHandler(nodeCollection);
 //            ph.calculatePositions();
-            SimpleDatabase db = new SimpleDatabase();
+            FetchDatabase db = new FetchDatabase();
 //          The lines above have to be removed and the lines below have to be uncommented
 //          to use the loading from the database
 //          MetaDatabase db = new MetaDatabase();
