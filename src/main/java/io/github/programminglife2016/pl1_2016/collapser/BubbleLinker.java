@@ -28,8 +28,8 @@ public class BubbleLinker {
         System.out.println("Started linking.");
         long startTime = System.currentTimeMillis();
         setCorrectLevelsToNodes();
-        long endTime = System.currentTimeMillis();
-        System.out.println("Linking time: " + (endTime - startTime)/3600 + " m.");
+        long endTime = System.currentTimeMillis() - startTime;
+        System.out.println("Linking time: " + (endTime/(60*1000F))+ " m.");
     }
 
     private void setCorrectLevelsToNodes(){

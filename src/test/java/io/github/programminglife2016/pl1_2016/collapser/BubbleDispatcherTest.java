@@ -5,12 +5,9 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import static junit.framework.TestCase.assertEquals;
 
 /**
  * Test for the BubbleDispatcher class.
@@ -30,21 +27,4 @@ public class BubbleDispatcherTest {
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
-    /**
-     * Verify if the dispatcher has created the correct number of nodes.
-     */
-    @Test
-    public void testDispatchingCorrectView() {
-        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
-        assertEquals(testCollection.size(), 6);
-    }
-
-    /**
-     * Verify if the start node and the end node of a bubble have the same genome set.
-     */
-    @Test
-    public void testGenomesMatchAfterDispatch() {
-        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
-        assertEquals(testCollection.get(18).getGenomes(), testCollection.get(16).getGenomes());
-    }
 }
