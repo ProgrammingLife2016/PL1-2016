@@ -180,18 +180,30 @@ html, body {
     right: 0;
     height: 350px;
     background-color: #32B2B7;
+    background-image: url("http://i.imgur.com/ffYuFfC.png?1");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+#options img {
+    display: none;
+    width: 100%;
+    height: auto;
 }
 
 #options h1 {
     font-weight: 300;
     text-align: center;
     font-size: 50px;
-    color: #EEE;
+    color: #889DB8;
     margin-bottom: 0px;
     letter-spacing: 3px;
     font-weight: 100;
     margin-bottom: 50px;
     font-style: normal;
+    z-index: 1;
 }
 
 #options h2 {
@@ -226,7 +238,7 @@ html, body {
     margin: 0 auto;
     width: 25%;
     text-align: left;
-    background-color: #58CCD1;
+    background-color: #889DB8;
     padding: 20px;
     margin-top: 1em;
     border-radius: 5px !important;
@@ -237,7 +249,7 @@ html, body {
 }
 
 #options ul li:hover {
-    background-color: #61E2E8;
+    background-color: #98AFCC;
     -webkit-transition: background-color 300ms ease;
 }
 
@@ -269,7 +281,6 @@ html, body {
    left: 0px;
    top: 0px;
    bottom: 0px;
-   margin-top: 0px;
    z-index: 2000;
    padding: 5px 20px 5px 20px;
    opacity: 0.95;
@@ -287,7 +298,7 @@ html, body {
    background-color: rgba(255,255,255,0.3);
    border-radius: 5px;
    margin-left: 0px;
-   margin-top: 8px;
+   margin-top: 12px;
    font-weight: 100;
    outline: none;
 }
