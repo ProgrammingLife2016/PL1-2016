@@ -38,12 +38,24 @@ public class SegmentParser implements Parser {
      * Create the parser, providing a positions file where the segment positions are stored.
      *
      * @param positions information about the positions of the segments
+     * @param metadata metadata of the segments
+     */
+    public SegmentParser(InputStream positions, InputStream metadata) {
+        this();
+        this.positions = positions;
+        SpecimenParser specimenParser = new SpecimenParser();
+        this.specimens = specimenParser.parse(metadata);
+    }
+
+    /**
+     * Create the parser, providing a positions file where the segment positions are stored.
+     *
+     * @param positions information about the positions of the segments
      */
     public SegmentParser(InputStream positions) {
         this();
         this.positions = positions;
         SpecimenParser specimenParser = new SpecimenParser();
-        this.specimens = specimenParser.parse(SegmentParser.class.getResourceAsStream("/genomes/metadata.csv"));
     }
 
     /**
@@ -128,18 +140,20 @@ public class SegmentParser implements Parser {
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
-        Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
-                .stream()
-                .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
         } else {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
-        nodeCollection.get(id).addGenomes(genomes);
+        if (specimens != null) {
+            Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                    .stream()
+                    .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+            nodeCollection.get(id).addGenomes(genomes);
+        }
     }
 
     /**

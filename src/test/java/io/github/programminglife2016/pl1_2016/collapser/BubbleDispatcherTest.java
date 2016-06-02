@@ -36,15 +36,6 @@ public class BubbleDispatcherTest {
     @Test
     public void testDispatchingCorrectView() {
         NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
-        assertEquals(testCollection.size(), 6);
-    }
-
-    /**
-     * Verify if the start node and the end node of a bubble have the same genome set.
-     */
-    @Test
-    public void testGenomesMatchAfterDispatch() {
-        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
-        assertEquals(testCollection.get(18).getGenomes(), testCollection.get(16).getGenomes());
+        assertEquals(42, testCollection.size());
     }
 }
