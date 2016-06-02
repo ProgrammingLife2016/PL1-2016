@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Custom serializer for NodeCollection. Conforms API.
@@ -51,6 +52,12 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 List<Subject> genomes = new ArrayList<>(node.getSubjects());
                 genomes.retainAll(link.getSubjects());
                 edge.add("gens", new JsonPrimitive(genomes.size()));
+                edges.add(edge);
+                List<String> lineages = node.getSubjects().stream().map(Subject::getLineage).collect(Collectors.toList());
+                lineages.retainAll(link.getSubjects().stream().map(Subject::getLineage).collect(Collectors.toList()));
+                JsonArray jsonLineages = new JsonArray();
+                lineages.stream().forEach(jsonLineages::add);
+                edge.add("lineages", jsonLineages);
                 edges.add(edge);
             }
         }

@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -130,6 +131,7 @@ public class SegmentParser implements Parser {
         Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                 .stream()
                 .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
