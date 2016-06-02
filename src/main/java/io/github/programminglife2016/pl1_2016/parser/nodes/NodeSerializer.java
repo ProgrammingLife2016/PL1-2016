@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -30,13 +31,8 @@ public class NodeSerializer implements JsonSerializer<Node> {
                                  JsonSerializationContext jsonSerializationContext) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("id", new JsonPrimitive(node.getId()));
-        if (node.isBubble()) {
-            jsonObject.add("bubble", new JsonPrimitive(true));
-        }
-        else {
-            jsonObject.add("bubble", new JsonPrimitive(false));
-
-        }
+        // TODO: set true if the node is a bubble
+        jsonObject.add("bubble", new JsonPrimitive(false));
         if (node.getData() != null) {
             jsonObject.add("data", new JsonPrimitive(node.getData()));
         } else {
@@ -44,6 +40,9 @@ public class NodeSerializer implements JsonSerializer<Node> {
         }
         jsonObject.add("x", new JsonPrimitive(node.getX()));
         jsonObject.add("y", new JsonPrimitive(node.getY()));
+        JsonArray genomes = new JsonArray();
+        node.getGenomes().stream().forEach(genomes::add);
+        jsonObject.add("genomes", genomes);
         return jsonObject;
     }
 }

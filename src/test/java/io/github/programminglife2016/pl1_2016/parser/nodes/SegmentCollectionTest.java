@@ -119,6 +119,7 @@ public abstract class SegmentCollectionTest {
         assertEquals(seg, segment1);
     }
 
+<<<<<<< HEAD
 //    /**
 //     * Test basic getter functions.
 //     */
@@ -132,4 +133,19 @@ public abstract class SegmentCollectionTest {
 //        assertEquals(1, segment1.getColumn());
 //        assertEquals("Segment{id=1, x=2, y=3, column=1, containerid=0}", segment1.toString());
 //    }
+=======
+    /**
+     * Test basic getter functions.
+     */
+    @Test
+    public void testGettersSegment() {
+        Segment segment1 = new Segment(1);
+        segment1.setXY(2, 3);
+        segment1.setColumn(1);
+        assertEquals(2, segment1.getX());
+        assertEquals(3, segment1.getY());
+        assertEquals(1, segment1.getColumn());
+        assertEquals("Segment{id=1, x=2, y=3, column=1}", segment1.toString());
+    }
+>>>>>>> develop
 }

@@ -10,6 +10,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Custom serializer for NodeCollection. Conforms API.
@@ -40,6 +42,11 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 JsonObject edge = new JsonObject();
                 edge.add("from", new JsonPrimitive(node.getId()));
                 edge.add("to", new JsonPrimitive(link.getId()));
+                List<String> genomes = new ArrayList<>(node.getGenomes());
+                genomes.retainAll(link.getGenomes());
+                JsonArray genomeArray = new JsonArray();
+                genomes.stream().forEach(genomeArray::add);
+                edge.add("genomes", genomeArray);
                 edges.add(edge);
             }
         }

@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -10,8 +8,6 @@ import java.util.Set;
  * An object that represents a displayable bubble/segment.
  */
 public interface Node extends Cloneable {
-    int X_SPACING = 100;
-    int Y_SPACING = 500;
     /**
      * Set the x and y coordinates of the node.
      *
@@ -112,63 +108,26 @@ public interface Node extends Cloneable {
     Set<String> getGenomes();
 
     /**
-     * Return the id of the container the node resides in.
-     * @return id of the container.
-     */
-    int getContainerId();
-
-    /**
-     * Set the id of the container the node resides in.
-     *
-     * @param containerId id of the bubble in which current node is located
-     */
-    void setContainerId(int containerId);
-
-
-    /**
-     * Return the zoomlevel the node resides in.
-     * @return the depth of the level.
-     */
-    int getZoomLevel();
-
-    /**
-     * Return whether the node is a bubble.
-     * @return true if it is a bubble.
-     */
-    Boolean isBubble();
-
-    /**
-     * Get the nodes if the nodes has a container.
-     * @return List of the nodes the node contains.
-     */
-    List<Node> getContainer();
-
-    /**
-     * Returns the size of the container.
-     * @return size of the container.
-     */
-    int getContainerSize();
-
-    /**
-     * Sets the set size of the bubble.
-     * @param size size of the bubble.
-     */
-    void setContainerSize(int size);
-    /**
-     * Set the zoom level of the node
-     */
-    void setZoomLevel(int level);
-
-    /**
      * Make a shallow clone of this node. Only the links are cloned one level more.
      *
      * @return the cloned node.
      */
     Node clone();
 
-    Coordinate position(Coordinate start, List<Node> bubbleList, Node endNode, int level);
     Node getStartNode();
     Node getEndNode();
     void setEndNode(Node node);
     void setStartNode(Node node);
+    void setZoomLevel(int reachedLevel);
+    void setContainerId(int id);
+    List<Node> getContainer();
+    int getContainerId();
+
+    int getZoomLevel();
+
+    boolean isBubble();
+
+    int getContainerSize();
+
+    void setContainerSize(int bubbleSize);
 }
