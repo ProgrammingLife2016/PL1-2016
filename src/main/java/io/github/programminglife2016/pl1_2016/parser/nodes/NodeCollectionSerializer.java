@@ -9,6 +9,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import io.github.programminglife2016.pl1_2016.collapser.Bubble;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,9 +48,15 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 edge.add("y1", new JsonPrimitive(node.getY()));
                 edge.add("x2", new JsonPrimitive(link.getX()));
                 edge.add("y2", new JsonPrimitive(link.getY()));
-                List<String> genomes = new ArrayList<>(node.getGenomes());
-                genomes.retainAll(link.getGenomes());
-                edge.add("gens", new JsonPrimitive(genomes.size()));
+                List<Subject> subjects = new ArrayList<>(node.getSubjects());
+                subjects.retainAll(link.getSubjects());
+                edge.add("gens", new JsonPrimitive(subjects.size()));
+                JsonArray jsonGenomes = new JsonArray();
+                subjects.stream().map(Subject::getNameId).distinct().forEach(jsonGenomes::add);
+                edge.add("genomes", jsonGenomes);
+                JsonArray jsonLineages = new JsonArray();
+                subjects.stream().map(Subject::getLineage).distinct().forEach(jsonLineages::add);
+                edge.add("lineages", jsonLineages);
                 edges.add(edge);
             }
         }

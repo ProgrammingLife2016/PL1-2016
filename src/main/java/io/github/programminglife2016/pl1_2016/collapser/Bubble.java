@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 
 import java.util.ArrayList;
@@ -98,12 +99,17 @@ public class Bubble implements Node {
     }
 
     @Override
-    public void addGenomes(Collection<String> genomes) {
+    public void addGenomes(Collection<Subject> genomes) {
     }
 
     @Override
     public Set<String> getGenomes() {
         return this.startNode.getGenomes();
+    }
+
+    @Override
+    public Set<Subject> getSubjects() {
+        return new HashSet<>();
     }
 
     @Override

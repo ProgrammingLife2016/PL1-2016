@@ -1,7 +1,8 @@
-var width = window.innerWidth - 10;
-var height = window.innerHeight - 300;
-var miniWidth = width;
 var miniHeight = 250;
+var width = $("#d3").width();
+var height = $(document).height() - $("#nav").height() - miniHeight;
+
+var miniWidth = width;
 var maxZoomLevel = 100;
 
 var colorFactor;
@@ -12,37 +13,23 @@ var edges;
 var x;
 var y;
 
+var somethingIsHighlighted = false;
+
 var miniX;
 var miniY;
 
-$.getJSON("/api/nodes", function (response) {
-    nodes = response.nodes;
-    edges = response.edges;
-    x = d3.scale.linear()
-        .domain([0, max(nodes, "x")])
-        .range([0, width]);
-
-    y = d3.scale.linear()
-        .domain([0, max(nodes, "y")])
-        .range([height, 0]);
-
-    miniX = d3.scale.linear()
-        .domain([0, max(nodes, "x")])
-        .range([0, miniWidth]);
-    miniY = d3.scale.linear()
-        .domain([0, max(nodes, "y")])
-        .range([miniHeight, 0]);
-
-    if (nodes.length > 9000) {
-        colorFactor = 2;
-        widthFactor = 10;
-    } else {
-        colorFactor = 15;
-        widthFactor = 2;
-    }
-    drawGraph();
-    drawMinimap();
-});
+var lineageColors = {
+    "LIN 1": "#ed00c3",
+    "LIN 2": "#0000ff",
+    "LIN 3": "#500079",
+    "LIN 4": "#ff0000",
+    "LIN 5": "#4e2c00",
+    "LIN 6": "#69ca00",
+    "LIN 7": "#ff7e00",
+    "LIN animal": "#00ff9c",
+    "LIN B": "#00ff9c",
+    "LIN CANETTII": "#00ffff"
+}
 
 var circle;
 var line;
@@ -51,7 +38,7 @@ var zm;
 var minimap;
 
 function drawGraph() {
-    zm = d3.behavior.zoom().x(x).y(y).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
+    zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
@@ -59,7 +46,7 @@ function drawGraph() {
             getData(d.id);
             return "<strong>Segment:</strong> <span id='data" + d.id + "'>...</span>";
         });
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#d3").append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -79,15 +66,16 @@ function drawGraph() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (135 - x) + "," + (206 - x) + "," + (250 - x) + ")"})
+        .attr("stroke", defaultColor)
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     circle = svg.selectAll("circle")
         .data(nodes)
         .enter()
         .append("circle")
-        .attr("r", 2.5)
+        .attr("r", 5)
         .attr("transform", "translate(-9999, -9999)")
+        .attr("fill", "#94AAC7")
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
 }
@@ -95,7 +83,7 @@ function drawGraph() {
 var rect;
 
 function drawMinimap() {
-    minimap = d3.select("body").append("svg")
+    minimap = d3.select("#d3").append("svg")
         .attr("width", miniWidth)
         .attr("height", miniHeight)
         .append("g");
@@ -108,7 +96,10 @@ function drawMinimap() {
         .attr("y1", function (d) {return miniY(d.y1)})
         .attr("x2", function (d) {return miniX(d.x2)})
         .attr("y2", function (d) {return miniY(d.y2)})
-        .attr("stroke", function (d) {var x = d.gens * colorFactor; return "rgb(" + (255- x) + "," + (127 - x) + "," + (0) + ")"})
+        .attr("stroke", function (d) {
+           var x = d.gens * colorFactor;
+           return "rgb(" + (198 - x) + "," + (211 - x) + "," + (209 - x) + ")"
+        })
         .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
     rect = minimap
@@ -121,6 +112,15 @@ function drawMinimap() {
 }
 
 function zoom() {
+    var t = d3.event.translate;
+    var s = d3.event.scale;
+    if (t[0] > 0) {
+        t[0] = 0;
+    } else if (t[0] < - width * (s - 1)) {
+        t[0] = - width * (s - 1);
+    }
+    console.log("t = " + t + ", s = " + s);
+    zm.translate(t);
     var visibleX1 = miniX(x.invert(0));
     var visibleX2 = miniX(x.invert(width));
     var visibleY1 = miniY(y.invert(0));
@@ -133,7 +133,17 @@ function zoom() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10 / zm.scale())});
+        .attr("stroke-width", function (d) {
+            if (somethingIsHighlighted) {
+                if (d.highlighted) {
+                    return 5;
+                } else {
+                    return 1;
+                }
+            } else {
+                return Math.max(1, d.gens / 10 / zm.scale())
+            }
+        });
     if (zm.scale() > 20) {
         circle.attr("transform", transform);
     } else {
@@ -154,5 +164,55 @@ function getData(id) {
         $("#data" + id).html(response);
         console.log(response);
         console.log($("#data" + id));
+    });
+}
+
+var highlightGenome = highlightLineage;
+
+function actuallyHighlightGenome(genome) {
+    somethingIsHighlighted = true;
+    line.attr("stroke", function (d) {
+        d.highlighted = d.genomes.map(function (x) {return x.split("_").join(" ")}).indexOf(genome.split("_").join(" ")) != -1;
+        if (d.highlighted) {
+            return "#eeee00";
+        } else {
+            if (d.lineageHighlighted) {
+                return d.currentColor;
+            } else {
+                return defaultColor(d);
+            }
+        }
+        return d.highlighted ? "#eeee00" : defaultColor(d);
+    })
+        .attr("stroke-width", function (d) {return d.highlighted ? 5 : 1});
+}
+
+function disableHighlighting() {
+    somethingIsHighlighted = false;
+    line.attr("stroke", function (d) {
+        d.highlighted = false;
+        return defaultColor(d);
+    })
+        .attr("stroke-width", function (d) {return Math.max(1, d.gens / 10 / zm.scale())});
+}
+
+function defaultColor(d) {
+    var y = 200 - (d.gens - 3) * colorFactor;
+    return "rgb(" + y + "," + y + "," + y + ")";
+}
+
+function highlightLineage(genome) {
+    console.log("Highlight genome: " + genome);
+    $.get("/api/lineage/" + genome.split(" ").join("_"), function(lineage) {
+        line.attr("stroke", function (d) {
+            if (d.lineages.indexOf(lineage) != -1) {
+                d.lineageHighlighted = true;
+                d.currentColor = lineageColors[lineage];
+                return lineageColors[lineage];
+            } else {
+                return defaultColor(d);
+            }
+        });
+        actuallyHighlightGenome(genome);
     });
 }

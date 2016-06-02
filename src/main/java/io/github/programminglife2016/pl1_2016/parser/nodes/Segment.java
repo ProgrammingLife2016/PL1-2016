@@ -1,10 +1,13 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Data structure for representing a DNA sequence
@@ -17,7 +20,7 @@ public class Segment implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private int x;
     private int y;
-    private Set<String> genomes = new HashSet<>();
+    private Set<Subject> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
     private final int containersize = 1;
@@ -115,7 +118,7 @@ public class Segment implements Node {
      * @param genomes the genomes this segment belongs to
      */
     @Override
-    public void addGenomes(Collection<String> genomes) {
+    public void addGenomes(Collection<Subject> genomes) {
         this.genomes.addAll(genomes);
     }
 
@@ -125,8 +128,18 @@ public class Segment implements Node {
      * @return the genomes this segment belongs to
      */
     @Override
-    public Set<String> getGenomes() {
+    public Set<Subject> getSubjects() {
         return genomes;
+    }
+
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
+    @Override
+    public Set<String> getGenomes() {
+        return genomes.stream().map(Subject::getNameId).collect(Collectors.toSet());
     }
 
     /**
