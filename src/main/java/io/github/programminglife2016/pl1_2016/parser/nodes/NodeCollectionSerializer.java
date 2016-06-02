@@ -52,10 +52,12 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 edge.add("y1", new JsonPrimitive(node.getY()));
                 edge.add("x2", new JsonPrimitive(link.getX()));
                 edge.add("y2", new JsonPrimitive(link.getY()));
-                List<Subject> genomes = new ArrayList<>(node.getSubjects());
-                genomes.retainAll(link.getSubjects());
-                edge.add("gens", new JsonPrimitive(genomes.size()));
-                edges.add(edge);
+                List<Subject> subjects = new ArrayList<>(node.getSubjects());
+                subjects.retainAll(link.getSubjects());
+                edge.add("gens", new JsonPrimitive(subjects.size()));
+                JsonArray jsonGenomes = new JsonArray();
+                subjects.stream().map(Subject::getNameId).distinct().forEach(jsonGenomes::add);
+                edge.add("genomes", jsonGenomes);
                 List<String> lineages = node.getSubjects().stream().map(Subject::getLineage).collect(Collectors.toList());
                 lineages.retainAll(link.getSubjects().stream().map(Subject::getLineage).collect(Collectors.toList()));
                 JsonArray jsonLineages = new JsonArray();
