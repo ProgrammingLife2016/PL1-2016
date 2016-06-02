@@ -3,8 +3,8 @@ package io.github.programminglife2016.pl1_2016;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
+import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +24,7 @@ public final class Launcher {
      * @throws IOException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException {
+
         int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         System.out.println("Started loading.");

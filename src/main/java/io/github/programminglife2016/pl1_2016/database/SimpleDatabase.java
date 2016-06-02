@@ -1,0 +1,450 @@
+package io.github.programminglife2016.pl1_2016.database;
+
+import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Class for creating a database.
+ */
+public class SimpleDatabase implements Database {
+    /**
+     * Driver for the database.
+     */
+    private static final String DATABASE_DRIVER = "org.postgresql.Driver";
+    /**
+     * Host for the database.
+     */
+    private static final String HOST = "jdbc:postgresql://localhost:5432/pl1";
+    /**
+     * Roll for the database.
+     */
+    private static final String ROLL = "pl";
+    /**
+     * Password for database.
+     */
+    private static final String PASSWORD = "visual";
+    /**
+     * Name of segments table.
+     */
+    private static final String SEGMENT_TABLE = "segments";
+    /**
+     * Name of links table.
+     */
+    private static final String LINK_TABLE = "links";
+    /**
+     * Name of specimen table.
+     */
+    private static final String SPECIMEN_TABLE = "specimen";
+    /**
+     * The connection to the database.
+     */
+    private Connection connection;
+
+    /**
+     * Constructor to construct a database.
+     */
+    public SimpleDatabase() {
+        connect();
+    }
+
+    /**
+     * Connect to database.
+     */
+    private void connect() {
+        try {
+            Class.forName(DATABASE_DRIVER);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver not included in dependencies. Update Maven!");
+            e.printStackTrace();
+        }
+        try {
+            connection = DriverManager.getConnection(HOST, ROLL, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Fetch all segments in database.
+     *
+     * @return collection of nodes in database
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public JSONArray fetchNodes(int threshold, int x, int y) throws SQLException {
+        Statement stmt = null;
+        JSONArray nodes = null;
+        String query = "SELECT DISTINCT segments.* FROM segments, "
+                + "(SELECT DISTINCT n1.id AS from, n1.x AS x1, n1.y AS y1, n2.id AS to, n2.x AS x2, n2.y AS y2 "
+                + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
+                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold +
+                ") sub WHERE sub.from = segments.id OR sub.to = segments.id "
+                + "ORDER BY segments.id";
+
+
+        ResultSet rs;
+        try {
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            nodes = convertResultSetIntoJSON(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (stmt != null) {
+            stmt.close();
+        }
+        return nodes;
+
+    }
+
+    /**
+     * Fetch all positions of segments in nodeCollection in database.
+     * @param  nodeCollection The nodecollection for which the positions should be fetched
+     * @return collection of nodes in database
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public NodeCollection fetchPositions(NodeCollection nodeCollection) throws SQLException {
+        for (Node node: nodeCollection.values()) {
+            List<Integer> positions = fetchPosition(node.getId());
+            node.setXY(positions.get(0), positions.get(1));
+        }
+        return nodeCollection;
+
+    }
+
+    /**
+     * Fetch position of segment based on id of the segment.
+     *
+     * @param id the id of the segment
+     * @return the positions as List<Integer>
+     */
+    private List<Integer> fetchPosition(int id) {
+        Statement stmt = null;
+        String query = "select positionx, "
+                + "positiony "
+                + "from " + SEGMENT_TABLE
+                + " WHERE segment_id='" + id + "'";
+        List<Integer> res = new ArrayList<>();
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                int x = rs.getInt("positionx");
+                int y = rs.getInt("positiony");
+                res.addAll(Arrays.asList(x, y));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+
+    }
+
+    /**
+     * Update the positions of the nodeCollection into the database
+     * @param nodeCollection the nodecollection with the correct positions
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public void updatePositions(NodeCollection nodeCollection) throws SQLException {
+        for (Node node : nodeCollection.values()) {
+            updatePosition(node.getId(), node.getX(), node.getY());
+        }
+    }
+    /**
+     * Update the positions of the node whit id id into the database
+     * @param id the id of the node to update
+     * @param x the correct x for the node
+     * @param y the correct y for the node
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public void updatePosition(int id, int x, int y) throws SQLException {
+        Statement stmt = null;
+        String query = "UPDATE " + SEGMENT_TABLE
+                + " SET positionx = '"
+                + x + "', positiony = '"
+                + y + "' WHERE segment_id = '"
+                + id + "'";
+        try {
+            System.out.println(query);
+            stmt = connection.createStatement();
+            stmt.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+
+    /**
+     * fetch links for segments
+     *
+     * @return nodes
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public JSONArray fetchLinks(int threshold) throws SQLException {
+        Statement stmt = null;
+        JSONArray links = null;
+        String query = "SELECT DISTINCT n1.id AS from, n1.x AS x1, n1.y AS y1, n2.id AS to, n2.x AS x2, n2.y AS y2 "
+                + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
+                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold + " LIMIT 10";
+        ResultSet rs;
+        try {
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            links = convertResultSetIntoJSON(rs);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (stmt != null) {
+            stmt.close();
+        }
+        return links;
+
+    }
+
+    /**
+     * Fetch segment by id
+     *
+     * @param id id of the node to be fetched
+     * @return the node with id id
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public Node fetchSegment(int id) throws SQLException {
+        Node node = null;
+        Statement stmt = null;
+        String query = "select segment_id, data, column_index, positionx, "
+                + "positiony "
+                + "from " + SEGMENT_TABLE
+                + " WHERE segment_id='" + id + "'";
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                int segmentid = rs.getInt("segment_id");
+                node = new Segment(segmentid, rs.getString("data"), rs.getInt("column_index"));
+                node.setXY(rs.getInt("positionx"), rs.getInt("positiony"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (stmt != null) {
+            stmt.close();
+        }
+        return node;
+    }
+
+    /**
+     * Write a collection of segments into the database
+     *
+     * @param nodes the collection to write
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
+    public void writeSegments(NodeCollection nodes) throws SQLException {
+        clearTable(SEGMENT_TABLE);
+        writeLinks(nodes);
+        PreparedStatement stmt = null;
+        String query = "INSERT INTO " + SEGMENT_TABLE
+                + "(segment_id, data, column_index, positionx, positiony) VALUES"
+                + "(?,?,?,?,?)";
+        try {
+            stmt = connection.prepareStatement(query);
+            for (Node node : nodes.values()) {
+                stmt.setInt(1, node.getId());
+                stmt.setString(2, node.getData());
+                stmt.setInt(3, node.getColumn());
+                stmt.setInt(4, node.getX());
+                stmt.setInt(5, node.getY());
+
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    private void clearTable(String tableName) {
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            String query = "DELETE FROM " + tableName;
+            stmt.execute(query);
+            if (stmt == null) {
+                stmt.close();
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+    }
+
+    private void writeLinks(NodeCollection nodes) throws SQLException {
+        clearTable(LINK_TABLE);
+        PreparedStatement stmt = null;
+        String query = "INSERT INTO " + LINK_TABLE
+                + "(from_id, to_id) VALUES"
+                + "(?,?)";
+        try {
+            stmt = connection.prepareStatement(query);
+            for (Node node : nodes.values()) {
+                for (Node link : node.getLinks()) {
+                    stmt.setInt(1, node.getId());
+                    stmt.setInt(2, link.getId());
+                    stmt.executeUpdate();
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    /**
+     * Fetch all specimen from database
+     *
+     * @return the collection of specimen
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
+    public Map<String, Subject> fetchSpecimens() throws SQLException {
+        Map<String, Subject> specimens = new HashMap<>();
+        Statement stmt = null;
+        String query = "select specimen_id , age , sex , "
+                + "hiv_status , cohort , date_of_collection , "
+                + "study_geographic_district , specimen_type , "
+                + "microscopy_smear_status , dna_isolation_single_colony_or_nonsingle_colony , "
+                + "phenotypic_dst_pattern , capreomycin_10ugml , "
+                + "ethambutol_75ugml , ethionamide_10ugml , "
+                + "isoniazid_02ugml_or_1ugml , kanamycin_6ugml , "
+                + "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , "
+                + "ofloxacin_2ugml , rifampin_1ugml , streptomycin_2ugml , "
+                + "digital_spoligotype , lineage , "
+                + "genotypic_dst_pattern , tugela_ferry_vs_nontugela_ferry_xdr "
+                + "from " + SPECIMEN_TABLE;
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Specimen specimen = new Specimen();
+                specimen.setNameId(rs.getString("specimen_id"));
+                if (rs.getString("age").equals("unknown")) {
+                    specimen.setAge(0);
+                } else {
+                    specimen.setAge(Integer.parseInt(rs.getString("age")));
+                }
+                if (rs.getString("sex").equals("Male")) {
+                    specimen.setMale(true);
+                } else {
+                    specimen.setMale(false);
+                }
+                if (rs.getString("hiv_status").equals("Positive")) {
+                    specimen.setHivStatus(1);
+                } else if (rs.getString("hiv_status").equals("Negative")) {
+                    specimen.setHivStatus(-1);
+                } else {
+                    specimen.setHivStatus(0);
+                }
+                if (rs.getString("microscopy_smear_status").equals("Positive")) {
+                    specimen.setSmear(1);
+                } else if (rs.getString("microscopy_smear_status").equals("Negative")) {
+                    specimen.setSmear(-1);
+                } else {
+                    specimen.setSmear(0);
+                }
+                if (rs.getString("dna_isolation_single_colony_or_nonsingle_colony")
+                        .equals("single colony")) {
+                    specimen.setSingleColony(true);
+                } else {
+                    specimen.setSingleColony(false);
+                }
+                setSecondaryValuesSpecimen(specimen, rs);
+                specimens.put(specimen.getNameId(), specimen);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (stmt != null) {
+            stmt.close();
+        }
+        return specimens;
+    }
+
+    private void setSecondaryValuesSpecimen(Specimen specimen, ResultSet rs) throws SQLException {
+        specimen.setCohort(rs.getString("cohort"));
+        specimen.setDate(rs.getString("date_of_collection"));
+        specimen.setDistrict(rs.getString("study_geographic_district"));
+        specimen.setType(rs.getString("specimen_type"));
+        specimen.setPdstpattern(rs.getString("phenotypic_dst_pattern"));
+        specimen.setCapreomycin(rs.getString("capreomycin_10ugml"));
+        specimen.setEthambutol(rs.getString("ethambutol_75ugml"));
+        specimen.setEthionamide(rs.getString("ethionamide_10ugml"));
+        specimen.setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml"));
+        specimen.setKanamycin(rs.getString("kanamycin_6ugml"));
+        specimen.setPyrazinamide(rs
+                .getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit"));
+        specimen.setOfloxacin(rs.getString("ofloxacin_2ugml"));
+        specimen.setRifampin(rs.getString("rifampin_1ugml"));
+        specimen.setStreptomycin(rs.getString("streptomycin_2ugml"));
+        specimen.setSpoligotype(rs.getString("digital_spoligotype"));
+        specimen.setLineage(rs.getString("lineage"));
+        specimen.setGdstPattern(rs.getString("genotypic_dst_pattern"));
+        specimen.setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
+    }
+
+
+    /**
+     * Convert a result set into a JSON Array
+     * @param resultSet
+     * @return a JSONArray
+     * @throws Exception
+     */
+    public JSONArray convertResultSetIntoJSON(ResultSet resultSet) throws Exception {
+        JSONArray jsonArray = new JSONArray();
+        while (resultSet.next()) {
+            int total_columns = resultSet.getMetaData().getColumnCount();
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < total_columns; i++) {
+                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                Object columnValue = resultSet.getObject(i + 1);
+                // if value in DB is null, then we set it to default value
+                if (columnValue == null){
+                    columnValue = "null";
+                }
+                obj.put(columnName, columnValue);
+            }
+            jsonArray.put(obj);
+        }
+        return jsonArray;
+    }
+
+}

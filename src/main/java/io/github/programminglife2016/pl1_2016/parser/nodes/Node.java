@@ -187,4 +187,7 @@ public interface Node extends Cloneable {
      * @return the last child node of this node
      */
     Node getEndNode();
+
+    void setEndNode(Node node);
+    void setStartNode(Node node);
 }

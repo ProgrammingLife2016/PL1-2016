@@ -113,18 +113,18 @@ public class SegmentParser implements Parser {
      * @param line contents of the specific line.
      */
     private void parseLine(String line) {
-       line = line.trim();
-       String[] data = line.split("\\s+");
-       switch (data[0].charAt(0)) {
-       case 'H':
-           break;
-       case 'S': parseSegmentLine(data);
-           break;
-       case 'L': parseLinkLine(data);
-           break;
-       default:
-           break;
-       }
+        line = line.trim();
+        String[] data = line.split("\\s+");
+        switch (data[0].charAt(0)) {
+            case 'H':
+                break;
+            case 'S': parseSegmentLine(data);
+                break;
+            case 'L': parseLinkLine(data);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
