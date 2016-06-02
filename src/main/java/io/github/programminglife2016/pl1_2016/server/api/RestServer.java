@@ -6,6 +6,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetLineageApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedBubblesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
@@ -70,6 +71,7 @@ public class RestServer implements Server {
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
         apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
+        apiHandler.addQuery(new GetThresholdedBubblesApiQuery(nodeCollection));
         if (subjects != null) {
             apiHandler.addQuery(new GetLineageApiQuery(subjects));
         }

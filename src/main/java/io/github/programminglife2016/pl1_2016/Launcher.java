@@ -40,8 +40,10 @@ public final class Launcher {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
+        System.out.print("Starting server... ");
         Server server = new RestServer(port, nodeCollection, subjects);
         server.startServer();
+        System.out.print("started.");
     }
 }
 

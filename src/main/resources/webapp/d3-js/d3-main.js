@@ -30,7 +30,7 @@ var lineageColors = {
     "LIN CANETTII": "#00ffff"
 }
 
-$.getJSON("/api/nodes", function (response) {
+$.getJSON("/api/nodes/50", function (response) {
     nodes = response.nodes;
     edges = response.edges;
     x = d3.scale.linear()
