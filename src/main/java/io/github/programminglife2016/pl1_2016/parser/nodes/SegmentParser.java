@@ -1,13 +1,16 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenParser;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -19,11 +22,9 @@ public class SegmentParser implements Parser {
     private static final String GENOME_SUFFIX = ".fasta";
     private static final int SEGMENT_POSITION_FACTOR = 100;
 
-    /**
-     * Map containing the DNA seqments.
-     */
     private NodeCollection nodeCollection;
     private InputStream positions;
+    private Map<String, Subject> specimens;
 
     /**
      * Create parser object.
@@ -40,6 +41,8 @@ public class SegmentParser implements Parser {
     public SegmentParser(InputStream positions) {
         this();
         this.positions = positions;
+        SpecimenParser specimenParser = new SpecimenParser();
+        this.specimens = specimenParser.parse(SegmentParser.class.getResourceAsStream("/genomes/metadata.csv"));
     }
 
     /**
@@ -124,10 +127,10 @@ public class SegmentParser implements Parser {
         if (data[data.length - 1].contains(ATTR_ZINDEX)) {
             column = Integer.parseInt(data[data.length - 1].split(":")[2]);
         }
-        Collection<String> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+        Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                 .stream()
-                .map(x -> x.substring(0, x.length() - GENOME_SUFFIX.length()))
-                .map(x -> x.replace("_", " ").replace("-", " ")).collect(Collectors.toList());
+                .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
+                .collect(Collectors.toSet());
         if (!nodeCollection.containsKey(id)) {
             nodeCollection.put(id, new Segment(id, seq, column));
         } else {

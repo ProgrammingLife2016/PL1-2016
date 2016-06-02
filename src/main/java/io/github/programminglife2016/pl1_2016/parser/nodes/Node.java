@@ -1,5 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -8,8 +10,6 @@ import java.util.Set;
  * An object that represents a displayable bubble/segment.
  */
 public interface Node extends Cloneable {
-    int X_SPACING = 100;
-    int Y_SPACING = 500;
     /**
      * Set the x and y coordinates of the node.
      *
@@ -100,7 +100,7 @@ public interface Node extends Cloneable {
      *
      * @param genomes the genomes this segment belongs to
      */
-    void addGenomes(Collection<String> genomes);
+    void addGenomes(Collection<Subject> genomes);
 
     /**
      * Get the genomes this segment belongs to.
@@ -108,6 +108,8 @@ public interface Node extends Cloneable {
      * @return the genomes this segment belongs to
      */
     Set<String> getGenomes();
+
+    Set<Subject> getSubjects();
 
     /**
      * Return the id of the container the node resides in.
