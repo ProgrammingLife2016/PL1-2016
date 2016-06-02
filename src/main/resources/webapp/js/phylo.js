@@ -187,7 +187,8 @@ d3.text("/static/file.nwk", function(text) {
 
  var highlight = function(name) {
       highlightLineage(name);
-      window.graphHandler.show();
+      window.graphHandler.setSelectedGenome(name);
+      window.graphHandler.showGraph();
  }
 
  function enableZooming(id){

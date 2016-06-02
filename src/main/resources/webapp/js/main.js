@@ -347,19 +347,22 @@ $(function() { // on dom ready
     });
 
     $("#resetHighlighting").click(function() {
-       console.log("Reset highlighting");
-       disableHighlighting();
+       graphHandler.resetHighlighting();
+    });
+
+    $("#resetButton").click(function() {
+       graphHandler.resetHighlighting();
+    });
+
+    $("#selectButton").click(function() {
+      graphHandler.resetHighlighting();
+      graphHandler.showPhylotree();
     });
   }
 
-  /**
-     Highlight the path of the genome in the graph
-  **/
-  GraphHandler.prototype.highlightGenome = function(genome) {
-    this.resetHighlighting();
-  }
-
   GraphHandler.prototype.resetHighlighting = function() {
+    disableHighlighting();
+    $("#info").fadeOut();
   }
 
   /*
@@ -394,14 +397,44 @@ $(function() { // on dom ready
       drawMinimap();
   }
 
-  GraphHandler.prototype.show = function() {
-     $("#d3").show();
-     $("#tree").hide();
-     $("#rotation").hide();
-     $("#tree").css("z-index", "1");
-     $("#d3").css("z-index", "2");
-     $("#options").css("z-index", "0");
-     $("#search").css("display", "none");
+  GraphHandler.prototype.showGraph = function() {
+       $("#d3").show();
+       $("#tree").hide();
+       $("#rotation").hide();
+       $("#tree").css("z-index", "1");
+       $("#d3").css("z-index", "2");
+       $("#options").css("z-index", "0");
+       $("#search").css("display", "none");
+  }
+
+  GraphHandler.prototype.showPhylotree = function() {
+       $("#d3").hide();
+       $("#tree").css("opacity", "1");
+       $("#rotation").show();
+       $("#tree").show();
+       $("#tree").css("z-index", "2");
+       $("#d3").css("z-index", "1");
+       $("#options").css("z-index", "0");
+       $("#search").css("display", "block");
+       for (var i = 0; i < window.tkks.length; i++) {
+          $("#search ul").append($("<li>").text(window.tkks[i].textContent));
+       }
+
+       if (this.fuse === undefined) {
+           phyloTree.loadFuse();
+       }
+
+       //Center phylogenetic tree in view
+//       var el = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
+//       var tr = el.getAttribute("transform");
+//       var values = tr.split('(')[1].split(')')[0].split(',');
+//       var wrap = d3.select(".svg-pan-zoom_viewport > g")
+//                    .attr("transform", "matrix(0.809726453085347,0,0,0.809726453085347," + values[4] + ",120)");
+  }
+
+  GraphHandler.prototype.setSelectedGenome = function(name) {
+       $("#info p").html(name);
+       $("#info").fadeIn();
   }
 
 

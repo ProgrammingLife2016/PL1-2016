@@ -341,24 +341,56 @@ html, body {
 /**
     Search function for phylotree
 **/
-#closemessage {
-   display: block;
-   position: relative;
-   width: 10px;
-   height: 10px;
-   background-color: #61E2E8;
+#info {
+   display: none;
+   position: inline;
+   width: 250px;
+   height: 110px;
+   border-radius: 5px;
+   background-color: #94AAC7;
    color: #ECf0f1;
-   right: 0px;
-   top: 0px;
-   padding: 2px;
+   float: right;
+   right: 20px;
+   top: 20px;
+   padding: 10px 20px;
+   z-index: 5;
+   opacity: 0.95;
 }
 
-#message h2 {
-  margin: 0px;
-  margin-top: 10px;
-  color: #ECF0F1;
-  font-size: 18px;
-  font-weight: 100;
+#info p {
+   font-size: 15px;
+   margin-top: 0;
+}
+
+#info #selectedGenome {
+  margin: 10px 0px;
+}
+
+#info ul {
+   display: inline;
+   list-style-type: none;
+   padding: 0;
+   padding-top: 10px;
+   margin: 0;
+   position: relative;
+   min-width: 200px;
+   color: #ECF0F1;
+   outline: none;
+}
+
+#info ul li {
+  padding: 5px;
+  background-color: #728399;
+  border-radius: 5px;
+  margin: 5px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-transition: background-color 300ms ease;
+}
+
+#info ul li:hover {
+  background-color: #8AA0BA;
+  -webkit-transition: background-color 300ms ease;
 }
 
 #tree {

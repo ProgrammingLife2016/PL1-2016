@@ -69,8 +69,8 @@
     </nav>
 
 
-    <!-- Graph view -->
     <div id="stackpane">
+        <!-- Start screen -->
         <div class="pane" id="options">
             <img src="http://i.imgur.com/7Hsccql.png"/>
             <div id="container">
@@ -94,15 +94,27 @@
                 </ul>
             </div>
         </div>
-        <!--<div class="pane" id="cy"></div>-->
-        <div class="pane" id="d3"></div>
 
+        <!-- Graph view -->
+        <div class="pane" id="d3">
+
+        </div>
+        <div id="info">
+            <p id="selectedGenome">TKK...</p>
+            <ul>
+                <li id="resetButton">Reset highligthing</li>
+                <li id="selectButton">Select other genome</li>
+            </ul>
+        </div>
+
+        <!-- Search bar for phylogenetic tree -->
         <div id="search">
             <input type="search" placeholder="Search genomes..." autofocus />
             <div id="results" tabindex="0" >
                  <ul></ul>
             </div>
         </div>
+        <!-- Phylogenetic tree -->
         <div class="pane" id="tree">
         </div>
         <div id="rotation"></div>
