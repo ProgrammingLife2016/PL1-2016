@@ -13,13 +13,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+<<<<<<< HEAD
  * Detect bubbles in a dataset.
+=======
+ * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
+ * Created by ravishivam on 15-5-16.
+>>>>>>> feature/bubble-collapsing
  */
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
     private static final int BUBBLE_DETECTED = 1;
     private static final int FOUND_MORE_GENOMES = 2;
     private static final int REACHED_FINAL_DESTINATION = 3;
+    private static final int NO_CHILDREN_FOUND = 4;
     private boolean[] visited;
     private NodeCollection collection;
     private List<Node> bubbleBoundaries;
@@ -86,26 +92,45 @@ public class BubbleDetector {
             return new ArrayList<>();
         }
         List<Node> levelCollection = new ArrayList<>();
-        Map.Entry<Integer, Node> bubbleAt = searchBubble(startNode, startNode.getGenomes(),
-                destination);
-        while (bubbleAt.getKey() != REACHED_FINAL_DESTINATION) {
-            switch (bubbleAt.getKey()) {
-                case BUBBLE_DETECTED:
-                    handleDetectedBubble(startNode, bubbleAt.getValue(), levelCollection);
-                    startNode = bubbleAt.getValue();
-                    bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
+        Map.Entry<Integer, Node> stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
+        int status = stoppedAtNode.getKey();
+        Node stoppedNode = stoppedAtNode.getValue();
+        while (status != REACHED_FINAL_DESTINATION) {
+            if (startNode==stoppedNode) {
+                return new ArrayList<>();
+            }
+            switch (status) {
+                case BUBBLE_DETECTED :
+                    handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
+                    startNode = stoppedAtNode.getValue();
+                    stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
-                case FOUND_MORE_GENOMES:
-                    handleDetectedBubble(startNode, startNode, levelCollection);
-                    startNode = bubbleAt.getValue();
-                    bubbleAt = searchBubble(startNode, startNode.getGenomes(), destination);
-                    break;
-                default:
+                case FOUND_MORE_GENOMES :
+                    startNode = stoppedAtNode.getValue();
+                    stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
                     break;
             }
+            if (status == NO_CHILDREN_FOUND) {
+                if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
+                    handleDetectedBubble(startNode, stoppedNode, levelCollection);
+                } else {
+                    for (Node childNode : startNode.getLinks()) {
+                        initVisited(collection);
+                        levelCollection.addAll(findLevelBubbles(childNode, destination));
+                    }
+                }
+                break;
+            }
+            status = stoppedAtNode.getKey();
+            stoppedNode = stoppedAtNode.getValue();
         }
-        if (startNode.getGenomes().equals(bubbleAt.getValue().getGenomes())) {
-            handleDetectedBubble(startNode, bubbleAt.getValue(), levelCollection);
+        if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
+            handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
+        }
+        else {
+            for (Node childNode : startNode.getLinks()) {
+                levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));
+            }
         }
         return levelCollection;
     }
@@ -130,7 +155,7 @@ public class BubbleDetector {
                 return searchBubble(child, genomes, destination);
             }
         }
-        return new AbstractMap.SimpleEntry<>(REACHED_FINAL_DESTINATION, curr);
+        return new AbstractMap.SimpleEntry<>(NO_CHILDREN_FOUND, curr);
     }
 
     private int checkGenomeMatch(Collection initGenomes, Node secondNode, Node destination) {
@@ -176,6 +201,18 @@ public class BubbleDetector {
      * @return the start and end nodes of all bubbles.
      */
     public List<Node> getBubbleBoundaries() {
-        return bubbleBoundaries;
+        List<Node> retrieved = new ArrayList<>();
+        Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
+        for (Node bubble : bubbleBoundaries) {
+            AbstractMap.SimpleEntry<Integer, Integer> entry = new AbstractMap.SimpleEntry<Integer, Integer>(bubble.getStartNode().getId(), bubble.getEndNode().getId());
+            if (uniques.contains(entry)) {
+                continue;
+            }
+            else {
+                retrieved.add(bubble);
+                uniques.add(entry);
+            }
+        }
+        return retrieved;
     }
 }

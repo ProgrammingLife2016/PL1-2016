@@ -1,5 +1,8 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+
+import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -180,4 +183,7 @@ public interface Node extends Cloneable {
      * @return the last child node of this node
      */
     Node getEndNode();
+
+    void setEndNode(Node node);
+    void setStartNode(Node node);
 }

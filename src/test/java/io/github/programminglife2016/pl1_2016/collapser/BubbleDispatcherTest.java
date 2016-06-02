@@ -35,7 +35,7 @@ public class BubbleDispatcherTest {
      */
     @Test
     public void testDispatchingCorrectView() {
-        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
+        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
         assertEquals(testCollection.size(), 6);
     }
 
@@ -44,7 +44,7 @@ public class BubbleDispatcherTest {
      */
     @Test
     public void testGenomesMatchAfterDispatch() {
-        NodeCollection testCollection = dispatcher.getLevelBubbles(0, 4);
+        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
         assertEquals(testCollection.get(18).getGenomes(), testCollection.get(16).getGenomes());
     }
 }

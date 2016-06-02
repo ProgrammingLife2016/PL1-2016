@@ -1,11 +1,12 @@
 package io.github.programminglife2016.pl1_2016;
 
-import io.github.programminglife2016.pl1_2016.database.Database;
+
+import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.database.SimpleDatabase;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.Server;
+import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +40,9 @@ public final class Launcher {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-        System.out.println(db.fetchLinks(0));
-        Server server = new RestServer(port, nodeCollection);
+
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        Server server = new RestServer(dispatcher.getThresholdedBubbles(4));
         server.startServer();
     }
 }
