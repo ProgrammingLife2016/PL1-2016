@@ -52,7 +52,7 @@ public class RestServerTest {
     @Test
     public void testSingleRequestToServer() throws IOException {
         String ret = IOUtils.toString(new URL(String.format("http://localhost:%d/api/nodes",
-                RestServer.PORT)), "UTF-8");
+                RestServer.DEFAULT_PORT)), "UTF-8");
         assertEquals("{\"hi\": 2}", ret);
     }
 

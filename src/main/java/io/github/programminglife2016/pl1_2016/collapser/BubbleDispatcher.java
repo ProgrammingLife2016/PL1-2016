@@ -4,7 +4,11 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -99,10 +103,9 @@ public class BubbleDispatcher {
 
     private boolean needReplace(Collection<Node> links, List<Node> bubble) {
         for (Node link : links) {
-            if (bubble.contains(link)) {
-                continue;
+            if (!bubble.contains(link)) {
+                return true;
             }
-            return true;
         }
         return false;
     }

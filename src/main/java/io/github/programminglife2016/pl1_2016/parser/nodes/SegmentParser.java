@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -17,11 +18,13 @@ public class SegmentParser implements Parser {
     private static final String ATTR_ZINDEX = "START:Z:";
     private static final String ATTR_ORI = "ORI:Z:";
     private static final String GENOME_SUFFIX = ".fasta";
+    private static final int SEGMENT_POSITION_FACTOR = 100;
 
     /**
      * Map containing the DNA seqments.
      */
     private NodeCollection nodeCollection;
+    private InputStream positions;
 
     /**
      * Create parser object.
@@ -31,12 +34,37 @@ public class SegmentParser implements Parser {
     }
 
     /**
+     * Create the parser, providing a positions file where the segment positions are stored.
+     *
+     * @param positions information about the positions of the segments
+     */
+    public SegmentParser(InputStream positions) {
+        this();
+        this.positions = positions;
+    }
+
+    /**
      * Read and parse the data from the input stream
      * @param inputStream input data
      * @return Data structure with parsed data.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     public NodeCollection parse(InputStream inputStream) {
         read(inputStream);
+        if (positions != null) {
+            Scanner sc = new Scanner(positions, "UTF-8");
+            sc.nextLine();
+            while (sc.hasNextLine()) {
+                String[] line = sc.nextLine().split(" ");
+                if (line[0].equals("node")) {
+                    nodeCollection.get(Integer.parseInt(line[1])).setXY(
+                            (int) (Double.parseDouble(line[2]) * SEGMENT_POSITION_FACTOR),
+                            (int) (Double.parseDouble(line[3]) * SEGMENT_POSITION_FACTOR));
+                } else {
+                    break;
+                }
+            }
+        }
         return nodeCollection;
     }
 

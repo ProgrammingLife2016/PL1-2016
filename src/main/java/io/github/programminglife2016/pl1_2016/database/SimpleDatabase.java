@@ -107,7 +107,8 @@ public class SimpleDatabase implements Database {
         if (stmt != null) {
             stmt.close();
         }
-        return fetchLinks(nodes);
+//        return fetchLinks(nodes);
+        return nodes;
 
     }
 
