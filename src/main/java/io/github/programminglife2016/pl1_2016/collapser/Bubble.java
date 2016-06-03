@@ -7,15 +7,10 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * A bubble represents a higher level node. A bubble can contain multiple segments, or multiple
- * bubbles.
- */
 public class Bubble implements Node {
     private int id;
     private int x;
     private int y;
-
     private transient final Boolean isBubble = true;
     private transient Node startNode;
     private transient Node endNode;
@@ -27,17 +22,16 @@ public class Bubble implements Node {
     private transient String data = "";
     private transient int containersize;
 
-    /**
-     * Create a bubble that encompasses the nodes between startNode and endNode.
-     *
-     * @param id id of the bubble
-     * @param startNode first node of the bubble
-     * @param endNode last node of the bubble
-     */
+    public Bubble(Node startNode, Node endNode) {
+        this.startNode = startNode;
+        this.endNode = endNode;
+    }
+
     public Bubble(int id, Node startNode, Node endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
         this.id = id;
+
     }
 
     public Bubble (int newId, int zoomLvl, Segment segment){
@@ -119,7 +113,6 @@ public class Bubble implements Node {
     public Set<String> getGenomes() {
         return this.startNode.getGenomes();
     }
-
     @Override
     public Set<Subject> getSubjects() {
         return null;
@@ -127,11 +120,7 @@ public class Bubble implements Node {
 
     @Override
     public Node clone() {
-        try {
-            return (Bubble) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
@@ -165,8 +154,8 @@ public class Bubble implements Node {
     }
 
     @Override
-    public Boolean isBubble() {
-        return true;
+    public Boolean isBubble(){
+        return isBubble;
     }
 
     @Override
@@ -180,7 +169,6 @@ public class Bubble implements Node {
     }
 
     @Override
-
     public void setEndNode(Node node) {
         this.endNode = node;
     }
@@ -198,44 +186,6 @@ public class Bubble implements Node {
         return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
     }
 
-    /**
-     * Return highest level bubble container of the leaf node in the given bubble if it exists,
-     * else creates new bubble with the startNode == endNode.
-     * @param newId new Id that will be assigned to the bubble if it is just created
-     * @param leaf
-     * @param bubbles
-     * @param boundZoom
-     * @return
-     */
-    public static Node getBestParentNode(int newId, Node leaf, Collection<Node> bubbles, int boundZoom, boolean start){
-        if(leaf instanceof Segment) {
-            final Node tempLeaf = leaf;
-            final int leafId = leaf.getId();
-            Optional<Node> bubble;
-            if(start)
-            bubble = bubbles.stream().filter(x -> x.getStartNode().getId() == leafId// || x.getEndNode().getId() == leafId //
-//            Optional<Node> bubble = bubbles.stream().filter(x -> x.getContainer().contains(tempLeaf)
-            ).findFirst();
-            else
-                bubble = bubbles.stream().filter(x -> x.getEndNode().getId() == leafId).findFirst();
-            if(bubble.isPresent())
-                leaf = bubble.get();
-            else {
-                leaf = new Bubble(newId, boundZoom, (Segment) leaf);
-                newId++;
-            }
-        }
-        Node bestParent = leaf;
-        for (Node newCont : bubbles){
-            if(newCont.getId() == bestParent.getContainerId()) {
-                if(newCont.getZoomLevel() >= boundZoom)
-                    bestParent = newCont;
-            }
-        }
-        if(bestParent.getId() != leaf.getId())
-            return getBestParentNode(newId, bestParent, bubbles, boundZoom, start);
-        return bestParent;
-    }
 
     @Override
     public boolean equals(Object o) {

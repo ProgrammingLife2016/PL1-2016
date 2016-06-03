@@ -42,12 +42,8 @@ public final class Launcher {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         System.out.print("Starting server... ");
-        BubbleDispatcher bd = new BubbleDispatcher(nodeCollection);
-
-        bd.getThresholdedBubbles(4);
-//        Server server = new RestServer(port, nodeCollection, subjects);
-//        server.startServer();
-        System.out.print("started.");
+        Server server = new RestServer(port, nodeCollection, subjects);
+        server.startServer();
     }
 }
 
