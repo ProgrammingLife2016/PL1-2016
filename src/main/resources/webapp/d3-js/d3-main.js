@@ -206,7 +206,7 @@ function zoom() {
         .attr("y", visibleY1)
         .attr("width", visibleX2 - visibleX1)
         .attr("height", visibleY2 - visibleY1);
-    line.attr("x1", function (d) {console.log(x(d.x1)); return x(d.x1)})
+    line.attr("x1", function (d) {return x(d.x1)})
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
@@ -218,7 +218,7 @@ function zoom() {
                     return 1;
                 }
             } else {
-                return Math.max(1, d.genomes.length / 10 / zm.scale())
+                return Math.max(1, d.genomes.length / zm.scale() * 2)
             }
         });
     if (zm.scale() > 20) {
