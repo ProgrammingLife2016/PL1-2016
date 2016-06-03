@@ -7,6 +7,11 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Bubble class that contains segments or nested bubbles.
+ *
+ * @author Ravi Autar
+ */
 public class Bubble implements Node {
     private int id;
     private int x;
@@ -22,11 +27,22 @@ public class Bubble implements Node {
     private transient String data = "";
     private transient int containersize;
 
+    /**
+     * Constructor for a bubble with start and endnode.
+     * @param startNode startnode of the bubble.
+     * @param endNode endnode of the bubble.
+     */
     public Bubble(Node startNode, Node endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
     }
 
+    /**
+     * Constructor for a bubble with id, start and endnode.
+     * @param id id of the bubble.
+     * @param startNode startnode of the bubble.
+     * @param endNode endnode of the bubble.
+     */
     public Bubble(int id, Node startNode, Node endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
@@ -45,74 +61,151 @@ public class Bubble implements Node {
 //        this.backLinks.addAll(segment.getBackLinks());
     }
 
+    /**
+     * Set the x and y coordinates of the node.
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     @Override
     public void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Get the x coordinate.
+     *
+     * @return the x coordinate
+     */
     @Override
     public int getX() {
         return (startNode.getX() + endNode.getX()) / 2;
     }
 
+    /**
+     * Get the y coordinate.
+     *
+     * @return the y coordinate
+     */
     @Override
     public int getY() {
         return (startNode.getY() + endNode.getY()) / 2;
     }
 
+    /**
+     * Set the data of the node.
+     *
+     * @param data data of the node
+     */
     @Override
     public void setData(String data) {
     }
 
+    /**
+     * Set the file-specified column of the node.
+     *
+     * @param column column of the node
+     */
     @Override
     public void setColumn(int column) {
     }
 
+    /**
+     * Add a link to another node, which results in a directed edge when displayed.
+     *
+     * @param node connected node
+     */
     @Override
     public void addLink(Node node) {
         endNode.addLink(node);
     }
 
+    /**
+     * Add a predecessor node.
+     *
+     * @param node connected node
+     */
     @Override
     public void addBackLink(Node node) {
         startNode.addBackLink(node);
     }
 
+    /**
+     * Get the id of the node.
+     *
+     * @return id of the node
+     */
     @Override
     public int getId() {
         return this.id;
     }
 
+    /**
+     * Get the data of the node.
+     *
+     * @return data of the node
+     */
     @Override
     public String getData() {
         return null;
     }
 
+    /**
+     * Get the connected nodes of this node.
+     *
+     * @return links of this node
+     */
     @Override
     public Collection<Node> getLinks() {
         return links;
     }
 
+    /**
+     * Get the predecessors of this node.
+     *
+     * @return links of this node
+     */
     @Override
     public Collection<Node> getBackLinks() {
         return backLinks;
     }
 
+    /**
+     * Get the column of this node.
+     *
+     * @return the column of this node
+     */
     @Override
     public int getColumn() {
         return 0;
     }
 
+    /**
+     * Add the genomes this segment belongs to.
+     *
+     * @param genomes the genomes this segment belongs to
+     */
     @Override
     public void addGenomes(Collection<Subject> genomes) {
 
     }
 
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
     @Override
     public Set<String> getGenomes() {
         return this.startNode.getGenomes();
     }
+
+    /**
+     * Get the subjects this segment belongs to.
+     *
+     * @return the subjects this segment belongs to
+     */
     @Override
     public Set<Subject> getSubjects() {
         return this.startNode.getSubjects();
