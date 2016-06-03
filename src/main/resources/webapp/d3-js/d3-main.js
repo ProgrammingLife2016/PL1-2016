@@ -3,7 +3,7 @@ var height = window.innerHeight - 300;
 var miniWidth = width;
 var miniHeight = 250;
 var maxZoomLevel = 100;
-var zoomThreshold = 10;
+var zoomThreshold = 1;
 
 var colorFactor;
 var widthFactor;
@@ -18,7 +18,17 @@ var somethingIsHighlighted = false;
 var miniX;
 var miniY;
 
-var previousZoom = 1;
+var previousZoom = 500;
+
+function newZoomLevel(s) {
+    if (s < 10) {
+        return 500;
+    } else if (5 <= s && s < 20) {
+        return 5;
+    } else {
+        return 1;
+    }
+}
 
 var lineageColors = {
     "LIN 1": "#ed00c3",
@@ -33,7 +43,7 @@ var lineageColors = {
     "LIN CANETTII": "#00ffff"
 }
 
-$.getJSON("/api/nodes/50", function (response) {
+$.getJSON("/api/nodes/500", function (response) {
     nodes = response.nodes;
     edges = response.edges;
     x = d3.scale.linear()
@@ -65,19 +75,21 @@ $.getJSON("/api/nodes/50", function (response) {
 var circle;
 var line;
 var zm;
+var svg;
+var tip;
 
 var minimap;
 
 function drawGraph() {
     zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
-    var tip = d3.tip()
+    tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
             getData(d.id);
             return "<strong>Segment:</strong> <span id='data" + d.id + "'>...</span>";
         });
-    var svg = d3.select("body").append("svg")
+    svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -141,34 +153,39 @@ function drawMinimap() {
 function zoom() {
     var t = d3.event.translate;
     var s = d3.event.scale;
-    if (Math.abs(previousZoom - s) >= zoomThreshold) {
-        previousZoom = s;
-        $.getJSON("/api/nodes/" + (50 - s / 2), function (response) {
-            nodes = response.nodes;
-            edges = response.edges;
+    if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
+        previousZoom = newZoomLevel(s);
+        $.ajax({
+            url: "/api/nodes/" + newZoomLevel(s),
+            async: false,
+            success: function (response) {
+                response = JSON.parse(response);
+                nodes = response.nodes;
+                edges = response.edges;
 
-            line = svg.selectAll("line")
-                .data(edges)
-                .enter()
-                .append("line")
-                .attr("x1", function (d) {return x(d.x1)})
-                .attr("y1", function (d) {return y(d.y1)})
-                .attr("x2", function (d) {return x(d.x2)})
-                .attr("y2", function (d) {return y(d.y2)})
-                .attr("stroke", defaultColor)
-                .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
+                line.remove();
+                circle.remove();
+                line = svg.selectAll("line")
+                    .data(edges)
+                    .enter()
+                    .append("line")
+                    .attr("x1", function (d) {return x(d.x1)})
+                    .attr("y1", function (d) {return y(d.y1)})
+                    .attr("x2", function (d) {return x(d.x2)})
+                    .attr("y2", function (d) {return y(d.y2)})
+                    .attr("stroke", defaultColor)
+                    .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
 
-            circle = svg.selectAll("circle")
-                .data(nodes)
-                .enter()
-                .append("circle")
-                .attr("r", 2.5)
-                .attr("transform", "translate(-9999, -9999)")
-                .on("mouseover", tip.show)
-                .on("mouseout", tip.hide);
-
-            zoom();
-        }
+                circle = svg.selectAll("circle")
+                    .data(nodes)
+                    .enter()
+                    .append("circle")
+                    .attr("r", 2.5)
+                    .attr("transform", "translate(-9999, -9999)")
+                    .on("mouseover", tip.show)
+                    .on("mouseout", tip.hide);
+                }
+        });
     }
     if (t[0] > 0) {
         t[0] = 0;

@@ -71,8 +71,8 @@ public class RestServer implements Server {
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
         apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
-        apiHandler.addQuery(new GetThresholdedBubblesApiQuery(nodeCollection));
         if (subjects != null) {
+            apiHandler.addQuery(new GetThresholdedBubblesApiQuery(nodeCollection));
             apiHandler.addQuery(new GetLineageApiQuery(subjects));
         }
         server = HttpServer.create(new InetSocketAddress(port), 0);

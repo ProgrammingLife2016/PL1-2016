@@ -38,7 +38,6 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
     public ApiAction getApiAction() {
         return args -> {
             NodeCollection nodeCollection = bubbleDispatcher.getThresholdedBubbles(Integer.parseInt(args.get(0)));
-            nodeCollection.recalculatePositions();
             return nodeCollection.toJson();
         };
     }
