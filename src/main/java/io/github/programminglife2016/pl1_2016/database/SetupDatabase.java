@@ -4,11 +4,18 @@ import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SetupDatabase implements Database{
+/**
+ * Class for creating a database to setup the database.
+ */
+public class SetupDatabase implements Database {
 
     /**
      * Driver for the database.
@@ -49,7 +56,7 @@ public class SetupDatabase implements Database{
     /**
      * The connection to the database.
      */
-    private int[] thresholds = {1, 4, 16, 32, 64, 128};
+    private static final int[] THRESHOLDS = {1, 4, 16, 32, 64, 128};
 
     /**
      * Constructor to construct a database.
@@ -75,17 +82,22 @@ public class SetupDatabase implements Database{
         }
     }
 
+    /**
+     * Setup the database if it is not setup already.
+     * @param nodes The nodes that will be used for setup
+     * @throws SQLException thrown if SQL connection or query is not valid
+     */
     public void setup(NodeCollection nodes) throws SQLException {
         if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
             BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
-            for (int i = 0; i < thresholds.length; i++) {
-                System.out.println("Writing to database nodes with threshold: " + thresholds[i]);
-                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(thresholds[i]);
+            for (int i = 0; i < THRESHOLDS.length; i++) {
+                System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
+                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i]);
                 nodesToWrite.recalculatePositions();
-                writeNodes(nodesToWrite, thresholds[i]);
+                writeNodes(nodesToWrite, THRESHOLDS[i]);
             }
         }
 
@@ -97,7 +109,7 @@ public class SetupDatabase implements Database{
 
     /**
      * Write a collection of segments into the database
-     *
+     * @param  threshold threshold of graph that has to be written.
      * @param nodes the collection to write
      * @throws SQLException thrown if SQL connection or query is not valid
      */
@@ -112,7 +124,7 @@ public class SetupDatabase implements Database{
             stmt = connection.prepareStatement(query);
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
-                if (node.getStartNode().getId() == node.getEndNode().getId()){
+                if (node.getStartNode().getId() == node.getEndNode().getId()) {
                     stmt.setString(2, node.getStartNode().getData());
                     stmt.setBoolean(5, false);
 
@@ -149,7 +161,7 @@ public class SetupDatabase implements Database{
             s.printStackTrace();
         }
     }
-
+    @SuppressWarnings("checkstyle:magicnumber")
     private void writeLinks(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + LINK_TABLE
@@ -176,7 +188,7 @@ public class SetupDatabase implements Database{
             }
         }
     }
-
+    @SuppressWarnings("checkstyle:magicnumber")
     private void writeLinksGenomes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmtgenomes = null;
              String querygenomes = "INSERT INTO " + LINK_GENOMES_TABLE
