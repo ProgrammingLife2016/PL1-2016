@@ -64,7 +64,7 @@ $(function() { // on dom ready
      Load data from zoom level AJAX request to server.
   */
   ServerConnection.prototype.handleComplete = function(data) {
-     console.log("Response zoom level request");
+     console.log("Response request");
      graphHandler.requestSend = false;
      $("#status").animate({opacity: 0}, settings.animationDuration, "swing");
      if (data["status"] === "error") {
@@ -89,30 +89,11 @@ $(function() { // on dom ready
       var easing = "swing";
       $("#startConnection").click(() => {
         $("#d3").css("background-color", "#ECF0F1");
-        $("#d3, .cytoscape-navigator").css("display", "block");
+        $("#d3").css("display", "block");
 
         $("#startConnection i").attr("class", "fa fa-circle-o-notch fa-spin fa-fw fa-lg");
         console.log("Connecting to server...");
         this.retrieveDataFromServer();
-
-        setTimeout(function(){
-            //$("#status").stop().animate({opacity: 1}, duration, "swing");
-            $("#viewlist").stop().animate({opacity: 1}, duration, "swing");
-            $("#settings").stop().animate({opacity: 1}, duration, "swing");
-            $("#options").stop().animate({height: 0}, duration, "swing");
-            $("#container").stop().animate({height: 0}, duration, "swing");
-            $("#startConnection").stop().animate({opacity: 0}, duration, "swing");
-            $("#optionButton").stop().animate({opacity: 0}, duration, "swing");
-            $("#d3").stop().animate({ opacity: 1 }, duration, "swing");
-
-            $("#tree").css("z-index", "1");
-            $("#d3").css("z-index", "2");
-            $("#options").css("z-index", "0");
-        }, duration);
-
-        setTimeout(function() {
-            $("#options").css("display", "none");
-        }, duration);
       });
 
       $("#optionButton").click(function() {
@@ -192,25 +173,6 @@ $(function() { // on dom ready
 
   */
   function GraphHandler() {
-      highlight_node = {
-        "background-color": "#555" ,
-        "text-outline-color": "#555"
-      };
-      normal_node = {
-        "background-color": "#94AAC7",
-        "text-outline-color": "#94AAC7"
-      };
-
-      highlight_edge = {
-        "line-color": "#777",
-        "line-style": "dashed",
-        "width": "3px"
-      };
-      normal_edge = {
-        "line-color": "#777",
-        "line-style": "normal",
-        "width": "1px"
-      };
       this.zoomTreshold = settings.zoomTreshold;
       this.requestSend = false;
       console.log("Start zoom: " + this.zoom);
@@ -323,6 +285,21 @@ $(function() { // on dom ready
       }
       drawGraph();
       drawMinimap();
+      console.log("Done");
+
+      var duration = settings.animationDuration;
+      $("#d3").fadeIn();
+      $("#tree").css("z-index", "1");
+      $("#d3").css("z-index", "2");
+      $("#options").css("z-index", "0");
+      $("#options").fadeOut();
+      //$("#status").stop().animate({opacity: 0}, duration, "swing");
+      $("#viewlist").stop().animate({opacity: 1}, duration, "swing");
+      $("#settings").stop().animate({opacity: 1}, duration, "swing");
+      //$("#options").stop().animate({height: 0}, duration, "swing");
+      //$("#container").stop().animate({height: 0}, duration, "swing");
+      $("#startConnection").stop().animate({opacity: 0}, duration, "swing");
+      $("#optionButton").stop().animate({opacity: 0}, duration, "swing");
   }
 
   GraphHandler.prototype.showGraph = function() {
@@ -344,9 +321,10 @@ $(function() { // on dom ready
        $("#d3").css("z-index", "1");
        $("#options").css("z-index", "0");
        $("#search").css("display", "block");
-       for (var i = 0; i < window.tkks.length; i++) {
-          $("#search ul").append($("<li>").text(window.tkks[i].textContent));
-       }
+//       for (var i = 0; i < window.tkks.length; i++) {
+//          $("#search ul").append($("<li>").text(window.tkks[i].textContent));
+//       }
+       phyloTree.listItems();
 
        if (this.fuse === undefined) {
            phyloTree.loadFuse();
@@ -385,9 +363,27 @@ $(function() { // on dom ready
       window.fuse = new Fuse(listOfGenomes, options);
   }
 
+  PhyloGeneticTree.prototype.listItems = function() {
+      var items = window.tkks
+                        .map(function(tkk) {
+                            return $("<li>").text(tkk.textContent);
+                        });
+      $("#search ul").html(items);
+  }
+
   PhyloGeneticTree.prototype.bindUIEvents = function() {
       $("#search input").focus(function() {
          console.log("Focus search bar");
+      });
+
+      $("#search input").keyup(function() {
+         if ($("#search input ").val() === "") {
+            phyloTree.listItems();
+         }
+      });
+
+      $("#search input").on("search", function() {
+         phyloTree.listItems();
       });
 
       $("#search input").keyup(function(e) {

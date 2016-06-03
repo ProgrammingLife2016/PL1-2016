@@ -1,40 +1,29 @@
 var miniHeight = 250;
 var width = $("#d3").width();
 var height = $(document).height() - $("#nav").height() - miniHeight;
-
 var miniWidth = width;
 var maxZoomLevel = 100;
-
-var colorFactor;
-var widthFactor;
-
-var nodes;
-var edges;
-var x;
-var y;
-
+var colorFactor, widthFactor;
+var nodes, edges, x, y;
 var somethingIsHighlighted = false;
-
-var miniX;
-var miniY;
+var miniX, miniY;
 
 var lineageColors = {
-    "LIN 1": "#ed00c3",
-    "LIN 2": "#0000ff",
-    "LIN 3": "#500079",
-    "LIN 4": "#ff0000",
-    "LIN 5": "#4e2c00",
-    "LIN 6": "#69ca00",
-    "LIN 7": "#ff7e00",
-    "LIN animal": "#00ff9c",
-    "LIN B": "#00ff9c",
-    "LIN CANETTII": "#00ffff"
-}
+    "LIN 1":        "#ED00C3",
+    "LIN 2":        "#0000FF",
+    "LIN 3":        "#500079",
+    "LIN 4":        "#FF0000",
+    "LIN 5":        "#4E2C00",
+    "LIN 6":        "#69CA00",
+    "LIN 7":        "#FF7E00",
+    "LIN animal":   "#00FF9C",
+    "LIN B":        "#00FF9C",
+    "LIN CANETTII": "#00FFFF"
+};
 
 var circle;
 var line;
 var zm;
-
 var minimap;
 
 function drawGraph() {
@@ -174,7 +163,7 @@ function actuallyHighlightGenome(genome) {
     line.attr("stroke", function (d) {
         d.highlighted = d.genomes.map(function (x) {return x.split("_").join(" ")}).indexOf(genome.split("_").join(" ")) != -1;
         if (d.highlighted) {
-            return "#eeee00";
+            return "#EEEE00";
         } else {
             if (d.lineageHighlighted) {
                 return d.currentColor;
@@ -182,7 +171,7 @@ function actuallyHighlightGenome(genome) {
                 return defaultColor(d);
             }
         }
-        return d.highlighted ? "#eeee00" : defaultColor(d);
+        return d.highlighted ? "#EEEE00" : defaultColor(d);
     })
         .attr("stroke-width", function (d) {return d.highlighted ? 5 : 1});
 }
