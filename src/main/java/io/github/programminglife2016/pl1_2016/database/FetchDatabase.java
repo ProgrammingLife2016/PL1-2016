@@ -390,8 +390,8 @@ public class FetchDatabase implements Database {
     }
 
     public String getLineage(String genome) throws SQLException {
-        String query = "SELECT lineage FROM specimen WHERE specimen_id = "
-                + genome;
+        String query = "SELECT lineage FROM specimen WHERE specimen_id = '"
+                + genome + "'";
         Statement stmt = null;
         ResultSet rs;
         String lineage = "";

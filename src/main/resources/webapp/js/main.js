@@ -331,12 +331,12 @@ $(function() { // on dom ready
         }
     }
 
-    GraphHandler.prototype.setSelectedGenome = function(name, color) {
+    GraphHandler.prototype.setSelectedGenome = function(name, color, lineage) {
         /**<div id="selectedGenome"> <div id="color"></div> <p>TKK..</p> </div>**/
         console.log("Color");
         console.log(color);
         var listitem = $("<div>").append($("<div>").attr("id", "color").css("background-color", color))
-                                 .append($("<p>").text(name));
+                                 .append($("<p>").text(name + ", " + lineage));
 
         $("#info").prepend(listitem);
         $("#info").height($("#info").height() + 36);
@@ -387,6 +387,9 @@ $(function() { // on dom ready
             if ($("#search input ").val() === "") {
                 phyloTree.listItems();
             }
+        });
+        $("#results").on("click", "li", function(e) {
+            highlightLineage($(this).html());
         });
 
         $("#search input").on("search", function() {

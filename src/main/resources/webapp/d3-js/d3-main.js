@@ -280,6 +280,8 @@ function defaultColor(d) {
 
 function highlightLineage(genome) {
     $.get("/api/lineage/" + genome.split(" ").join("_"), function(lineage) {
+        window.graphHandler.setSelectedGenome(genome, lineageColors[lineage], lineage);
+        window.graphHandler.showGraph();
         line.attr("stroke", function (d) {
             if (d.lineages.indexOf(lineage) != -1) {
                 d.lineageHighlighted = true;
