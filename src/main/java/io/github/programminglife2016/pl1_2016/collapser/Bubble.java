@@ -4,7 +4,11 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -16,7 +20,7 @@ public class Bubble implements Node {
     private int id;
     private int x;
     private int y;
-    private transient final Boolean isBubble = true;
+    private transient Boolean isBubble = true;
     private transient Node startNode;
     private transient Node endNode;
     private transient List<Node> container = new ArrayList<>();
@@ -50,7 +54,13 @@ public class Bubble implements Node {
 
     }
 
-    public Bubble (int newId, int zoomLvl, Segment segment){
+    /**
+     * Constructor for a bubble with id, start and endnode.
+     * @param newId id of the bubble.
+     * @param zoomLvl startnode of the bubble.
+     * @param segment endnode of the bubble.
+     */
+    public Bubble(int newId, int zoomLvl, Segment segment) {
         this.id = newId;
         this.startNode = segment;
         this.endNode = segment;
@@ -285,7 +295,7 @@ public class Bubble implements Node {
      * @return true if it is a bubble.
      */
     @Override
-    public Boolean isBubble(){
+    public Boolean isBubble() {
         return isBubble;
     }
 
@@ -304,6 +314,10 @@ public class Bubble implements Node {
         this.endNode = node;
     }
 
+    /**
+     * Set startnode of the bubble.
+     * @param node new start node of the bubble.
+     */
     public void setStartNode(Node node) {
         this.startNode = node;
     }
@@ -333,6 +347,17 @@ public class Bubble implements Node {
         }
         Bubble bubble = (Bubble) o;
         return id == bubble.id;
+    }
+
+    /**
+     * Returns the hashcode of the bubble.
+     * @return Hashcode of the bubble.
+     */
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + x;
+        return result;
     }
 
     /**
