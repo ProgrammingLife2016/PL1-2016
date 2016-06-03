@@ -264,7 +264,6 @@ $(function() { // on dom ready
         });
 
         $("#selectButton").click(function() {
-            graphHandler.resetHighlighting();
             graphHandler.showPhylotree();
         });
     }
@@ -272,6 +271,8 @@ $(function() { // on dom ready
     GraphHandler.prototype.resetHighlighting = function() {
         disableHighlighting();
         $("#info").fadeOut();
+        $("#info div").remove();
+        $("#info").height(70);
     }
 
     /*
@@ -348,9 +349,6 @@ $(function() { // on dom ready
         $("#d3").css("z-index", "1");
         $("#options").css("z-index", "0");
         $("#search").css("display", "block");
-        //       for (var i = 0; i < window.tkks.length; i++) {
-        //          $("#search ul").append($("<li>").text(window.tkks[i].textContent));
-        //       }
         phyloTree.listItems();
 
         if (this.fuse === undefined) {
@@ -358,22 +356,15 @@ $(function() { // on dom ready
         }
     }
 
-    GraphHandler.prototype.setSelectedGenome = function(name) {
-            /**<div id="selectedGenome">
-                <div id="color"></div>
-                <p>TKK..</p>
-            </div>**/
-        var listitem = $("<div>").append(
-                                    $("<div>").attr("id", "color")
-                                 )
-                                 .append(
-                                    $("<p>").text(name)
-                                 );
+    GraphHandler.prototype.setSelectedGenome = function(name, color) {
+        /**<div id="selectedGenome"> <div id="color"></div> <p>TKK..</p> </div>**/
+        console.log("Color");
+        console.log(color);
+        var listitem = $("<div>").append($("<div>").attr("id", "color").css("background-color", color))
+                                 .append($("<p>").text(name));
 
         $("#info").prepend(listitem);
-        $("#info").height($("#info").height() + 35);
-
-        $("#info p").html(name);
+        $("#info").height($("#info").height() + 36);
         $("#info").fadeIn();
     }
 
