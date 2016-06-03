@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
- * Created by ravishivam on 15-5-16.
+ * @author Ravi Autar
  */
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
@@ -22,6 +22,10 @@ public class BubbleDetector {
     private int reachedLevel = 1;
     private int maxLevels;
 
+    /**
+     * Contructs a new detector that can detect bubbles on multiple level.
+     * @param collection Collection of nodes where bubbles have to be found in.
+     */
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
         this.lastId = collection.size() + 1;
@@ -30,6 +34,9 @@ public class BubbleDetector {
         this.bubbleBoundaries = new ArrayList<>();
     }
 
+    /**
+     * Find bubbles on multiple levels. The method stopped automatically if no deeper level exists.
+     */
     public void findMultiLevelBubbles() {
         System.out.println("Starting detector....");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
@@ -63,7 +70,7 @@ public class BubbleDetector {
         }
     }
 
-    public List<Node> findLevelBubbles(Node startNode, Node destination) {
+    private List<Node> findLevelBubbles(Node startNode, Node destination) {
         if (startNode==destination) {
             return new ArrayList<>();
         }
@@ -111,7 +118,7 @@ public class BubbleDetector {
         return levelCollection;
     }
 
-    public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
+    private Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
         visited[curr.getId()] = true;
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
         for (Node child : connectedTo) {
@@ -165,6 +172,11 @@ public class BubbleDetector {
         }
     }
 
+    /**
+     * Return the boundaries within which a bubble is detected. It filters out any dublicate or redundant
+     * bubbles that were found.
+     * @return List of bubbles that were detected.
+     */
     public List<Node> getBubbleBoundaries() {
         List<Node> retrieved = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
