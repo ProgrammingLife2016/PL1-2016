@@ -4,13 +4,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 /**
@@ -34,7 +28,6 @@ public class BubbleDispatcher {
      */
     private void initDispatcher() {
         for (int i = 0; i < bubbleCollection.size(); i++) {
-            System.out.println(i);
             Node bubble = bubbleCollection.get(i);
             bubble.setContainerSize(getBubbleSize(bubble));
         }
@@ -135,9 +128,9 @@ public class BubbleDispatcher {
                     }
                 }
             }
-//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
+            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
         }
-//        System.out.println("Aantal verkeerd opgestelde bubbles: " + fout);
+        System.out.println("Aantal verkeerd opgestelde bubbles: " + fout);
     }
 
     /**
