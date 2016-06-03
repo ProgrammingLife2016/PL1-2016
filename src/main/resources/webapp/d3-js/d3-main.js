@@ -3,6 +3,7 @@ var height = window.innerHeight - 300;
 var miniWidth = width;
 var miniHeight = 250;
 var maxZoomLevel = 100;
+var zoomThreshold = 10;
 
 var colorFactor;
 var widthFactor;
@@ -16,6 +17,8 @@ var somethingIsHighlighted = false;
 
 var miniX;
 var miniY;
+
+var previousZoom = 1;
 
 var lineageColors = {
     "LIN 1": "#ed00c3",
@@ -138,6 +141,35 @@ function drawMinimap() {
 function zoom() {
     var t = d3.event.translate;
     var s = d3.event.scale;
+    if (Math.abs(previousZoom - s) >= zoomThreshold) {
+        previousZoom = s;
+        $.getJSON("/api/nodes/" + (50 - s / 2), function (response) {
+            nodes = response.nodes;
+            edges = response.edges;
+
+            line = svg.selectAll("line")
+                .data(edges)
+                .enter()
+                .append("line")
+                .attr("x1", function (d) {return x(d.x1)})
+                .attr("y1", function (d) {return y(d.y1)})
+                .attr("x2", function (d) {return x(d.x2)})
+                .attr("y2", function (d) {return y(d.y2)})
+                .attr("stroke", defaultColor)
+                .attr("stroke-width", function (d) {return Math.max(1, d.gens / widthFactor)});
+
+            circle = svg.selectAll("circle")
+                .data(nodes)
+                .enter()
+                .append("circle")
+                .attr("r", 2.5)
+                .attr("transform", "translate(-9999, -9999)")
+                .on("mouseover", tip.show)
+                .on("mouseout", tip.hide);
+
+            zoom();
+        }
+    }
     if (t[0] > 0) {
         t[0] = 0;
     } else if (t[0] < - width * (s - 1)) {
