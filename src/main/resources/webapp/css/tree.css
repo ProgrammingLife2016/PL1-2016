@@ -1,9 +1,11 @@
 html, body, #tree{
-  height: 100%;
-  overflow: visible;
   background: #EBEFF0;
-  z-index: 1000000;
+  z-index: 1;
   display: block;
+  top: 0;
+  left: 0;
+  margin: 0px;
+  padding: 0px;
 }
 
 .treenode circle {
@@ -14,6 +16,7 @@ html, body, #tree{
 
 .treenode, text {
   font: 8px sans-serif;
+  cursor: pointer;
 }
 
 .treelink {
