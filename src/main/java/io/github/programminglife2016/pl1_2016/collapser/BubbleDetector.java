@@ -31,6 +31,7 @@ public class BubbleDetector {
     }
 
     public void findMultiLevelBubbles() {
+        System.out.println("Starting detector....");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
@@ -52,7 +53,6 @@ public class BubbleDetector {
             levelBubbles.put(reachedLevel,currLevelList);
             reachedLevel++;
         }
-
         if (levelBubbles.size() > 1){
             levelBubbles.remove(reachedLevel-1);
         }

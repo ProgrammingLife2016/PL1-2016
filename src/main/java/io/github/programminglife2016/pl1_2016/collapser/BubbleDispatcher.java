@@ -24,7 +24,6 @@ public class BubbleDispatcher {
 
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
-        System.out.println("wut");
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
         initDispatcher();

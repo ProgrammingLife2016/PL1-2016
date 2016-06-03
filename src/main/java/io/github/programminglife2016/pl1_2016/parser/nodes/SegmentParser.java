@@ -1,11 +1,11 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenParser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  * Temporary simple parser for parsing .gfa files.
  */
 public class SegmentParser implements Parser {
+    private static final String REFERENCE = "MT_H37RV_BRD_V5.ref";
     private static final String ATTR_ZINDEX = "START:Z:";
     private static final String ATTR_ORI = "ORI:Z:";
     private static final String GENOME_SUFFIX = ".fasta";
@@ -36,7 +37,6 @@ public class SegmentParser implements Parser {
     }
 
     /**
-<<<<<<< HEAD
      * Create the parser, providing a positions file where the segment positions are stored.
      *
      * @param positions information about the positions of the segments
@@ -47,23 +47,19 @@ public class SegmentParser implements Parser {
         this.positions = positions;
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
+        Subject ref = new Specimen();
+        ref.setNameId(REFERENCE);
+        specimens.put(REFERENCE, ref);
     }
 
     /**
      * Create the parser, providing a positions file where the segment positions are stored.
      *
      * @param positions information about the positions of the segments
-=======
-     * Parser to get positions calculated by graphviz.
-     * @param segments Inputstream of the segments.
-     * @param positions InputStream of the positions of the segments.
-     * @return NodeCollection containing segments and their positions
-     * @throws IOException Thrown if file was not found.
->>>>>>> origin/feature/bubble-collapsing
      */
-    public NodeCollection parseWithPositions(InputStream segments, InputStream positions) throws IOException {
-        NodeCollection collection = new GraphvizParser(this.parse(segments)).parse(positions);
-        return collection;
+    public SegmentParser(InputStream positions) {
+        this();
+        this.positions = positions;
     }
 
     /**
