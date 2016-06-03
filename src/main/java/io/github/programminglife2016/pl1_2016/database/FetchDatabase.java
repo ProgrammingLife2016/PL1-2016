@@ -203,15 +203,14 @@ public class FetchDatabase implements Database {
     public JSONArray fetchLinks(int threshold) throws SQLException {
         Statement stmt = null;
         JSONArray links = null;
-        String query = "SELECT DISTINCT n1.id AS from, n1.x AS x1, n1.y AS y1, n2.id AS to, n2.x AS x2, n2.y AS y2 "
+        String query = "SELECT DISTINCT n1.id as from, n1.x AS x1, n1.y AS y1, n2.id as to, n2.x AS x2, n2.y AS y2 "
                 + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
-                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold + " LIMIT 10";
+                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = " + threshold;
         ResultSet rs;
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-            links = convertResultSetIntoJSON(rs);
-
+            links = convertResultSetGenomesIntoJSON(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -373,6 +372,77 @@ public class FetchDatabase implements Database {
             jsonArray.put(obj);
         }
         return jsonArray;
+    }
+
+    /**
+     * Convert a result set into a JSON Array
+     * @param resultSet
+     * @return a JSONArray
+     * @throws Exception
+     */
+    public JSONArray convertResultSetGenomesIntoJSON(ResultSet resultSet) throws Exception {
+        JSONArray jsonArray = new JSONArray();
+        while (resultSet.next()) {
+            int total_columns = resultSet.getMetaData().getColumnCount();
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < total_columns; i++) {
+                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                Object columnValue = resultSet.getObject(i + 1);
+                // if value in DB is null, then we set it to default value
+                if (columnValue == null){
+                    columnValue = "null";
+                }
+
+                if (columnName.equals("from")) {
+                    List<JSONArray> genomes = getGenomes(resultSet.getInt("from"), resultSet.getInt("to"));
+                    obj.put("genomes", genomes.get(0));
+                    obj.put("lineages", genomes.get(1));
+                    continue;
+                }
+                if (columnName.equals("to")) {
+                    continue;
+                }
+                obj.put(columnName, columnValue);
+            }
+
+            jsonArray.put(obj);
+        }
+        return jsonArray;
+    }
+
+    private List<JSONArray> getGenomes(int from, int to) throws SQLException {
+        Statement stmt = null;
+        JSONArray genomes = new JSONArray();
+        JSONArray lineages = new JSONArray();
+        String query = "select DISTINCT genomeslinks.genome as genome, " +
+                "specimen.lineage as lineage from genomeslinks " +
+                "JOIN specimen ON genomeslinks.genome = specimen.specimen_id " +
+                "WHERE from_id = " + from + " AND to_id = " + to;
+        ResultSet rs;
+        try {
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                    int best = rs.getMetaData().getColumnCount();
+                    genomes.put(rs.getString(1));
+                    lineages.put(rs.getString(2));
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (stmt != null) {
+            stmt.close();
+        }
+        List<JSONArray> list = new ArrayList<>();
+        list.add(genomes);
+        list.add(lineages);
+        return list;
+
     }
 
 }

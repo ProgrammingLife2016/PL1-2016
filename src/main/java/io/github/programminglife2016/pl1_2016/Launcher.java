@@ -38,17 +38,15 @@ public final class Launcher {
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
-
-//        SetupDatabase db = new SetupDatabase();
-//        db.setup(nodeCollection);
-
-        FetchDatabase fdb = new FetchDatabase();
-//        BubbleDispatcher bd = new BubbleDispatcher(nodeCollection);
+        SetupDatabase db = new SetupDatabase();
+//        FetchDatabase db = new FetchDatabase();
+        db.setup(nodeCollection);
+        BubbleDispatcher bd = new BubbleDispatcher(nodeCollection);
 //        System.out.println(bd.getThresholdedBubbles(1).size());
         System.out.println("Started loading.");
         long startTime1 = System.nanoTime();
-        System.out.println(fdb.fetchNodes(16, 0, 0).length());
-        fdb.fetchLinks(16);
+//        System.out.println(db.fetchLinks(16).toString());
+//        System.out.println(db.fetchNodes(16,0,0).length());
         long endTime1 = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime1 - startTime1)
                 / NANOSECONDS_PER_SECOND));

@@ -5,6 +5,8 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
 import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SetupDatabase implements Database{
 
@@ -35,7 +37,11 @@ public class SetupDatabase implements Database{
     /**
      * Name of specimen table.
      */
-    private static final String Nodes_TABLE = "specimen";
+    private static final String SPECIMEN_TABLE = "specimen";
+    /**
+     * Name of specimen table.
+     */
+    private static final String LINK_GENOMES_TABLE = "genomeslinks";
     /**
      * The connection to the database.
      */
@@ -73,6 +79,7 @@ public class SetupDatabase implements Database{
         if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
+            clearTable(LINK_GENOMES_TABLE);
             BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int i = 0; i < thresholds.length; i++) {
                 System.out.println("Writing to database nodes with threshold: " + thresholds[i]);
@@ -148,8 +155,10 @@ public class SetupDatabase implements Database{
         String query = "INSERT INTO " + LINK_TABLE
                 + "(from_id, to_id, threshold) VALUES"
                 + "(?,?,?)";
+
         try {
             stmt = connection.prepareStatement(query);
+
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     stmt.setInt(1, node.getId());
@@ -157,8 +166,8 @@ public class SetupDatabase implements Database{
                     stmt.setInt(3, threshold);
                     stmt.executeUpdate();
                 }
-
             }
+            writeLinksGenomes(nodes, threshold);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -167,4 +176,37 @@ public class SetupDatabase implements Database{
             }
         }
     }
+
+    private void writeLinksGenomes(NodeCollection nodes, int threshold) throws SQLException {
+        PreparedStatement stmtgenomes = null;
+             String querygenomes = "INSERT INTO " + LINK_GENOMES_TABLE
+                + "(from_id, to_id, genome) VALUES"
+                + "(?,?,?) ON CONFLICT DO NOTHING";
+        try {
+            stmtgenomes = connection.prepareStatement(querygenomes);
+
+            for (Node node : nodes.values()) {
+                for (Node link : node.getLinks()) {
+                    Set<String> intersection = new HashSet<String>(node.getGenomes());
+                    intersection.retainAll(link.getGenomes());
+
+                    for (String genome : intersection) {
+                        stmtgenomes.setInt(1, node.getId());
+                        stmtgenomes.setInt(2, link.getId());
+                        stmtgenomes.setString(3, genome.trim().replace(" ", "_").split("\\.")[0]);
+                        stmtgenomes.executeUpdate();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmtgenomes != null) {
+                stmtgenomes.close();
+            }
+        }
+    }
+
+
 }
