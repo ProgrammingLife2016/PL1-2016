@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -7,33 +7,30 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 
-    <!-- External dependencies -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/js/d3.layout.min.js"></script>
 
-    <!-- Mini map dependencies -->
-    <link href="/static/css/cytoscape.js-navigator-light.css" rel="stylesheet" type="text/css" />
-    <link href="/static/css/cytoscape.js-panzoom.css" rel="stylesheet" type="text/css" />
-    <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
-    <script src="/static/lib/cytoscape.js-navigator.js"></script>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">-->
+    <link rel="stylesheet" href="/static/d3-css/d3-main.css">
+
 
     <link rel="stylesheet" href="/static/css/light-theme.css">
+    <link rel="stylesheet" href="/static/css/tree.css">
+    <script type="text/javascript" src="/static/js/fuse.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
-    <script type="text/javascript" src="/static/js/phylo.js"></script>
     <script src="/static/lib/panzoom.js"></script>
-    <link rel="stylesheet" href="css/tree.css">
-    <script type="text/javascript" src="https://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.js"></script>
     <script type="text/javascript" src="/static/lib/newick.js"></script>
+    <script type="text/javascript" src="https://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.js"></script>
+    <script type="text/javascript" src="/static/js/phylo.js"></script>
+
 
     <title>DNA Visualizer</title>
 </head>
 <body>
-    <!--
-         Navigation bar
-    -->
+    <!-- Navigation bar -->
     <nav id="nav">
         <div id="nav_wrapper">
             <div id="logo">
@@ -50,55 +47,90 @@
                     </ul>
                 </li>
                 <li>
-                    <a><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings</a>
+                    <a id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings</a>
                     <ul>
                         <li><a href="#" id="connect">Connect to server</a>
                         </li>
                         <li><a href="#" id="zoomButton">Reload data</a>
                         </li>
+                        <li><a href="#" id="resetHighlighting">Reset highlighting</a>
+                        </li>
                     </ul>
                 </li>
-                <!--<li><a id="status">Status:</a> </li>-->
+                <li>
+                    <a id="status">
+                        <i class="fa fa-circle-o-notch fa-spin fa-fw fa-lg" aria-hidden="true"></i>
+                        <span id="txt">Loading...</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </nav>
 
-    <div id="options">
-        <div id="container">
-            <h1>Tool for visualizing DNA genomes</h1>
+
+    <div id="stackpane">
+        <!-- Start screen -->
+        <div class="pane" id="options">
+            <img src="http://i.imgur.com/7Hsccql.png"/>
+            <div id="container">
+                <h1>Tool for visualizing DNA genomes</h1>
+                <ul>
+                    <li id="startConnection"><i class="fa fa-circle-o fa-fw fa-lg" aria-hidden="true"></i>&nbsp; Connect to server</li>
+                    <!--<li id="optionButton" data-open="false"><i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>&nbsp; Options</li>-->
+                </ul>
+            </div>
+            <div id="optionsContainer">
+                <ul>
+                    <li id="enableDragging"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
+                        &nbsp; Enable dragging
+                    </li>
+                    <li id="op2"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
+                        &nbsp; option 2
+                    </li>
+                    <li id="op3"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
+                        &nbsp; option 3
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Graph view -->
+        <div class="pane" id="d3">
+
+        </div>
+        <div id="info">
+            <!--<div id="selectedGenome">
+                <div id="color"></div>
+                <p>TKK..</p>
+            </div>
+            <div id="selectedGenome">
+                <div id="color"></div>
+                <p>TKK..</p>
+            </div>
+            <!--<p id="selectedGenome">TKK...</p>-->
             <ul>
-                <li id="startConnection"><i class="fa fa-circle-o fa-fw fa-lg" aria-hidden="true"></i>&nbsp; Connect to server</li>
-                <li id="optionButton" data-open="false"><i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>&nbsp; Options</li>
+                <li id="resetButton">Reset highlighting</li>
+                <li id="selectButton">Select other genome</li>
             </ul>
         </div>
-        <div id="optionsContainer">
-            <ul>
-                <li id="enableDragging"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
-                    &nbsp; Enable dragging
-                </li>
-                <li id="op2"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
-                    &nbsp; option 2
-                </li>
-                <li id="op3"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
-                    &nbsp; option 3
-                </li>
-            </ul>
+
+        <!-- Search bar for phylogenetic tree -->
+        <div id="search">
+            <input type="search" placeholder="Search genomes..." autofocus />
+            <div id="results" tabindex="0" >
+                 <ul></ul>
+            </div>
         </div>
+        <!-- Phylogenetic tree -->
+        <div class="pane" id="tree">
+        </div>
+        <div id="rotation"></div>
     </div>
-
-    <!--
-         Graph view
-    -->
-    <div id="cy"></div>
-
-    <!--<div id="message">
-        <div id="closemessage">x</div>
-        <h2>Hoi</h2>
-    </div>-->
-    <div id="tree">
-    </div>
-    <div id="rotation"></div>
 
 
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.7/d3-tip.js"></script>
+<script src="/static/d3-js/d3-main.js"></script>
 </html>

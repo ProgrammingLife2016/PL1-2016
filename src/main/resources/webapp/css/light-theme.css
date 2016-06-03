@@ -1,27 +1,50 @@
-@font-face{
-    font-family: MavenProLight;
-    src: url("/static/css/MavenProLight-300.otf");
+*::-webkit-input-placeholder {
+    color: #EEE;
+}
+*:-moz-placeholder {
+    color: #f8f8f8;
+}
+*::-moz-placeholder {
+    color: #f8f8f8;
+}
+*:-ms-input-placeholder {
+    color: #f8f8f8;
 }
 
-@font-face{
-    font-family: HelveticaNeue;
-    src: url("/static/css/HelveticaNeue-Thin.otf");
-}
-
-body {
-  background-color: #32B2B7;
+html, body {
   font-family: 'Open Sans', serif;
   font-weight: 100;
+  background-color: #32B2B7;
 }
 
-#cy {
+#stackpane {
+  background-color: #32B2B7;
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+}
+
+#stackpane .pane {
   position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+#d3 {
+  position: absolute;
+  padding-top: 3px;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: #32B2B7; /*#ECf0f1;*/
-  opacity: 0;
+  opacity: 1;
+  display: block;
+  z-index: 1000;
 }
 
 #info {
@@ -36,11 +59,14 @@ body {
 /*      Navigation Bar      */
 #nav {
     background-color: #54A0AB;
+    /**background-color: #7baab3;**/
     z-index: 10000;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
+    margin: 0px;
+    padding: 0px;
 }
 #nav_wrapper {
     width: 1090px;
@@ -55,6 +81,7 @@ body {
     margin-top: 1px;
     opacity: 0;
 }
+
 #logo h1 {
     margin: 0px;
     padding: 0px;
@@ -62,6 +89,7 @@ body {
     font-size: 30px;
     font-weight: 100;
 }
+
 #nav ul {
     list-style-type: none;
     padding: 0;
@@ -71,6 +99,7 @@ body {
     z-index: 1000;
     cursor: pointer;
 }
+
 #nav ul li {
     display: inline-block;
     text-align: left;
@@ -107,6 +136,7 @@ body {
     display: block;
     -webkit-transition: display 1s ease 0s;
 }
+
 #nav ul ul {
     display: none;
     position: absolute;
@@ -132,6 +162,13 @@ body {
     border-bottom-left-radius: 5px !important;
     border-bottom-right-radius: 5px !important;
 }
+#status {
+    background-color: #76b3bb;
+    opacity: 0;
+}
+#viewlist, #settings {
+    opacity: 0;
+}
 /*      End Navigation Bar      */
 
 #options {
@@ -143,16 +180,30 @@ body {
     right: 0;
     height: 350px;
     background-color: #32B2B7;
+    background-image: url("http://i.imgur.com/ffYuFfC.png?1");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+#options img {
+    display: none;
+    width: 100%;
+    height: auto;
 }
 
 #options h1 {
     font-weight: 300;
     text-align: center;
     font-size: 50px;
-    color: #EEE;
+    color: #889DB8;
     margin-bottom: 0px;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    font-weight: 100;
     margin-bottom: 50px;
+    font-style: normal;
+    z-index: 1;
 }
 
 #options h2 {
@@ -187,7 +238,8 @@ body {
     margin: 0 auto;
     width: 25%;
     text-align: left;
-    background-color: #58CCD1;
+    /**background-color: #889DB8;**/
+    background-color: rgb(0,0,0, 0.2);
     padding: 20px;
     margin-top: 1em;
     border-radius: 5px !important;
@@ -195,11 +247,15 @@ body {
     color: #EEE;
     font-size: 20px;
     -webkit-transition: background-color 300ms ease;
+    border: 3px solid #889DB8;
+    color: #889DB8;
 }
 
 #options ul li:hover {
-    background-color: #61E2E8;
+    background-color: #889DB8; /**98AFCC;**/
+    color: #ECF0F1;
     -webkit-transition: background-color 300ms ease;
+    -webkit-transition: color 300ms ease;
 }
 
 #optionsContainer {
@@ -220,32 +276,153 @@ body {
    background-color: #54A0AB !important;
 }
 
-#message {
-   display: block;
-   position: fixed;
+#search {
+   display: none;
+   position: absolute;
    width: 300px;
-   height: 100px;
-   border-radius: 5px;
-   background-color :#2B99A6;
+   /**height: 50px;**/
+   /**background-color: #54A0AB;**/
+   background-color: #7baab3;
    left: 0px;
-   bottom: 150px;
-   margin: 10px;
+   top: 0px;
+   bottom: 0px;
    z-index: 2000;
    padding: 5px 20px 5px 20px;
+   opacity: 0.95;
+   overflow: hidden;
 }
-#closemessage {
-   display: block;
+
+#search input {
+   margin: 0;
+   letter-spacing: 1px;
+   font-size: 23px;
+   border: none;
+   width: 295px;
+   padding: 4px;
+   color: #FFF;
+   background-color: rgba(255,255,255,0.3);
+   border-radius: 5px;
+   margin-left: 0px;
+   margin-top: 12px;
+   font-weight: 100;
+   outline: none;
+}
+
+#search ul {
+   list-style-type: none;
+   padding: 0;
+   padding-top: 10px;
+   margin: 0;
    position: relative;
-   width: 10px;
-   height: 10px;
-   background-color: #61E2E8;
-   color: #ECf0f1;
-   right: 0px;
-   top: 0px;
-   padding: 2px;
+   min-width: 200px;
+   color: #ECF0F1;
+   outline: none;
 }
-#message h2 {
-  color: #ECF0F1;
+
+#search ul li {
+   padding: 3px;
+   background-color: rgba(255,255,255,0.3);
+   color: #FFF;
+   margin-top: 3px;
+   width: 290px;
+   font-size: 15px;
+   cursor: pointer;
+}
+
+#results {
+   margin-top: 5px;
+   overflow-y: scroll;
+}
+
+#results ul li:first-child {
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
+}
+
+#results ul li:last-child {
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+}
+/**
+    Search function for phylotree
+**/
+#info {
+   margin: 0;
+   padding: 0;
+   display: block;
+   position: inline;
+   width: 250px;
+   height: 70px;
+   border-radius: 5px;
+   background-color: #94AAC7;
+   color: #ECf0f1;
+   float: right;
+   right: 20px;
+   top: 20px;
+   padding: 10px 20px;
+   z-index: 5;
+   opacity: 0.95;
+}
+
+#info div {
+   margin: 0;
+   padding: 0;
+   margin-top: 3px;
+   display: relative;
+   background-color: #8599B2;
+   padding: 1px;
+   border-radius: 5px;
+}
+
+#info div #color {
+   margin: 0;
+   padding: 0;
+   display: inline-block;
+   position: relative;
+   float: right;
+   top: 5px;
+   right: 5px;
+   background-color: #FF0000;
+   width: 20px;
+   height: 20px;
+   border-radius: 2px;
+}
+
+#info div p {
+   margin: 0;
+   padding: 0;
+   font-size: 20px;
+   margin-top: 2px;
+   margin-bottom: 2px;
+   margin-left: 2px;
+   width: 80%;
+}
+
+#info ul {
+   display: inline;
+   list-style-type: none;
+   padding: 0;
+   padding-top: 10px;
+   margin: 0;
+   position: relative;
+   min-width: 200px;
+   color: #ECF0F1;
+   outline: none;
+}
+
+#info ul li {
+  padding: 5px;
+  background-color: #728399;
+  border-radius: 5px;
+  margin: 5px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-transition: background-color 300ms ease;
+}
+
+#info ul li:hover {
+  background-color: #8AA0BA;
+  -webkit-transition: background-color 300ms ease;
 }
 
 #tree {
@@ -253,15 +430,12 @@ body {
   left: 0;
   margin: 0 !important;
   width: 100%;
-  height: 10;
+  height: 100%;
   background-color: #32B2B7; /*#ECf0f1;*/
-  display: none;
+  display: block;
+  opacity: 0;
 }
 
 #rotation {
   display: none;
-}
-
-.cy-panzoom {
-  z-index: 10000;
 }
