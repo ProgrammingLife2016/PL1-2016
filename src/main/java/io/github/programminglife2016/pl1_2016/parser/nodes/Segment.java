@@ -258,7 +258,6 @@ public class Segment implements Node {
         return id;
     }
 
-    @Override
     public Node getStartNode() {
         return this;
     }
@@ -267,9 +266,11 @@ public class Segment implements Node {
     public Node getEndNode() {
         return this;
     }
+
     @Override
     public void setEndNode(Node node) {
     }
+
     @Override
     public void setStartNode(Node node) {
     }
