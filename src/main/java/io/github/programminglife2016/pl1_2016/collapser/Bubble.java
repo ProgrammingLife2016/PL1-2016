@@ -112,6 +112,7 @@ public class Bubble implements Node {
 
     @Override
     public void addGenomes(Collection<Subject> genomes) {
+
     }
 
     @Override
@@ -121,7 +122,7 @@ public class Bubble implements Node {
 
     @Override
     public Set<Subject> getSubjects() {
-        return new HashSet<>();
+        return null;
     }
 
     @Override

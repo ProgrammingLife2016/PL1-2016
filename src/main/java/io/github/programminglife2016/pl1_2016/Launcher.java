@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -41,8 +42,11 @@ public final class Launcher {
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         System.out.print("Starting server... ");
-        Server server = new RestServer(port, nodeCollection, subjects);
-        server.startServer();
+        BubbleDispatcher bd = new BubbleDispatcher(nodeCollection);
+
+        bd.getThresholdedBubbles(4);
+//        Server server = new RestServer(port, nodeCollection, subjects);
+//        server.startServer();
         System.out.print("started.");
     }
 }

@@ -3,14 +3,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
 <<<<<<< HEAD
@@ -54,6 +47,7 @@ public class BubbleDetector {
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
         this.reachedLevel++;
         int lastlistsize = levelBubbles.size();
+        System.out.println("hello");
         while (lastlistsize != 0) {
             initVisited(collection);
             List<Node> currLevelList = new ArrayList<>();
@@ -71,6 +65,8 @@ public class BubbleDetector {
             levelBubbles.put(reachedLevel, currLevelList);
             reachedLevel++;
         }
+        System.out.println("hello");
+
         if (levelBubbles.size() > 1) {
             levelBubbles.remove(reachedLevel - 1);
         }
