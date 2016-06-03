@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.programminglife2016.pl1_2016.collapser.Bubble;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +27,17 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     public void recalculatePositions() {
         for(Map.Entry<Integer, Node> entry : entrySet()) {
             Node node = entry.getValue();
-            int x = (node.getStartNode().getX() + node.getEndNode().getX())/2;
-            int y = (node.getStartNode().getY() + node.getEndNode().getY())/2;
+            Node start = retrieveSegment(node, true);
+            Node end = retrieveSegment(node, false);
+            int x = (start.getX() + end.getX())/2;
+            int y = (start.getY() + end.getY())/2;
             this.get(entry.getKey()).setXY(x, y);
         }
+    }
+
+    private Node retrieveSegment(Node node, boolean start) {
+        if (node.isBubble())
+            return  retrieveSegment(start ? node.getStartNode() : node.getEndNode(), start);
+        return node;
     }
 }
