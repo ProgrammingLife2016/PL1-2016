@@ -53,12 +53,12 @@ public class Bubble implements Node {
 
     @Override
     public int getX() {
-        return this.x;
+        return (startNode.getX() + endNode.getX()) / 2;
     }
 
     @Override
     public int getY() {
-        return this.y;
+        return (startNode.getY() + endNode.getY()) / 2;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Bubble implements Node {
     }
     @Override
     public Set<Subject> getSubjects() {
-        return null;
+        return this.startNode.getSubjects();
     }
 
     @Override

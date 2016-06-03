@@ -128,9 +128,7 @@ public class BubbleDispatcher {
                     }
                 }
             }
-//            System.out.print(linksToString(bubble.getId(), bubble.getLinks()));
         }
-//        System.out.println("Aantal verkeerd opgestelde bubbles: " + fout);
     }
 
     /**
@@ -162,19 +160,6 @@ public class BubbleDispatcher {
         if(n.isPresent())
             return getExistingAncestor(n.get(), filteredBubbles, equals);
         return null;
-    }
-
-    /**
-     * Method to print graphviz friendly linked nodes.
-     * @param bId bubble id
-     * @param links links collection
-     * @return graphviz friendly from-to link
-     */
-    private String linksToString(int bId, Collection<Node> links){
-        String result = "";
-        for (Node n: links)
-            result += bId + " -> " + n.getId() + ";\n";
-        return result;
     }
 
     /**

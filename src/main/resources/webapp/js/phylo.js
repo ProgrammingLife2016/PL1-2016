@@ -161,13 +161,11 @@ d3.text("/static/file.nwk", function(text) {
             return str.replace("treelink", "");
             })
       .on("mouseover", function() {
-          console.log($(this).css("fill"));
           if ($(this).css("fill") === "rgb(0, 0, 0)") {
               colorTKKs(this, '#dd5f70', '#dd5f70');
           }
       })
       .on("mouseout", function() {
-          console.log($(this).css("fill"));
           if ($(this).css("fill") === "rgb(221, 95, 112") {
               colorTKKs(this, '#ccc', '#000');
           }
@@ -186,9 +184,7 @@ d3.text("/static/file.nwk", function(text) {
 });
 
  var highlight = function(name) {
-      highlightLineage(name);
-      window.graphHandler.setSelectedGenome(name);
-      window.graphHandler.showGraph();
+      var color = highlightLineage(name);
  }
 
  function enableZooming(id){
