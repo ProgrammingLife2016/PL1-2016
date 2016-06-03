@@ -127,12 +127,12 @@ public class FetchDatabase implements Database {
 
     }
 
-    public JSONArray toJson(int threshold) {
-        JSONArray result = new JSONArray();
-        result.put(new JSONObject().put("status", "success"));
+    public JSONObject toJson(int threshold) {
+        JSONObject result = new JSONObject();
+        result.put("status", "success");
         try {
-            result.put(new JSONObject().put("nodes", fetchNodes(threshold)));
-            result.put(new JSONObject().put("edges", fetchLinks(threshold)));
+            result.put("nodes", fetchNodes(threshold));
+            result.put("edges", fetchLinks(threshold));
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -4,11 +4,7 @@ import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -103,8 +99,26 @@ public class SetupDatabase implements Database {
 
     }
 
-    private boolean isSetup() {
-        return false;
+    private boolean isSetup() throws SQLException {
+        Statement stmt = null;
+        String query = "SELECT count(*) FROM " + NODES_TABLE;
+        boolean res = false;
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            if (rs.getInt("count") != 0) {
+                res = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return res;
     }
 
     /**

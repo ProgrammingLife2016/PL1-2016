@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -57,6 +58,10 @@ public final class Launcher {
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
+
+//        SetupDatabase sdb = new SetupDatabase();
+//        sdb.setup(nodeCollection);
+
         FetchDatabase fdb = new FetchDatabase();
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
