@@ -258,6 +258,10 @@ public class Segment implements Node {
         return id;
     }
 
+    /**
+     * Return this node.
+     * @return this object.
+     */
     public Node getStartNode() {
         return this;
     }

@@ -179,12 +179,27 @@ public interface Node extends Cloneable {
      */
     Node clone();
 
+    /**
+     * Get the startnode of the the bubble (if any).
+     * @return startnode of the bubble
+     */
     Node getStartNode();
 
+    /**
+     * Get the endnode of the bubble (if any).
+     * @return endnode of the bubble.
+     */
     Node getEndNode();
 
-
+    /**
+     * Sets the end node of the bubble.
+     * @param node new end node of the bubble.
+     */
     void setEndNode(Node node);
 
+    /**
+     * Sets the start node of the bubble.
+     * @param node new start node of the bubble.
+     */
     void setStartNode(Node node);
 }
