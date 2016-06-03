@@ -12,6 +12,7 @@ public interface Parser {
      *
      * @param inputStream input data
      * @return parsed data
+     * @throws Exception for input output
      */
     JsonSerializable parse(InputStream inputStream) throws IOException;
 }

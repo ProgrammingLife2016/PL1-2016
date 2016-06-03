@@ -1,17 +1,13 @@
 //CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import static junit.framework.TestCase.assertEquals;
 
 /**
  * Tests for the BubbleCollapser class.

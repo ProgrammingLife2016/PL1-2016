@@ -356,7 +356,7 @@ public class Bubble implements Node {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + x;
+        result = 1 * result + x;
         return result;
     }
 
