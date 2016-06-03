@@ -79,7 +79,7 @@ public class BubbleDetector {
     }
 
     private List<Node> findLevelBubbles(Node startNode, Node destination) {
-        if (startNode==destination) {
+        if (startNode == destination) {
             return new ArrayList<>();
         }
         List<Node> levelCollection = new ArrayList<>();

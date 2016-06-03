@@ -118,41 +118,79 @@ public class Bubble implements Node {
         return this.startNode.getSubjects();
     }
 
+    /**
+     * Make a shallow clone of this node. Only the links are cloned one level more.
+     *
+     * @return the cloned node.
+     */
     @Override
     public Node clone() {
         return null;
     }
 
+    /**
+     * Return the id of the container the node resides in.
+     *
+     * @return id of the container.
+     */
     @Override
     public int getContainerId() {
         return this.containerid;
     }
 
+    /**
+     * Set the id of the container the node resides in.
+     *
+     * @param containerid id of the bubble in which current node is located
+     */
     @Override
     public void setContainerId(int containerid) {
         this.containerid = containerid;
     }
 
+    /**
+     * Return the zoomlevel the node resides in.
+     *
+     * @return the depth of the level.
+     */
     @Override
     public int getZoomLevel() {
         return this.level;
     }
 
+    /**
+     * Set the zoom level of the node
+     */
     @Override
     public void setZoomLevel(int level) {
         this.level = level;
     }
 
+    /**
+     * Returns the size of the container.
+     *
+     * @return size of the container.
+     */
     @Override
     public int getContainerSize() {
         return this.containersize;
     }
 
+    /**
+     * Sets the set size of the bubble.
+     *
+     * @param size size of the bubble.
+     */
     @Override
     public void setContainerSize(int size) {
         this.containersize = size;
     }
 
+    /**
+     * Return whether the node is a bubble.
+     *
+     * @return true if it is a bubble.
+     */
     @Override
     public Boolean isBubble(){
         return isBubble;
@@ -177,16 +215,21 @@ public class Bubble implements Node {
         this.startNode = node;
     }
 
+    /**
+     * Get the nodes if the nodes has a container.
+     *
+     * @return List of the nodes the node contains.
+     */
     @Override
     public List<Node> getContainer() {
         return container;
     }
 
-    public static Node getBubble(List<Node> bubbles, int containerId) {
-        return bubbles.stream().filter(x -> x.getId() == containerId).findFirst().get();
-    }
 
-
+    /** Check whether a certian bubble equals this bubble.
+     * @param o Object compared to
+     * @return true if this equals the object, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -199,13 +242,18 @@ public class Bubble implements Node {
         return id == bubble.id;
     }
 
+    /**
+     * Returns string represtation of the bubble.
+     * @return String representation of Bubble.
+     */
     public String toString() {
-        return "Bubble{" +
-                "id=" + id +
-                ", startNode=" + startNode +
-                ", container=" + container.stream().map(x -> x.getId()).collect(Collectors.toList()) +
-                ", endNode=" + endNode +
-                ", containerSize=" + containersize +
-                '}';
+        return "Bubble{"
+                + "id=" + id
+                + ", startNode=" + startNode
+                + ", container=" + container.stream()
+                                    .map(x -> x.getId()).collect(Collectors.toList())
+                + ", endNode=" + endNode
+                + ", containerSize=" + containersize
+                + '}';
     }
 }
