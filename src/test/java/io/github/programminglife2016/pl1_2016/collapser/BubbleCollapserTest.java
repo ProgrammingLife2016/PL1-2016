@@ -87,23 +87,13 @@ public class BubbleCollapserTest {
     }
 
     /**
-     * Verify that the end node had not changed after bubbling.
-     */
-    @Test
-    public void testRetainEndNode() {
-        collapser.collapseBubbles();
-        Node bubble = collapser.getBubbles().get(2).getEndNode();
-        assertEquals(bubble, nodeCollection.get(16));
-    }
-
-    /**
      * Verify that a correct bubble has formed.
      */
     @Test
     public void testSimpleBubbleCollapsing() {
         collapser.collapseBubbles();
         Node bubble = collapser.getBubbles().get(2);
-        assertEquals(5, bubble.getStartNode().getId());
-        assertEquals(16, bubble.getEndNode().getId());
+        assertEquals(6, bubble.getStartNode().getId());
+        assertEquals(12, bubble.getEndNode().getId());
     }
 }

@@ -20,7 +20,6 @@ public class BubbleDetector {
     private List<Node> bubbleBoundaries;
     private int lastId;
     private int reachedLevel = 1;
-    private int maxLevels;
 
     public BubbleDetector(NodeCollection collection) {
         this.visited = new boolean[collection.size() + 1];
@@ -35,11 +34,19 @@ public class BubbleDetector {
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
         this.reachedLevel++;
-        int lastlistsize = levelBubbles.size();
-        while (lastlistsize !=0){
+        while (true){
             initVisited(collection);
-            List<Node> currLevelList = new ArrayList<>();
-            for (Node bubble : levelBubbles.get(reachedLevel - 1)) {
+            List<Node> currLevelList = findLevelCollection(levelBubbles.get(reachedLevel - 1));
+            if (currLevelList.size() == 0) { break; }
+            levelBubbles.put(reachedLevel,currLevelList);
+            reachedLevel++;
+        }
+        levelBubbles.values().forEach(bubbleBoundaries::addAll);
+    }
+
+    private List<Node> findLevelCollection(List<Node> levelBubbles) {
+        List<Node> currLevelList = new ArrayList<>();
+            for (Node bubble : levelBubbles) {
                 if(bubble.getStartNode().getLinks().size()==1 || bubble.getStartNode() == bubble.getEndNode()) {
                     continue;
                 }
@@ -48,19 +55,9 @@ public class BubbleDetector {
                     currLevelList.addAll(newBubbles);
                 }
             }
-            lastlistsize = currLevelList.size();
-            levelBubbles.put(reachedLevel,currLevelList);
-            reachedLevel++;
-        }
-        if (levelBubbles.size() > 1){
-            levelBubbles.remove(reachedLevel-1);
-        }
-        maxLevels = levelBubbles.size();
-        this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
-        for (int i = 2; i < levelBubbles.size()+1; i++) {
-            this.bubbleBoundaries.addAll(levelBubbles.get(i));
-        }
+        return currLevelList;
     }
+
 
     public List<Node> findLevelBubbles(Node startNode, Node destination) {
         if (startNode==destination) {

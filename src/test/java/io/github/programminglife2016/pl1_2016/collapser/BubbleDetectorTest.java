@@ -47,7 +47,7 @@ public class BubbleDetectorTest {
     @Test
     public void testBubblingInContainer() {
         detector.findMultiLevelBubbles();
-        Node node = detector.getBubbleBoundaries().get(5);
+        Node node = detector.getBubbleBoundaries().get(1);
         int container = node.getContainerSize();
         assertEquals(container, 0);
     }
