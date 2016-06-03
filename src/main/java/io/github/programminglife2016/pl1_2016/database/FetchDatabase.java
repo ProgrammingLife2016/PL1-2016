@@ -57,7 +57,7 @@ public class FetchDatabase implements Database {
     /**
      * Constructor to construct a database.
      */
-    public FetchDatabase(NodeCollection nodes) {
+    public FetchDatabase() {
         connect();
     }
 
@@ -387,6 +387,27 @@ public class FetchDatabase implements Database {
         list.add(lineages);
         return list;
 
+    }
+
+    public String getLineage(String genome) throws SQLException {
+        String query = "SELECT lineage FROM specimen WHERE specimen_id = "
+                + genome;
+        Statement stmt = null;
+        ResultSet rs;
+        String lineage = "";
+        try {
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            rs.next();
+            lineage = rs.getString("lineage");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return lineage;
     }
 
 }

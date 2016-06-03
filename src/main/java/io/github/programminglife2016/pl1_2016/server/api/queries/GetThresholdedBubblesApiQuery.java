@@ -1,8 +1,6 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
 /**
@@ -37,8 +35,6 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> {
-            return fdb.toJson(Integer.parseInt(args.get(0))).toString();
-        };
+        return args -> fdb.toJson(Integer.parseInt(args.get(0))).toString();
     }
 }

@@ -69,13 +69,13 @@ public class RestServer implements Server {
      */
     public void startServer() throws IOException {
         ApiHandler apiHandler = new RestHandler();
-        apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection));
+        apiHandler.addQuery(new ReturnAllNodesApiQuery(fdb));
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
         apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
         apiHandler.addQuery(new GetThresholdedBubblesApiQuery(fdb));
         if (subjects != null) {
-            apiHandler.addQuery(new GetLineageApiQuery(subjects));
+            apiHandler.addQuery(new GetLineageApiQuery(fdb));
         }
         server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", apiHandler);

@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.server.api.actions;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -8,15 +9,15 @@ import java.util.List;
  * ApiAction that returns all nodes, without collapsing them.
  */
 public class ReturnAllNodesApiAction implements ApiAction {
-    private JsonSerializable jsonSerializable;
+    private JSONArray jsonArray;
 
     /**
      * Construct an ApiAction that responds with the JSON representation of the argument.
      *
-     * @param jsonSerializable object to be serialized and responded with
+     * @param jsonArray object to be responded with
      */
-    public ReturnAllNodesApiAction(JsonSerializable jsonSerializable) {
-        this.jsonSerializable = jsonSerializable;
+    public ReturnAllNodesApiAction(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
     }
 
     /**
@@ -26,6 +27,6 @@ public class ReturnAllNodesApiAction implements ApiAction {
      * @return response to the client
      */
     public String response(List<String> args) {
-        return jsonSerializable.toJson();
+        return jsonArray.toString();
     }
 }

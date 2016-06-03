@@ -33,8 +33,9 @@ var lineageColors = {
     "LIN CANETTII": "#00ffff"
 }
 
-$.getJSON("/api/nodes/50", function (response) {
+$.getJSON("/api/nodes/64", function (response) {
     nodes = response.nodes;
+    console.log(nodes);
     edges = response.edges;
     x = d3.scale.linear()
         .domain([0, max(nodes, "x")])
@@ -168,7 +169,7 @@ function zoom() {
                 .on("mouseout", tip.hide);
 
             zoom();
-        }
+        })
     }
     if (t[0] > 0) {
         t[0] = 0;
