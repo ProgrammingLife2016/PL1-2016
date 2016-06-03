@@ -1,9 +1,9 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-
-import io.github.programminglife2016.pl1_2016.collapser.Coordinate;
-
 import java.util.Collection;
+
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+
 import java.util.List;
 import java.util.Set;
 
@@ -11,8 +11,6 @@ import java.util.Set;
  * An object that represents a displayable bubble/segment.
  */
 public interface Node extends Cloneable {
-    int X_SPACING = 100;
-    int Y_SPACING = 500;
     /**
      * Set the x and y coordinates of the node.
      *
@@ -103,7 +101,7 @@ public interface Node extends Cloneable {
      *
      * @param genomes the genomes this segment belongs to
      */
-    void addGenomes(Collection<String> genomes);
+    void addGenomes(Collection<Subject> genomes);
 
     /**
      * Get the genomes this segment belongs to.
@@ -113,7 +111,15 @@ public interface Node extends Cloneable {
     Set<String> getGenomes();
 
     /**
+     * Get the subjects this segment belongs to.
+     *
+     * @return the subjects this segment belongs to
+     */
+    Set<Subject> getSubjects();
+
+    /**
      * Return the id of the container the node resides in.
+     *
      * @return id of the container.
      */
     int getContainerId();
@@ -128,38 +134,41 @@ public interface Node extends Cloneable {
 
     /**
      * Return the zoomlevel the node resides in.
+     *
      * @return the depth of the level.
      */
     int getZoomLevel();
 
     /**
      * Return whether the node is a bubble.
+     *
      * @return true if it is a bubble.
      */
     Boolean isBubble();
 
     /**
      * Get the nodes if the nodes has a container.
+     *
      * @return List of the nodes the node contains.
      */
     List<Node> getContainer();
 
     /**
      * Returns the size of the container.
+     *
      * @return size of the container.
      */
     int getContainerSize();
 
     /**
      * Sets the set size of the bubble.
+     *
      * @param size size of the bubble.
      */
     void setContainerSize(int size);
 
     /**
-     * Set the zoom level of the node.
-     *
-     * @param level the zoom level to set
+     * Set the zoom level of the node
      */
     void setZoomLevel(int level);
 
@@ -170,20 +179,12 @@ public interface Node extends Cloneable {
      */
     Node clone();
 
-    /**
-     * Get the first child node of this node. If this is a segment, returns this.
-     *
-     * @return the first child node of this node
-     */
     Node getStartNode();
 
-    /**
-     * Get the last child node of this node. If this is a segment, returns this.
-     *
-     * @return the last child node of this node
-     */
     Node getEndNode();
 
+
     void setEndNode(Node node);
+
     void setStartNode(Node node);
 }

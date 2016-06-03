@@ -1,8 +1,7 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
-import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenCollection;
-import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenMap;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
@@ -15,7 +14,9 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class for creating a database to fetch from database.
@@ -53,11 +54,10 @@ public class FetchDatabase implements Database {
      * The connection to the database.
      */
     private Connection connection;
-
     /**
      * Constructor to construct a database.
      */
-    public FetchDatabase() {
+    public FetchDatabase(NodeCollection nodes) {
         connect();
     }
 
@@ -127,6 +127,18 @@ public class FetchDatabase implements Database {
 
     }
 
+    public JSONArray toJson(int threshold) {
+        JSONArray result = new JSONArray();
+        result.put(new JSONObject().put("status", "success"));
+        try {
+            result.put(new JSONObject().put("nodes", fetchNodes(threshold)));
+            result.put(new JSONObject().put("edges", fetchLinks(threshold)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     /**
      * Fetch position of segment based on id of the segment.
      *
@@ -193,8 +205,8 @@ public class FetchDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     @SuppressWarnings("checkstyle:methodlength")
-    public SpecimenCollection fetchSpecimens() throws SQLException {
-        SpecimenCollection specimens = new SpecimenMap();
+    public Map<String, Subject> fetchSpecimens() throws SQLException {
+        Map<String, Subject> specimens = new HashMap<>();
         Statement stmt = null;
         String query = "select specimen_id , age , sex , "
                 + "hiv_status , cohort , date_of_collection , "
@@ -262,19 +274,18 @@ public class FetchDatabase implements Database {
         specimen.setDistrict(rs.getString("study_geographic_district"));
         specimen.setType(rs.getString("specimen_type"));
         specimen.setPdstpattern(rs.getString("phenotypic_dst_pattern"));
-        specimen.setCapreomycin(rs.getString("capreomycin_10ugml").charAt(0));
-        specimen.setEthambutol(rs.getString("ethambutol_75ugml").charAt(0));
-        specimen.setEthionamide(rs.getString("ethionamide_10ugml").charAt(0));
-        specimen.setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml").charAt(0));
-        specimen.setKanamycin(rs.getString("kanamycin_6ugml").charAt(0));
+        specimen.setCapreomycin(rs.getString("capreomycin_10ugml"));
+        specimen.setEthambutol(rs.getString("ethambutol_75ugml"));
+        specimen.setEthionamide(rs.getString("ethionamide_10ugml"));
+        specimen.setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml"));
+        specimen.setKanamycin(rs.getString("kanamycin_6ugml"));
         specimen.setPyrazinamide(rs
-                .getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit")
-                .charAt(0));
-        specimen.setOfloxacin(rs.getString("ofloxacin_2ugml").charAt(0));
-        specimen.setRifampin(rs.getString("rifampin_1ugml").charAt(0));
-        specimen.setStreptomycin(rs.getString("streptomycin_2ugml").charAt(0));
-        specimen.setSpoligotype(rs.getString("digital_spoligotype").charAt(0));
-        specimen.setLineage(rs.getString("lineage").charAt(0));
+                .getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit"));
+        specimen.setOfloxacin(rs.getString("ofloxacin_2ugml"));
+        specimen.setRifampin(rs.getString("rifampin_1ugml"));
+        specimen.setStreptomycin(rs.getString("streptomycin_2ugml"));
+        specimen.setSpoligotype(rs.getString("digital_spoligotype"));
+        specimen.setLineage(rs.getString("lineage"));
         specimen.setGdstPattern(rs.getString("genotypic_dst_pattern"));
         specimen.setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
     }

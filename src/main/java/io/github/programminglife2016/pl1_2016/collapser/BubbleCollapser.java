@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Collapser populates detected bubbles with bubbles of the lower level or with segments.
  *
- * @autor Kamran Tadzjibov
+ * @author Kamran Tadzjibov
  *
  */
 public class BubbleCollapser {
@@ -26,6 +26,7 @@ public class BubbleCollapser {
         this.collection = collection;
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
+
         this.bubbles = detector.getBubbleBoundaries();
         lastId = bubbles.stream().max((b1, b2) -> Integer.compare( b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();
@@ -79,9 +80,8 @@ public class BubbleCollapser {
         while (!q.isEmpty()) {
             Node n = q.poll();
             for (Node v : n.getLinks()) {
-                if (visited.contains(v) || v.getId() == startId || v.getId() == endId) {
+                if (visited.contains(v) || v.getId() == startId || v.getId() == endId)
                     continue;
-                }
                 v.setContainerId(bubble.getId());
                 q.add(v);
                 visited.add(v);
@@ -192,7 +192,7 @@ public class BubbleCollapser {
     private void addContainerIdToNestedBubbles(Collection<Node> bubbles){
         for(Node bubble : bubbles) {
             bubble.getContainer().forEach(x -> {if(x.getContainerId() != bubble.getId())
-                                                    x.setContainerId(bubble.getId());});
+                x.setContainerId(bubble.getId());});
             bubble.getStartNode().setContainerId(bubble.getId());
             bubble.getEndNode().setContainerId(bubble.getId());
         }

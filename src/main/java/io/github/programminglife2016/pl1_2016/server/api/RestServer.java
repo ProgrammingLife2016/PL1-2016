@@ -1,15 +1,20 @@
 package io.github.programminglife2016.pl1_2016.server.api;
 
 import com.sun.net.httpserver.HttpServer;
+import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.Server;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetLineageApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedBubblesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 /**
  * A RESTful API server.
@@ -19,8 +24,9 @@ public class RestServer implements Server {
 
     private HttpServer server;
     private NodeCollection nodeCollection;
+    private Map<String, Subject> subjects;
     private int port = DEFAULT_PORT;
-
+    private FetchDatabase fdb;
     /**
      * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
      *
@@ -42,6 +48,21 @@ public class RestServer implements Server {
     }
 
     /**
+     * Construct a RestServer, that passes nodeCollection to the appropriate API queries.
+     * This constructor also works with GetLineageApiQuery.
+     *
+     * @param port TCP port to run the server on
+     * @param nodeCollection NodeCollection to be used for API queries
+     * @param subjects metadata information
+     */
+    public RestServer(int port, FetchDatabase fdb, NodeCollection nodeCollection, Map<String, Subject> subjects) {
+        this.nodeCollection = nodeCollection;
+        this.port = port;
+        this.subjects = subjects;
+        this.fdb = fdb;
+    }
+
+    /**
      * Start the server.
      *
      * @throws IOException thrown if the server cannot obtain resources (e.g. ports).
@@ -52,6 +73,10 @@ public class RestServer implements Server {
         apiHandler.addQuery(new GetStaticFileApiQuery());
         apiHandler.addQuery(new RootIndexApiQuery());
         apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
+        apiHandler.addQuery(new GetThresholdedBubblesApiQuery(fdb));
+        if (subjects != null) {
+            apiHandler.addQuery(new GetLineageApiQuery(subjects));
+        }
         server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", apiHandler);
         server.setExecutor(null);

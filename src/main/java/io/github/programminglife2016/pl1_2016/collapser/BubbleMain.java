@@ -14,11 +14,12 @@ public class BubbleMain {
 //        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
 //        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
 //        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
-//        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.txt");
+        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
 
 //        NodeCollection nodeCollection = (new GraphvizParser(new SegmentParser().parse(segis))).parse(dotis);
         InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
-        NodeCollection nodeCollection = new SegmentParser().parse(is);
+        InputStream mt = BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
+        NodeCollection nodeCollection = new SegmentParser(dotis, mt).parse(is);
 //        BubbleDetector detector = new BubbleDetector(nodeCollection);
 //        detector.findMultiLevelBubbles();
 //        List<Node> list = detector.getBubbleBoundaries();

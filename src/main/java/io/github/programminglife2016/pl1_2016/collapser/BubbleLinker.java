@@ -3,12 +3,15 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Linker class creates links between the bubbles of the same level, and sets level to the bubbles if it is undefined.
- * @autor Kamran Tadzjibov
+ * @author Kamran Tadzjibov
  */
 public class BubbleLinker {
     private List<Node> bubbles;
@@ -28,8 +31,8 @@ public class BubbleLinker {
         System.out.println("Started linking.");
         long startTime = System.currentTimeMillis();
         setCorrectLevelsToNodes();
-        long endTime = System.currentTimeMillis();
-        System.out.println("Linking time: " + (endTime - startTime)/3600 + " m.");
+        long endTime = System.currentTimeMillis() - startTime;
+        System.out.println("Linking time: " + (endTime/(60*1000F))+ " m.");
     }
 
     private void setCorrectLevelsToNodes(){
@@ -121,9 +124,9 @@ public class BubbleLinker {
 
     private void lowerSegments(){
         List<Node> needLower = bubbles.stream()
-        .filter(x -> (!x.getStartNode().isBubble() && x.getStartNode().getZoomLevel() < lowestLevel) ||
-                (!x.getEndNode().isBubble() && x.getEndNode().getZoomLevel() < lowestLevel) ||
-                x.getContainer().stream().filter(y -> !y.isBubble() && y.getZoomLevel() < lowestLevel).count()>0)
+                .filter(x -> (!x.getStartNode().isBubble() && x.getStartNode().getZoomLevel() < lowestLevel) ||
+                        (!x.getEndNode().isBubble() && x.getEndNode().getZoomLevel() < lowestLevel) ||
+                        x.getContainer().stream().filter(y -> !y.isBubble() && y.getZoomLevel() < lowestLevel).count()>0)
                 .collect(Collectors.toList());
         while(needLower.size() != 0){
             for(Node b : needLower) {

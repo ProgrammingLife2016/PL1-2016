@@ -3,13 +3,14 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
+
 import java.util.*;
 import java.util.function.BiFunction;
 
 /**
  * Takes apart collapsed layered bubbles and uncollapses most important parts depending on threshold value.
  *
- * @autor Kamran Tadzjibov
+ * @author Kamran Tadzjibov
  */
 public class BubbleDispatcher {
 
@@ -41,7 +42,8 @@ public class BubbleDispatcher {
     private int getBubbleSize(Node bubble) {
         if (bubble.getContainer().size() == 0) {
             return 1;
-        } else {
+        }
+        else {
             int size = 2;
             for (int i = 0; i < bubble.getContainer().size(); i++) {
                 size += getBubbleSize(bubble.getContainer().get(i));
@@ -92,10 +94,10 @@ public class BubbleDispatcher {
         Set<Node> tempFiltered = new HashSet<>();
         for (Node x :  bubbleCollection) {
             if (filtered.stream().filter(b -> b.getEndNode().equals(x)).count() == 0 &&
-                                                    x.getZoomLevel() == currentLevel &&
-                                                    x.getContainerSize() <= threshold &&
-                                                    !containers.contains(x.getContainerId())) {
-                    tempFiltered.add(x);
+                    x.getZoomLevel() == currentLevel &&
+                    x.getContainerSize() <= threshold &&
+                    !containers.contains(x.getContainerId())) {
+                tempFiltered.add(x);
             }
             if (containers.contains(x.getContainerId()))
                 containers.add(x.getId());
@@ -162,7 +164,6 @@ public class BubbleDispatcher {
         return null;
     }
 
-
     /**
      * Method to print graphviz friendly linked nodes.
      * @param bId bubble id
@@ -183,9 +184,10 @@ public class BubbleDispatcher {
      */
     private NodeCollection listAsNodeCollection(Collection<Node> res) {
         NodeCollection collection = new NodeMap();
-        for (Node node : res) {
+        for(Node node: res) {
             collection.put(node.getId(), node);
         }
         return collection;
     }
+
 }

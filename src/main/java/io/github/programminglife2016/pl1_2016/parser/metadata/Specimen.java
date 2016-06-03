@@ -17,17 +17,17 @@ public class Specimen implements Subject {
     private int smear;
     private boolean singleColony;
     private String pdstPattern;
-    private char capreomycin;
-    private char ethambutol;
-    private char ethionamide;
-    private char isoniazid;
-    private char kanamycin;
-    private char pyrazinamide;
-    private char ofloxacin;
-    private char rifampin;
-    private char streptomycin;
-    private char spoligotype;
-    private char lineage;
+    private String capreomycin;
+    private String ethambutol;
+    private String ethionamide;
+    private String isoniazid;
+    private String kanamycin;
+    private String pyrazinamide;
+    private String ofloxacin;
+    private String rifampin;
+    private String streptomycin;
+    private String spoligotype;
+    private String lineage;
     private String gdstPattern;
     private String xdr;
 
@@ -65,37 +65,37 @@ public class Specimen implements Subject {
     public String getPdstpattern() {
         return pdstPattern;
     }
-    public char getCapreomycin() {
+    public String getCapreomycin() {
         return capreomycin;
     }
-    public char getEthambutol() {
+    public String getEthambutol() {
         return ethambutol;
     }
-    public char getEthionamide() {
+    public String getEthionamide() {
         return ethionamide;
     }
-    public char getIsoniazid() {
+    public String getIsoniazid() {
         return isoniazid;
     }
-    public char getKanamycin() {
+    public String getKanamycin() {
         return kanamycin;
     }
-    public char getPyrazinamide() {
+    public String getPyrazinamide() {
         return pyrazinamide;
     }
-    public char getOfloxacin() {
+    public String getOfloxacin() {
         return ofloxacin;
     }
-    public char getRifampin() {
+    public String getRifampin() {
         return rifampin;
     }
-    public char getStreptomycin() {
+    public String getStreptomycin() {
         return streptomycin;
     }
-    public char getSpoligotype() {
+    public String getSpoligotype() {
         return spoligotype;
     }
-    public char getLineage() {
+    public String getLineage() {
         return lineage;
     }
     public String getGdstPattern() {
@@ -137,37 +137,37 @@ public class Specimen implements Subject {
     public void setPdstpattern(String pdstPattern) {
         this.pdstPattern = pdstPattern;
     }
-    public void setCapreomycin(char capreomycin) {
+    public void setCapreomycin(String capreomycin) {
         this.capreomycin = capreomycin;
     }
-    public void setEthambutol(char ethambutol) {
+    public void setEthambutol(String ethambutol) {
         this.ethambutol = ethambutol;
     }
-    public void setEthionamide(char ethionamide) {
+    public void setEthionamide(String ethionamide) {
         this.ethionamide = ethionamide;
     }
-    public void setIsoniazid(char isoniazid) {
+    public void setIsoniazid(String isoniazid) {
         this.isoniazid = isoniazid;
     }
-    public void setKanamycin(char kanamycin) {
+    public void setKanamycin(String kanamycin) {
         this.kanamycin = kanamycin;
     }
-    public void setPyrazinamide(char pyrazinamide) {
+    public void setPyrazinamide(String pyrazinamide) {
         this.pyrazinamide = pyrazinamide;
     }
-    public void setOfloxacin(char ofloxacin) {
+    public void setOfloxacin(String ofloxacin) {
         this.ofloxacin = ofloxacin;
     }
-    public void setRifampin(char rifampin) {
+    public void setRifampin(String rifampin) {
         this.rifampin = rifampin;
     }
-    public void setStreptomycin(char streptomycin) {
+    public void setStreptomycin(String streptomycin) {
         this.streptomycin = streptomycin;
     }
-    public void setSpoligotype(char spoligotype) {
+    public void setSpoligotype(String spoligotype) {
         this.spoligotype = spoligotype;
     }
-    public void setLineage(char lineage) {
+    public void setLineage(String lineage) {
         this.lineage = lineage;
     }
     public void setGdstPattern(String gdstPattern) {
