@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.Parser;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenParser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * Temporary simple parser for parsing .gfa files.
  */
 public class SegmentParser implements Parser {
+    private static final String REFERENCE = "MT_H37RV_BRD_V5.ref";
     private static final String ATTR_ZINDEX = "START:Z:";
     private static final String ATTR_ORI = "ORI:Z:";
     private static final String GENOME_SUFFIX = ".fasta";
@@ -45,6 +47,9 @@ public class SegmentParser implements Parser {
         this.positions = positions;
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
+        Subject ref = new Specimen();
+        ref.setNameId(REFERENCE);
+        specimens.put(REFERENCE, ref);
     }
 
     /**
@@ -95,6 +100,7 @@ public class SegmentParser implements Parser {
             while ((line = reader.readLine()) != null) {
                 parseLine(line);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -113,18 +119,18 @@ public class SegmentParser implements Parser {
      * @param line contents of the specific line.
      */
     private void parseLine(String line) {
-       line = line.trim();
-       String[] data = line.split("\\s+");
-       switch (data[0].charAt(0)) {
-       case 'H':
-           break;
-       case 'S': parseSegmentLine(data);
-           break;
-       case 'L': parseLinkLine(data);
-           break;
-       default:
-           break;
-       }
+        line = line.trim();
+        String[] data = line.split("\\s+");
+        switch (data[0].charAt(0)) {
+            case 'H':
+                break;
+            case 'S': parseSegmentLine(data);
+                break;
+            case 'L': parseLinkLine(data);
+                break;
+            default:
+                break;
+        }
     }
 
     /**

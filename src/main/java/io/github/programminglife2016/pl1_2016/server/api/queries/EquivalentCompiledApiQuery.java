@@ -29,7 +29,7 @@ public class EquivalentCompiledApiQuery implements CompiledApiQuery {
      *
      * @return the compiled regex string
      */
-    public Pattern getCompiledQuery() {
+    public final Pattern getCompiledQuery() {
         return pattern;
     }
 
@@ -38,7 +38,7 @@ public class EquivalentCompiledApiQuery implements CompiledApiQuery {
      *
      * @return the regex string of this query
      */
-    public String getQuery() {
+    public final String getQuery() {
         return apiQuery.getQuery();
     }
 
@@ -47,7 +47,7 @@ public class EquivalentCompiledApiQuery implements CompiledApiQuery {
      *
      * @return the action of this query
      */
-    public ApiAction getApiAction() {
+    public final ApiAction getApiAction() {
         return apiQuery.getApiAction();
     }
 }
