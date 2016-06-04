@@ -29,7 +29,7 @@ public class BasicServer implements Server {
      *
      * @param message the new message
      */
-    public void setMessage(String message) {
+    final void setMessage(String message) {
         this.messageHandler.setMessage(message);
     }
 
@@ -37,7 +37,7 @@ public class BasicServer implements Server {
      * Start the server, listening to /nodes at the default port.
      * @throws IOException thrown if the port is in use
      */
-    public void startServer() throws IOException {
+    public final void startServer() throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/nodes", messageHandler);
         server.setExecutor(null);
@@ -47,7 +47,7 @@ public class BasicServer implements Server {
     /**
      * Stop the server (immediately).
      */
-    public void stopServer() {
+    public final void stopServer() {
         server.stop(0);
     }
 }

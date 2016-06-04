@@ -18,7 +18,7 @@ public class GetStaticFileApiAction implements ApiAction {
      * @return response to the client
      */
     @Override
-    public String response(List<String> args) throws IOException {
+    public final String response(List<String> args) throws IOException {
         String uri = String.format("/webapp/%s", args.get(0));
         InputStream is = GetStaticFileApiAction.class.getResourceAsStream(uri);
         if (is == null) {

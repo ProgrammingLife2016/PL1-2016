@@ -1,26 +1,30 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import java.util.Set;
+
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Data structure for representing a DNA sequence
  */
 public class Segment implements Node {
     private int id;
-    private String data;
+    private int x;
+    private int y;
+    private transient String data;
     private transient int column;
     private transient Set<Node> links = new HashSet<>();
     private transient Set<Node> backLinks = new HashSet<>();
-    private int x;
-    private int y;
-    private Set<String> genomes = new HashSet<>();
+    private Set<Subject> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
-    private final int containersize = 1;
+
     /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
@@ -115,7 +119,7 @@ public class Segment implements Node {
      * @param genomes the genomes this segment belongs to
      */
     @Override
-    public void addGenomes(Collection<String> genomes) {
+    public void addGenomes(Collection<Subject> genomes) {
         this.genomes.addAll(genomes);
     }
 
@@ -125,8 +129,18 @@ public class Segment implements Node {
      * @return the genomes this segment belongs to
      */
     @Override
-    public Set<String> getGenomes() {
+    public Set<Subject> getSubjects() {
         return genomes;
+    }
+
+    /**
+     * Get the genomes this segment belongs to.
+     *
+     * @return the genomes this segment belongs to
+     */
+    @Override
+    public Set<String> getGenomes() {
+        return genomes.stream().map(Subject::getNameId).collect(Collectors.toSet());
     }
 
     /**
@@ -169,8 +183,7 @@ public class Segment implements Node {
      */
     @Override
     public String toString() {
-        return String.format("Segment{id=%d, x=%d, y=%d, column=%d, containerid=%d}", id, x, y,
-                column, containerid);
+        return String.format("Segment{id=%d, x=%d, y=%d, containerid=%d}", id, x, y, containerid);
     }
 
     @Override
@@ -223,7 +236,7 @@ public class Segment implements Node {
 
     @Override
     public int getContainerSize() {
-        return containersize;
+        return 1;
     }
 
     @Override
@@ -245,7 +258,10 @@ public class Segment implements Node {
         return id;
     }
 
-    @Override
+    /**
+     * Return this node.
+     * @return this object.
+     */
     public Node getStartNode() {
         return this;
     }
@@ -253,5 +269,13 @@ public class Segment implements Node {
     @Override
     public Node getEndNode() {
         return this;
+    }
+
+    @Override
+    public void setEndNode(Node node) {
+    }
+
+    @Override
+    public void setStartNode(Node node) {
     }
 }
