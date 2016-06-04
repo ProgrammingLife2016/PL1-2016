@@ -171,10 +171,10 @@ public class BubbleDispatcher {
      * @return graphviz friendly from-to link
      */
     private String linksToString(int bId, Collection<Node> links){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Node n: links)
-            result += bId + " -> " + n.getId() + ";\n";
-        return result;
+            result.append(bId).append(" -> ").append(n.getId()).append(";\n");
+        return result.toString();
     }
 
     /**

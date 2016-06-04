@@ -8,8 +8,8 @@ public class Specimen implements Subject {
 
     private String nameId;
     private int age;
-    private boolean isMale;
-    private int hivStatus;
+    private boolean _isMale;
+    private int _hivStatus;
     private String cohort;
     private String date;
     private String district;
@@ -32,148 +32,148 @@ public class Specimen implements Subject {
     private String xdr;
 
     public Specimen() { }
-    public String getNameId() {
+    public final String getNameId() {
         return nameId;
     }
-    public int getAge() {
+    public final int getAge() {
         return age;
     }
-    public boolean isMale() {
-        return isMale;
+    public final boolean is_isMale() {
+        return _isMale;
     }
-    public int getHivStatus() {
-        return hivStatus;
+    public final int get_hivStatus() {
+        return _hivStatus;
     }
-    public String getCohort() {
+    public final String getCohort() {
         return cohort;
     }
-    public String getDate() {
+    public final String getDate() {
         return date;
     }
-    public String getDistrict() {
+    public final String getDistrict() {
         return district;
     }
-    public String getType() {
+    public final String getType() {
         return type;
     }
-    public int getSmear() {
+    public final int getSmear() {
         return smear;
     }
-    public boolean isSingleColony() {
+    public final boolean isSingleColony() {
         return singleColony;
     }
-    public String getPdstpattern() {
+    public final String getPdstpattern() {
         return pdstPattern;
     }
-    public char getCapreomycin() {
+    public final char getCapreomycin() {
         return capreomycin;
     }
-    public char getEthambutol() {
+    public final char getEthambutol() {
         return ethambutol;
     }
-    public char getEthionamide() {
+    public final char getEthionamide() {
         return ethionamide;
     }
-    public char getIsoniazid() {
+    public final char getIsoniazid() {
         return isoniazid;
     }
-    public char getKanamycin() {
+    public final char getKanamycin() {
         return kanamycin;
     }
-    public char getPyrazinamide() {
+    public final char getPyrazinamide() {
         return pyrazinamide;
     }
-    public char getOfloxacin() {
+    public final char getOfloxacin() {
         return ofloxacin;
     }
-    public char getRifampin() {
+    public final char getRifampin() {
         return rifampin;
     }
-    public char getStreptomycin() {
+    public final char getStreptomycin() {
         return streptomycin;
     }
-    public char getSpoligotype() {
+    public final char getSpoligotype() {
         return spoligotype;
     }
-    public char getLineage() {
+    public final char getLineage() {
         return lineage;
     }
-    public String getGdstPattern() {
+    public final String getGdstPattern() {
         return gdstPattern;
     }
-    public String getXdr() {
+    public final String getXdr() {
         return xdr;
     }
-    public void setNameId(String nameId) {
+    public final void setNameId(String nameId) {
         this.nameId = nameId;
     }
-    public void setAge(int age) {
+    public final void setAge(int age) {
         this.age = age;
     }
-    public void setMale(boolean male) {
-        isMale = male;
+    public final void set_isMale(boolean isMale) {
+        this._isMale = isMale;
     }
-    public void setHivStatus(int hivStatus) {
-        this.hivStatus = hivStatus;
+    public final void set_hivStatus(int hivStatus) {
+        this._hivStatus = hivStatus;
     }
-    public void setCohort(String cohort) {
+    public final void setCohort(String cohort) {
         this.cohort = cohort;
     }
-    public void setDate(String date) {
-        this.date = date;
+    public final void setDate(String date) {
+        this. date = date;
     }
-    public void setDistrict(String district) {
-        this.district = district;
+    public final void setDistrict(String district) {
+        this. district = district;
     }
-    public void setType(String type) {
-        this.type = type;
+    public final void setType(String type) {
+        this. type = type;
     }
-    public void setSmear(int smear) {
-        this.smear = smear;
+    public final void setSmear(int smear) {
+        this. smear = smear;
     }
-    public void setSingleColony(boolean singleColony) {
-        this.singleColony = singleColony;
+    public final void setSingleColony(boolean singleColony) {
+        this. singleColony = singleColony;
     }
-    public void setPdstpattern(String pdstPattern) {
-        this.pdstPattern = pdstPattern;
+    public final void setPdstpattern(String pdstPattern) {
+        this. pdstPattern = pdstPattern;
     }
-    public void setCapreomycin(char capreomycin) {
-        this.capreomycin = capreomycin;
+    public final void setCapreomycin(char capreomycin) {
+        this. capreomycin = capreomycin;
     }
-    public void setEthambutol(char ethambutol) {
-        this.ethambutol = ethambutol;
+    public final void setEthambutol(char ethambutol) {
+        this. ethambutol = ethambutol;
     }
-    public void setEthionamide(char ethionamide) {
-        this.ethionamide = ethionamide;
+    public final void setEthionamide(char ethionamide) {
+        this. ethionamide = ethionamide;
     }
-    public void setIsoniazid(char isoniazid) {
-        this.isoniazid = isoniazid;
+    public final void setIsoniazid(char isoniazid) {
+        this. isoniazid = isoniazid;
     }
-    public void setKanamycin(char kanamycin) {
-        this.kanamycin = kanamycin;
+    public final void setKanamycin(char kanamycin) {
+        this. kanamycin = kanamycin;
     }
-    public void setPyrazinamide(char pyrazinamide) {
-        this.pyrazinamide = pyrazinamide;
+    public final void setPyrazinamide(char pyrazinamide) {
+        this. pyrazinamide = pyrazinamide;
     }
-    public void setOfloxacin(char ofloxacin) {
-        this.ofloxacin = ofloxacin;
+    public final void setOfloxacin(char ofloxacin) {
+        this. ofloxacin = ofloxacin;
     }
-    public void setRifampin(char rifampin) {
-        this.rifampin = rifampin;
+    public final void setRifampin(char rifampin) {
+        this. rifampin = rifampin;
     }
-    public void setStreptomycin(char streptomycin) {
-        this.streptomycin = streptomycin;
+    public final void setStreptomycin(char streptomycin) {
+        this. streptomycin = streptomycin;
     }
-    public void setSpoligotype(char spoligotype) {
-        this.spoligotype = spoligotype;
+    public final void setSpoligotype(char spoligotype) {
+        this. spoligotype = spoligotype;
     }
-    public void setLineage(char lineage) {
-        this.lineage = lineage;
+    public final void setLineage(char lineage) {
+        this. lineage = lineage;
     }
-    public void setGdstPattern(String gdstPattern) {
-        this.gdstPattern = gdstPattern;
+    public final void setGdstPattern(String gdstPattern) {
+        this. gdstPattern = gdstPattern;
     }
-    public void setXdr(String xdr) {
-        this.xdr = xdr;
+    public final void setXdr(String xdr) {
+        this. xdr = xdr;
     }
 }

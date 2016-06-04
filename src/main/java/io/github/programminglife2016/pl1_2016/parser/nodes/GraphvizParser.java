@@ -18,12 +18,12 @@ public class GraphvizParser implements Parser {
     /**
      * Contructs a new parser object to parse an given inputstream.
      */
-    public GraphvizParser(NodeCollection nodeCollection) {
-        this.nodeCollection = nodeCollection;
+    public GraphvizParser(NodeCollection _nodeCollection) {
+        this.nodeCollection = _nodeCollection;
     }
 
     @Override
-    public NodeCollection parse(InputStream inputStream) throws IOException {
+    public final NodeCollection parse(InputStream inputStream) throws IOException {
         readFile(inputStream);
         return nodeCollection;
     }

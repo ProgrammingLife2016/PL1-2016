@@ -18,12 +18,12 @@ public class SpecimenMap extends HashMap<String, Subject> implements SpecimenCol
      *
      * @return all segments
      */
-    public Collection<Subject> getSpecimen() {
+    public final Collection<Subject> getSpecimen() {
         return values();
     }
 
     @Override
-    public String toJson() {
+    public final String toJson() {
         return "";
     }
 }

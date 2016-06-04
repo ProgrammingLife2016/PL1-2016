@@ -7,8 +7,8 @@ package io.github.programminglife2016.pl1_2016.parser.metadata;
 public interface Subject {
     String getNameId();
     int getAge();
-    boolean isMale();
-    int getHivStatus();
+    boolean is_isMale();
+    int get_hivStatus();
     String getCohort();
     String getDate();
     String getDistrict();
@@ -31,8 +31,8 @@ public interface Subject {
     String getXdr();
     void setNameId(String nameId);
     void setAge(int age);
-    void setMale(boolean male);
-    void setHivStatus(int hivStatus);
+    void set_isMale(boolean _isMale);
+    void set_hivStatus(int _hivStatus);
     void setCohort(String cohort);
     void setDate(String date);
     void setDistrict(String district);

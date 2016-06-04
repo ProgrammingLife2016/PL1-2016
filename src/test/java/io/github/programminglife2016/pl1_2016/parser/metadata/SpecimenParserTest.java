@@ -93,8 +93,8 @@ public class SpecimenParserTest {
         SpecimenCollection specimenCollection = specimenParser.getSpecimenCollection();
         assertEquals("TKK-01-0006", specimenCollection.get("TKK-01-0006").getNameId());
         assertEquals(70, specimenCollection.get("TKK-01-0006").getAge());
-        assertEquals(true, specimenCollection.get("TKK-01-0006").isMale());
-        assertEquals(-1, specimenCollection.get("TKK-01-0006").getHivStatus());
+        assertEquals(true, specimenCollection.get("TKK-01-0006").is_isMale());
+        assertEquals(-1, specimenCollection.get("TKK-01-0006").get_hivStatus());
         assertEquals("KZNSUR", specimenCollection.get("TKK-01-0006").getCohort());
         assertEquals("2/15/2008", specimenCollection.get("TKK-01-0006").getDate());
         assertEquals("eThekwini", specimenCollection.get("TKK-01-0006").getDistrict());

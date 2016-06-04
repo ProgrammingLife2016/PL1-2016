@@ -20,17 +20,16 @@ public class BubbleDetector {
     private List<Node> bubbleBoundaries;
     private int lastId;
     private int reachedLevel = 1;
-    private int maxLevels;
 
-    public BubbleDetector(NodeCollection collection) {
-        this.visited = new boolean[collection.size() + 1];
-        this.lastId = collection.size() + 1;
-        initVisited(collection);
-        this.collection = collection;
+    public BubbleDetector(NodeCollection nodeCollection) {
+        this.visited = new boolean[nodeCollection.size() + 1];
+        this.lastId = nodeCollection.size() + 1;
+        initVisited(nodeCollection);
+        this.collection = nodeCollection;
         this.bubbleBoundaries = new ArrayList<>();
     }
 
-    public void findMultiLevelBubbles() {
+    final void findMultiLevelBubbles() {
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
         Node destination = collection.get(collection.size());
         levelBubbles.put(1, findLevelBubbles(this.collection.get(1), destination));
@@ -55,62 +54,74 @@ public class BubbleDetector {
         if (levelBubbles.size() > 1){
             levelBubbles.remove(reachedLevel-1);
         }
-        maxLevels = levelBubbles.size();
         this.bubbleBoundaries = new ArrayList<>(levelBubbles.get(1));
         for (int i = 2; i < levelBubbles.size()+1; i++) {
             this.bubbleBoundaries.addAll(levelBubbles.get(i));
         }
     }
 
-    public List<Node> findLevelBubbles(Node startNode, Node destination) {
-        if (startNode==destination) {
+    private List<Node> findLevelBubbles(Node startNode, Node destination) {
+        if (startNode.equals(destination)) {
             return new ArrayList<>();
         }
         List<Node> levelCollection = new ArrayList<>();
         Map.Entry<Integer, Node> stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
         int status = stoppedAtNode.getKey();
         Node stoppedNode = stoppedAtNode.getValue();
+        Node newStartNode = startNode;
         while (status != REACHED_FINAL_DESTINATION) {
-            if (startNode==stoppedNode) {
+            if (newStartNode.equals(stoppedNode)) {
                 return new ArrayList<>();
             }
             switch (status) {
                 case BUBBLE_DETECTED :
-                    handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
-                    startNode = stoppedAtNode.getValue();
-                    stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
+                    handleDetectedBubble(newStartNode, stoppedAtNode.getValue(), levelCollection);
+                    newStartNode = stoppedAtNode.getValue();
+                    stoppedAtNode = searchBubble(newStartNode, newStartNode.getGenomes(), destination);
                     break;
                 case FOUND_MORE_GENOMES :
-                    startNode = stoppedAtNode.getValue();
-                    stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination);
+                    newStartNode = stoppedAtNode.getValue();
+                    stoppedAtNode = searchBubble(newStartNode, newStartNode.getGenomes(), destination);
                     break;
             }
             if (status == NO_CHILDREN_FOUND) {
-                if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
-                    handleDetectedBubble(startNode, stoppedNode, levelCollection);
-                } else {
-                    for (Node childNode : startNode.getLinks()) {
-                        initVisited(collection);
-                        levelCollection.addAll(findLevelBubbles(childNode, destination));
-                    }
-                }
+//                if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
+//                    handleDetectedBubble(startNode, stoppedNode, levelCollection);
+//                } else {
+//                    for (Node childNode : startNode.getLinks()) {
+//                        initVisited(collection);
+//                        levelCollection.addAll(findLevelBubbles(childNode, destination));
+//                    }
+//                }
+                findChildren(true, newStartNode, stoppedNode,
+                        levelCollection,  stoppedAtNode);
                 break;
             }
             status = stoppedAtNode.getKey();
             stoppedNode = stoppedAtNode.getValue();
         }
+        findChildren(false, newStartNode, stoppedNode,
+                 levelCollection,  stoppedAtNode);
+
+        return levelCollection;
+    }
+
+    private void findChildren(boolean init, Node startNode, Node stoppedNode,
+                              List<Node> levelCollection, Map.Entry<Integer, Node> stoppedAtNode){
         if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
             handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
         }
         else {
             for (Node childNode : startNode.getLinks()) {
+                if(init) {
+                    initVisited(collection);
+                }
                 levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));
             }
         }
-        return levelCollection;
     }
 
-    public Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
+    private Map.Entry<Integer, Node> searchBubble(Node curr, Collection genomes, Node destination) {
         visited[curr.getId()] = true;
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
         for (Node child : connectedTo) {
@@ -118,7 +129,7 @@ public class BubbleDetector {
             if (status != NOT_A_BUBBLE) {
                 return new AbstractMap.SimpleEntry<>(status, child);
             }
-            if (visited[child.getId()] == false) {
+            if (!visited[child.getId()]) {
                 return searchBubble(child, genomes, destination);
             }
         }
@@ -158,13 +169,13 @@ public class BubbleDetector {
         lastId++;
     }
 
-    private void initVisited(NodeCollection collection) {
-        for (Node node : collection.values()) {
+    private void initVisited(NodeCollection nodeCollection) {
+        for (Node node : nodeCollection.values()) {
             visited[node.getId()] = false;
         }
     }
 
-    public List<Node> getBubbleBoundaries() {
+    final List<Node> getBubbleBoundaries() {
         List<Node> retrieved = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
         for (Node bubble : bubbleBoundaries) {

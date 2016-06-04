@@ -13,11 +13,11 @@ public class Segment implements Node {
     private transient int column;
     private transient Set<Node> links = new HashSet<>();
     private transient Set<Node> backLinks = new HashSet<>();
-    private transient final Boolean isBubble = false;
+    private transient static final Boolean ISBUBBLE = false;
     private transient Set<String> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
-    private transient final int containersize = 1;
+    private transient static final int CONTAINERSIZE = 1;
     /**
      * Create segment with id and sequence data.
      * @param id identifier of this segment.
@@ -42,7 +42,7 @@ public class Segment implements Node {
      * Add a link from this segment to other segment.
      * @param other segment to link to.
      */
-    public void addLink(Node other) {
+    public final void addLink(Node other) {
         this.links.add(other);
     }
 
@@ -52,7 +52,7 @@ public class Segment implements Node {
      * @param node connected node
      */
     @Override
-    public void addBackLink(Node node) {
+    public final void addBackLink(Node node) {
         backLinks.add(node);
     }
 
@@ -60,7 +60,7 @@ public class Segment implements Node {
      * Get sequence data of this segment.
      * @return string of sequence data.
      */
-    public String getData() {
+    public final String getData() {
         return data;
     }
 
@@ -68,7 +68,7 @@ public class Segment implements Node {
      * Set sequence data of this segment.
      * @param data to set sequence data.
      */
-    public void setData(String data) {
+    public final void setData(String data) {
         this.data = data;
     }
 
@@ -76,7 +76,7 @@ public class Segment implements Node {
      * Get links to other segments in the graph.
      * @return list of links.
      */
-    public Collection<Node> getLinks() {
+    public final Collection<Node> getLinks() {
         return links;
     }
 
@@ -86,7 +86,7 @@ public class Segment implements Node {
      * @return links of this node
      */
     @Override
-    public Collection<Node> getBackLinks() {
+    public final Collection<Node> getBackLinks() {
         return backLinks;
     }
 
@@ -94,7 +94,7 @@ public class Segment implements Node {
      * Get the id if this segment.
      * @return id of this segment.
      */
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
@@ -102,7 +102,7 @@ public class Segment implements Node {
      * Get index of column in graph of this DNA segment.
      * @return index of column starting at 0.
      */
-    public int getColumn() {
+    public final int getColumn() {
         return column;
     }
 
@@ -112,7 +112,7 @@ public class Segment implements Node {
      * @param genomes the genomes this segment belongs to
      */
     @Override
-    public void addGenomes(Collection<String> genomes) {
+    public final void addGenomes(Collection<String> genomes) {
         this.genomes.addAll(genomes);
     }
 
@@ -122,7 +122,7 @@ public class Segment implements Node {
      * @return the genomes this segment belongs to
      */
     @Override
-    public Set<String> getGenomes() {
+    public final Set<String> getGenomes() {
         return genomes;
     }
 
@@ -130,7 +130,7 @@ public class Segment implements Node {
      * Set column index if this DNA segment.
      * @param column index in graph.
      */
-    public void setColumn(int column) {
+    public final void setColumn(int column) {
         this.column = column;
     }
 
@@ -139,7 +139,7 @@ public class Segment implements Node {
      * @param x x-position of the segment.
      * @param y y-position of the segment.
      */
-    public void setXY(int x, int y) {
+    public final void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -148,7 +148,7 @@ public class Segment implements Node {
      * Get the x value of the segment.
      * @return x value of the segment.
      */
-    public int getX() {
+    public final int getX() {
         return x;
     }
 
@@ -156,7 +156,7 @@ public class Segment implements Node {
      * Get the y value of the segment.
      * @return y value of the segment
      */
-    public int getY() {
+    public final int getY() {
         return y;
     }
 
@@ -165,12 +165,12 @@ public class Segment implements Node {
      * @return string representing segment.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return String.format("Segment{id=%d, x=%d, y=%d, containerid=%d}", id, x, y, containerid);
     }
 
     @Override
-    public Segment clone() {
+    public final Segment clone() {
         try {
             Segment segment = (Segment) super.clone();
             segment.links = new HashSet<>(links);
@@ -185,7 +185,7 @@ public class Segment implements Node {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -197,34 +197,34 @@ public class Segment implements Node {
     }
 
     @Override
-    public int getContainerId() {
+    public final int getContainerId() {
         return this.containerid;
     }
 
 
     @Override
-    public void setContainerId(int containerid) {
+    public final void setContainerId(int containerid) {
         this.containerid = containerid;
     }
 
     @Override
-    public int getZoomLevel() {
+    public final int getZoomLevel() {
         return this.level;
     }
 
     @Override
-    public List<Node> getContainer() {
+    public final List<Node> getContainer() {
         return new ArrayList<>();
     }
 
     @Override
-    public int getContainerSize() {
-        return containersize;
+    public final int getContainerSize() {
+        return CONTAINERSIZE;
     }
 
     @Override
-    public Boolean isBubble(){
-        return isBubble;
+    public final Boolean isBubble(){
+        return ISBUBBLE;
     }
 
     @Override
@@ -232,21 +232,21 @@ public class Segment implements Node {
     }
 
     @Override
-    public void setZoomLevel(int level) {
+    public final void setZoomLevel(int level) {
         this.level = level;
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return id;
     }
 
-    public Node getStartNode() {
+    public final Node getStartNode() {
         return this;
     }
 
     @Override
-    public Node getEndNode() {
+    public final Node getEndNode() {
         return this;
     }
 

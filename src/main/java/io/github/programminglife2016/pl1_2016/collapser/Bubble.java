@@ -18,7 +18,6 @@ public class Bubble implements Node {
     private transient Set<Node> backLinks = new HashSet<>();
     private transient int containerid;
     private transient int level;
-    private transient String data = "";
     private transient int containersize;
 
     public Bubble(Node startNode, Node endNode) {
@@ -111,6 +110,7 @@ public class Bubble implements Node {
     public Set<String> getGenomes() {
         return this.startNode.getGenomes();
     }
+
     @Override
     public Node clone() {
         return null;

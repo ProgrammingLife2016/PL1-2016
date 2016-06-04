@@ -29,7 +29,7 @@ public class SpecimenParser implements Parser {
      * @return JsonSerializable version of the specimenmap.
      */
     @Override
-    public SpecimenCollection parse(InputStream inputStream) {
+    public final SpecimenCollection parse(InputStream inputStream) {
         read(inputStream);
         return specimens;
     }
@@ -38,7 +38,7 @@ public class SpecimenParser implements Parser {
      * Get the collection of the specimenmap.
      * @return the collection which contains all specimen.
      */
-    public SpecimenCollection getSpecimenCollection() {
+    final SpecimenCollection getSpecimenCollection() {
         return this.specimens;
     }
 
@@ -92,10 +92,10 @@ public class SpecimenParser implements Parser {
             specimen.setAge(Integer.parseInt(string[1]));
         }
         if (string[2].equals("Male")) {
-            specimen.setMale(true);
+            specimen.set_isMale(true);
         }
         else {
-            specimen.setMale(false);
+            specimen.set_isMale(false);
         }
     }
 
@@ -107,11 +107,11 @@ public class SpecimenParser implements Parser {
     @SuppressWarnings("checkstyle:magicnumber")
     private void parseSecondaryInfo(String[] string, Subject specimen) {
         switch (string[3]) {
-            case "Positive" : specimen.setHivStatus(1);
+            case "Positive" : specimen.set_hivStatus(1);
                 break;
-            case "Negative" : specimen.setHivStatus(-1);
+            case "Negative" : specimen.set_hivStatus(-1);
                 break;
-            case "unknown" : specimen.setHivStatus(0);
+            case "unknown" : specimen.set_hivStatus(0);
                 break;
             default : break;
         }
