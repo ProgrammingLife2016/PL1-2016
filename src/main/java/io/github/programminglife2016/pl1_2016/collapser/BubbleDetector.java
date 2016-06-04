@@ -113,13 +113,13 @@ public class BubbleDetector {
     }
 
     private void findChildren(boolean init, Node startNode, Node stoppedNode,
-                              List<Node> levelCollection, Map.Entry<Integer, Node> stoppedAtNode){
+                              List<Node> levelCollection, Map.Entry<Integer, Node> stoppedAtNode) {
         if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
             handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
         }
         else {
             for (Node childNode : startNode.getLinks()) {
-                if(init) {
+                if (init) {
                     initVisited(collection);
                 }
                 levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));

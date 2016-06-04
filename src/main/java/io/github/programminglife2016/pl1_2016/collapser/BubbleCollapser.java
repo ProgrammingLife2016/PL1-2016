@@ -28,13 +28,17 @@ public class BubbleCollapser {
     NodeCollection collection;
     BubbleLinker linker;
 
-    public BubbleCollapser(NodeCollection collection){
+    /**
+     * Initialize all bubbles to collapse.
+     * @param collection of nodes
+     */
+    public BubbleCollapser(NodeCollection collection) {
         this.collection = collection;
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
         this.bubbles = detector.getBubbleBoundaries();
         lastId = bubbles.stream().max((b1, b2) ->
-                Integer.compare( b1.getId(), b2.getId())).get().getId();
+                Integer.compare(b1.getId(), b2.getId())).get().getId();
         bubblesListSize = bubbles.size();
     }
 
@@ -58,12 +62,12 @@ public class BubbleCollapser {
     }
 
     private void replaceInconsistentSegments() {
-        for(Node bubble : bubbles) {
-            if(bubble.getStartNode().isBubble() && !bubble.getEndNode().isBubble()) {
+        for (Node bubble : bubbles) {
+            if (bubble.getStartNode().isBubble() && !bubble.getEndNode().isBubble()) {
                 bubble.setEndNode(bubbles.stream().filter(x ->
                         x.getId() == bubble.getEndNode().getContainerId()).findFirst().get());
             }
-            else if(!bubble.getStartNode().isBubble() && bubble.getEndNode().isBubble()) {
+            else if (!bubble.getStartNode().isBubble() && bubble.getEndNode().isBubble()) {
                 bubble.setStartNode(bubbles.stream().filter(x ->
                         x.getId() == bubble.getStartNode().getContainerId()).findFirst().get());
             }
@@ -81,7 +85,7 @@ public class BubbleCollapser {
         int endId =  bubble.getEndNode().getId();
         collapsedSegments.add(startId);
         collapsedSegments.add(endId);
-        if(startId == endId) {
+        if (startId == endId) {
             return visited;
         }
         bubble.getStartNode().setContainerId(bubble.getId());
@@ -91,8 +95,9 @@ public class BubbleCollapser {
         while (!q.isEmpty()) {
             Node n = q.poll();
             for (Node v : n.getLinks()) {
-                if (visited.contains(v) || v.getId() == startId || v.getId() == endId)
+                if (visited.contains(v) || v.getId() == startId || v.getId() == endId) {
                     continue;
+                }
                 v.setContainerId(bubble.getId());
                 q.add(v);
                 visited.add(v);
@@ -103,8 +108,8 @@ public class BubbleCollapser {
     }
 
     private void collapseSingleSegments(NodeCollection collection) {
-        for(Node node : collection.values()){
-            if(collapsedSegments.contains(node.getId())){
+        for (Node node : collection.values()) {
+            if (collapsedSegments.contains(node.getId())) {
                 continue;
             }
             initNewBubble(node);
@@ -113,17 +118,23 @@ public class BubbleCollapser {
 
     private void collapseInnerSegments() {
         Set<Node> newCont = new HashSet<>();
-        for(int i = 0; i < bubblesListSize; i++) {
+        for (int i = 0; i < bubblesListSize; i++) {
             Node segS = bubbles.get(i).getStartNode();
-            boolean containsBubbles = bubbles.get(i).getContainer().stream().filter(x -> x.isBubble()).collect(Collectors.toList()).size() != 0;
-            boolean tooComplex = bubbles.get(i).getContainer().size() > 2 &&
-                    bubbles.get(i).getContainer().stream().filter(x -> !x.isBubble()).count() > 0;
-            if(containsBubbles || tooComplex) {
-                if (segS.isBubble() == false) {
+            boolean containsBubbles = bubbles.get(i)
+                    .getContainer()
+                    .stream()
+                    .filter(x -> x.isBubble())
+                    .collect(Collectors.toList()).size() != 0;
+            boolean tooComplex = bubbles.get(i).getContainer().size() > 2
+                    && bubbles.get(i).getContainer()
+                    .stream()
+                    .filter(x -> !x.isBubble()).count() > 0;
+            if (containsBubbles || tooComplex) {
+                if (!segS.isBubble()) {
                     bubbles.get(i).setStartNode(initNewBubble(segS));
                     bubbles.get(i).setEndNode(initNewBubble(bubbles.get(i).getEndNode()));
-                    for(Node n : bubbles.get(i).getContainer()){
-                        if(!n.isBubble()) {
+                    for (Node n : bubbles.get(i).getContainer()) {
+                        if (!n.isBubble()) {
                             newCont.add(initNewBubble(n));
                         }
                         else {
@@ -140,10 +151,10 @@ public class BubbleCollapser {
 
     private Bubble initNewBubble(Node node) {
         Optional<Node> exist = bubbles.stream().filter(x ->
-                x.getStartNode().getId() == node.getStartNode().getId() &&
-                x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
-        if(exist.isPresent()) {
-            return (Bubble)exist.get();
+                x.getStartNode().getId() == node.getStartNode().getId()
+                && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
+        if (exist.isPresent()) {
+            return (Bubble) exist.get();
         }
         lastId++;
         Bubble newBubble = new Bubble(lastId, -1, (Segment) node);
@@ -158,16 +169,17 @@ public class BubbleCollapser {
      */
     private void modifyContainer(Node bubble) {
         Set<Integer> innerBubbles = findAllInnerBubbles(bubble.getContainer(), bubble.getId());
-        for (int id : innerBubbles){
+        for (int id : innerBubbles) {
             bubble.getContainer().add(bubbles.stream()
                     .filter(b -> b.getId() == id).findFirst().get());
         }
-        if(bubble.getContainer().stream().filter(x -> x.isBubble())
+        if (bubble.getContainer().stream().filter(x -> x.isBubble())
                 .collect(Collectors.toList()).size() != 0) {
             for (int i = 0; i < bubble.getContainer().size(); i++) {
                 if (bubble.getContainer().get(i) instanceof Segment) {
                     lastId++;
-                    Node newChild = new Bubble(lastId, bubbles.get(i).getZoomLevel(), (Segment) bubble.getContainer().get(i));
+                    Node newChild = new Bubble(lastId, bubbles.get(i).getZoomLevel(),
+                            (Segment) bubble.getContainer().get(i));
                     bubble.getContainer().remove(i);
                     bubble.getContainer().add(newChild);
                     bubbles.add(newChild);
@@ -185,8 +197,8 @@ public class BubbleCollapser {
      */
     private Set<Integer> findAllInnerBubbles(Collection<Node> container, int bubbleId) {
         Set<Integer> innerBubbles = new HashSet<>();
-        for(Node n : container) {
-            if(n.getContainerId() > 0 && n.getContainerId() != bubbleId) {
+        for (Node n : container) {
+            if (n.getContainerId() > 0 && n.getContainerId() != bubbleId) {
                 innerBubbles.add(n.getContainerId());
             }
         }
@@ -203,13 +215,14 @@ public class BubbleCollapser {
      * @param bubbles collection of nodes that represent container of a particular bubble
      */
     private void removeUnnecessaryBubbles(Collection<Node> bubbles) {
-        for(Node bubble : bubbles)
+        for (Node bubble : bubbles) {
             bubble.getContainer().removeIf(x -> isNested(bubble.getContainer(), x));
+        }
     }
 
     private void addContainerIdToNestedBubbles(Collection<Node> bubbles) {
-        for(Node bubble : bubbles) {
-            bubble.getContainer().forEach(x -> { if(x.getContainerId() != bubble.getId()) {
+        for (Node bubble : bubbles) {
+            bubble.getContainer().forEach(x -> { if (x.getContainerId() != bubble.getId()) {
                 x.setContainerId(bubble.getId());
             }
             });
@@ -221,17 +234,22 @@ public class BubbleCollapser {
     /**
      * @param container collection of nodes that represent container of a particular bubble
      * @param bubble node to invent if it already defined in container of lower level
-     * @return true if given bubble is already defined in the container of other lower level bubbles.
+     * @return true if given bubble is already defined
+     *          in the container of other lower level bubbles.
      */
-    private boolean isNested(Collection<Node> container, Node bubble){
-        for(Node node : container){
-            if(node.getContainer().contains(bubble)) {
+    private boolean isNested(Collection<Node> container, Node bubble) {
+        for (Node node : container) {
+            if (node.getContainer().contains(bubble)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     *
+     * @return list of the bubbles
+     */
     public List<Node> getBubbles() {
         return bubbles;
     }

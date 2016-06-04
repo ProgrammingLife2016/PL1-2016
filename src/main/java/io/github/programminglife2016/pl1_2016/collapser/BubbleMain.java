@@ -6,27 +6,33 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * Class to view bubbling changes
+ */
 public final class BubbleMain {
     private static final int THRESHOLD = 100;
 
-    private BubbleMain(){}
-    public static void main(String[] args) throws IOException {
-//        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
-//        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
-//        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
-        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
+    private BubbleMain() { }
 
-//        NodeCollection nodeCollection = (new GraphvizParser(new SegmentParser().parse(segis))).parse(dotis);
+    /**
+     * Execute bubbling
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
+//        InputStream segis =
+//              BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
+//        InputStream dotis =
+//              BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
+//        InputStream segis =
+//              BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
+        InputStream dotis =
+                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
+
         InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
         InputStream mt = BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
         NodeCollection nodeCollection = new SegmentParser(dotis, mt).parse(is);
-//        BubbleDetector detector = new BubbleDetector(nodeCollection);
-//        detector.findMultiLevelBubbles();
-//        List<Node> list = detector.getBubbleBoundaries();
-//        for (Node node: list) {
-//            System.out.println(node.getStartNode().getId() + " " + node.getEndNode().getId() + " " + node.getZoomLevel());
-//        }
+
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         nodeCollection = dispatcher.getThresholdedBubbles(THRESHOLD);
 //        for(Map.Entry<Integer, Node> entry : nodeCollection.entrySet()) {

@@ -60,34 +60,35 @@ public class GraphvizParserTest {
      */
     @Test
     public void testNodesInGraph() throws IOException {
-        String dotdata = "graph 1 7.6111 4.125\n"
-                + "node 1 0.25 2.8472 0.5 0.5 1 solid circle black lightgrey\n"
-                + "node 2 1.25 3.6944 0.5 0.5 2 solid circle black lightgrey\n"
-                + "node 3 1.25 2 0.5 0.5 3 solid circle black lightgrey\n"
-                + "node 4 2.25 2.8472 0.5 0.5 4 solid circle black lightgrey\n"
-                + "node 5 3.25 3.875 0.5 0.5 5 solid circle black lightgrey\n"
-                + "node 6 4.25 2.8472 0.5 0.5 6 solid circle black lightgrey\n"
-                + "node 7 5.25 3.6944 0.5 0.5 7 solid circle black lightgrey\n"
-                + "node 8 5.25 2 0.5 0.5 8 solid circle black lightgrey\n"
-                + "node 9 6.2778 3.7083 0.5 0.5 9 solid circle black lightgrey\n"
-                + "node 10 6.2778 2 0.54162 0.54162 10 solid circle black lightgrey\n"
-                + "node 11 6.2778 0.26389 0.54162 0.54162 11 solid circle black lightgrey\n"
-                + "node 12 7.3333 1.125 0.54162 0.54162 12 solid circle black lightgrey\n"
-                + "edge 1 2 4 0.44676 3.0066 0.58798 3.1296 0.78607 3.3023 0.94847 3.4438 solid black\n"
-                + "edge 1 3 4 0.44676 2.6879 0.58798 2.5648 0.78607 2.3922 0.94847 2.2507 solid black\n"
-                + "edge 2 4 4 1.4468 3.5351 1.588 3.412 1.7861 3.2394 1.9485 3.0979 solid black\n"
-                + "edge 3 4 4 1.4468 2.1594 1.588 2.2824 1.7861 2.455 1.9485 2.5966 solid black\n"
-                + "edge 4 5 4 2.4332 3.0262 2.581 3.1825 2.798 3.4118 2.9691 3.5927 solid black\n"
-                + "edge 4 6 4 2.5018 2.8472 2.8379 2.8472 3.4554 2.8472 3.8557 2.8472 solid black\n"
-                + "edge 5 6 4 3.4332 3.696 3.581 3.5398 3.798 3.3104 3.9691 3.1295 solid black\n"
-                + "edge 6 7 4 4.4468 3.0066 4.588 3.1296 4.7861 3.3023 4.9485 3.4438 solid black\n"
-                + "edge 6 8 4 4.4468 2.6879 4.588 2.5648 4.7861 2.3922 4.9485 2.2507 solid black\n"
-                + "edge 8 9 4 5.3865 2.2095 5.5567 2.5002 5.8663 3.0292 6.0685 3.3746 solid black\n"
-                + "edge 8 10 4 5.5009 2 5.6096 2 5.7416 2 5.865 2 solid black\n"
-                + "edge 8 11 4 5.3865 1.7871 5.5547 1.4952 5.8589 0.96693 6.0612 0.61572 solid black\n"
-                + "edge 10 12 4 6.4898 1.8313 6.6377 1.7054 6.8425 1.531 7.0116 1.387 solid black\n"
-                + "edge 11 12 4 6.4947 0.43402 6.6421 0.55747 6.844 0.72668 7.0112 0.86676 solid black\n"
-                + "stop\n";
+        String dotdata;
+        dotdata = "graph 1 7.6111 4.125\n" +
+        "node 1 0.25 2.8472 0.5 0.5 1 solid circle black lightgrey\n" +
+        "node 2 1.25 3.6944 0.5 0.5 2 solid circle black lightgrey\n" +
+        "node 3 1.25 2 0.5 0.5 3 solid circle black lightgrey\n" +
+        "node 4 2.25 2.8472 0.5 0.5 4 solid circle black lightgrey\n" +
+        "node 5 3.25 3.875 0.5 0.5 5 solid circle black lightgrey\n" +
+        "node 6 4.25 2.8472 0.5 0.5 6 solid circle black lightgrey\n" +
+        "node 7 5.25 3.6944 0.5 0.5 7 solid circle black lightgrey\n" +
+        "node 8 5.25 2 0.5 0.5 8 solid circle black lightgrey\n" +
+        "node 9 6.2778 3.7083 0.5 0.5 9 solid circle black lightgrey\n" +
+        "node 10 6.2778 2 0.54162 0.54162 10 solid circle black lightgrey\n" +
+        "node 11 6.2778 0.26389 0.54162 0.54162 11 solid circle black lightgrey\n" +
+        "node 12 7.3333 1.125 0.54162 0.54162 12 solid circle black lightgrey\n" +
+        "edge 1 2 4 0.44676 3.0066 0.58798 3.1296 0.78607 3.3023 0.94847 3.4438 solid black\n" +
+        "edge 1 3 4 0.44676 2.6879 0.58798 2.5648 0.78607 2.3922 0.94847 2.2507 solid black\n" +
+        "edge 2 4 4 1.4468 3.5351 1.588 3.412 1.7861 3.2394 1.9485 3.0979 solid black\n" +
+        "edge 3 4 4 1.4468 2.1594 1.588 2.2824 1.7861 2.455 1.9485 2.5966 solid black\n" +
+        "edge 4 5 4 2.4332 3.0262 2.581 3.1825 2.798 3.4118 2.9691 3.5927 solid black\n" +
+        "edge 4 6 4 2.5018 2.8472 2.8379 2.8472 3.4554 2.8472 3.8557 2.8472 solid black\n" +
+        "edge 5 6 4 3.4332 3.696 3.581 3.5398 3.798 3.3104 3.9691 3.1295 solid black\n" +
+        "edge 6 7 4 4.4468 3.0066 4.588 3.1296 4.7861 3.3023 4.9485 3.4438 solid black\n" +
+        "edge 6 8 4 4.4468 2.6879 4.588 2.5648 4.7861 2.3922 4.9485 2.2507 solid black\n" +
+        "edge 8 9 4 5.3865 2.2095 5.5567 2.5002 5.8663 3.0292 6.0685 3.3746 solid black\n" +
+        "edge 8 10 4 5.5009 2 5.6096 2 5.7416 2 5.865 2 solid black\n" +
+        "edge 8 11 4 5.3865 1.7871 5.5547 1.4952 5.8589 0.96693 6.0612 0.61572 solid black\n" +
+        "edge 10 12 4 6.4898 1.8313 6.6377 1.7054 6.8425 1.531 7.0116 1.387 solid black\n" +
+        "edge 11 12 4 6.4947 0.43402 6.6421 0.55747 6.844 0.72668 7.0112 0.86676 solid black\n" +
+        "stop\n";
 
         NodeCollection collection = parser.parse(stringToInputStream(dotdata));
         assertEquals(collection.get(1).getId(), 1);
