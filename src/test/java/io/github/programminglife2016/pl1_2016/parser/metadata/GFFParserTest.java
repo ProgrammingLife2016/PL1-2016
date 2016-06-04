@@ -2,12 +2,10 @@ package io.github.programminglife2016.pl1_2016.parser.metadata;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

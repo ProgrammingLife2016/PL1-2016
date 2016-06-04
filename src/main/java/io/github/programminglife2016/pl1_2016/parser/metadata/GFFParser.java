@@ -11,10 +11,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Parser for parsing .gff files into data structures.
+ */
 public class GFFParser implements Parser {
     private InputStream is;
     private List<Annotation> annotations;
 
+    /**
+     * Create parser object with a specific inputstream.
+     * @param is inputstream to parse the data from.
+     */
     public GFFParser(InputStream is) {
         this.is = is;
         this.annotations = new ArrayList<>();
@@ -41,20 +48,21 @@ public class GFFParser implements Parser {
      * Parse one line of a .gff file.
      * @param line line containig data.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private void parseLine(String line) {
         String[] data = line.split("\t");
         if (data[0].startsWith("##")) {
             return;
         }
-        Annotation annotation = new Annotation()
-                .setSeqId(data[0])
-                .setSource(data[1])
-                .setType(data[2])
-                .setStart(Integer.parseInt(data[3]))
-                .setEnd(Integer.parseInt(data[4]))
-                .setScore(Float.parseFloat(data[5]))
-                .setStrand(data[6])
-                .setPhase(data[7]);
+        Annotation annotation =
+                new Annotation().setSeqId(data[0])
+                                .setSource(data[1])
+                                .setType(data[2])
+                                .setStart(Integer.parseInt(data[3]))
+                                .setEnd(Integer.parseInt(data[4]))
+                                .setScore(Float.parseFloat(data[5]))
+                                .setStrand(data[6])
+                                .setPhase(data[7]);
         String[] pairs = data[8].split(";");
         Arrays.stream(pairs).forEach(pair -> parseAttribute(annotation, pair));
         annotations.add(annotation);
@@ -67,7 +75,7 @@ public class GFFParser implements Parser {
      */
     private void parseAttribute(Annotation annotation, String data) {
         String[] pair = data.split("=");
-        switch(pair[0]) {
+        switch (pair[0]) {
             case "calhounClass":
                 annotation.setCalhounClass(pair[1]);
                 break;
@@ -79,6 +87,8 @@ public class GFFParser implements Parser {
                 break;
             case "displayName":
                 annotation.setDisplayName(pair[1]);
+                break;
+            default:
                 break;
         }
     }

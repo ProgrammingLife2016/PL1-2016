@@ -184,7 +184,7 @@ public class SegmentParser implements Parser {
      *
      * @return the parsed metadata information
      */
-    public Map<String,Subject> getSubjects() {
+    public Map<String, Subject> getSubjects() {
         return specimens;
     }
 }
