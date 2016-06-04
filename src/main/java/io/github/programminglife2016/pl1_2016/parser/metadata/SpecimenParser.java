@@ -16,7 +16,7 @@ public class SpecimenParser {
      * @param inputStream input data
      * @return JsonSerializable version of the specimenmap.
      */
-    public Map<String, Subject> parse(InputStream inputStream) {
+    public final Map<String, Subject> parse(InputStream inputStream) {
         return read(inputStream);
     }
 

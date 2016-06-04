@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
  */
 public class PhylogeneticTreeParser implements Parser {
     @Override
-    public TreeNodeCollection parse(InputStream inputStream) {
+    public final TreeNodeCollection parse(InputStream inputStream) {
         String s = null;
         try {
             s = IOUtils.toString(inputStream, "UTF-8");
@@ -28,10 +28,9 @@ public class PhylogeneticTreeParser implements Parser {
      * @param s string representin the tree.
      * @return root of tree
      */
-    public TreeNodeCollection parseTokensFromString(String s) {
+    final TreeNodeCollection parseTokensFromString(String s) {
         StringTokenizer tokenizer = new StringTokenizer(s, "(:,);", true);
-        TreeNodeCollection nodes = construct(tokenizer);
-        return nodes;
+        return construct(tokenizer);
     }
 
     /**
@@ -39,7 +38,7 @@ public class PhylogeneticTreeParser implements Parser {
      * @param tokenizer tokenizer with the contents of the .nwk file.
      * @return parsed Tree Node object.
      */
-    public TreeNodeCollection construct(StringTokenizer tokenizer) {
+    public final TreeNodeCollection construct(StringTokenizer tokenizer) {
         TreeNodeCollection nodes = new TreeNodeList();
         TreeNode root = new BaseTreeNode();
         nodes.add(root);

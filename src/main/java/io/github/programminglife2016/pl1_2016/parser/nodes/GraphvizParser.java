@@ -23,7 +23,7 @@ public class GraphvizParser implements Parser {
     }
 
     @Override
-    public NodeCollection parse(InputStream inputStream) throws IOException {
+    public final NodeCollection parse(InputStream inputStream) throws IOException {
         readFile(inputStream);
         return nodeCollection;
     }

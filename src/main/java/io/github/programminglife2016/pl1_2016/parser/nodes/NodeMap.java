@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     @Override
-    public String toJson() {
+    public final String toJson() {
         Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class,
                 new NodeCollectionSerializer()).create();
         return gson.toJson(this);
@@ -23,7 +23,7 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
      * positions as is.
      */
     @Override
-    public void recalculatePositions() {
+    public final void recalculatePositions() {
         for(Map.Entry<Integer, Node> entry : entrySet()) {
             Node node = entry.getValue();
             Node start = retrieveSegment(node, true);
@@ -35,8 +35,9 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     }
 
     private Node retrieveSegment(Node node, boolean start) {
-        if (node.isBubble())
-            return  retrieveSegment(start ? node.getStartNode() : node.getEndNode(), start);
+        if (node.isBubble()) {
+            return retrieveSegment(start ? node.getStartNode() : node.getEndNode(), start);
+        }
         return node;
     }
 }

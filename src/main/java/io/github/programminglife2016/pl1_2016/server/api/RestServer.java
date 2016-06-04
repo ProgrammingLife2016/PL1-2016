@@ -67,7 +67,7 @@ public class RestServer implements Server {
      *
      * @throws IOException thrown if the server cannot obtain resources (e.g. ports).
      */
-    public void startServer() throws IOException {
+    public final void startServer() throws IOException {
         ApiHandler apiHandler = new RestHandler();
         apiHandler.addQuery(new ReturnAllNodesApiQuery(fdb));
         apiHandler.addQuery(new GetStaticFileApiQuery());
@@ -86,7 +86,7 @@ public class RestServer implements Server {
     /**
      * Stop the server.
      */
-    public void stopServer() {
+    public final void stopServer() {
         server.stop(0);
     }
 }

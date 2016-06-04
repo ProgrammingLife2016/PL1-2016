@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.server.api.actions;
 
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class ReturnAllNodesApiAction implements ApiAction {
      * @param args query arguments
      * @return response to the client
      */
-    public String response(List<String> args) {
+    public final String response(List<String> args) {
         return jsonObject.toString();
     }
 }

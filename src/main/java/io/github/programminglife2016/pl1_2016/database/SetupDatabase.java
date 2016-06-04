@@ -45,10 +45,6 @@ public class SetupDatabase implements Database {
     /**
      * Name of specimen table.
      */
-    private static final String SPECIMEN_TABLE = "specimen";
-    /**
-     * Name of specimen table.
-     */
     private static final String LINK_GENOMES_TABLE = "genomeslinks";
     /**
      * The connection to the database.
@@ -58,6 +54,10 @@ public class SetupDatabase implements Database {
      * The connection to the database.
      */
     private static final int[] THRESHOLDS = {1, 4, 16, 32, 64, 128};
+
+    private static final int FIVE = 5;
+    private static final int FOUR = 4;
+    private static final int THREE = 3;
 
     /**
      * Constructor to construct a database.
@@ -88,7 +88,7 @@ public class SetupDatabase implements Database {
      * @param nodes The nodes that will be used for setup
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    public void setup(NodeCollection nodes) throws SQLException {
+    public final void setup(NodeCollection nodes) throws SQLException {
         if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
@@ -133,7 +133,7 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     @SuppressWarnings("checkstyle:magicnumber")
-    public void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
+    private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + NODES_TABLE
                 + "(id, data, x, y, isbubble) VALUES"
@@ -145,15 +145,15 @@ public class SetupDatabase implements Database {
                 stmt.setInt(1, node.getId());
                 if (node.getStartNode().getId() == node.getEndNode().getId()) {
                     stmt.setString(2, node.getStartNode().getData());
-                    stmt.setBoolean(5, false);
+                    stmt.setBoolean(FIVE, false);
 
                 } else {
                     stmt.setString(2, node.getData());
-                    stmt.setBoolean(5, node.isBubble());
+                    stmt.setBoolean(FIVE, node.isBubble());
                 }
 
-                stmt.setInt(3, node.getX());
-                stmt.setInt(4, node.getY());
+                stmt.setInt(THREE, node.getX());
+                stmt.setInt(FOUR, node.getY());
 
                 stmt.executeUpdate();
             }
@@ -173,9 +173,7 @@ public class SetupDatabase implements Database {
             stmt = connection.createStatement();
             String query = "DELETE FROM " + tableName;
             stmt.execute(query);
-            if (stmt == null) {
-                stmt.close();
-            }
+            stmt.close();
         } catch (SQLException s) {
             s.printStackTrace();
         }
@@ -194,11 +192,11 @@ public class SetupDatabase implements Database {
                 for (Node link : node.getLinks()) {
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());
-                    stmt.setInt(3, threshold);
+                    stmt.setInt(THREE, threshold);
                     stmt.executeUpdate();
                 }
             }
-            writeLinksGenomes(nodes, threshold);
+            writeLinksGenomes(nodes);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -208,7 +206,7 @@ public class SetupDatabase implements Database {
         }
     }
     @SuppressWarnings("checkstyle:magicnumber")
-    private void writeLinksGenomes(NodeCollection nodes, int threshold) throws SQLException {
+    private void writeLinksGenomes(NodeCollection nodes) throws SQLException {
         PreparedStatement stmtgenomes = null;
              String querygenomes = "INSERT INTO " + LINK_GENOMES_TABLE
                 + "(from_id, to_id, genome) VALUES"
@@ -224,7 +222,7 @@ public class SetupDatabase implements Database {
                     for (String genome : intersection) {
                         stmtgenomes.setInt(1, node.getId());
                         stmtgenomes.setInt(2, link.getId());
-                        stmtgenomes.setString(3, genome.trim().replace(" ", "_").split("\\.")[0]);
+                        stmtgenomes.setString(THREE, genome.trim().replace(" ", "_").split("\\.")[0]);
                         stmtgenomes.executeUpdate();
                     }
                 }

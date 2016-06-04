@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ReturnAllNodesApiAction;
 
@@ -26,7 +25,7 @@ public class ReturnAllNodesApiQuery implements ApiQuery {
      *
      * @return the regex string of this query
      */
-    public String getQuery() {
+    public final String getQuery() {
         return "^/api/nodes$";
     }
 
@@ -35,7 +34,7 @@ public class ReturnAllNodesApiQuery implements ApiQuery {
      *
      * @return the action of this query
      */
-    public ApiAction getApiAction() {
+    public final ApiAction getApiAction() {
         return new ReturnAllNodesApiAction(fdb.toJson(1));
     }
 }

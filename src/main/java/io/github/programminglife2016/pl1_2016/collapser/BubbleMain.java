@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class BubbleMain {
-    private static final double NANOSECONDS_PER_SECOND = 1000000000;
+public final class BubbleMain {
+    private static final int THRESHOLD = 100;
 
+    private BubbleMain(){}
     public static void main(String[] args) throws IOException {
 //        InputStream segis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
 //        InputStream dotis = BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
@@ -27,7 +28,7 @@ public class BubbleMain {
 //            System.out.println(node.getStartNode().getId() + " " + node.getEndNode().getId() + " " + node.getZoomLevel());
 //        }
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        nodeCollection = dispatcher.getThresholdedBubbles(100);
+        nodeCollection = dispatcher.getThresholdedBubbles(THRESHOLD);
 //        for(Map.Entry<Integer, Node> entry : nodeCollection.entrySet()) {
 //            Node node = entry.getValue();
 //            int x = (node.getStartNode().getX() + node.getEndNode().getX())/2;
