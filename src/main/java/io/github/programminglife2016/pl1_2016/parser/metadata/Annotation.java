@@ -226,4 +226,15 @@ public class Annotation {
     public String getDisplayName() {
         return displayName;
     }
+
+    @Override
+    public String toString() {
+        return "Annotation{"
+                + "seqId='" + seqId + '\'' + ", source='" + source + '\''
+                + ", type='" + type + '\'' + ", start=" + start
+                + ", end=" + end + ", score=" + score
+                + ", strand='" + strand + '\'' + ", phase='" + phase + '\''
+                + ", calhounClass='" + calhounClass + '\'' + ", name='" + name + '\''
+                + ", id='" + id + '\'' + ", displayName='" + displayName + '\'' + '}';
+    }
 }

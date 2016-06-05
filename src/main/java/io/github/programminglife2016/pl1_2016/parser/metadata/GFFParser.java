@@ -64,7 +64,8 @@ public class GFFParser implements Parser {
                                 .setStrand(data[6])
                                 .setPhase(data[7]);
         String[] pairs = data[8].split(";");
-        Arrays.stream(pairs).forEach(pair -> parseAttribute(annotation, pair));
+        Arrays.stream(pairs)
+              .forEach(pair -> parseAttribute(annotation, pair));
         annotations.add(annotation);
     }
 
