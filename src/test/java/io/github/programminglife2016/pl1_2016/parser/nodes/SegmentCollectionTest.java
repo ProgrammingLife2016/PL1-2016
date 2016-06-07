@@ -11,9 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Abstract test class for NodeCollection
@@ -100,6 +98,7 @@ public abstract class SegmentCollectionTest {
         nodeCollection.put(4, segment4);
         nodeCollection.put(5, segment5);
     }
+
     /**
      * Test conversion into JSON.
      */
@@ -111,6 +110,7 @@ public abstract class SegmentCollectionTest {
         assertEquals(2, actual.getAsJsonObject().get("nodes").getAsJsonArray().get(1)
                 .getAsJsonObject().get("id").getAsInt());
     }
+
     /**
      * Test Basic segment operations.
      */
@@ -135,6 +135,6 @@ public abstract class SegmentCollectionTest {
         assertEquals(2, segment1.getX());
         assertEquals(3, segment1.getY());
         assertEquals(1, segment1.getColumn());
-        assertEquals("Segment{id=1, x=2, y=3, column=1, containerid=0}", segment1.toString());
+        assertEquals("Segment{id=1, x=2, y=3, containerid=0}", segment1.toString());
     }
 }

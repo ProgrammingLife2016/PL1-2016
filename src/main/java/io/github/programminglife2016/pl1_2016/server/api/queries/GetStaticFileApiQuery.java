@@ -13,7 +13,7 @@ public class GetStaticFileApiQuery implements ApiQuery {
      * @return the regex string of this query
      */
     @Override
-    public String getQuery() {
+    public final String getQuery() {
         return "^/static/(.*)$";
     }
 
@@ -23,7 +23,7 @@ public class GetStaticFileApiQuery implements ApiQuery {
      * @return the action of this query
      */
     @Override
-    public ApiAction getApiAction() {
+    public final ApiAction getApiAction() {
         return new GetStaticFileApiAction();
     }
 }

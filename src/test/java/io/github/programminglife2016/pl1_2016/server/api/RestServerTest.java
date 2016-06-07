@@ -2,15 +2,11 @@
 package io.github.programminglife2016.pl1_2016.server.api;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
-import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,17 +40,6 @@ public class RestServerTest {
         restServer.stopServer();
     }
 
-    /**
-     * Send a single GET request to the server.
-     *
-     * @throws IOException thrown when the TCP connection refuses
-     */
-    @Test
-    public void testSingleRequestToServer() throws IOException {
-        String ret = IOUtils.toString(new URL(String.format("http://localhost:%d/api/nodes",
-                RestServer.DEFAULT_PORT)), "UTF-8");
-        assertEquals("{\"hi\": 2}", ret);
-    }
 
     /**
      * A Thread that contains a RestServer. Used because the server is blocking.

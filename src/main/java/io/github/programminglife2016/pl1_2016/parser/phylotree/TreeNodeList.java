@@ -12,19 +12,19 @@ public class TreeNodeList extends ArrayList<TreeNode> implements TreeNodeCollect
     private TreeNode root;
 
     @Override
-    public String toJson() {
+    public final String toJson() {
         Gson gson = new GsonBuilder().registerTypeAdapter(TreeNodeList.class,
                 new TreeNodeCollectionSerializer()).create();
         return gson.toJson(this);
     }
 
     @Override
-    public TreeNode getRoot() {
+    public final TreeNode getRoot() {
         return root;
     }
 
     @Override
-    public void setRoot(TreeNode root) {
+    public final void setRoot(TreeNode root) {
         this.root = root;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -11,6 +12,7 @@ public interface Parser {
      *
      * @param inputStream input data
      * @return parsed data
+     * @throws Exception for input output
      */
-    JsonSerializable parse(InputStream inputStream);
+    JsonSerializable parse(InputStream inputStream) throws IOException;
 }

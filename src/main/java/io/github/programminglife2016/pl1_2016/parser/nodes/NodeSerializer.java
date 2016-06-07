@@ -26,7 +26,7 @@ public class NodeSerializer implements JsonSerializer<Node> {
      * @param jsonSerializationContext ignored
      * @return the serialized node object
      */
-    public JsonElement serialize(Node node, Type type,
+    public final JsonElement serialize(Node node, Type type,
                                  JsonSerializationContext jsonSerializationContext) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("id", new JsonPrimitive(node.getId()));
