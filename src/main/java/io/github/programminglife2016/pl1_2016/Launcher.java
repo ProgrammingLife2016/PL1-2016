@@ -39,14 +39,15 @@ public final class Launcher {
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
         System.out.println("Started loading.");
         long startTime = System.nanoTime();
-        QueryStrategy queryStrategy = getQueryStrategy2(dataset, useDatabase);
+        QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
         System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
                 / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
-    private static QueryStrategy getQueryStrategy2(String dataset, boolean useDatabase) {
+    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset,
+                                                                 boolean useDatabase) {
         InputStream is = Launcher.class.getResourceAsStream(
                 String.format("/genomes/%s.gfa", dataset));
         InputStream positions = Launcher.class.getResourceAsStream(
