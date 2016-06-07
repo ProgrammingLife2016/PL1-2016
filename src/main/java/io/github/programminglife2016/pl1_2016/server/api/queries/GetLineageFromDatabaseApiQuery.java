@@ -1,26 +1,28 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
+ * Listens to /api/lineage/[genome] and return the lineage of [genome].
  */
-public class GetThresholdedBubblesApiQuery implements ApiQuery {
-    private BubbleDispatcher bubbleDispatcher;
+public class GetLineageFromDatabaseApiQuery implements ApiQuery {
+    private FetchDatabase fdb;
 
     /**
      * Construct the ApiQuery.
      *
-     * @param nodeCollection node collection to retrieve the data information from
+     * @param fdb database to retrieve the data information from
      */
-    public GetThresholdedBubblesApiQuery(NodeCollection nodeCollection) {
-        this.bubbleDispatcher = new BubbleDispatcher(nodeCollection);
+    public GetLineageFromDatabaseApiQuery(FetchDatabase fdb) {
+        this.fdb = fdb;
     }
 
     /**
@@ -30,7 +32,7 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/nodes/(\\d+)$";
+        return "^/api/lineage/(.+)$";
     }
 
     /**
@@ -40,6 +42,14 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> bubbleDispatcher.getThresholdedBubbles(Integer.parseInt(args.get(0))).toJson();
+        return args -> {
+            String lineage = "";
+            try {
+                lineage = fdb.getLineage(args.get(0));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return lineage;
+        };
     }
 }
