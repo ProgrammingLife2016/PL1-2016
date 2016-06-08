@@ -222,10 +222,9 @@ public class BubbleCollapser {
 
     private void addContainerIdToNestedBubbles(Collection<Node> bubbles) {
         for (Node bubble : bubbles) {
-            bubble.getContainer().forEach(x -> { if (x.getContainerId() != bubble.getId()) {
-                x.setContainerId(bubble.getId());
-            }
-            });
+            bubble.getContainer().stream()
+                  .filter(x -> x.getContainerId() != bubble.getId())
+                  .forEach(x -> x.setContainerId(bubble.getId()));
             bubble.getStartNode().setContainerId(bubble.getId());
             bubble.getEndNode().setContainerId(bubble.getId());
         }

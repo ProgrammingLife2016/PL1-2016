@@ -96,8 +96,6 @@ public class FetchDatabase implements Database {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             nodes = convertResultNodesSetIntoJSON(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,7 +103,6 @@ public class FetchDatabase implements Database {
             stmt.close();
         }
         return nodes;
-
     }
 
     /**
@@ -123,6 +120,11 @@ public class FetchDatabase implements Database {
 
     }
 
+    /**
+     * Convert data fetched from the server to JSON.
+     * @param threshold level of treshold.
+     * @return JSON response.
+     */
     public final JSONObject toJson(int threshold) {
         JSONObject result = new JSONObject();
         result.put("status", "success");
@@ -183,8 +185,6 @@ public class FetchDatabase implements Database {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             links = convertResultSetGenomesIntoJSON(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,7 +201,6 @@ public class FetchDatabase implements Database {
      * @return the collection of specimen
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-//    @SuppressWarnings("checkstyle:methodlength")
     public final Map<String, Subject> fetchSpecimens() throws SQLException {
         Map<String, Subject> specimens = new HashMap<>();
         Statement stmt = null;
@@ -212,24 +211,13 @@ public class FetchDatabase implements Database {
             while (rs.next()) {
                 Specimen specimen = new Specimen();
                 specimen.setNameId(rs.getString("specimen_id"));
-                specimen.setAge(rs.getString("age").equals("unknown") ? 0 : Integer.parseInt(rs.getString("age")));
+                setSpecimenAge(rs, specimen);
                 specimen.setMale(rs.getString("sex").equals("Male"));
-                if (rs.getString("hiv_status").equals("Positive")) {
-                    specimen.setHivStatus(1);
-                } else if (rs.getString("hiv_status").equals("Negative")) {
-                    specimen.setHivStatus(-1);
-                } else {
-                    specimen.setHivStatus(0);
-                }
-                if (rs.getString("microscopy_smear_status").equals("Positive")) {
-                    specimen.setSmear(1);
-                } else if (rs.getString("microscopy_smear_status").equals("Negative")) {
-                    specimen.setSmear(-1);
-                } else {
-                    specimen.setSmear(0);
-                }
-                specimen.setSingleColony(rs.getString("dna_isolation_single_colony_or_nonsingle_colony")
-                            .equals("single colony"));
+                setSpecimenHivStatus(rs, specimen);
+                setSpecimenSmearStatus(rs, specimen);
+                specimen.setSingleColony(
+                        rs.getString("dna_isolation_single_colony_or_nonsingle_colony")
+                          .equals("single colony"));
                 setSecondaryValuesSpecimen(specimen, rs);
                 specimens.put(specimen.getNameId(), specimen);
             }
@@ -242,7 +230,35 @@ public class FetchDatabase implements Database {
         return specimens;
     }
 
-    private String getFetchQuery(){
+    private void setSpecimenSmearStatus(ResultSet rs, Specimen specimen) throws SQLException {
+        if (rs.getString("microscopy_smear_status").equals("Positive")) {
+            specimen.setSmear(1);
+        } else if (rs.getString("microscopy_smear_status").equals("Negative")) {
+            specimen.setSmear(-1);
+        } else {
+            specimen.setSmear(0);
+        }
+    }
+
+    private void setSpecimenHivStatus(ResultSet rs, Specimen specimen) throws SQLException {
+        if (rs.getString("hiv_status").equals("Positive")) {
+            specimen.setHivStatus(1);
+        } else if (rs.getString("hiv_status").equals("Negative")) {
+            specimen.setHivStatus(-1);
+        } else {
+            specimen.setHivStatus(0);
+        }
+    }
+
+    private void setSpecimenAge(ResultSet rs, Specimen specimen) throws SQLException {
+        if (rs.getString("age").equals("unknown")) {
+            specimen.setAge(0);
+        } else {
+            specimen.setAge(Integer.parseInt(rs.getString("age")));
+        }
+    }
+
+    private String getFetchQuery() {
         return "select specimen_id , age , sex , "
                 + "hiv_status , cohort , date_of_collection , "
                 + "study_geographic_district , specimen_type , "
@@ -258,25 +274,24 @@ public class FetchDatabase implements Database {
     }
 
     private void setSecondaryValuesSpecimen(Specimen specimen, ResultSet rs) throws SQLException {
-        specimen.setCohort(rs.getString("cohort"));
-        specimen.setDate(rs.getString("date_of_collection"));
-        specimen.setDistrict(rs.getString("study_geographic_district"));
-        specimen.setType(rs.getString("specimen_type"));
-        specimen.setPdstpattern(rs.getString("phenotypic_dst_pattern"));
-        specimen.setCapreomycin(rs.getString("capreomycin_10ugml"));
-        specimen.setEthambutol(rs.getString("ethambutol_75ugml"));
-        specimen.setEthionamide(rs.getString("ethionamide_10ugml"));
-        specimen.setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml"));
-        specimen.setKanamycin(rs.getString("kanamycin_6ugml"));
-        specimen.setPyrazinamide(rs
-                .getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit"));
-        specimen.setOfloxacin(rs.getString("ofloxacin_2ugml"));
-        specimen.setRifampin(rs.getString("rifampin_1ugml"));
-        specimen.setStreptomycin(rs.getString("streptomycin_2ugml"));
-        specimen.setSpoligotype(rs.getString("digital_spoligotype"));
-        specimen.setLineage(rs.getString("lineage"));
-        specimen.setGdstPattern(rs.getString("genotypic_dst_pattern"));
-        specimen.setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
+        specimen.setCohort(rs.getString("cohort"))
+                .setDate(rs.getString("date_of_collection"))
+                .setDistrict(rs.getString("study_geographic_district"))
+                .setType(rs.getString("specimen_type"))
+                .setPdstpattern(rs.getString("phenotypic_dst_pattern"))
+                .setCapreomycin(rs.getString("capreomycin_10ugml"))
+                .setEthambutol(rs.getString("ethambutol_75ugml"))
+                .setEthionamide(rs.getString("ethionamide_10ugml"))
+                .setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml"))
+                .setKanamycin(rs.getString("kanamycin_6ugml"))
+                .setPyrazinamide(rs.getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit"))
+                .setOfloxacin(rs.getString("ofloxacin_2ugml"))
+                .setRifampin(rs.getString("rifampin_1ugml"))
+                .setStreptomycin(rs.getString("streptomycin_2ugml"))
+                .setSpoligotype(rs.getString("digital_spoligotype"))
+                .setLineage(rs.getString("lineage"))
+                .setGdstPattern(rs.getString("genotypic_dst_pattern"))
+                .setXdr(rs.getString("tugela_ferry_vs_nontugela_ferry_xdr"));
     }
 
 
@@ -362,8 +377,6 @@ public class FetchDatabase implements Database {
             }
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -377,8 +390,16 @@ public class FetchDatabase implements Database {
 
     }
 
+    /**
+     * Get the lineage from the database with a specific specimen id.
+     * @param genome the speciment id.
+     * @return lineage
+     * @throws SQLException thrown if query fails.
+     */
     public final String getLineage(String genome) throws SQLException {
-        String query = String.format("SELECT lineage FROM specimen WHERE specimen_id = '%s'", genome);
+        String query = String.format(
+                "SELECT lineage FROM specimen WHERE specimen_id = '%s'",
+                genome);
         Statement stmt = null;
         ResultSet rs;
         String lineage = "";

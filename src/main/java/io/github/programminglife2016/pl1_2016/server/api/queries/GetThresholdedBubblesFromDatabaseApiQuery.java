@@ -1,23 +1,21 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
-import java.util.Map;
-
 /**
- * Listens to /api/lineage/[genome] and return the lineage of [genome].
+ * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
  */
-public class GetLineageApiQuery implements ApiQuery {
-    private Map<String, Subject> subjects;
+public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
+    private FetchDatabase fdb;
 
     /**
      * Construct the ApiQuery.
      *
-     * @param subjects node collection to retrieve the data information from
+     * @param fdb database to retrieve the data information from
      */
-    public GetLineageApiQuery(Map<String, Subject> subjects) {
-        this.subjects = subjects;
+    public GetThresholdedBubblesFromDatabaseApiQuery(FetchDatabase fdb) {
+        this.fdb = fdb;
     }
 
     /**
@@ -27,7 +25,7 @@ public class GetLineageApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/lineage/(.+)$";
+        return "^/api/nodes/(\\d+)$";
     }
 
     /**
@@ -37,6 +35,6 @@ public class GetLineageApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> subjects.get(args.get(0)).getLineage();
+        return args -> fdb.toJson(Integer.parseInt(args.get(0))).toString();
     }
 }

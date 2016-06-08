@@ -104,76 +104,100 @@ public class Specimen implements Subject {
     public final String getXdr() {
         return xdr;
     }
-    public final void setNameId(String nameId) {
+    public final Specimen setNameId(String nameId) {
         this.nameId = nameId;
+        return this;
     }
-    public final void setAge(int age) {
+    public final Specimen setAge(int age) {
         this.age = age;
+        return this;
     }
-    public final void setMale(boolean male) {
+    public final Specimen setMale(boolean male) {
         isMale = male;
+        return this;
     }
-    public final void setHivStatus(int hivStatus) {
+    public final Specimen setHivStatus(int hivStatus) {
         this.hivStatus = hivStatus;
+        return this;
     }
-    public final void setCohort(String cohort) {
+    public final Specimen setCohort(String cohort) {
         this.cohort = cohort;
+        return this;
     }
-    public final void setDate(String date) {
+    public final Specimen setDate(String date) {
         this.date = date;
+        return this;
     }
-    public final void setDistrict(String district) {
+    public final Specimen setDistrict(String district) {
         this.district = district;
+        return this;
     }
-    public final void setType(String type) {
+    public final Specimen setType(String type) {
         this.type = type;
+        return this;
     }
-    public final void setSmear(int smear) {
+    public final Specimen setSmear(int smear) {
         this.smear = smear;
+        return this;
     }
-    public final void setSingleColony(boolean singleColony) {
+    public final Specimen setSingleColony(boolean singleColony) {
         this.singleColony = singleColony;
+        return this;
     }
-    public final void setPdstpattern(String pdstPattern) {
+    public final Specimen setPdstpattern(String pdstPattern) {
         this.pdstPattern = pdstPattern;
+        return this;
     }
-    public final void setCapreomycin(String capreomycin) {
+    public final Specimen setCapreomycin(String capreomycin) {
         this.capreomycin = capreomycin;
+        return this;
     }
-    public final void setEthambutol(String ethambutol) {
+    public final Specimen setEthambutol(String ethambutol) {
         this.ethambutol = ethambutol;
+        return this;
     }
-    public final void setEthionamide(String ethionamide) {
+    public final Specimen setEthionamide(String ethionamide) {
         this.ethionamide = ethionamide;
+        return this;
     }
-    public final void setIsoniazid(String isoniazid) {
+    public final Specimen setIsoniazid(String isoniazid) {
         this.isoniazid = isoniazid;
+        return this;
     }
-    public final void setKanamycin(String kanamycin) {
+    public final Specimen setKanamycin(String kanamycin) {
         this.kanamycin = kanamycin;
+        return this;
     }
-    public final void setPyrazinamide(String pyrazinamide) {
+    public final Specimen setPyrazinamide(String pyrazinamide) {
         this.pyrazinamide = pyrazinamide;
+        return this;
     }
-    public final void setOfloxacin(String ofloxacin) {
+    public final Specimen setOfloxacin(String ofloxacin) {
         this.ofloxacin = ofloxacin;
+        return this;
     }
-    public final void setRifampin(String rifampin) {
+    public final Specimen setRifampin(String rifampin) {
         this.rifampin = rifampin;
+        return this;
     }
-    public final void setStreptomycin(String streptomycin) {
+    public final Specimen setStreptomycin(String streptomycin) {
         this.streptomycin = streptomycin;
+        return this;
     }
-    public final void setSpoligotype(String spoligotype) {
+    public final Specimen setSpoligotype(String spoligotype) {
         this.spoligotype = spoligotype;
+        return this;
     }
-    public final void setLineage(String lineage) {
+    public final Specimen setLineage(String lineage) {
         this.lineage = lineage;
+        return this;
     }
-    public final void setGdstPattern(String gdstPattern) {
+    public final Specimen setGdstPattern(String gdstPattern) {
         this.gdstPattern = gdstPattern;
+        return this;
     }
-    public final void setXdr(String xdr) {
+    public final Specimen setXdr(String xdr) {
         this.xdr = xdr;
+        return this;
     }
 }

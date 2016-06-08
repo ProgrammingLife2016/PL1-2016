@@ -222,7 +222,9 @@ public class SetupDatabase implements Database {
                     for (String genome : intersection) {
                         stmtgenomes.setInt(1, node.getId());
                         stmtgenomes.setInt(2, link.getId());
-                        stmtgenomes.setString(THREE, genome.trim().replace(" ", "_").split("\\.")[0]);
+                        stmtgenomes.setString(
+                                THREE,
+                                genome.trim().replace(" ", "_").split("\\.")[0]);
                         stmtgenomes.executeUpdate();
                     }
                 }

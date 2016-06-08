@@ -169,6 +169,7 @@ public interface Node extends Cloneable {
 
     /**
      * Set the zoom level of the node
+     * @param level zoomlevel.
      */
     void setZoomLevel(int level);
 

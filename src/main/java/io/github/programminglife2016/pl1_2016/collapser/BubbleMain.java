@@ -16,14 +16,16 @@ public final class BubbleMain {
 
     /**
      * Execute bubbling
-     * @param args
-     * @throws IOException
+     * @param args arguments.
+     * @throws IOException thrown when reading the files fails.
      */
     public static void main(String[] args) throws IOException {
 //        InputStream segis =
-//              BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
+//              BubbleMain.class.getClass()
+//                              .getResourceAsStream("/genomes/tb10_interestingpart.gfa");
 //        InputStream dotis =
-//              BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
+//              BubbleMain.class.getClass()
+//                              .getResourceAsStream("/genomes/tb10_interestingpart.txt");
 //        InputStream segis =
 //              BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
         InputStream dotis =

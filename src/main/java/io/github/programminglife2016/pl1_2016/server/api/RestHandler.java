@@ -36,7 +36,7 @@ public class RestHandler implements ApiHandler {
      * @param httpExchange HttpException
      * @throws IOException thrown when communication failure
      */
-    public final void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange httpExchange) throws IOException {
         String input = httpExchange.getRequestURI().toString();
         String message = "";
         int statusCode = 0;
@@ -70,8 +70,10 @@ public class RestHandler implements ApiHandler {
      * Add a query to which the API should respond.
      *
      * @param apiQuery a query to which the API should respond
+     * @return return reference to this object.
      */
-    public final void addQuery(ApiQuery apiQuery) {
+    public RestHandler addQuery(ApiQuery apiQuery) {
         queries.add(new EquivalentCompiledApiQuery(apiQuery));
+        return this;
     }
 }
