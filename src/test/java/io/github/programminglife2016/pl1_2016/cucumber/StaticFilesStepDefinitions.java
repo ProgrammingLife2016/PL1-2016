@@ -8,6 +8,8 @@ import cucumber.api.java.en.When;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.api.RestServerTest;
+import io.github.programminglife2016.pl1_2016.server.api.querystrategies.NoDatabaseQueryStrategy;
+import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QueryStrategy;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class StaticFilesStepDefinitions {
      */
     @Given("^the server is started$")
     public void theServerHasStarted() throws InterruptedException {
-        setRestServer(new RestServer(mock(NodeCollection.class)));
+        setRestServer(new RestServer(new NoDatabaseQueryStrategy(null, null)));
         RestServerTest.RestServerThread restServerThread =
                 new RestServerTest.RestServerThread(getRestServer());
         new Thread(restServerThread).start();

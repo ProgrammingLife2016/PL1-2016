@@ -208,7 +208,7 @@ public class BubbleLinker {
             bubble.setEndNode(replaceNode(bubble.getEndNode(), segLevel));
         }
         Set<Node> newContainer = new HashSet<>();
-        for (Node n : bubble.getContainer ()) {
+        for (Node n : bubble.getContainer()) {
             if (!n.isBubble() && n.getZoomLevel() < lowestLevel) {
                 newContainer.add(replaceNode(n, segLevel));
             }

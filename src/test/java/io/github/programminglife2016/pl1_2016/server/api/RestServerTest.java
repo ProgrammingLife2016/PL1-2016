@@ -2,12 +2,16 @@
 package io.github.programminglife2016.pl1_2016.server.api;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.server.api.querystrategies.NoDatabaseQueryStrategy;
+import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QueryStrategy;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.when;
 
 /**
@@ -25,7 +29,8 @@ public class RestServerTest {
     public void setUp() throws InterruptedException {
         NodeCollection nodeCollection = mock(NodeCollection.class);
         when(nodeCollection.toJson()).thenReturn("{\"hi\": 2}");
-        restServer = new RestServer(nodeCollection);
+        QueryStrategy queryStrategy = new NoDatabaseQueryStrategy(nodeCollection, null);
+        restServer = new RestServer(queryStrategy);
         RestServerThread restServerThread = new RestServerThread(restServer);
         new Thread(restServerThread).start();
         // Sleep such that the server has a chance to actually start.

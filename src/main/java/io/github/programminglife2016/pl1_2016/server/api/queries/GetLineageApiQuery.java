@@ -1,28 +1,23 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Listens to /api/lineage/[genome] and return the lineage of [genome].
  */
 public class GetLineageApiQuery implements ApiQuery {
-    private FetchDatabase fdb;
+    private Map<String, Subject> subjects;
 
     /**
      * Construct the ApiQuery.
      *
-     * @param fdb database to retrieve the data information from
+     * @param subjects node collection to retrieve the data information from
      */
-    public GetLineageApiQuery(FetchDatabase fdb) {
-        this.fdb = fdb;
+    public GetLineageApiQuery(Map<String, Subject> subjects) {
+        this.subjects = subjects;
     }
 
     /**
@@ -42,14 +37,6 @@ public class GetLineageApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> {
-            String lineage = "";
-            try {
-                lineage = fdb.getLineage(args.get(0));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return lineage;
-        };
+        return args -> subjects.get(args.get(0)).getLineage();
     }
 }

@@ -17,8 +17,8 @@ public final class BubbleMain {
 
     /**
      * Execute bubbling
-     * @param args
-     * @throws IOException
+     * @param args arguments.
+     * @throws IOException thrown when reading the files fails.
      */
     public static void main(String[] args) throws IOException {
         InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");

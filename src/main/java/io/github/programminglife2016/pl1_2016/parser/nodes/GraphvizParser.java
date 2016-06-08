@@ -13,10 +13,14 @@ import java.io.InputStreamReader;
  */
 public class GraphvizParser implements Parser {
     private static final int FACTOR = 100;
+    private static final int ID_INDEX = 1;
+    private static final int X_INDEX = 2;
+    private static final int Y_INDEX = 3;
     private NodeCollection nodeCollection;
 
     /**
      * Contructs a new parser object to parse an given inputstream.
+     * @param nodeCollection collection of nodes.
      */
     public GraphvizParser(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
@@ -70,6 +74,8 @@ public class GraphvizParser implements Parser {
                 break;
             case "stop" :
                 break;
+            default:
+                break;
 
         }
     }
@@ -79,9 +85,9 @@ public class GraphvizParser implements Parser {
      * @param data data that contains information about the node.
      */
     private void handleNode(String[] data) {
-        int id = Integer.parseInt(data[1]);
-        int x = (int) Double.parseDouble(data[2]) * FACTOR;
-        int y = (int) Double.parseDouble(data[3]) * FACTOR;
+        int id = Integer.parseInt(data[ID_INDEX]);
+        int x = (int) Double.parseDouble(data[X_INDEX]) * FACTOR;
+        int y = (int) Double.parseDouble(data[Y_INDEX]) * FACTOR;
         nodeCollection.get(id).setXY(x, y);
     }
 

@@ -24,19 +24,23 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
      */
     @Override
     public final void recalculatePositions() {
-        for(Map.Entry<Integer, Node> entry : entrySet()) {
+        for (Map.Entry<Integer, Node> entry : entrySet()) {
             Node node = entry.getValue();
             Node start = retrieveSegment(node, true);
             Node end = retrieveSegment(node, false);
-            int x = (start.getX() + end.getX())/2;
-            int y = (start.getY() + end.getY())/2;
+            int x = (start.getX() + end.getX()) / 2;
+            int y = (start.getY() + end.getY()) / 2;
             this.get(entry.getKey()).setXY(x, y);
         }
     }
 
     private Node retrieveSegment(Node node, boolean start) {
         if (node.isBubble()) {
-            return retrieveSegment(start ? node.getStartNode() : node.getEndNode(), start);
+            if (start) {
+                return retrieveSegment(node.getStartNode(), start);
+            } else {
+                return retrieveSegment(node.getEndNode(), start);
+            }
         }
         return node;
     }
