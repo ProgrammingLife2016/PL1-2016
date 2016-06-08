@@ -1,6 +1,6 @@
 # PL1-2016
 
-[![Build Status](https://travis-ci.org/ProgrammingLife2016/PL1-2016.png)](https://travis-ci.org/ProgrammingLife2016/PL1-2016.png)
+[![Build Status](https://travis-ci.org/ProgrammingLife2016/PL1-2016.png?branch=master)](https://travis-ci.org/ProgrammingLife2016/PL1-2016)
 
 ## Group Information
 
