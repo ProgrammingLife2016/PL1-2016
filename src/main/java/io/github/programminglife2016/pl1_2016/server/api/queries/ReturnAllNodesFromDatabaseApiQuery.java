@@ -3,9 +3,6 @@ package io.github.programminglife2016.pl1_2016.server.api.queries;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
-import java.io.IOException;
-import java.util.List;
-
 /**
  * A query that responds to the root of the API, and returns all the nodes (without collapsing) as
  * the action.

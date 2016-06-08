@@ -17,6 +17,7 @@ public class GraphvizParser implements Parser {
 
     /**
      * Contructs a new parser object to parse an given inputstream.
+     * @param nodeCollection collection of nodes.
      */
     public GraphvizParser(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
@@ -70,6 +71,8 @@ public class GraphvizParser implements Parser {
                 break;
             case "stop" :
                 break;
+            default:
+                break;
 
         }
     }
@@ -81,7 +84,7 @@ public class GraphvizParser implements Parser {
     private void handleNode(String[] data) {
         int id = Integer.parseInt(data[1]);
         int x = (int) Double.parseDouble(data[2]) * FACTOR;
-        int y = (int) Double.parseDouble(data[3]) * FACTOR;
+        int y = (int) Double.parseDouble(data[2 + 1]) * FACTOR;
         nodeCollection.get(id).setXY(x, y);
     }
 

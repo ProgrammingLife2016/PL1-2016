@@ -13,11 +13,20 @@ import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQue
 
 import java.util.Map;
 
+/**
+ * Implementation of Api using the database.
+ */
 public class DatabaseQueryStrategy implements QueryStrategy {
     private FetchDatabase fdb;
     private NodeCollection nodeCollection;
     private Map<String, Subject> subjects;
 
+    /**
+     * Create strategy which uses the database for the api queries.
+     * @param fdb database object.
+     * @param nodeCollection collection of all the nodes in the graph.
+     * @param subjects metadata of the data in the graph.
+     */
     public DatabaseQueryStrategy(FetchDatabase fdb, NodeCollection nodeCollection,
                                  Map<String, Subject> subjects) {
         this.fdb = fdb;
@@ -27,13 +36,13 @@ public class DatabaseQueryStrategy implements QueryStrategy {
 
     @Override
     public void addQueries(ApiHandler apiHandler) {
-        apiHandler.addQuery(new ReturnAllNodesFromDatabaseApiQuery(fdb));
-        apiHandler.addQuery(new GetStaticFileApiQuery());
-        apiHandler.addQuery(new RootIndexApiQuery());
-        apiHandler.addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
+        apiHandler.addQuery(new ReturnAllNodesFromDatabaseApiQuery(fdb))
+                  .addQuery(new GetStaticFileApiQuery())
+                  .addQuery(new RootIndexApiQuery())
+                  .addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
         if (subjects != null) {
-            apiHandler.addQuery(new GetThresholdedBubblesFromDatabaseApiQuery(fdb));
-            apiHandler.addQuery(new GetLineageFromDatabaseApiQuery(fdb));
+            apiHandler.addQuery(new GetThresholdedBubblesFromDatabaseApiQuery(fdb))
+                      .addQuery(new GetLineageFromDatabaseApiQuery(fdb));
         }
     }
 }

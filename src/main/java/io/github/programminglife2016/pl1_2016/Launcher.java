@@ -27,6 +27,7 @@ public final class Launcher {
      * Read the input data and starts the server on the provided port.
      * @param args in the form [port] [dataset] [database] (e.g. 8081 TB10 database)
      * @throws IOException thrown if the port is in use.
+     * @throws SQLException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, SQLException {
         int port = Integer.parseInt(args[0]);

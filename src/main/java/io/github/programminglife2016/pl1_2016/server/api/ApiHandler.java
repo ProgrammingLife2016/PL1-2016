@@ -11,6 +11,7 @@ public interface ApiHandler extends HttpHandler {
      * Add a query to which the API should respond.
      *
      * @param apiQuery a query to which the API should respond
+     * @return return reference to this object.
      */
-    void addQuery(ApiQuery apiQuery);
+    ApiHandler addQuery(ApiQuery apiQuery);
 }

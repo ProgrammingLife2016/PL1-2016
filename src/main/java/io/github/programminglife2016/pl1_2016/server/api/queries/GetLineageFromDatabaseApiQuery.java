@@ -1,14 +1,9 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Listens to /api/lineage/[genome] and return the lineage of [genome].

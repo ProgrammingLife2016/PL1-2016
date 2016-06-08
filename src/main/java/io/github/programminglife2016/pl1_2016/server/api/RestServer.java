@@ -1,16 +1,11 @@
 package io.github.programminglife2016.pl1_2016.server.api;
 
 import com.sun.net.httpserver.HttpServer;
-import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.querystrategies.DatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QueryStrategy;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Map;
 
 /**
  * A RESTful API server.

@@ -1,6 +1,5 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
