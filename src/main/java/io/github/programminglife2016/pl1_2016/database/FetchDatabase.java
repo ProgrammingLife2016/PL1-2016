@@ -201,7 +201,6 @@ public class FetchDatabase implements Database {
      * @return the collection of specimen
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    @SuppressWarnings("checkstyle:methodlength")
     public final Map<String, Subject> fetchSpecimens() throws SQLException {
         Map<String, Subject> specimens = new HashMap<>();
         Statement stmt = null;
