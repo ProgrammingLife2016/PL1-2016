@@ -13,9 +13,9 @@ import java.io.InputStreamReader;
  */
 public class GraphvizParser implements Parser {
     private static final int FACTOR = 100;
-    private static final int ID_INDEX = 0;
-    private static final int X_INDEX = 1;
-    private static final int Y_INDEX = 2;
+    private static final int ID_INDEX = 1;
+    private static final int X_INDEX = 2;
+    private static final int Y_INDEX = 3;
     private NodeCollection nodeCollection;
 
     /**
