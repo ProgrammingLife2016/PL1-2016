@@ -21,17 +21,18 @@ public final class BubbleMain {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
         InputStream mt = BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
         InputStream pos = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
-//        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
-//        collapser.collapseBubbles();
-        BubbleDetector detector = new BubbleDetector(nodeCollection);
-        detector.findMultiLevelBubbles();
-        for (Node node : detector.getBubbleBoundaries()) {
-            System.out.println(node.getEndNode().getId());
+        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
+        collapser.collapseBubbles();
+//        BubbleDetector detector = new BubbleDetector(nodeCollection);
+//        detector.findMultiLevelBubbles();
+        for (Node node : collapser.getBubbles()) {
+            if (node.getStartNode().getId() == node.getEndNode().getId())
+                System.out.println(node);
         }
     }
 }

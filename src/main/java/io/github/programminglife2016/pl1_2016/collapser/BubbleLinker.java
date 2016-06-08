@@ -34,7 +34,7 @@ public class BubbleLinker {
                 .getId();
         bubblesListSize = bubbles.size();
 
-        System.out.println("Started linking.");
+        System.out.println("Started linking....");
         long startTime = System.nanoTime();
         setCorrectLevelsToNodes();
         long endTime = System.nanoTime();

@@ -39,7 +39,7 @@ public class BubbleDetector {
     public void findMultiLevelBubbles() {
         System.out.println("Starting detector....");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
-        levelBubbles.put(1, findLevelBubbles(this.collection.get(1), collection.get(collection.size())));
+        levelBubbles.put(1, findLevelBubbles(this.collection.get(1), collection.get(collection.size() + 1)));
         this.reachedLevel++;
         while (true) {
             List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
@@ -56,7 +56,8 @@ public class BubbleDetector {
         List<Node> currLevelList = new ArrayList<>();
         initVisited(collection);
         for (Node bubble : levelBubbles.get(reachedLevel - 1)) {
-            if(bubble.getStartNode().getLinks().size() == 1 || bubble.getStartNode() == bubble.getEndNode()) {
+            if(bubble.getStartNode().getId() == bubble.getEndNode().getId()) {
+                System.out.println("Reached");
                 continue;
             }
             for (Node node : bubble.getStartNode().getLinks()) {
@@ -91,14 +92,7 @@ public class BubbleDetector {
                     break;
             }
             if (status == NO_CHILDREN_FOUND) {
-                if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
-                    handleDetectedBubble(startNode, stoppedNode, levelCollection);
-                } else {
-                    for (Node childNode : startNode.getLinks()) {
-                        initVisited(collection);
-                        levelCollection.addAll(findLevelBubbles(childNode, destination));
-                    }
-                }
+                handleNodeWithNoChildren(startNode, destination, levelCollection, stoppedNode);
                 break;
             }
             status = stoppedAtNode.getKey();
@@ -109,10 +103,22 @@ public class BubbleDetector {
         }
         else {
             for (Node childNode : startNode.getLinks()) {
+//                initVisited(collection);
                 levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));
             }
         }
         return levelCollection;
+    }
+
+    private void handleNodeWithNoChildren(Node startNode, Node destination, List<Node> levelCollection, Node stoppedNode) {
+        if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
+            handleDetectedBubble(startNode, stoppedNode, levelCollection);
+        } else {
+            for (Node childNode : startNode.getLinks()) {
+                initVisited(collection);
+                levelCollection.addAll(findLevelBubbles(childNode, destination));
+            }
+        }
     }
 
     private Map.Entry<Integer, Node> searchBubble(Node curr, Collection<String> genomes, Node destination) {

@@ -36,6 +36,7 @@ public class BubbleCollapser {
         this.collection = collection;
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
+        System.out.println("Done Detecting..");
         this.bubbles = detector.getBubbleBoundaries();
         lastId = bubbles.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();

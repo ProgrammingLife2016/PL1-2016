@@ -24,21 +24,26 @@ public class BubbleDetectorTest {
     private InputStream endorder;
     private BubbleDetector detector;
 
+    public InputStream INPUT;
+    public InputStream META;
+    public InputStream POS;
+
+
     /**
      * Create parser object.
      *
-     * @throws IOException thrown if the test data is faulty
+     * @throws IOException thrown if the test data INPUT faulty
      */
     @Before
-    public void setUp() throws IOException {
+     public void setUp() throws IOException {
+        META = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/metadata.csv");
+        INPUT = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+        POS = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/TB10.positions");
         idorder = BubbleDetectorTest.class.getClass().getResourceAsStream("/features/tb10.id");
         startorder = BubbleDetectorTest.class.getClass().getResourceAsStream("/features/tb10.start");
         endorder = BubbleDetectorTest.class.getClass().getResourceAsStream("/features/tb10.end");
 
-        InputStream is = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
-        InputStream mt = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/metadata.csv");
-        InputStream pos = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/TB10.positions");
-        NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
+        NodeCollection nodeCollection = new SegmentParser(POS, META).parse(INPUT);
         detector = new BubbleDetector(nodeCollection);
         detector.findMultiLevelBubbles();
     }
@@ -83,6 +88,7 @@ public class BubbleDetectorTest {
             list.add(Integer.parseInt(line));
             line = reader.readLine();
         }
+        reader.close();
         return list;
     }
 }

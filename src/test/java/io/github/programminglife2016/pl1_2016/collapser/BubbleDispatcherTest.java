@@ -3,7 +3,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,16 +16,21 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class BubbleDispatcherTest {
     private BubbleDispatcher dispatcher;
+    public InputStream INPUT;
+    public InputStream META;
+    public InputStream POS;
 
     /**
      * Create parser object.
      *
-     * @throws IOException thrown if the test data is faulty
+     * @throws IOException thrown if the test data INPUT faulty
      */
     @Before
     public void setUp() throws IOException {
-        InputStream is = IOUtils.toInputStream(BubbleCollapserTest.DATA, "UTF-8");
-        NodeCollection nodeCollection = new SegmentParser().parse(is);
+        META = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/metadata.csv");
+        INPUT = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+        POS = BubbleDetectorTest.class.getClass().getResourceAsStream("/genomes/TB10.positions");
+        NodeCollection nodeCollection = new SegmentParser(POS, META).parse(INPUT);
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
@@ -36,6 +40,6 @@ public class BubbleDispatcherTest {
     @Test
     public void testDispatchingCorrectView() {
         NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
-        assertEquals(42, testCollection.size());
+        assertEquals(3451, testCollection.size());
     }
 }
