@@ -211,13 +211,6 @@ $(function() { // on dom ready
       Add UI events concerning the graph view.
     */
     GraphHandler.prototype.bindUIEvents = function() {
-        $("#zoomButton").click(function() {
-            graphHandler.highlightGenome("G 2");
-            $("#status").stop().animate({
-                opacity: 0
-            }, settings.animationDuration, "swing");
-        });
-
         $(".dnaGraph").click(function() {
             $("#d3").show();
             $("#tree").hide();
@@ -331,13 +324,8 @@ $(function() { // on dom ready
         }
     }
 
-    GraphHandler.prototype.setSelectedGenome = function(name, color, lineage) {
-        /**<div id="selectedGenome"> <div id="color"></div> <p>TKK..</p> </div>**/
-        console.log("Color");
-        console.log(color);
-        var listitem = $("<div>").append($("<div>").attr("id", "color").css("background-color", color))
-                                 .append($("<p>").text(name + ", " + lineage));
-
+    GraphHandler.prototype.setSelectedGenome = function(name) {
+        var listitem = $("<div>").append($("<p>").text(name));
         $("#info").prepend(listitem);
         $("#info").height($("#info").height() + 36);
         $("#info").fadeIn();
@@ -389,7 +377,7 @@ $(function() { // on dom ready
             }
         });
         $("#results").on("click", "li", function(e) {
-            highlightLineage($(this).html());
+            highlightGenome($(this).html());
         });
 
         $("#search input").on("search", function() {
