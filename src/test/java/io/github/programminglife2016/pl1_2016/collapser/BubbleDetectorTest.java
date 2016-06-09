@@ -53,7 +53,7 @@ public class BubbleDetectorTest {
      */
     @Test
     public void testBubbleFirstLevel() {
-        assertEquals(detector.getBubbleBoundaries().size(), 2920);
+        assertEquals(detector.getBubbleBoundaries().size(), 2921);
     }
 
     /**
