@@ -23,10 +23,12 @@ public final class Launcher {
 
     private Launcher() {
     }
+
     /**
      * Read the input data and starts the server on the provided port.
+     *
      * @param args in the form [port] [dataset] [database] (e.g. 8081 TB10 database)
-     * @throws IOException thrown if the port is in use.
+     * @throws IOException  thrown if the port is in use.
      * @throws SQLException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, SQLException {
@@ -42,17 +44,13 @@ public final class Launcher {
         long startTime = System.nanoTime();
         QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.", (endTime - startTime)
-                / NANOSECONDS_PER_SECOND));
+        System.out.println(String.format("Loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
-    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset,
-                                                                 boolean useDatabase) {
-        InputStream is = Launcher.class.getResourceAsStream(
-                String.format("/genomes/%s.gfa", dataset));
-        InputStream positions = Launcher.class.getResourceAsStream(
-                String.format("/genomes/%s.positions", dataset));
+    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset, boolean useDatabase) {
+        InputStream is = Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
+        InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/%s.positions", dataset));
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);

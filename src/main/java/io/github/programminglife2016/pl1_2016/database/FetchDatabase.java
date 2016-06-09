@@ -63,11 +63,11 @@ public class FetchDatabase implements Database {
         Statement stmt = null;
         JSONArray nodes = null;
         String query = String.format("SELECT DISTINCT %s.* FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to FROM "
-                + "" + "%s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s.to_id WHERE %s.threshold ="
-                + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x <= %d)))sub WHERE sub.from = %s"
-                + ".id OR sub.to =" + " %s.id ORDER BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE,
-                LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
-                NODES_TABLE);
+                + "" + "" + "%s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s.to_id WHERE %s"
+                + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x <= %d)))sub "
+                + "WHERE sub.from = %s" + ".id OR sub.to =" + " %s.id ORDER BY %s.id", NODES_TABLE, NODES_TABLE,
+                NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2,
+                NODES_TABLE, NODES_TABLE, NODES_TABLE);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -107,20 +107,6 @@ public class FetchDatabase implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
-    }
-
-    /**
-     * Convert data fetched from the server to JSON.
-     *
-     * @param genome id of genome.
-     * @param index  index of base.
-     * @return JSON response.
-     */
-    public final JSONObject getXOnNavigate(String genome, int index) {
-        JSONObject result = new JSONObject();
-        result.put("status", "success");
-        result.put("x", "NOT IMPLEMENTED YET");
         return result;
     }
 
@@ -165,9 +151,10 @@ public class FetchDatabase implements Database {
         Statement stmt = null;
         JSONArray links = null;
         String query = String.format("SELECT DISTINCT n1.id as from, n1.x AS x1, n1.y AS y1, n2.id as to, n2.x AS x2,"
-                + "" + " n2.y AS y2 FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s.to_id "
-                + "WHERE %s" + ".threshold = %d AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x <= %d))",
-                NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2);
+                + "" + "" + " n2.y AS y2 FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s"
+                + ".to_id " + "WHERE %s" + ".threshold = %d AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x "
+                + "<= %d))", NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1,
+                x2, x1, x2);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -246,13 +233,13 @@ public class FetchDatabase implements Database {
     }
 
     private String getFetchQuery() {
-        return String.format("select specimen_id , age , sex , hiv_status , cohort , date_of_collection , "
-                + "study_geographic_district , specimen_type , microscopy_smear_status , "
-                + "dna_isolation_single_colony_or_nonsingle_colony , phenotypic_dst_pattern , capreomycin_10ugml , "
-                + "ethambutol_75ugml , ethionamide_10ugml , isoniazid_02ugml_or_1ugml , kanamycin_6ugml , "
-                + "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , ofloxacin_2ugml , rifampin_1ugml , "
-                + "streptomycin_2ugml , digital_spoligotype , lineage , genotypic_dst_pattern , "
-                + "tugela_ferry_vs_nontugela_ferry_xdr from %s", SPECIMEN_TABLE);
+        return String.format("select specimen_id , age , sex , hiv_status , cohort , date_of_collection , " +
+                "study_geographic_district , specimen_type , microscopy_smear_status , " +
+                "dna_isolation_single_colony_or_nonsingle_colony , phenotypic_dst_pattern , capreomycin_10ugml , " +
+                "ethambutol_75ugml , ethionamide_10ugml , isoniazid_02ugml_or_1ugml , kanamycin_6ugml , " +
+                "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , ofloxacin_2ugml , rifampin_1ugml , " +
+                "streptomycin_2ugml , digital_spoligotype , lineage , genotypic_dst_pattern , " +
+                "tugela_ferry_vs_nontugela_ferry_xdr from %s", SPECIMEN_TABLE);
     }
 
     private void setSecondaryValuesSpecimen(Specimen specimen, ResultSet rs) throws SQLException {
