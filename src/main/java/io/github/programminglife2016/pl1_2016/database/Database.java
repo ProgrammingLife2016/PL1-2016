@@ -8,7 +8,7 @@ public interface Database {
     /**
      * Driver for the database.
      */
-     String DATABASE_DRIVER = "org.postgresql.Driver";
+    String DATABASE_DRIVER = "org.postgresql.Driver";
     /**
      * Host for the database.
      */
@@ -16,7 +16,7 @@ public interface Database {
     /**
      * Roll for the database.
      */
-     String ROLL = "pl";
+    String ROLL = "pl";
     /**
      * Password for database.
      */
@@ -24,11 +24,11 @@ public interface Database {
     /**
      * Name of nodes table.
      */
-     String NODES_TABLE = "segments";
+    String NODES_TABLE = "segments";
     /**
      * Name of specimen table.
      */
-     String SPECIMEN_TABLE = "specimen";
+    String SPECIMEN_TABLE = "specimen";
     /**
      * Name of links table.
      */
@@ -36,7 +36,7 @@ public interface Database {
     /**
      * Name of specimen table.
      */
-     String LINK_GENOMES_TABLE = "genomeslinks";
+    String LINK_GENOMES_TABLE = "genomeslinks";
 
     void connect();
 }
