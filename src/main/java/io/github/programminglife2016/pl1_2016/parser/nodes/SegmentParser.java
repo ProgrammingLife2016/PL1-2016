@@ -51,9 +51,6 @@ public class SegmentParser implements Parser {
         lastIndices = new HashMap<>();
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
-        Subject ref = new Specimen();
-        ref.setNameId(REFERENCE);
-        specimens.put(REFERENCE, ref);
     }
 
     /**
@@ -159,8 +156,7 @@ public class SegmentParser implements Parser {
         if (specimens != null) {
             Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
-                    .map(x -> specimens.get(extractGenomeName(x)))
-                    .filter(Objects::nonNull)
+                    .map(x -> specimens.getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()), new Specimen(x.substring(0, x.length() - GENOME_SUFFIX.length()))))
                     .collect(Collectors.toSet());
             nodeCollection.get(id).addGenomes(genomes);
         }

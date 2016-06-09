@@ -32,6 +32,11 @@ public class Specimen implements Subject {
     private String xdr;
 
     public Specimen() { }
+
+    public Specimen(String nameId) {
+        this.nameId = nameId;
+    }
+
     public final String getNameId() {
         return nameId;
     }

@@ -69,7 +69,32 @@ public class BubbleDispatcher {
     public NodeCollection getThresholdedBubbles(int threshold) {
         Set<Node> filtered = filterBubbles(threshold);
         findNewLinks(filtered);
-        return listAsNodeCollection(filtered);
+        return aggregateLines(listAsNodeCollection(filtered));
+    }
+
+    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
+        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
+        for (Node node : nodeCollection.values()) {
+            for (Node link : node.getLinks()) {
+                link.getBackLinks().add(node);
+            }
+        }
+        List<Node> kowed = new ArrayList<>();
+        nodeCollection.values().stream().filter(node -> node.getLinks().size() == 1).forEach(node -> {
+            boolean repeat = true;
+            while (repeat) {
+                repeat = false;
+                Node link = node.getLinks().iterator().next();
+                if (link.getBackLinks().size() == 1 && link.getLinks().size() == 1) {
+                    repeat = true;
+                    kowed.add(link);
+                    node.getLinks().clear();
+                    node.getLinks().add(link.getLinks().iterator().next());
+                }
+            }
+        });
+        kowed.stream().map(Node::getId).forEach(nodeCollection::remove);
+        return nodeCollection;
     }
 
     /**

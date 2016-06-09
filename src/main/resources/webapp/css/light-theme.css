@@ -378,20 +378,6 @@ html, body {
    border-radius: 5px;
 }
 
-#info div #color {
-   margin: 0;
-   padding: 0;
-   display: inline-block;
-   position: relative;
-   float: right;
-   top: 5px;
-   right: 5px;
-   background-color: #FF0000;
-   width: 20px;
-   height: 20px;
-   border-radius: 2px;
-}
-
 #info div p {
    margin: 0;
    padding: 0;

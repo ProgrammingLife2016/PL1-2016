@@ -33,6 +33,7 @@ public class Bubble implements Node {
     private transient String data = "";
     private transient int containersize;
     private HashMap<String, SequenceRange> rangePerGenome;
+    private boolean coordinateOverridden = false;
 
     /**
      * Constructor for a bubble with start and endnode.
@@ -82,6 +83,7 @@ public class Bubble implements Node {
      */
     @Override
     public void setXY(int x, int y) {
+        coordinateOverridden = true;
         this.x = x;
         this.y = y;
     }
@@ -93,7 +95,11 @@ public class Bubble implements Node {
      */
     @Override
     public int getX() {
-        return (startNode.getX() + endNode.getX()) / 2;
+        if (coordinateOverridden) {
+            return x;
+        } else {
+            return (startNode.getX() + endNode.getX()) / 2;
+        }
     }
 
     /**
@@ -103,7 +109,11 @@ public class Bubble implements Node {
      */
     @Override
     public int getY() {
-        return (startNode.getY() + endNode.getY()) / 2;
+        if (coordinateOverridden) {
+            return y;
+        } else {
+            return (startNode.getY() + endNode.getY()) / 2;
+        }
     }
 
     /**
