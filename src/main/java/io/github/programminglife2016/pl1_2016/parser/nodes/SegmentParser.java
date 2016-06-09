@@ -4,7 +4,6 @@ import io.github.programminglife2016.pl1_2016.parser.Parser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.SpecimenParser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import javafx.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -110,7 +109,6 @@ public class SegmentParser implements Parser {
             e.printStackTrace();
         } finally {
             Seeker s = new SegmentSeeker(nodeCollection);
-            Pair<Integer, Integer> idx = s.find("TKK_02_0005", 1596);
             if (reader != null) {
                 try {
                     reader.close();

@@ -294,3 +294,9 @@ function highlightLineage(genome) {
         actuallyHighlightGenome(genome);
     });
 }
+
+function jumpToBase(genome, index) {
+    $.get("/api/metadata/navigate/" + genome + "/" + index, function(response) {
+        console.log(response);
+    });
+}
