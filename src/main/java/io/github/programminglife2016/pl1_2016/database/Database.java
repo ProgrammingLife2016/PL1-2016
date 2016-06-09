@@ -37,4 +37,6 @@ public interface Database {
      * Name of specimen table.
      */
      String LINK_GENOMES_TABLE = "genomeslinks";
+
+    void connect();
 }

@@ -40,7 +40,7 @@ public class SetupDatabase implements Database {
     /**
      * Connect to database.
      */
-    private void connect() {
+    public void connect() {
         try {
             Class.forName(DATABASE_DRIVER);
         } catch (ClassNotFoundException e) {

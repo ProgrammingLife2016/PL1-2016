@@ -3,6 +3,9 @@ package io.github.programminglife2016.pl1_2016.server.api.queries;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
+/**
+ * Query that responds to /api/metadata/info/<genome> and returns a subject
+ */
 public class MetadataInfoFromDatabaseQuery implements ApiQuery {
     private FetchDatabase fdb;
 

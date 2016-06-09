@@ -34,7 +34,7 @@ public class FetchDatabase implements Database {
     /**
      * Connect to database.
      */
-    private void connect() {
+    public void connect() {
         try {
             Class.forName(DATABASE_DRIVER);
         } catch (ClassNotFoundException e) {
@@ -49,6 +49,8 @@ public class FetchDatabase implements Database {
     }
     /**
      * Fetch all nodes in database.
+     * @param x1 the left bounding x.
+     * @param x2 the right bounding x.
      * @param  threshold threshold of graph that has to be fetched.
      * @return Json array of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
@@ -58,14 +60,13 @@ public class FetchDatabase implements Database {
         JSONArray nodes = null;
         String query = "SELECT DISTINCT " + NODES_TABLE + ".* FROM " + NODES_TABLE + ", "
                 + "(SELECT DISTINCT n1.id AS from, n2.id AS to "
-                + "FROM " + NODES_TABLE + " AS n1 JOIN " + LINK_TABLE + " ON n1.id = " + LINK_TABLE + ".from_id "
-                + "JOIN " + NODES_TABLE + " AS n2 ON n2.id = " + LINK_TABLE + ".to_id WHERE " + LINK_TABLE + ".threshold = "
-                + threshold + " AND ((n1.x >= " + x1 + " AND n1.x <= " + x2 + ") OR (n2.x >= " + x1 + " AND n2.x <= " + x2 + ")))"
+                + "FROM " + NODES_TABLE + " AS n1 JOIN " + LINK_TABLE
+                + " ON n1.id = " + LINK_TABLE + ".from_id "
+                + "JOIN " + NODES_TABLE + " AS n2 ON n2.id = " + LINK_TABLE + ".to_id WHERE "
+                + LINK_TABLE + ".threshold = " + threshold + " AND ((n1.x >= " + x1 + " AND n1.x <= "
+                + x2 + ") OR (n2.x >= " + x1 + " AND n2.x <= " + x2 + ")))"
                 + "sub WHERE sub.from = " + NODES_TABLE + ".id OR sub.to = " + NODES_TABLE + ".id "
                 + "ORDER BY " + NODES_TABLE + ".id";
-//        System.out.println(query);
-//        query = "SELECT DISTINCT segments.* FROM segments, (SELECT DISTINCT n1.id AS from, n2.id AS to FROM segments AS n1 JOIN links ON n1.id = links.from_id JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = 128 AND ((n1.x >= 50000 AND n1.x <= 70000) OR (n2.x >= 50000 AND n2.x <= 70000)))sub WHERE sub.from = segments.id OR sub.to = segments.id ORDER BY segments.id";
-//        System.out.println(query);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -79,6 +80,16 @@ public class FetchDatabase implements Database {
         }
         return nodes;
     }
+
+    /**
+     * Convert data fetched from the database to JSON.
+     * @param id id of node.
+     * @return JSON response.
+     */
+    public JSONArray getData(int id) {
+        return null;
+    }
+
     /**
      * Convert data fetched from the server to JSON.
      * @param threshold level of treshold.
@@ -149,9 +160,12 @@ public class FetchDatabase implements Database {
         JSONArray links = null;
         String query = "SELECT DISTINCT n1.id as from, n1.x AS x1, "
                 + "n1.y AS y1, n2.id as to, n2.x AS x2, n2.y AS y2 "
-                + "FROM " + NODES_TABLE + " AS n1 JOIN " + LINK_TABLE + " ON n1.id = " + LINK_TABLE + ".from_id "
+                + "FROM " + NODES_TABLE + " AS n1 JOIN " + LINK_TABLE
+                + " ON n1.id = " + LINK_TABLE + ".from_id "
                 + "JOIN " + NODES_TABLE + " AS n2 ON n2.id = " + LINK_TABLE + ".to_id "
-                + "WHERE " + LINK_TABLE + ".threshold = " + threshold + " AND ((n1.x >= " + x1 + " AND n1.x <= " + x2 + ") OR (n2.x >= " + x1 + " AND n2.x <= " + x2 + "))";
+                + "WHERE " + LINK_TABLE + ".threshold = " + threshold
+                + " AND ((n1.x >= " + x1 + " AND n1.x <= " + x2
+                + ") OR (n2.x >= " + x1 + " AND n2.x <= " + x2 + "))";
         ResultSet rs;
         try {
             stmt = connection.createStatement();
