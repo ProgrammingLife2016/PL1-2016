@@ -4,12 +4,7 @@ import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.ApiHandler;
-import io.github.programminglife2016.pl1_2016.server.api.queries.GetLineageFromDatabaseApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedBubblesFromDatabaseApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesFromDatabaseApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.*;
 
 import java.util.Map;
 
@@ -39,7 +34,9 @@ public class DatabaseQueryStrategy implements QueryStrategy {
         apiHandler.addQuery(new ReturnAllNodesFromDatabaseApiQuery(fdb))
                   .addQuery(new GetStaticFileApiQuery())
                   .addQuery(new RootIndexApiQuery())
-                  .addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
+                  .addQuery(new IndividualSegmentDataApiQuery(nodeCollection))
+                  .addQuery(new MetadataNavigateFromDatabaseQuery(fdb))
+                  .addQuery(new MetadataInfoFromDatabaseQuery(fdb));
         if (subjects != null) {
             apiHandler.addQuery(new GetThresholdedBubblesFromDatabaseApiQuery(fdb))
                       .addQuery(new GetLineageFromDatabaseApiQuery(fdb));

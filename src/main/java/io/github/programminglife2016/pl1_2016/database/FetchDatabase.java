@@ -2,8 +2,6 @@ package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,30 +19,7 @@ import java.util.Map;
  * Class for creating a database to fetch from database.
  */
 public class FetchDatabase implements Database {
-    /**
-     * Driver for the database.
-     */
-    private static final String DATABASE_DRIVER = "org.postgresql.Driver";
-    /**
-     * Host for the database.
-     */
-    private static final String HOST = "jdbc:postgresql://localhost:5432/pl1";
-    /**
-     * Roll for the database.
-     */
-    private static final String ROLL = "pl";
-    /**
-     * Password for database.
-     */
-    private static final String PASSWORD = "visual";
-    /**
-     * Name of segments table.
-     */
-    private static final String SEGMENT_TABLE = "segments";
-    /**
-     * Name of specimen table.
-     */
-    private static final String SPECIMEN_TABLE = "specimen";
+
     /**
      * The connection to the database.
      */
@@ -73,29 +47,30 @@ public class FetchDatabase implements Database {
             e.printStackTrace();
         }
     }
-
     /**
-     * Fetch all segments in database.
+     * Fetch all nodes in database.
      * @param  threshold threshold of graph that has to be fetched.
      * @return Json array of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchNodes(int threshold) throws SQLException {
+    private JSONArray fetchNodes(int threshold, int x1, int x2) throws SQLException {
         Statement stmt = null;
         JSONArray nodes = null;
-        String query = "SELECT DISTINCT segments.* FROM segments, "
+        String query = "SELECT DISTINCT " + NODES_TABLE + ".* FROM " + NODES_TABLE + ", "
                 + "(SELECT DISTINCT n1.id AS from, n2.id AS to "
-                + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
-                + "JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = "
-                + threshold + ") sub WHERE sub.from = segments.id OR sub.to = segments.id "
-                + "ORDER BY segments.id";
-
-
+                + "FROM " + NODES_TABLE + " AS n1 JOIN " + LINK_TABLE + " ON n1.id = " + LINK_TABLE + ".from_id "
+                + "JOIN " + NODES_TABLE + " AS n2 ON n2.id = " + LINK_TABLE + ".to_id WHERE " + LINK_TABLE + ".threshold = "
+                + threshold + " AND ((n1.x >= " + x1 + " AND n1.x <= " + x2 + ") OR (n2.x >= " + x1 + " AND n2.x <= " + x2 + ")))"
+                + "sub WHERE sub.from = " + NODES_TABLE + ".id OR sub.to = " + NODES_TABLE + ".id "
+                + "ORDER BY " + NODES_TABLE + ".id";
+//        System.out.println(query);
+//        query = "SELECT DISTINCT segments.* FROM segments, (SELECT DISTINCT n1.id AS from, n2.id AS to FROM segments AS n1 JOIN links ON n1.id = links.from_id JOIN segments AS n2 ON n2.id = links.to_id WHERE links.threshold = 128 AND ((n1.x >= 50000 AND n1.x <= 70000) OR (n2.x >= 50000 AND n2.x <= 70000)))sub WHERE sub.from = segments.id OR sub.to = segments.id ORDER BY segments.id";
+//        System.out.println(query);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-            nodes = convertResultNodesSetIntoJSON(rs);
+            nodes = convertResultSetIntoJSON(rs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,82 +79,79 @@ public class FetchDatabase implements Database {
         }
         return nodes;
     }
-
-    /**
-     * Fetch all positions of segments in nodeCollection in database.
-     * @param  nodeCollection The nodecollection for which the positions should be fetched
-     * @return collection of nodes in database
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    public final NodeCollection fetchPositions(NodeCollection nodeCollection) throws SQLException {
-        for (Node node: nodeCollection.values()) {
-            List<Integer> positions = fetchPosition(node.getId());
-            node.setXY(positions.get(0), positions.get(1));
-        }
-        return nodeCollection;
-
-    }
-
     /**
      * Convert data fetched from the server to JSON.
      * @param threshold level of treshold.
      * @return JSON response.
      */
-    public final JSONObject toJson(int threshold) {
+    public final JSONObject getNodes(int threshold, int x1, int x2) {
         JSONObject result = new JSONObject();
         result.put("status", "success");
         try {
-            result.put("nodes", fetchNodes(threshold));
-            result.put("edges", fetchLinks(threshold));
+            result.put("nodes", fetchNodes(threshold, x1, x2));
+            result.put("edges", fetchLinks(threshold, x1, x2));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
-
     /**
-     * Fetch position of segment based on id of the segment.
-     *
-     * @param id the id of the segment
-     * @return the positions as List<Integer>
+     * Convert data fetched from the server to JSON.
+     * @param genome id of genome.
+     * @param index index of base.
+     * @return JSON response.
      */
-    private List<Integer> fetchPosition(int id) {
-        Statement stmt = null;
-        String query = "select positionx, "
-                + "positiony "
-                + "from " + SEGMENT_TABLE
-                + " WHERE segment_id='" + id + "'";
-        List<Integer> res = new ArrayList<>();
+    public final JSONObject getXOnNavigate(String genome, int index) {
+        JSONObject result = new JSONObject();
+        result.put("status", "success");
+        result.put("x", "NOT IMPLEMENTED YET");
+        return result;
+    }
+    /**
+     * Convert metadata fetched from the server to JSON.
+     * @param genome id of genome.
+     * @return JSON response.
+     */
+    public final JSONObject getMetadataOfGenome(String genome) {
+        JSONObject result = new JSONObject();
+        result.put("status", "success");
+        result.put("subject", fetchMetadata(genome));
+        return result;
+    }
+
+    private JSONArray fetchMetadata(String genome) {
+        Statement stmt;
+        String query = "select * "
+                + "from " + SPECIMEN_TABLE
+                + " WHERE specimen_id='" + genome + "'";
+        ResultSet rs;
+        JSONArray res = null;
         try {
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                int x = rs.getInt("positionx");
-                int y = rs.getInt("positiony");
-                res.addAll(Arrays.asList(x, y));
-            }
+            rs = stmt.executeQuery(query);
+            res = convertResultSetIntoJSON(rs);
+            rs.close();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
-
     }
 
     /**
-     * fetch links for segments
+     * fetch links for nodes
      * @param threshold threshold of graph that has to be fetched
      * @return nodes
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchLinks(int threshold) throws SQLException {
+    private JSONArray fetchLinks(int threshold, int x1, int x2) throws SQLException {
         Statement stmt = null;
         JSONArray links = null;
         String query = "SELECT DISTINCT n1.id as from, n1.x AS x1, "
                 + "n1.y AS y1, n2.id as to, n2.x AS x2, n2.y AS y2 "
-                + "FROM segments AS n1 JOIN links ON n1.id = links.from_id "
-                + "JOIN segments AS n2 ON n2.id = links.to_id "
-                + "WHERE links.threshold = " + threshold;
+                + "FROM " + NODES_TABLE + " AS n1 JOIN " + LINK_TABLE + " ON n1.id = " + LINK_TABLE + ".from_id "
+                + "JOIN " + NODES_TABLE + " AS n2 ON n2.id = " + LINK_TABLE + ".to_id "
+                + "WHERE " + LINK_TABLE + ".threshold = " + threshold + " AND ((n1.x >= " + x1 + " AND n1.x <= " + x2 + ") OR (n2.x >= " + x1 + " AND n2.x <= " + x2 + "))";
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -301,21 +273,25 @@ public class FetchDatabase implements Database {
      * @return a JSONArray
      * @throws Exception thrown if resultset is not valid
      */
-    private JSONArray convertResultNodesSetIntoJSON(ResultSet resultSet) throws Exception {
+    private JSONArray convertResultSetIntoJSON(ResultSet resultSet) {
         JSONArray jsonArray = new JSONArray();
-        while (resultSet.next()) {
-            int totalColumns = resultSet.getMetaData().getColumnCount();
-            JSONObject obj = new JSONObject();
-            for (int i = 0; i < totalColumns; i++) {
-                String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
-                Object columnValue = resultSet.getObject(i + 1);
-                // if value in DB is null, then we set it to default value
-                if (columnValue == null) {
-                    columnValue = "null";
+        try {
+            while (resultSet.next()) {
+                int totalColumns = resultSet.getMetaData().getColumnCount();
+                JSONObject obj = new JSONObject();
+                for (int i = 0; i < totalColumns; i++) {
+                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                    Object columnValue = resultSet.getObject(i + 1);
+                    // if value in DB is null, then we set it to default value
+                    if (columnValue == null) {
+                        columnValue = "null";
+                    }
+                    obj.put(columnName, columnValue);
                 }
-                obj.put(columnName, columnValue);
+                jsonArray.put(obj);
             }
-            jsonArray.put(obj);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return jsonArray;
     }
@@ -361,9 +337,9 @@ public class FetchDatabase implements Database {
         Statement stmt = null;
         JSONArray genomes = new JSONArray();
         JSONArray lineages = new JSONArray();
-        String query = "select DISTINCT genomeslinks.genome as genome, "
-                + "specimen.lineage as lineage from genomeslinks "
-                + "JOIN specimen ON genomeslinks.genome = specimen.specimen_id "
+        String query = "select DISTINCT " + LINK_GENOMES_TABLE + ".genome as genome, "
+                + "specimen.lineage as lineage from " + LINK_GENOMES_TABLE
+                + " JOIN specimen ON " + LINK_GENOMES_TABLE + ".genome = specimen.specimen_id "
                 + "WHERE from_id = " + from
                 + " AND to_id = " + to;
         ResultSet rs;

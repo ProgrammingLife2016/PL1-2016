@@ -17,35 +17,6 @@ import java.util.Set;
  * Class for creating a database to setup the database.
  */
 public class SetupDatabase implements Database {
-
-    /**
-     * Driver for the database.
-     */
-    private static final String DATABASE_DRIVER = "org.postgresql.Driver";
-    /**
-     * Host for the database.
-     */
-    private static final String HOST = "jdbc:postgresql://localhost:5432/pl1";
-    /**
-     * Roll for the database.
-     */
-    private static final String ROLL = "pl";
-    /**
-     * Password for database.
-     */
-    private static final String PASSWORD = "visual";
-    /**
-     * Name of segments table.
-     */
-    private static final String NODES_TABLE = "segments";
-    /**
-     * Name of links table.
-     */
-    private static final String LINK_TABLE = "links";
-    /**
-     * Name of specimen table.
-     */
-    private static final String LINK_GENOMES_TABLE = "genomeslinks";
     /**
      * The connection to the database.
      */
@@ -127,7 +98,7 @@ public class SetupDatabase implements Database {
     }
 
     /**
-     * Write a collection of segments into the database
+     * Write a collection of nodes into the database
      * @param  threshold threshold of graph that has to be written.
      * @param nodes the collection to write
      * @throws SQLException thrown if SQL connection or query is not valid

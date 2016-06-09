@@ -3,10 +3,7 @@ package io.github.programminglife2016.pl1_2016.server.api.queries;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
-/**
- * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
- */
-public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
+public class MetadataInfoFromDatabaseQuery implements ApiQuery {
     private FetchDatabase fdb;
 
     /**
@@ -14,10 +11,9 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      *
      * @param fdb database to retrieve the data information from
      */
-    public GetThresholdedBubblesFromDatabaseApiQuery(FetchDatabase fdb) {
+    public MetadataInfoFromDatabaseQuery(FetchDatabase fdb) {
         this.fdb = fdb;
     }
-
     /**
      * Return the regex string of this query.
      *
@@ -25,9 +21,8 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/nodes/(\\d+)/(\\d+)/(\\d+)$";
+        return "^/api/metadata/info/(\\S+)$";
     }
-
     /**
      * Return the action of this query.
      *
@@ -35,6 +30,6 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> fdb.getNodes(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2))).toString();
+        return args -> fdb.getMetadataOfGenome(args.get(0)).toString();
     }
 }

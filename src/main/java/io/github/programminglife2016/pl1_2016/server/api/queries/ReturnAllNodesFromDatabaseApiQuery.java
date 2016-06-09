@@ -34,6 +34,6 @@ public class ReturnAllNodesFromDatabaseApiQuery implements ApiQuery {
      * @return the action of this query
      */
     public final ApiAction getApiAction() {
-        return args -> fdb.toJson(1).toString();
+        return args -> fdb.getNodes(1, 0, Integer.MAX_VALUE).toString();
     }
 }
