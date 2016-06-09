@@ -5,7 +5,7 @@ $(function() { // on dom ready
         animationDuration: 500, //length of the animations in ms
         zoomTreshold: 0.50, //change in percentage/100 between zoom levels for sending a new AJAX request
         startZoom: 0.1, //Zoom level at the start of the application
-        nodesDir: "/api/nodes/128", //directory at the server for the first AJAX request
+        nodesDir: "/api/nodes/128/0/1000000000", //directory at the server for the first AJAX request
     };
 
     /*
