@@ -4,9 +4,9 @@ import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
 /**
- * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
+ *  A query that responds to the /api/metadata/navigate/(\\S+)/(\\d+)$, and returns node and index in this node of the base.
  */
-public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
+public class MetadataNavigateFromDatabaseQuery implements ApiQuery {
     private FetchDatabase fdb;
 
     /**
@@ -14,10 +14,9 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      *
      * @param fdb database to retrieve the data information from
      */
-    public GetThresholdedBubblesFromDatabaseApiQuery(FetchDatabase fdb) {
-        this.fdb = fdb;
+    public MetadataNavigateFromDatabaseQuery(FetchDatabase fdb) {
+            this.fdb = fdb;
     }
-
     /**
      * Return the regex string of this query.
      *
@@ -25,9 +24,8 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/nodes/(\\d+)/(\\d+)/(\\d+)$";
+        return "^/api/metadata/navigate/(\\S+)/(\\d+)$";
     }
-
     /**
      * Return the action of this query.
      *
@@ -35,7 +33,6 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> fdb.getNodes(Integer.parseInt(args.get(0)),
-                Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2))).toString();
+        return args -> fdb.getXOnNavigate(args.get(0), Integer.parseInt(args.get(1))).toString();
     }
 }

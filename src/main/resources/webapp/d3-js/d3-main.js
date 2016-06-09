@@ -18,7 +18,7 @@ var somethingIsHighlighted = false;
 var miniX;
 var miniY;
 
-var previousZoom = 500;
+var previousZoom = 128;
 
 function newZoomLevel(s) {
     if (s < 10) {
@@ -44,7 +44,7 @@ var lineageColors = {
 }
 
 function startD3() {
-    $.getJSON("/api/nodes/128", function (response) {
+    $.getJSON("/api/nodes/128/0/100000000", function (response) {
         nodes = response.nodes;
         edges = response.edges;
         x = d3.scale.linear()
@@ -151,16 +151,52 @@ function drawMinimap() {
         .attr("width", miniWidth)
         .attr("height", miniHeight);
 }
-
+var previousX = [0, 1000000];
 function zoom() {
+    console.log(x.domain());
     var t = d3.event.translate;
     var s = d3.event.scale;
+
+    if (Math.abs(previousX[0] - x.domain()[0]) >= 1500 || Math.abs(previousX[1] - x.domain()[1]) >= 1500) {
+        previousX = x.domain();
+        $.ajax({
+                    url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
+                    async: false,
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        nodes = response.nodes;
+                        edges = response.edges;
+
+                        line.remove();
+                        circle.remove();
+                        line = svg.selectAll("line")
+                            .data(edges)
+                            .enter()
+                            .append("line")
+                            .attr("x1", function (d) {return x(d.x1)})
+                            .attr("y1", function (d) {return y(d.y1)})
+                            .attr("x2", function (d) {return x(d.x2)})
+                            .attr("y2", function (d) {return y(d.y2)})
+                            .attr("stroke", defaultColor)
+                            .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
+
+                        circle = svg.selectAll("circle")
+                            .data(nodes)
+                            .enter()
+                            .append("circle")
+                            .attr("r", 2.5)
+                            .attr("transform", "translate(-9999, -9999)")
+                            .on("mouseover", tip.show)
+                            .on("mouseout", tip.hide);
+                        }
+                });
+    }
     if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
         previousZoom = newZoomLevel(s);
         console.log(previousZoom);
         console.log(newZoomLevel(s));
         $.ajax({
-            url: "/api/nodes/" + newZoomLevel(s),
+            url: "/api/nodes/" + newZoomLevel(s) + "/" + Math.round(x.domain()[0]) + "/" + Math.round(x.domain()[1]),
             async: false,
             success: function (response) {
                 response = JSON.parse(response);
