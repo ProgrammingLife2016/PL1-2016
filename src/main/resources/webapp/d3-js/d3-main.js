@@ -189,7 +189,7 @@ function zoom() {
                     .on("mouseover", tip.show)
                     .on("mouseout", tip.hide);
 
-                somethingIsHighlighted && highlightGenome(somethingIsHighlighted);
+                somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
                 }
         });
     }
