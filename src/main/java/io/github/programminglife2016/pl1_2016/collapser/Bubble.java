@@ -1,9 +1,9 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import io.github.programminglife2016.pl1_2016.parser.nodes.IndexRange;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SequenceRange;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +32,7 @@ public class Bubble implements Node {
     private transient int level;
     private transient String data = "";
     private transient int containersize;
-    private HashMap<String, IndexRange> rangePerGenome;
+    private HashMap<String, SequenceRange> rangePerGenome;
 
     /**
      * Constructor for a bubble with start and endnode.
@@ -326,7 +326,7 @@ public class Bubble implements Node {
     }
 
     @Override
-    public HashMap<String, IndexRange> getRangePerGenome() {
+    public HashMap<String, SequenceRange> getRangePerGenome() {
         return rangePerGenome;
     }
 

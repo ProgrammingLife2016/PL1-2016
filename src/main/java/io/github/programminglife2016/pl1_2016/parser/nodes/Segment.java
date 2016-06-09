@@ -24,7 +24,7 @@ public class Segment implements Node {
     private Set<Subject> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
-    private HashMap<String, IndexRange> rangePerGenome;
+    private HashMap<String, SequenceRange> rangePerGenome;
 
     /**
      * Create segment with id and sequence data.
@@ -282,7 +282,7 @@ public class Segment implements Node {
     }
 
     @Override
-    public HashMap<String, IndexRange> getRangePerGenome() {
+    public HashMap<String, SequenceRange> getRangePerGenome() {
         return rangePerGenome;
     }
 

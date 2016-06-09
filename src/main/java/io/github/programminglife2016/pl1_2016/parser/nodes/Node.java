@@ -204,5 +204,5 @@ public interface Node extends Cloneable {
      */
     void setStartNode(Node node);
 
-    Map<String, IndexRange> getRangePerGenome();
+    Map<String, SequenceRange> getRangePerGenome();
 }
