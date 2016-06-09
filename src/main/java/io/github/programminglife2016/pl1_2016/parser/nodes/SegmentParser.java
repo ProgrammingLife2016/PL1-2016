@@ -8,11 +8,7 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -151,12 +147,23 @@ public class SegmentParser implements Parser {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
+        specimens = null;
         if (specimens != null) {
             Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
                     .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
+            nodeCollection.get(id).addGenomes(genomes);
+        }
+        else {
+            Set<Subject> genomes = new HashSet<>();
+            List<String> list = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"));
+            for (String st : list) {
+                Subject sub = new Specimen();
+                sub.setNameId(st.substring(0, st.length() - GENOME_SUFFIX.length()));
+                genomes.add(sub);
+            }
             nodeCollection.get(id).addGenomes(genomes);
         }
     }

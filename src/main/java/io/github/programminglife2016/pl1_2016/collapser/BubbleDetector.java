@@ -39,7 +39,7 @@ public class BubbleDetector {
     public void findMultiLevelBubbles() {
         System.out.println("Starting detector....");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
-        levelBubbles.put(1, findLevelBubbles(this.collection.get(1), collection.get(collection.size() + 1)));
+        levelBubbles.put(1, findLevelBubbles(this.collection.get(1), collection.get(collection.size())));
         this.reachedLevel++;
         while (true) {
             List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
@@ -98,15 +98,16 @@ public class BubbleDetector {
             status = stoppedAtNode.getKey();
             stoppedNode = stoppedAtNode.getValue();
         }
-        if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
-            handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
-        }
-        else {
-            for (Node childNode : startNode.getLinks()) {
+        handleNodeWithNoChildren(startNode, destination, levelCollection, stoppedNode);
+//        if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
+//            handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
+//        }
+//        else {
+//            for (Node childNode : startNode.getLinks()) {
 //                initVisited(collection);
-                levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));
-            }
-        }
+//                levelCollection.addAll(findLevelBubbles(childNode, stoppedNode));
+//            }
+//        }
         return levelCollection;
     }
 
