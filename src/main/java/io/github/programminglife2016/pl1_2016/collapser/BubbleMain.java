@@ -6,13 +6,12 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * Class to view bubbling changes
  */
 public final class BubbleMain {
-    private static final int THRESHOLD = 100;
+    private static final int THRESHOLD = 500;
 
     private BubbleMain() { }
 
@@ -29,26 +28,33 @@ public final class BubbleMain {
 
         //=======================================
 
-//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-//        NodeCollection nodes = dispatcher.getThresholdedBubbles(1);
-//        for (Node node : nodes.values()) {
-//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
-//        }
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        NodeCollection nodes = dispatcher.getThresholdedBubbles(THRESHOLD);
+        for (Node node : nodes.values()) {
+            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+        }
 
         //=======================================
 
 //        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
 //        collapser.collapseBubbles();
 //        for (Node node : collapser.getBubbles()) {
-//            System.out.println(node.getStartNode().getId());
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
 //        }
 
         //=======================================
 
-        BubbleDetector detector = new BubbleDetector(nodeCollection);
-        detector.findMultiLevelBubbles();
-        for (Node node : detector.getBubbleBoundaries()) {
-            System.out.println(node.getEndNode().getId());
-        }
+//        BubbleDetector detector = new BubbleDetector(nodeCollection);
+//        detector.findMultiLevelBubbles();
+//        for (Node node : detector.getBubbleBoundaries()) {
+//            System.out.println(node.getId());
+//        }
+//        System.out.println(detector.findConnectedComponents(nodeCollection));
+
+        //========================================
+//        for (Node node : nodeCollection.values()) {
+//            if (node.getId() > 78053)
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+//        }
     }
 }

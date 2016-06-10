@@ -24,9 +24,9 @@ public class BubbleDetectorTest {
     private InputStream endorder;
     private BubbleDetector detector;
 
-    public InputStream INPUT;
-    public InputStream META;
-    public InputStream POS;
+    private InputStream INPUT;
+    private InputStream META;
+    private InputStream POS;
 
 
     /**
