@@ -47,25 +47,17 @@ public class BubbleCollapser {
      * Main method that collapses all bubbles.
      */
     public void collapseBubbles() {
-        System.out.println("reached");
         for (Node bubble : bubbles) {
             bubble.getContainer().addAll(bfs(bubble));
         }
-        System.out.println("reached");
         for (int i = 0; i < bubblesListSize; i++) {
             modifyContainer(bubbles.get(i));
         }
-        System.out.println("reached");
         removeUnnecessaryBubbles(bubbles);
-        System.out.println("reached");
         addContainerIdToNestedBubbles(bubbles);
-        System.out.println("reached");
         collapseSingleSegments(collection);
-        System.out.println("reached");
         collapseInnerSegments();
-        System.out.println("reached");
         replaceInconsistentSegments();
-        System.out.println("reached");
         linker = new BubbleLinker(bubbles);
         linker.addLinks();
     }
@@ -86,7 +78,7 @@ public class BubbleCollapser {
     /**
      * Find all segments that given bubble contains using breadth-first-search .
      * @param bubble bubble to collapse
-     * @return
+     * @return bubbles filled with segments
      */
     private List<Node> bfs(Node bubble) {
         List<Node> visited = new ArrayList<>();
@@ -132,7 +124,7 @@ public class BubbleCollapser {
             boolean containsBubbles = bubbles.get(i)
                     .getContainer()
                     .stream()
-                    .filter(x -> x.isBubble())
+                    .filter(Node::isBubble)
                     .collect(Collectors.toList()).size() != 0;
             boolean tooComplex = bubbles.get(i).getContainer().size() > 2
                     && bubbles.get(i).getContainer()
@@ -182,7 +174,7 @@ public class BubbleCollapser {
             bubble.getContainer().add(bubbles.stream()
                     .filter(b -> b.getId() == id).findFirst().get());
         }
-        if (bubble.getContainer().stream().filter(x -> x.isBubble())
+        if (bubble.getContainer().stream().filter(Node::isBubble)
                 .collect(Collectors.toList()).size() != 0) {
             for (int i = 0; i < bubble.getContainer().size(); i++) {
                 if (bubble.getContainer().get(i) instanceof Segment) {
