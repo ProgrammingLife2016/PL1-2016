@@ -153,8 +153,8 @@ public class FetchDatabase implements Database {
         String query = String.format("SELECT DISTINCT n1.id as from, n1.x AS x1, n1.y AS y1, n2.id as to, n2.x AS x2,"
                 + "" + "" + " n2.y AS y2 FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s"
                 + ".to_id " + "WHERE %s" + ".threshold = %d AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x "
-                + "<= %d))", NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1,
-                x2, x1, x2);
+                + "<= %d) OR (n1.x <= %d AND n2.x >= %d))", NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1,
+                x2, x1, x2, x1, x2);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
