@@ -50,7 +50,7 @@ public final class Launcher {
 
     private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset, boolean useDatabase) {
         InputStream is = Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
-        InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/TB10-CENTERED.positions"));
+        InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/TB10.positions"));
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);

@@ -21,6 +21,7 @@ public class SegmentSeeker implements Seeker {
             if (n.getRangePerGenome().containsKey(name) && n.getRangePerGenome().get(name).isInInterval(position)) {
                 result.put("status", "success");
                 result.put("id", n.getId());
+                result.put("x", n.getX());
                 result.put("indexInSegment", getLocalPosition(n.getRangePerGenome().get(name), position));
                 System.out.println(n.getRangePerGenome().get(name).getEnd());
                 return result;

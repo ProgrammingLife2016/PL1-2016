@@ -9,7 +9,7 @@ import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
  * A query that responds to the /api/metadata/navigate/(\\S+)/(\\d+)$, and returns node and index in this node of the
  * base.
  */
-public class MetadataNavigateFromDatabaseQuery implements ApiQuery {
+public class MetadataNavigateApiQuery implements ApiQuery {
     private NodeCollection nodeCollection;
 
     /**
@@ -17,7 +17,7 @@ public class MetadataNavigateFromDatabaseQuery implements ApiQuery {
      *
      * @param nodeCollection nodeCollection to retrieve the data information from
      */
-    public MetadataNavigateFromDatabaseQuery(NodeCollection nodeCollection) {
+    public MetadataNavigateApiQuery(NodeCollection nodeCollection) {
         this.nodeCollection = nodeCollection;
     }
 

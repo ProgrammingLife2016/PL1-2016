@@ -1,6 +1,6 @@
 var width = window.innerWidth - 10;
 var height = window.innerHeight - 300;
-var miniWidth = width;
+var miniWidth = width - 300;
 var miniHeight = 250;
 var maxZoomLevel = 100;
 var zoomThreshold = 1;
@@ -71,6 +71,7 @@ function startD3() {
         }
         drawGraph();
         drawMinimap();
+        d3.select("button").on("click", jumpToBaseGetFromDOM);
     });
 }
 
@@ -152,10 +153,14 @@ function drawMinimap() {
         .attr("height", miniHeight);
 }
 var previousX = [0, 1000000];
-function zoom() {
-    console.log(x.domain());
+function zoom(beginX) {
     var t = d3.event.translate;
     var s = d3.event.scale;
+
+    if (beginX) {
+        t[0] = beginX;
+        t[1] = beginX + 1000;
+    }
 
     if (Math.abs(previousX[0] - x.domain()[0]) >= 1500 || Math.abs(previousX[1] - x.domain()[1]) >= 1500) {
         previousX = x.domain();
@@ -317,9 +322,28 @@ function highlightLineage(genome) {
     });
 }
 
+function jumpToBaseGetFromDOM() {
+    $.getJSON("/api/metadata/navigate/" + "MT_H37RV_BRD_V5.ref" + "/" + $("#baseindex").val(), function (response) {
+        dx = 100;
+        dy = 100;
+        x = response.x + 50;
+        y = 100;
+        scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+        translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        svg.transition()
+            .duration(750)
+            .call(zm.translate(translate).scale(scale).event);
+    });
+}
+
 function jumpToBase(genome, index) {
-    $.get("/api/metadata/navigate/" + genome + "/" + index, function(response) {
-        console.log(response);
+    $.ajax({
+        url: "/api/metadata/navigate/" + genome + "/" + index,
+        async: false,
+        success: function (response) {
+            return JSON.parse(response).x;
+        }
     });
 }
 function mode(array) {

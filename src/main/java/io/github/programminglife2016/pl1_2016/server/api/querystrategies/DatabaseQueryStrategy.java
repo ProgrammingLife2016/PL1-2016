@@ -10,7 +10,7 @@ import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedB
 import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataFromDatabaseApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoFromDatabaseQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataNavigateFromDatabaseQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataNavigateApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesFromDatabaseApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
@@ -43,7 +43,7 @@ public class DatabaseQueryStrategy implements QueryStrategy {
                   .addQuery(new GetStaticFileApiQuery())
                   .addQuery(new RootIndexApiQuery())
                   .addQuery(new IndividualSegmentDataApiQuery(nodeCollection))
-                  .addQuery(new MetadataNavigateFromDatabaseQuery(nodeCollection))
+                  .addQuery(new MetadataNavigateApiQuery(nodeCollection))
                   .addQuery(new MetadataInfoFromDatabaseQuery(fdb))
                   .addQuery(new IndividualSegmentDataFromDatabaseApiQuery(fdb));
         if (subjects != null) {
