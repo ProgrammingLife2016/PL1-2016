@@ -207,6 +207,7 @@ public class BubbleLinker {
                                 && y.getZoomLevel() < lowestLevel.intValue()).count() > 0)
                 .collect(Collectors.toList());
         while (needLower.size() != 0) {
+            System.out.print("\rPlacing " + needLower.size() +" bubbles to lower level, lowestLevel = " + lowestLevel);
             for (Node b : needLower) {
                 lowerSegmentInBubble(b);
             }
@@ -216,6 +217,7 @@ public class BubbleLinker {
                             && x.getStartNode().getZoomLevel() < lowestLevel.intValue())
                     .collect(Collectors.toList());
         }
+        System.out.println();
     }
 
     private void lowerSegmentInBubble(Node bubble) {
