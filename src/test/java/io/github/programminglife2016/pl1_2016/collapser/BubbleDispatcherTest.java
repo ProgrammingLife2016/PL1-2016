@@ -34,12 +34,12 @@ public class BubbleDispatcherTest {
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
-    /**
-     * Verify if the dispatcher has created the correct number of nodes.
-     */
-    @Test
-    public void testDispatchingCorrectView() {
-        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
-        assertEquals(3451, testCollection.size());
-    }
+//    /**
+//     * Verify if the dispatcher has created the correct number of nodes.
+//     */
+//    @Test
+//    public void testDispatchingCorrectView() {
+//        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
+//        assertEquals(3451, testCollection.size());
+//    }
 }
