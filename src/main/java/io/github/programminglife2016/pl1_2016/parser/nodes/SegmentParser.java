@@ -147,26 +147,12 @@ public class SegmentParser implements Parser {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
-        //Uncomment this when working with test graph
-//        specimens = null;
-        if (specimens != null) {
-            Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
-                    .stream()
-                    .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toSet());
-            nodeCollection.get(id).addGenomes(genomes);
-        }
-        else {
-            Set<Subject> genomes = new HashSet<>();
-            List<String> list = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"));
-            for (String st : list) {
-                Subject sub = new Specimen();
-                sub.setNameId(st.substring(0, st.length() - GENOME_SUFFIX.length()));
-                genomes.add(sub);
-            }
-            nodeCollection.get(id).addGenomes(genomes);
-        }
+        Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                .stream()
+                .map(x -> specimens.getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()), new Specimen(x)))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        nodeCollection.get(id).addGenomes(genomes);
     }
 
     /**

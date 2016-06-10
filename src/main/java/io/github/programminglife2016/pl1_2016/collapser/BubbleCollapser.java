@@ -59,7 +59,7 @@ public class BubbleCollapser {
         collapseInnerSegments();
         replaceInconsistentSegments();
         linker = new BubbleLinker(bubbles);
-        linker.addLinks();
+        linker.run();
     }
 
     private void replaceInconsistentSegments() {

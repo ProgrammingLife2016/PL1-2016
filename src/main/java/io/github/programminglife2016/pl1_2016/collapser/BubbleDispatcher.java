@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * Takes apart collapsed layered bubbles and
@@ -125,10 +126,17 @@ public class BubbleDispatcher {
 //                    && x.getContainerSize() <= threshold
                     && !containers.contains(x.getContainerId())) {
                 if (x.getContainerSize() <= threshold) {
+                    tempFiltered.removeAll(filtered.stream().filter(b -> b.getZoomLevel() == -1
+                            && (b.getStartNode().getId() == x.getStartNode().getId()
+                            || b.getEndNode().getId() == x.getEndNode().getId())).collect(Collectors.toList()));
+                    tempFiltered.removeAll(tempFiltered.stream().filter(b -> b.getZoomLevel() == -1
+                            && (b.getStartNode().getId() == x.getStartNode().getId()
+                            || b.getEndNode().getId() == x.getEndNode().getId())).collect(Collectors.toList()));
                     tempFiltered.add(x);
                 }
                 else if (!x.getStartNode().isBubble()) {
                     tempFiltered.addAll(replaceInside(x));
+                    int y = 0;
                 }
             }
             if (containers.contains(x.getContainerId())) {
