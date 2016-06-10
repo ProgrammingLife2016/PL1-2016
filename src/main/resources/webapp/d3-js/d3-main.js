@@ -71,7 +71,7 @@ function startD3() {
         }
         drawGraph();
         drawMinimap();
-        d3.select("button").on("click", jumpToBaseGetFromDOM);
+        d3.select("#jump").on("click", jumpToBaseGetFromDOM);
     });
 }
 
@@ -323,7 +323,10 @@ function highlightLineage(genome) {
 }
 
 function jumpToBaseGetFromDOM() {
-    $.getJSON("/api/metadata/navigate/" + "MT_H37RV_BRD_V5.ref" + "/" + $("#baseindex").val(), function (response) {
+    var e = document.getElementById("fuzzOptionsList");
+    var strUser = e.options[e.selectedIndex].value;
+    console.log(strUser + " " + $("#baseindex").text());
+    $.getJSON("/api/metadata/navigate/" + strUser + "/" + $("#baseindex").val(), function (response) {
         var dx = 10;
         var dy = 10;
         var x = response.x + 5;

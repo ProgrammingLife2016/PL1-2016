@@ -429,3 +429,25 @@ html, body {
 #rotation {
   display: none;
 }
+
+#fuzzOptionsList {
+  margin: 0;
+  letter-spacing: 1px;
+  font-size: 23px;
+  border: none;
+  width: 295px;
+  padding: 4px;
+  color: #FFF;
+  border-radius: 5px;
+  margin-left: 0px;
+  margin-top: 12px;
+  font-weight: 100;
+  outline: none;
+  background-color: rgba(255,255,255,0.3);
+
+}
+
+option {
+
+  background-color: #54a0ab;
+}

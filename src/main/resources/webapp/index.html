@@ -8,13 +8,10 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-
+    <script type="text/javascript" src="/static/lib/fuzzy-dropdown.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/js/d3.layout.min.js"></script>
-
     <link rel="stylesheet" href="/static/d3-css/d3-main.css">
-
-
     <link rel="stylesheet" href="/static/css/light-theme.css">
     <link rel="stylesheet" href="/static/css/tree.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
@@ -60,10 +57,34 @@
                 <li>
                     <a id="jumpToBase"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Jump to Base</a>
                     <ul>
-                        <li><input id="baseindex" type="text">
-                        </li>
-                        <li><button>Jump</button>
-                        </li>
+                        <select id="fuzzOptionsList">                        </select>
+                        <div id="fuzzSearch">
+                            <div id="fuzzNameContainer">
+                                <span class="fuzzName"></span>
+                                <span class="fuzzArrow"></span>
+                            </div>
+                            <div id="fuzzDropdownContainer">
+                                <input id="baseindex" type="text" value="" class="fuzzMagicBox" placeholder="search.." style="
+                                    margin: 0;
+                                    letter-spacing: 1px;
+                                    font-size: 23px;
+                                    border: none;
+                                    width: 295px;
+                                    padding: 4px;
+                                    color: #FFF;
+                                    background-color: rgba(255,255,255,0.3);
+                                    border-radius: 5px;
+                                    margin-left: 0px;
+                                    margin-top: 12px;
+                                    font-weight: 100;
+                                    outline: none;
+                                ">
+                                <button id="jump">Jump</button>
+                                <span class="fuzzSearchIcon"></span>
+                                <ul id="fuzzResults">
+                                </ul>
+                            </div>
+                        </div>
                     </ul>
                 </li>
                 <li>

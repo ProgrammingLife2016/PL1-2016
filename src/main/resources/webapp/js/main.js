@@ -1,5 +1,6 @@
 $(function() { // on dom ready
 
+
     /* Settings */
     var settings = {
         animationDuration: 500, //length of the animations in ms
@@ -420,6 +421,7 @@ $(function() { // on dom ready
         });
     }
 
+
     /**
 
         Initialisation
@@ -445,4 +447,6 @@ $(function() { // on dom ready
     $("#tree").css("z-index", "0");
     $("#d3").css("z-index", "1");
     $("#options").css("z-index", "2");
+
+
 }); // on dom ready
