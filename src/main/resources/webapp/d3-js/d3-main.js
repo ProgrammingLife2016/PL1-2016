@@ -1,6 +1,6 @@
 var width = window.innerWidth - 10;
 var height = window.innerHeight - 300;
-var miniWidth = width - 300;
+var miniWidth = width;
 var miniHeight = 250;
 var maxZoomLevel = 100;
 var zoomThreshold = 1;
@@ -324,12 +324,12 @@ function highlightLineage(genome) {
 
 function jumpToBaseGetFromDOM() {
     $.getJSON("/api/metadata/navigate/" + "MT_H37RV_BRD_V5.ref" + "/" + $("#baseindex").val(), function (response) {
-        dx = 100;
-        dy = 100;
-        x = response.x + 50;
-        y = 100;
-        scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
-        translate = [width / 2 - scale * x, height / 2 - scale * y];
+        var dx = 10;
+        var dy = 10;
+        var x = response.x + 5;
+        var y = 10;
+        var scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
+        var translate = [width / 2 - scale * x, height / 2 - scale * y];
 
         svg.transition()
             .duration(750)
