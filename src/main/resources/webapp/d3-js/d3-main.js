@@ -253,7 +253,7 @@ function zoom(beginX) {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / zm.scale() * 2)});
+        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
     if (zm.scale() > 20) {
         circle.attr("transform", transform);
     } else {

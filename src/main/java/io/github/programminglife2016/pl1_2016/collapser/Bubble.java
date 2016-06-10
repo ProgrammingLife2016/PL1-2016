@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,8 @@ public class Bubble implements Node {
     private transient int containersize;
     private HashMap<String, SequenceRange> rangePerGenome;
     private boolean coordinateOverridden = false;
+    private boolean genomesOverridden = false;
+    private Map<String, Subject> subjects = new HashMap<>();
 
     /**
      * Constructor for a bubble with start and endnode.
@@ -211,7 +214,8 @@ public class Bubble implements Node {
      */
     @Override
     public void addGenomes(Collection<Subject> genomes) {
-
+        genomesOverridden = true;
+        genomes.forEach(x -> subjects.put(x.getNameId(), x));
     }
 
     /**
@@ -221,7 +225,11 @@ public class Bubble implements Node {
      */
     @Override
     public Set<String> getGenomes() {
-        return this.startNode.getGenomes();
+        if (genomesOverridden) {
+            return subjects.values().stream().map(Subject::getLineage).collect(Collectors.toSet());
+        } else {
+            return this.startNode.getGenomes();
+        }
     }
 
     /**
