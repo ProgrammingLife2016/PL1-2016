@@ -42,6 +42,10 @@ public class BubbleLinker {
                 .getId());
 //        bubblesListSize = bubbles.size();
 
+//        run();
+    }
+
+    public void run() {
         System.out.println("Started linking....");
         long startTime = System.nanoTime();
 
@@ -75,6 +79,7 @@ public class BubbleLinker {
         while (needLowerLevels()) {
             lowerSegments();
         }
+        System.out.println("Finished lower segments.");
         addLinks();
         System.out.println("Lowest bubble level: " + lowestLevel);
         for (int i = 0; i < bubbles.size(); i++) {
@@ -135,7 +140,7 @@ public class BubbleLinker {
     /**
      * Connect all bubbles per level with each other to get representative graph.
      */
-    public void addLinks() {
+    private void addLinks() {
         int tempLevel = lowestLevel.intValue() - 1;
         while (tempLevel > 0) {
             final int currLevel = tempLevel;
@@ -143,10 +148,11 @@ public class BubbleLinker {
                     .parallelStream()
                     .filter(x -> x.getZoomLevel() == currLevel)
                     .collect(Collectors.toList());
-            int l = level.size();
-            for (int i = 0; i < l; i++) {
-                addLinkToBubble(level.get(i));
-            }
+//            int l = level.size();
+//            for (int i = 0; i < l; i++) {
+//                addLinkToBubble(level.get(i));
+//            }
+            level.parallelStream().forEach(this::addLinkToBubble);
             List<Node> unlinked = bubbles
                     .parallelStream()
                     .filter(x -> x.getZoomLevel() == currLevel
@@ -208,16 +214,14 @@ public class BubbleLinker {
                 .collect(Collectors.toList());
         while (needLower.size() != 0) {
             System.out.print("\rPlacing " + needLower.size() +" bubbles to lower level, lowestLevel = " + lowestLevel);
-            for (Node b : needLower) {
-                lowerSegmentInBubble(b);
-            }
+            needLower.forEach(this::lowerSegmentInBubble);
             needLower = bubbles
                     .parallelStream()
                     .filter(x -> !x.getStartNode().isBubble()
                             && x.getStartNode().getZoomLevel() < lowestLevel.intValue())
                     .collect(Collectors.toList());
         }
-        System.out.println();
+        System.out.println("");
     }
 
     private void lowerSegmentInBubble(Node bubble) {
