@@ -89,18 +89,18 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) throws SQLException {
-        if (!isSetup()) {
+//        if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int i = 0; i < THRESHOLDS.length; i++) {
+                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i]);
                 nodesToWrite.recalculatePositions();
                 writeNodes(nodesToWrite, THRESHOLDS[i]);
             }
-        }
+//        }
 
     }
 

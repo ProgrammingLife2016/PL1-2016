@@ -47,25 +47,17 @@ public class BubbleCollapser {
      * Main method that collapses all bubbles.
      */
     public void collapseBubbles() {
-        System.out.println("reached");
         for (Node bubble : bubbles) {
             bubble.getContainer().addAll(bfs(bubble));
         }
-        System.out.println("reached");
         for (int i = 0; i < bubblesListSize; i++) {
             modifyContainer(bubbles.get(i));
         }
-        System.out.println("reached");
         removeUnnecessaryBubbles(bubbles);
-        System.out.println("reached");
         addContainerIdToNestedBubbles(bubbles);
-        System.out.println("reached");
         collapseSingleSegments(collection);
-        System.out.println("reached");
         collapseInnerSegments();
-        System.out.println("reached");
         replaceInconsistentSegments();
-        System.out.println("reached");
         linker = new BubbleLinker(bubbles);
         linker.addLinks();
     }

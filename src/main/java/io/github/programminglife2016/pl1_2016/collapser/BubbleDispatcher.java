@@ -28,7 +28,7 @@ public class BubbleDispatcher {
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
-        this.bubbleCollection = collapser.getBubbles();
+        this.bubbleCollection = new ArrayList<>(collapser.getBubbles());
         initDispatcher();
     }
 
