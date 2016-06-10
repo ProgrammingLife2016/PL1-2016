@@ -148,7 +148,7 @@ public class SegmentParser implements Parser {
             nodeCollection.get(id).setColumn(column);
         }
         //Uncomment this when working with test graph
-//        specimens = null;
+        specimens = null;
         if (specimens != null) {
             Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
