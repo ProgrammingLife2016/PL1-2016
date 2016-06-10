@@ -78,7 +78,7 @@ public class BubbleCollapser {
     /**
      * Find all segments that given bubble contains using breadth-first-search .
      * @param bubble bubble to collapse
-     * @return
+     * @return bubbles filled with segments
      */
     private List<Node> bfs(Node bubble) {
         List<Node> visited = new ArrayList<>();
@@ -124,7 +124,7 @@ public class BubbleCollapser {
             boolean containsBubbles = bubbles.get(i)
                     .getContainer()
                     .stream()
-                    .filter(x -> x.isBubble())
+                    .filter(Node::isBubble)
                     .collect(Collectors.toList()).size() != 0;
             boolean tooComplex = bubbles.get(i).getContainer().size() > 2
                     && bubbles.get(i).getContainer()
@@ -174,7 +174,7 @@ public class BubbleCollapser {
             bubble.getContainer().add(bubbles.stream()
                     .filter(b -> b.getId() == id).findFirst().get());
         }
-        if (bubble.getContainer().stream().filter(x -> x.isBubble())
+        if (bubble.getContainer().stream().filter(Node::isBubble)
                 .collect(Collectors.toList()).size() != 0) {
             for (int i = 0; i < bubble.getContainer().size(); i++) {
                 if (bubble.getContainer().get(i) instanceof Segment) {

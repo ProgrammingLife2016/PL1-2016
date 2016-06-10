@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,8 @@ import java.util.function.BiFunction;
 public class BubbleDispatcher {
 
     private List<Node> bubbleCollection;
+    private int lastId;
+    private int bubblesListSize;
 
     /**
      * Initialize bubbles by running bubble collapser.
@@ -28,8 +31,11 @@ public class BubbleDispatcher {
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
-        this.bubbleCollection = new ArrayList<>(collapser.getBubbles());
+        this.bubbleCollection = collapser.getBubbles();
+        bubblesListSize = bubbleCollection.size();
         initDispatcher();
+        lastId = bubbleCollection.stream().max((b1, b2) ->
+                Integer.compare(b1.getId(), b2.getId())).get().getId();
     }
 
     /**
@@ -111,12 +117,19 @@ public class BubbleDispatcher {
     private Set<Node> getFilteredNodes(List<Integer> containers, int currentLevel,
                                        Set<Node> filtered, int threshold) {
         Set<Node> tempFiltered = new HashSet<>();
-        for (Node x :  bubbleCollection) {
+//        for (Node x :  bubbleCollection) {
+        for (int i = 0; i < bubblesListSize; i++) {
+            Node x = bubbleCollection.get(i);
             if (filtered.stream().filter(b -> b.getEndNode().equals(x)).count() == 0
                     && x.getZoomLevel() == currentLevel
-                    && x.getContainerSize() <= threshold
+//                    && x.getContainerSize() <= threshold
                     && !containers.contains(x.getContainerId())) {
-                tempFiltered.add(x);
+                if (x.getContainerSize() <= threshold) {
+                    tempFiltered.add(x);
+                }
+                else if (!x.getStartNode().isBubble()) {
+                    tempFiltered.addAll(replaceInside(x));
+                }
             }
             if (containers.contains(x.getContainerId())) {
                 containers.add(x.getId());
@@ -204,6 +217,35 @@ public class BubbleDispatcher {
             collection.put(node.getId(), node);
         }
         return collection;
+    }
+
+    private Set<Node> replaceInside(Node bubble) {
+        Set<Node> newBubbles = new HashSet<>();
+        newBubbles.add(initNewBubble(bubble.getStartNode()));
+        newBubbles.add(initNewBubble(bubble.getEndNode()));
+        for (Node n : bubble.getContainer()) {
+            if (!n.isBubble()) {
+                newBubbles.add(initNewBubble(n));
+            }
+            else {
+                newBubbles.add(n);
+            }
+        }
+        return newBubbles;
+    }
+
+    private Bubble initNewBubble(Node node) {
+        Optional<Node> exist = bubbleCollection.stream().filter(x ->
+                x.getStartNode().getId() == node.getStartNode().getId()
+                        && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
+        if (exist.isPresent()) {
+            return (Bubble) exist.get();
+        }
+        lastId++;
+        Bubble newBubble = new Bubble(lastId, -1, (Segment) node);
+        bubbleCollection.add(newBubble);
+        bubblesListSize++;
+        return newBubble;
     }
 
 }
