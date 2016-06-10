@@ -21,7 +21,7 @@ public final class BubbleMain {
      * @throws IOException thrown when reading the files fails.
      */
     public static void main(String[] args) throws IOException {
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328_old.gfa");
         InputStream mt = BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
         InputStream pos = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
