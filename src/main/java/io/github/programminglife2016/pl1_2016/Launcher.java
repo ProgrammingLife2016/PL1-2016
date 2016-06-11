@@ -5,8 +5,6 @@ import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.DatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.NoDatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QueryStrategy;

@@ -246,8 +246,12 @@ public class BubbleCollapser {
         return false;
     }
 
+    /**
+     * Get the lowest bubble level from BubbleLinker.
+     * @return lowest bubble level
+     */
     public int getLowestLevel() {
-        if(linker != null) {
+        if (linker != null) {
             return linker.getLowestLevel();
         }
         return -1;

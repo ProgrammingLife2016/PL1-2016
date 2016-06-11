@@ -29,7 +29,8 @@ public class BubbleDispatcher {
     private int bubblesListSize;
     private int lowestLevel;
     private static final double TIME = 1000000000d;
-    private ForkJoinPool forkJoinPool = new ForkJoinPool(8);
+    private static final int THREADS = 8;
+    private ForkJoinPool forkJoinPool = new ForkJoinPool(THREADS);
 
     private Map<String, Node> quickReference;
 
@@ -94,6 +95,11 @@ public class BubbleDispatcher {
         return listAsNodeCollection(filtered);
     }
 
+    /**
+     * Run multithreaded bubble filtering based on threshold value.
+     * @param threshold amount of segments per bubble which is used to filter bubbles
+     * @return filtered set of bubbles
+     */
     public Set<Node> filterMultithreaded(int threshold) {
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         try {
@@ -101,7 +107,7 @@ public class BubbleDispatcher {
                 filtered.addAll(filterBubbles(threshold));
                 }
             ).get();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return filtered;
@@ -119,7 +125,8 @@ public class BubbleDispatcher {
         for (int i = 1; i < lowestLevel; i++) {
             Set<Node> tempFiltered = getFilteredNodes(containers, i,
                     filtered, threshold);
-            containers.addAll(tempFiltered.parallelStream().map(Node::getId).collect(Collectors.toList()));
+            containers.addAll(tempFiltered.parallelStream().map(Node::getId)
+                    .collect(Collectors.toList()));
             filtered.addAll(tempFiltered);
         }
         return filtered;
@@ -137,17 +144,21 @@ public class BubbleDispatcher {
     private Set<Node> getFilteredNodes(Set<Integer> containers, int currentLevel,
                                        Set<Node> filtered, int threshold) {
         Set<Node> tempFiltered = Collections.synchronizedSet(new HashSet<>());
-        List<Node> currLevelBubbles = bubbleCollection.parallelStream().filter(x -> x.getZoomLevel() == currentLevel).collect(Collectors.toList());
-//        for (int i = 0; i < bubblesListSize; i++) {
-//            Node x = bubbleCollection.get(i);
+        List<Node> currLevelBubbles = bubbleCollection.parallelStream()
+                .filter(x -> x.getZoomLevel() == currentLevel).collect(Collectors.toList());
         currLevelBubbles.forEach(x -> {
             if (filtered.parallelStream().filter(b -> b.getEndNode().equals(x)).count() == 0
                     && x.getZoomLevel() == currentLevel
                     && !containers.contains(x.getContainerId())) {
+            /* TODO collapse only one threshold level or everything under the threshold on choise
+             * Make use of this code:
+             * (x.getContainerSize() == threshold || x.getContainerSize() <= 1) {
+             */
                 if (x.getContainerSize() <= threshold) {
                     tempFiltered.removeAll(filtered.stream().filter(b -> b.getZoomLevel() == -1
                             && (b.getStartNode().getId() == x.getStartNode().getId()
-                            || b.getEndNode().getId() == x.getEndNode().getId())).collect(Collectors.toList()));
+                            || b.getEndNode().getId() == x.getEndNode().getId()))
+                            .collect(Collectors.toList()));
                     tempFiltered.removeIf(b -> b.getZoomLevel() == -1
                             && (b.getStartNode().getId() == x.getStartNode().getId()
                             || b.getEndNode().getId() == x.getEndNode().getId()));
@@ -170,8 +181,6 @@ public class BubbleDispatcher {
      */
     private void findNewLinks(Collection<Node> filteredBubbles) {
         createQuickRefForRelinking();
-//        int fout = 0;
-//        for (Node bubble: filteredBubbles) {
         filteredBubbles.parallelStream().forEach(bubble -> {
             Node primitiveEnd = getPrimitiveEnd(bubble);
             Node prospectiveLink = getExistingAncestor(primitiveEnd,
@@ -228,12 +237,9 @@ public class BubbleDispatcher {
             }
             return node;
         }
-//        Optional<Node> n = bubbleCollection.parallelStream().filter(x -> equals.apply(x, node)).findAny();//.findFirst();
-//        if (n.isPresent()) {
-//            return getExistingAncestor(n.get(), filteredBubbles, equals);
-//        }
         if (quickReference.containsKey(String.valueOf(node.getContainerId()))) {
-            return getExistingAncestor(quickReference.get(String.valueOf(node.getContainerId())), filteredBubbles, equals);
+            return getExistingAncestor(quickReference
+                    .get(String.valueOf(node.getContainerId())), filteredBubbles, equals);
         }
         return null;
     }
@@ -267,12 +273,6 @@ public class BubbleDispatcher {
     }
 
     private Bubble initNewBubble(Node node) {
-//        Optional<Node> exist = bubbleCollection.stream().filter(x ->
-//                x.getStartNode().getId() == node.getStartNode().getId()
-//                        && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
-//        if (exist.isPresent()) {
-//            return (Bubble) exist.get();
-//        }
         String key = getNodeKeyForFiltering(node);
         if (quickReference.containsKey(key)) {
             return (Bubble) quickReference.get(key);

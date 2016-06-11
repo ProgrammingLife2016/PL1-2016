@@ -5,7 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.Set;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
- * Created by ravishivam on 15-5-16.
+ * @author ravishivam on 15-5-16.
  */
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
@@ -30,6 +30,10 @@ public class BubbleDetector {
     private int lastId;
     private int reachedLevel = 1;
 
+    /**
+     * Initialize bubble detector.
+     * @param collection collection of segments
+     */
     public BubbleDetector(NodeCollection collection) {
         this.lastId = collection.size() + 1;
         initVisited(collection);
@@ -38,10 +42,14 @@ public class BubbleDetector {
         this.conductedSearches = new HashSet<>();
     }
 
+    /**
+     * Method search for all possible bubbles and adds them to the bubbleBoundaries.
+     */
     public void findMultiLevelBubbles() {
         System.out.println("Starting detector....");
         Map<Integer, List<Node>> levelBubbles = new HashMap<>();
-        levelBubbles.put(1, findLevelBubbles(this.collection.get(1), collection.get(collection.size())));
+        levelBubbles.put(1,
+                findLevelBubbles(this.collection.get(1), collection.get(collection.size())));
         this.reachedLevel++;
         while (true) {
 //            conductedSearches = new HashSet<>();
@@ -49,7 +57,7 @@ public class BubbleDetector {
             if (currLevelList.isEmpty()) {
                 break;
             }
-            levelBubbles.put(reachedLevel,currLevelList);
+            levelBubbles.put(reachedLevel, currLevelList);
             reachedLevel++;
         }
         levelBubbles.values().stream().forEach(this.bubbleBoundaries::addAll);
@@ -63,25 +71,30 @@ public class BubbleDetector {
         }
         boolean[] visited = initVisited(this.collection);
         List<Node> levelCollection = new ArrayList<>();
-        Map.Entry<Integer, Node> stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination, visited);
+        Map.Entry<Integer, Node> stoppedAtNode =
+                searchBubble(startNode, startNode.getGenomes(), destination, visited);
         int status = stoppedAtNode.getKey();
         Node stoppedNode = stoppedAtNode.getValue();
         loop : while (status != REACHED_FINAL_DESTINATION) {
-            if (startNode.getId() == stoppedNode.getId() || stoppedNode.getId() > destination.getId()) {
+            if (startNode.getId() == stoppedNode.getId()
+                    || stoppedNode.getId() > destination.getId()) {
                 return new ArrayList<>();
             }
             switch (status) {
                 case BUBBLE_DETECTED :
                     handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
                     startNode = stoppedAtNode.getValue();
-                    stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination, visited);
+                    stoppedAtNode = searchBubble(startNode,
+                            startNode.getGenomes(), destination, visited);
                     break;
                 case FOUND_MORE_GENOMES :
                     startNode = stoppedAtNode.getValue();
-                    stoppedAtNode = searchBubble(startNode, startNode.getGenomes(), destination, visited);
+                    stoppedAtNode = searchBubble(startNode,
+                            startNode.getGenomes(), destination, visited);
                     break;
                 case NO_CHILDREN_FOUND :
-                    checkIfStoppedNodeIsABubble(startNode, destination, levelCollection, stoppedNode);
+                    checkIfStoppedNodeIsABubble(startNode, destination,
+                            levelCollection, stoppedNode);
                     break loop;
             }
             status = stoppedAtNode.getKey();
@@ -94,7 +107,7 @@ public class BubbleDetector {
     private List<Node> findDeeperLevelBubbles(Map<Integer, List<Node>> levelBubbles) {
         List<Node> currLevelList = new ArrayList<>();
         for (Node bubble : levelBubbles.get(reachedLevel - 1)) {
-            if(bubble.getStartNode().getId() >= bubble.getEndNode().getId()) {
+            if (bubble.getStartNode().getId() >= bubble.getEndNode().getId()) {
                 continue;
             }
             for (Node node : bubble.getStartNode().getLinks()) {
@@ -105,7 +118,10 @@ public class BubbleDetector {
         return currLevelList;
     }
 
-    private void checkIfStoppedNodeIsABubble(Node startNode, Node destination, List<Node> levelCollection, Node stoppedNode) {
+    private void checkIfStoppedNodeIsABubble(Node startNode,
+                                             Node destination,
+                                             List<Node> levelCollection,
+                                             Node stoppedNode) {
         if (startNode.getGenomes().equals(stoppedNode.getGenomes())) {
             handleDetectedBubble(startNode, stoppedNode, levelCollection);
         } else {
@@ -113,36 +129,44 @@ public class BubbleDetector {
         }
     }
 
-    private void continueLoopingThroughInnerBubbles(Node startNode, Node destination, List<Node> levelCollection) {
+    private void continueLoopingThroughInnerBubbles(Node startNode,
+                                                    Node destination,
+                                                    List<Node> levelCollection) {
         for (Node childNode : startNode.getLinks()) {
-            if (!this.conductedSearches.contains(new MutablePair<>(childNode.getId(), destination.getId())))
-            levelCollection.addAll(findLevelBubbles(childNode, destination));
+            if (!this.conductedSearches
+                    .contains(new MutablePair<>(childNode.getId(), destination.getId()))) {
+                levelCollection.addAll(findLevelBubbles(childNode, destination));
+            }
         }
     }
 
-    private Map.Entry<Integer, Node> searchBubble(Node curr, Collection<String> genomes, Node destination, boolean[] visited) {
+    private Map.Entry<Integer, Node> searchBubble(Node curr,
+                                                  Collection<String> genomes,
+                                                  Node destination,
+                                                  boolean[] visited) {
         visited[curr.getId()] = true;
         List<Node> connectedTo = new ArrayList<>(curr.getLinks());
         for (Node child : connectedTo) {
             int status = checkGenomeMatch(genomes, child, destination);
             if (status != NOT_A_BUBBLE) {
-                return new AbstractMap.SimpleEntry<>(status, child);
+                return new SimpleEntry<>(status, child);
             }
             if (!visited[child.getId()]) {
                 return searchBubble(child, genomes, destination, visited);
             }
         }
-        return new AbstractMap.SimpleEntry<>(NO_CHILDREN_FOUND, curr);
+        return new SimpleEntry<>(NO_CHILDREN_FOUND, curr);
     }
 
-    private int checkGenomeMatch(Collection<String> initGenomes, Node secondNode, Node destination) {
-        if(secondNode.equals(destination)) {
+    private int checkGenomeMatch(Collection<String> initGenomes,
+                                 Node secondNode, Node destination) {
+        if (secondNode.equals(destination)) {
             return REACHED_FINAL_DESTINATION;
         }
         if (initGenomes.equals(secondNode.getGenomes())) {
             return BUBBLE_DETECTED;
         }
-        else if (isLargerSet(initGenomes, secondNode.getGenomes())){
+        else if (isLargerSet(initGenomes, secondNode.getGenomes())) {
             return FOUND_MORE_GENOMES;
         }
         else {
@@ -176,11 +200,16 @@ public class BubbleDetector {
         return visited;
     }
 
+    /**
+     * Get bubbles with unique pair of start and end node.
+     * @return list of unique bubbles
+     */
     List<Node> getBubbleBoundaries() {
         List<Node> retrieved = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
         for (Node bubble : bubbleBoundaries) {
-            AbstractMap.SimpleEntry<Integer, Integer> entry = new AbstractMap.SimpleEntry<>(bubble.getStartNode().getId(), bubble.getEndNode().getId());
+            SimpleEntry<Integer, Integer> entry =
+                    new SimpleEntry<>(bubble.getStartNode().getId(), bubble.getEndNode().getId());
             if (!uniques.contains(entry)) {
                 retrieved.add(bubble);
                 uniques.add(entry);
