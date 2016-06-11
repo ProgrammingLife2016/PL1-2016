@@ -3,11 +3,14 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SequenceRange;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,10 @@ public class Bubble implements Node {
     private transient int level;
     private transient String data = "";
     private transient int containersize;
+    private HashMap<String, SequenceRange> rangePerGenome;
+    private boolean coordinateOverridden = false;
+    private boolean genomesOverridden = false;
+    private Map<String, Subject> subjects = new HashMap<>();
 
     /**
      * Constructor for a bubble with start and endnode.
@@ -79,6 +86,7 @@ public class Bubble implements Node {
      */
     @Override
     public void setXY(int x, int y) {
+        coordinateOverridden = true;
         this.x = x;
         this.y = y;
     }
@@ -90,7 +98,11 @@ public class Bubble implements Node {
      */
     @Override
     public int getX() {
-        return (startNode.getX() + endNode.getX()) / 2;
+        if (coordinateOverridden) {
+            return x;
+        } else {
+            return (startNode.getX() + endNode.getX()) / 2;
+        }
     }
 
     /**
@@ -100,7 +112,11 @@ public class Bubble implements Node {
      */
     @Override
     public int getY() {
-        return (startNode.getY() + endNode.getY()) / 2;
+        if (coordinateOverridden) {
+            return y;
+        } else {
+            return (startNode.getY() + endNode.getY()) / 2;
+        }
     }
 
     /**
@@ -198,7 +214,8 @@ public class Bubble implements Node {
      */
     @Override
     public void addGenomes(Collection<Subject> genomes) {
-
+        genomesOverridden = true;
+        genomes.forEach(x -> subjects.put(x.getNameId(), x));
     }
 
     /**
@@ -208,7 +225,11 @@ public class Bubble implements Node {
      */
     @Override
     public Set<String> getGenomes() {
-        return this.startNode.getGenomes();
+        if (genomesOverridden) {
+            return subjects.values().stream().map(Subject::getLineage).collect(Collectors.toSet());
+        } else {
+            return this.startNode.getGenomes();
+        }
     }
 
     /**
@@ -320,6 +341,11 @@ public class Bubble implements Node {
      */
     public void setStartNode(Node node) {
         this.startNode = node;
+    }
+
+    @Override
+    public HashMap<String, SequenceRange> getRangePerGenome() {
+        return rangePerGenome;
     }
 
     /**

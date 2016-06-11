@@ -1,10 +1,10 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.Collection;
-
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -203,4 +203,6 @@ public interface Node extends Cloneable {
      * @param node new start node of the bubble.
      */
     void setStartNode(Node node);
+
+    Map<String, SequenceRange> getRangePerGenome();
 }

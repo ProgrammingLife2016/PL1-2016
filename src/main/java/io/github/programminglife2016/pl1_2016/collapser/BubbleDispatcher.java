@@ -5,14 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -93,6 +86,32 @@ public class BubbleDispatcher {
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
         return listAsNodeCollection(filtered);
+//        return aggregateLines(listAsNodeCollection(filtered));
+    }
+
+    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
+        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
+        for (Node node : nodeCollection.values()) {
+            for (Node link : node.getLinks()) {
+                link.getBackLinks().add(node);
+            }
+        }
+        List<Node> kowed = new ArrayList<>();
+        nodeCollection.values().stream().filter(node -> node.getLinks().size() == 1).forEach(node -> {
+            boolean repeat = true;
+            while (repeat) {
+                repeat = false;
+                Node link = node.getLinks().iterator().next();
+                if (link.getBackLinks().size() == 1 && link.getLinks().size() == 1) {
+                    repeat = true;
+                    kowed.add(link);
+                    node.getLinks().clear();
+                    node.getLinks().add(link.getLinks().iterator().next());
+                }
+            }
+        });
+        kowed.stream().map(Node::getId).forEach(nodeCollection::remove);
+        return nodeCollection;
     }
 
     /**

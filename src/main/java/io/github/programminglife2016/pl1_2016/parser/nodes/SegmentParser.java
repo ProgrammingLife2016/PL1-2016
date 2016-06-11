@@ -8,7 +8,12 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +29,8 @@ public class SegmentParser implements Parser {
     private NodeCollection nodeCollection;
     private InputStream positions;
     private Map<String, Subject> specimens;
+    private Map<String, Integer> lastIndices;
+
 
     /**
      * Create parser object.
@@ -41,6 +48,7 @@ public class SegmentParser implements Parser {
     public SegmentParser(InputStream positions, InputStream metadata) {
         this();
         this.positions = positions;
+        lastIndices = new HashMap<>();
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
         Subject ref = new Specimen();
@@ -102,6 +110,7 @@ public class SegmentParser implements Parser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            Seeker s = new SegmentSeeker(nodeCollection);
             if (reader != null) {
                 try {
                     reader.close();
@@ -154,8 +163,7 @@ public class SegmentParser implements Parser {
         if (specimens != null) {
             genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
-                    .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
-                    .filter(Objects::nonNull)
+                    .map(x -> specimens.getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()), new Specimen(x.substring(0, x.length() - GENOME_SUFFIX.length()))))
                     .collect(Collectors.toSet());
         }
         else {
@@ -166,6 +174,32 @@ public class SegmentParser implements Parser {
                     .collect(Collectors.toSet());
         }
         nodeCollection.get(id).addGenomes(genomes);
+//        addRanges(nodeCollection.get(id), seq.length());
+    }
+
+    private String extractGenomeName(String rawName) {
+        return rawName.substring(0, rawName.length() - GENOME_SUFFIX.length());
+    }
+
+    private void updateLastIndex(String genomeName, int dataLength) {
+        int prevIdx = 0;
+        if(lastIndices.containsKey(genomeName)) {
+            prevIdx = lastIndices.get(genomeName);
+        }
+        lastIndices.put(genomeName, prevIdx + dataLength);
+    }
+
+    private void addRanges(Node node, int dataLength) {
+        int lastId;
+        for (Subject s : node.getSubjects()) {
+            if(lastIndices.containsKey(s.getNameId())) {
+                lastId = lastIndices.get(s.getNameId());
+            } else {
+                lastId = 0;
+            }
+            node.getRangePerGenome().put(s.getNameId(), new SequenceRange(s.getNameId(), lastId, lastId + dataLength));
+            updateLastIndex(s.getNameId(), dataLength);
+        }
     }
 
     /**

@@ -1,13 +1,13 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.Set;
-
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +24,7 @@ public class Segment implements Node {
     private Set<Subject> genomes = new HashSet<>();
     private transient int containerid;
     private transient int level;
+    private HashMap<String, SequenceRange> rangePerGenome;
 
     /**
      * Create segment with id and sequence data.
@@ -120,6 +121,7 @@ public class Segment implements Node {
      */
     @Override
     public void addGenomes(Collection<Subject> genomes) {
+        rangePerGenome = new HashMap<>(genomes.size());
         this.genomes.addAll(genomes);
     }
 
@@ -278,4 +280,11 @@ public class Segment implements Node {
     @Override
     public void setStartNode(Node node) {
     }
+
+    @Override
+    public HashMap<String, SequenceRange> getRangePerGenome() {
+        return rangePerGenome;
+    }
+
+
 }

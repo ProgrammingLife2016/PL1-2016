@@ -155,7 +155,7 @@ d3.text("/static/file.nwk", function(text) {
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
-      .text(function(d) { return d.name.replace(/_/g, ' '); })
+      .text(function(d) { return d.name.replace('-', '_').replace('-', '_'); })
       .attr("class", function(d) {
             var str = $("."+d.name).attr("class");
             return str.replace("treelink", "");
@@ -181,6 +181,11 @@ d3.text("/static/file.nwk", function(text) {
       enableZooming(svgId);
 
   window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
+      for (var i = 0; i < window.tkks.length; i++) {
+              $( "#fuzzOptionsList" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
+           }
+
+
 });
 
  var highlight = function(name) {

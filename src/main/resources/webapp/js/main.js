@@ -1,11 +1,12 @@
 $(function() { // on dom ready
 
+
     /* Settings */
     var settings = {
         animationDuration: 500, //length of the animations in ms
         zoomTreshold: 0.50, //change in percentage/100 between zoom levels for sending a new AJAX request
         startZoom: 0.1, //Zoom level at the start of the application
-        nodesDir: "/api/nodes/128", //directory at the server for the first AJAX request
+        nodesDir: "/api/nodes/128/0/1000000000", //directory at the server for the first AJAX request
     };
 
     /*
@@ -211,13 +212,6 @@ $(function() { // on dom ready
       Add UI events concerning the graph view.
     */
     GraphHandler.prototype.bindUIEvents = function() {
-        $("#zoomButton").click(function() {
-            graphHandler.highlightGenome("G 2");
-            $("#status").stop().animate({
-                opacity: 0
-            }, settings.animationDuration, "swing");
-        });
-
         $(".dnaGraph").click(function() {
             $("#d3").show();
             $("#tree").hide();
@@ -331,13 +325,8 @@ $(function() { // on dom ready
         }
     }
 
-    GraphHandler.prototype.setSelectedGenome = function(name, color, lineage) {
-        /**<div id="selectedGenome"> <div id="color"></div> <p>TKK..</p> </div>**/
-        console.log("Color");
-        console.log(color);
-        var listitem = $("<div>").append($("<div>").attr("id", "color").css("background-color", color))
-                                 .append($("<p>").text(name + ", " + lineage));
-
+    GraphHandler.prototype.setSelectedGenome = function(name) {
+        var listitem = $("<div>").append($("<p>").text(name));
         $("#info").prepend(listitem);
         $("#info").height($("#info").height() + 36);
         $("#info").fadeIn();
@@ -389,7 +378,7 @@ $(function() { // on dom ready
             }
         });
         $("#results").on("click", "li", function(e) {
-            highlightLineage($(this).html());
+            highlightGenome($(this).html());
         });
 
         $("#search input").on("search", function() {
@@ -432,6 +421,7 @@ $(function() { // on dom ready
         });
     }
 
+
     /**
 
         Initialisation
@@ -457,4 +447,6 @@ $(function() { // on dom ready
     $("#tree").css("z-index", "0");
     $("#d3").css("z-index", "1");
     $("#options").css("z-index", "2");
+
+
 }); // on dom ready
