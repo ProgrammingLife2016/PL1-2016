@@ -21,7 +21,7 @@ public final class BubbleMain {
      * @throws IOException thrown when reading the files fails.
      */
     public static void main(String[] args) throws IOException {
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328-old.gfa");
+        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
 //        TB328-old
         InputStream mt = BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
         InputStream pos = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
@@ -29,8 +29,8 @@ public final class BubbleMain {
 
         //=======================================
 
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection nodes = dispatcher.getThresholdedBubbles(1);
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        NodeCollection nodes = dispatcher.getThresholdedBubbles(1);
 //        for (Node node : nodes.values()) {
 //            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
 //        }

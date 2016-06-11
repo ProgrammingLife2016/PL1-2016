@@ -3,7 +3,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class BubbleDetector {
     private static final int FOUND_MORE_GENOMES = 2;
     private static final int REACHED_FINAL_DESTINATION = 3;
     private static final int NO_CHILDREN_FOUND = 4;
-    private Set<Pair<Integer, Integer>> conductedSearches;
+    private Set<SimplePair<Integer, Integer>> conductedSearches;
     private NodeCollection collection;
     private List<Node> bubbleBoundaries;
     private int lastId;
@@ -57,7 +56,7 @@ public class BubbleDetector {
 
 
     private List<Node> findLevelBubbles(Node startNode, Node destination) {
-        conductedSearches.add(new MutablePair<>(startNode.getId(), destination.getId()));
+        conductedSearches.add(new SimplePair<>(startNode.getId(), destination.getId()));
         if (startNode.getId() >= destination.getId()) {
             return new ArrayList<>();
         }
@@ -115,7 +114,7 @@ public class BubbleDetector {
 
     private void continueLoopingThroughInnerBubbles(Node startNode, Node destination, List<Node> levelCollection) {
         for (Node childNode : startNode.getLinks()) {
-            if (!this.conductedSearches.contains(new MutablePair<>(childNode.getId(), destination.getId())))
+            if (!this.conductedSearches.contains(new SimplePair<>(childNode.getId(), destination.getId())))
             levelCollection.addAll(findLevelBubbles(childNode, destination));
         }
     }
