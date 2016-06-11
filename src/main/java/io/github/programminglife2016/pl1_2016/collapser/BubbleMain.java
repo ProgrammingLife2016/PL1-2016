@@ -7,6 +7,8 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static javax.swing.text.html.HTML.Tag.HEAD;
+
 /**
  * Class to view bubbling changes
  */
