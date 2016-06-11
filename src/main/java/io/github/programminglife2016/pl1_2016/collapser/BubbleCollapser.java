@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
  *
  */
 public class BubbleCollapser {
-    List<Node> bubbles;
-    int lastId;
-    int bubblesListSize;
-    Set<Integer> collapsedSegments = new HashSet<>();
-    NodeCollection collection;
-    BubbleLinker linker;
+    private List<Node> bubbles;
+    private int lastId;
+    private int bubblesListSize;
+    private Set<Integer> collapsedSegments = new HashSet<>();
+    private NodeCollection collection;
+    private BubbleLinker linker;
 
     /**
      * Initialize all bubbles to collapse.
@@ -244,6 +244,13 @@ public class BubbleCollapser {
             }
         }
         return false;
+    }
+
+    public int getLowestLevel() {
+        if(linker != null) {
+            return linker.getLowestLevel();
+        }
+        return -1;
     }
 
     /**

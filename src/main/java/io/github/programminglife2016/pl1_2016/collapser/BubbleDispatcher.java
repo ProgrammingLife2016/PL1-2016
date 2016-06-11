@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -24,6 +25,9 @@ public class BubbleDispatcher {
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;
+    private int lowestLevel;
+
+    private Map<String, Node> quickReference;
 
     /**
      * Initialize bubbles by running bubble collapser.
@@ -34,6 +38,7 @@ public class BubbleDispatcher {
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
         bubblesListSize = bubbleCollection.size();
+        lowestLevel = collapser.getLowestLevel();
         initDispatcher();
         lastId = bubbleCollection.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
@@ -87,14 +92,14 @@ public class BubbleDispatcher {
     private Set<Node> filterBubbles(int threshold) {
         List<Integer> containers = new ArrayList<>();
         Set<Node> filtered = new HashSet<>();
-        int maxLevel = bubbleCollection
-                .stream()
-                .filter(x -> !x.getStartNode().isBubble())
-                .max((b1, b2) ->
-                        Integer.compare(b1.getStartNode().getZoomLevel(),
-                                b2.getStartNode().getZoomLevel()))
-                .get().getStartNode().getZoomLevel();
-        for (int i = 1; i < maxLevel; i++) {
+//        int maxLevel = bubbleCollection
+//                .stream()
+//                .filter(x -> !x.getStartNode().isBubble())
+//                .max((b1, b2) ->
+//                        Integer.compare(b1.getStartNode().getZoomLevel(),
+//                                b2.getStartNode().getZoomLevel()))
+//                .get().getStartNode().getZoomLevel();
+        for (int i = 1; i < lowestLevel; i++) {
             final int currentLevel = i;
             Set<Node> tempFiltered = getFilteredNodes(containers, currentLevel,
                     filtered, threshold);
@@ -136,7 +141,6 @@ public class BubbleDispatcher {
                 }
                 else if (!x.getStartNode().isBubble()) {
                     tempFiltered.addAll(replaceInside(x));
-                    int y = 0;
                 }
             }
             if (containers.contains(x.getContainerId())) {

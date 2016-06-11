@@ -4,9 +4,10 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,6 +27,7 @@ public class BubbleLinker {
     private final AtomicLong lastId = new AtomicLong();
 //    private int bubblesListSize;
 //    private int lowestLevel = 1;
+    private Map<String, Node> quickReference;
     private static final double TIME = 1000000000d;
     /**
      *
@@ -45,27 +47,40 @@ public class BubbleLinker {
 //        run();
     }
 
-    public void run() {
-        System.out.println("Started linking....");
+    private void createQuickRefForLowering() {
+        System.out.println("Started creating quick reference for lowering....");
         long startTime = System.nanoTime();
+        quickReference = Collections.synchronizedMap(new HashMap<>(bubbles.size()));
+        for (Node n : bubbles) {
+            quickReference.put(getNodeKeyForLowering(n), n);
+        }
+        long endTime = System.nanoTime();
+        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
+    }
 
-//        setCorrectLevelsToNodes();
+    private void createQuickRefForLinking() {
+        System.out.println("Started creating quick reference for linking....");
+        long startTime = System.nanoTime();
+        quickReference = Collections.synchronizedMap(new HashMap<>(bubbles.size()));
+        for (Node n : bubbles) {
+            quickReference.put(String.valueOf(n.getId()), n);
+        }
+        long endTime = System.nanoTime();
+        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
+    }
+
+    public void run() {
         try {
             forkJoinPool.submit(() -> {setCorrectLevelsToNodes();}
-//                    syncList.parallelStream().forEach((rating) -> {
-//                        rating.setRating(predict(rating, itemBased));
-//                    })
             ).get();
         }catch (Exception e){
             e.printStackTrace();
         }
-
-        long endTime = System.nanoTime();
-        System.out.println("Linking time: " + ((endTime - startTime) / TIME) + " s.");
     }
 
     private void setCorrectLevelsToNodes() {
         setLevels();
+        createQuickRefForLowering();
 //        lowestLevel = bubbles
         lowestLevel.set(bubbles
                 .parallelStream()
@@ -80,14 +95,20 @@ public class BubbleLinker {
             lowerSegments();
         }
         System.out.println("Finished lower segments.");
+
+        System.out.println("Started linking....");
+        long startTime = System.nanoTime();
         addLinks();
+        long endTime = System.nanoTime();
+        System.out.println("Linking time: " + ((endTime - startTime) / TIME) + " s.");
+        quickReference = null;
         System.out.println("Lowest bubble level: " + lowestLevel);
-        for (int i = 0; i < bubbles.size(); i++) {
-            if (bubbles.get(i).getZoomLevel() == -1) {
+        for (Node bubble : bubbles) {
+            if (bubble.getZoomLevel() == -1) {
                 throw new RuntimeException("Not single neither nested bubble with zoom level = "
-                        + bubbles.get(i).getZoomLevel()
+                        + bubble.getZoomLevel()
                         + ": "
-                        + bubbles.get(i));
+                        + bubble);
             }
         }
     }
@@ -141,6 +162,7 @@ public class BubbleLinker {
      * Connect all bubbles per level with each other to get representative graph.
      */
     private void addLinks() {
+        createQuickRefForLinking();
         int tempLevel = lowestLevel.intValue() - 1;
         while (tempLevel > 0) {
             final int currLevel = tempLevel;
@@ -181,12 +203,13 @@ public class BubbleLinker {
 
     private Node getHighestBubble(int level, Node prospectiveLink) {
         int cId = prospectiveLink.getContainerId();
-        if (prospectiveLink.getZoomLevel() > level) {
-            prospectiveLink = getHighestBubble(level, bubbles
-                    .parallelStream()
-                    .filter(x -> x.getId() == cId)
-                    .findFirst()
-                    .get());
+        if (prospectiveLink.getZoomLevel() > level && quickReference.containsKey(String.valueOf(cId))) {
+            prospectiveLink = getHighestBubble(level, quickReference.get(String.valueOf(cId)));
+//                    bubbles
+//                    .parallelStream()
+//                    .filter(x -> x.getId() == cId)
+//                    .findFirst()
+//                    .get());
         }
         if (prospectiveLink != null
                 && prospectiveLink.getZoomLevel() == level
@@ -204,6 +227,7 @@ public class BubbleLinker {
     }
 
     private void lowerSegments() {
+
         List<Node> needLower = bubbles.parallelStream()
                 .filter(x -> (!x.getStartNode().isBubble()
                         && x.getStartNode().getZoomLevel() < lowestLevel.intValue())
@@ -212,13 +236,27 @@ public class BubbleLinker {
                         || x.getContainer().parallelStream().filter(y -> !y.isBubble()
                                 && y.getZoomLevel() < lowestLevel.intValue()).count() > 0)
                 .collect(Collectors.toList());
+
         while (needLower.size() != 0) {
-            System.out.print("\rPlacing " + needLower.size() +" bubbles to lower level, lowestLevel = " + lowestLevel);
-            needLower.forEach(this::lowerSegmentInBubble);
+            System.out.println("\rPlacing " + needLower.size() +" bubbles to lower level, lowestLevel = " + lowestLevel + " ");
+long startTime = System.nanoTime();
+//            needLower.forEach(this::lowerSegmentInBubble);
+            for (int i = 0; i < needLower.size(); i++) {
+                lowerSegmentInBubble(needLower.get(i));
+                System.out.print("\rPlaced: " + i);
+            }
+long endTime = System.nanoTime();
+System.out.println("Lowered segments in: " + ((endTime - startTime) / TIME) + " s.");
             needLower = bubbles
                     .parallelStream()
-                    .filter(x -> !x.getStartNode().isBubble()
+//                    .filter(x -> !x.getStartNode().isBubble()
+//                            && x.getStartNode().getZoomLevel() < lowestLevel.intValue())
+                    .filter(x -> (!x.getStartNode().isBubble()
                             && x.getStartNode().getZoomLevel() < lowestLevel.intValue())
+                            || (!x.getEndNode().isBubble()
+                            && x.getEndNode().getZoomLevel() < lowestLevel.intValue())
+                            || x.getContainer().parallelStream().filter(y -> !y.isBubble()
+                            && y.getZoomLevel() < lowestLevel.intValue()).count() > 0)
                     .collect(Collectors.toList());
         }
         System.out.println("");
@@ -234,33 +272,45 @@ public class BubbleLinker {
                 && bubble.getEndNode().getZoomLevel() < lowestLevel.intValue()) {
             bubble.setEndNode(replaceNode(bubble.getEndNode(), segLevel));
         }
-        Set<Node> newContainer = new HashSet<>();
-        for (Node n : bubble.getContainer()) {
+        Set<Node> newContainer = Collections.synchronizedSet(new HashSet<>());
+        List<Node> oldContainer = Collections.synchronizedList(bubble.getContainer());
+
+//        for (Node n : bubble.getContainer())
+        oldContainer.parallelStream().forEach(n -> //
+        {
             if (!n.isBubble() && n.getZoomLevel() < lowestLevel.intValue()) {
                 newContainer.add(replaceNode(n, segLevel));
             }
             else {
                 newContainer.add(n);
             }
-        }
+        } );
         bubble.getContainer().clear();
         bubble.getContainer().addAll(newContainer);
     }
 
-    private Bubble initNewBubble(Node node, int level) {
-        Optional<Node> exist = bubbles.parallelStream()
-                .filter(x -> x.getStartNode().getId() == node.getStartNode().getId()
-                && x.getEndNode().getId() == node.getEndNode().getId()
-                && x.getZoomLevel() == level).findFirst();
-        if (exist.isPresent()) {
-            return (Bubble) exist.get();
+    private synchronized Bubble initNewBubble(Node node, int level) {
+//            Optional<Node> exist = bubbles.parallelStream()
+//                    .filter(x -> x.getStartNode().getId() == node.getStartNode().getId()
+//                            && x.getEndNode().getId() == node.getEndNode().getId()
+//                            && x.getZoomLevel() == level).findFirst();
+//            if (exist.isPresent()) {
+//                return (Bubble) exist.get();
+//            }
+        String key = node.getStartNode().getId() + "_"
+                            + node.getEndNode().getId() + "_"
+                            + level;
+        if (quickReference.containsKey(key)) {
+            return (Bubble) quickReference.get(key);
         }
+
         if (lowestLevel.intValue() < node.getZoomLevel()) {
             lowestLevel.set(node.getZoomLevel());
         }
         lastId.incrementAndGet(); //++;
         Bubble newBubble = new Bubble(lastId.intValue(), level, (Segment) node);
         bubbles.add(newBubble);
+        quickReference.put(getNodeKeyForLowering(newBubble), newBubble);
 //        bubblesListSize++;
         return newBubble;
     }
@@ -272,5 +322,15 @@ public class BubbleLinker {
             lowestLevel.set(newBubble.getZoomLevel());
         }
         return newBubble;
+    }
+
+    private String getNodeKeyForLowering(Node node) {
+        return node.getStartNode().getId() + "_"
+                + node.getEndNode().getId() + "_"
+                + node.getZoomLevel();
+    }
+
+    public int getLowestLevel() {
+        return lowestLevel.intValue();
     }
 }
