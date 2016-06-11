@@ -2,7 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
- * Created by ravishivam on 15-5-16.
+ * @author Ravi Autar
  */
 public class BubbleDetector {
     private static final int NOT_A_BUBBLE = 0;
