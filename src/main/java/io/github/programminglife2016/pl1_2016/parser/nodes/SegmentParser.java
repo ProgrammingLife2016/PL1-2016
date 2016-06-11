@@ -45,7 +45,9 @@ public class SegmentParser implements Parser {
         this.specimens = specimenParser.parse(metadata);
         Subject ref = new Specimen();
         ref.setNameId(REFERENCE);
-        specimens.put(REFERENCE, ref);
+        if (specimens != null) {
+            specimens.put(REFERENCE, ref);
+        }
     }
 
     /**
