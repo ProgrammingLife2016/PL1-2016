@@ -1,10 +1,11 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
+import io.github.programminglife2016.pl1_2016.server.Server;
+import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.DatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.NoDatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QueryStrategy;
@@ -33,18 +34,9 @@ public final class Launcher {
     public static void main(String[] args) throws IOException, SQLException {
         int port = Integer.parseInt(args[0]);
         String dataset = args[1];
-        InputStream is = Launcher.class.getResourceAsStream(
-                String.format("/genomes/%s.gfa", dataset));
-        InputStream positions = Launcher.class.getResourceAsStream(
-                String.format("/genomes/%s.positions", dataset));
-        InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
-        SegmentParser segmentParser = new SegmentParser(positions, metadata);
-        NodeCollection nodeCollection = segmentParser.parse(is);
-
-        SetupDatabase sd = new SetupDatabase();
-        sd.setup(nodeCollection);
-//        Server server = new RestServer(queryStrategy);
-//        server.startServer();
+        QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
+        Server server = new RestServer(queryStrategy);
+        server.startServer();
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
