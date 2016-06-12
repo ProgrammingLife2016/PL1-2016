@@ -73,7 +73,7 @@ public class BubbleCollapserTest {
     /**
      * Create parser object.
      *
-     * @throws IOException thrown if the test data INPUT faulty
+     * @throws IOException thrown if the test data input faulty
      */
     @Before
     public void setUp() throws IOException {

@@ -6,9 +6,11 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.ApiHandler;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetLineageFromDatabaseApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedBubblesFromDatabaseApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries
+        .GetThresholdedBubblesFromDatabaseApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataFromDatabaseApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries
+        .IndividualSegmentDataFromDatabaseApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoFromDatabaseQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataNavigateApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesFromDatabaseApiQuery;

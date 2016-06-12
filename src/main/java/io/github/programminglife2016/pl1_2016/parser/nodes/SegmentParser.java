@@ -163,7 +163,10 @@ public class SegmentParser implements Parser {
         if (specimens != null) {
             genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
-                    .map(x -> specimens.getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()), new Specimen(x.substring(0, x.length() - GENOME_SUFFIX.length()))))
+                    .map(x -> specimens
+                            .getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()),
+                                    new Specimen(x
+                                            .substring(0, x.length() - GENOME_SUFFIX.length()))))
                     .collect(Collectors.toSet());
         }
         else {
@@ -183,7 +186,7 @@ public class SegmentParser implements Parser {
 
     private void updateLastIndex(String genomeName, int dataLength) {
         int prevIdx = 0;
-        if(lastIndices.containsKey(genomeName)) {
+        if (lastIndices.containsKey(genomeName)) {
             prevIdx = lastIndices.get(genomeName);
         }
         lastIndices.put(genomeName, prevIdx + dataLength);
@@ -192,12 +195,13 @@ public class SegmentParser implements Parser {
     private void addRanges(Node node, int dataLength) {
         int lastId;
         for (Subject s : node.getSubjects()) {
-            if(lastIndices.containsKey(s.getNameId())) {
+            if (lastIndices.containsKey(s.getNameId())) {
                 lastId = lastIndices.get(s.getNameId());
             } else {
                 lastId = 0;
             }
-            node.getRangePerGenome().put(s.getNameId(), new SequenceRange(s.getNameId(), lastId, lastId + dataLength));
+            node.getRangePerGenome().put(s.getNameId(),
+                    new SequenceRange(s.getNameId(), lastId, lastId + dataLength));
             updateLastIndex(s.getNameId(), dataLength);
         }
     }

@@ -5,7 +5,15 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -97,7 +105,8 @@ public class BubbleDispatcher {
             }
         }
         List<Node> kowed = new ArrayList<>();
-        nodeCollection.values().stream().filter(node -> node.getLinks().size() == 1).forEach(node -> {
+        nodeCollection.values().stream().filter(node -> node.getLinks().size() == 1)
+                .forEach(node -> {
             boolean repeat = true;
             while (repeat) {
                 repeat = false;

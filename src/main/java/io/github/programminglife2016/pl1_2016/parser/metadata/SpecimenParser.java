@@ -25,7 +25,9 @@ public class SpecimenParser {
      * @param inputStream stream of data.
      */
     private Map<String, Subject> read(InputStream inputStream) {
-        if (inputStream == null) return null;
+        if (inputStream == null) {
+            return null;
+        }
         Map<String, Subject> specimens = new HashMap<>();
         BufferedReader reader = null;
         try {

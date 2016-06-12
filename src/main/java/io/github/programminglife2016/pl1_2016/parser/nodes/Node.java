@@ -204,5 +204,9 @@ public interface Node extends Cloneable {
      */
     void setStartNode(Node node);
 
+    /**
+     *
+     * @return map of [genome name -> range] key-value pairs for current node
+     */
     Map<String, SequenceRange> getRangePerGenome();
 }

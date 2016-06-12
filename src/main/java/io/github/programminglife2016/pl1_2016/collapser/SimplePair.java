@@ -2,8 +2,9 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 /**
  * Class to store tuples.
+ * @param <T> first element of the pair.
+ * @param <E> second element of the pair.
  * @author Ravi Autar
- *
  */
 public class SimplePair<T, E> {
 

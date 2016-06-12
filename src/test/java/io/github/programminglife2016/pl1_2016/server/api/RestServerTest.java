@@ -8,10 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
-
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.when;
 
 /**
