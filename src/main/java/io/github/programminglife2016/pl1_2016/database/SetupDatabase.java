@@ -67,7 +67,7 @@ public class SetupDatabase implements Database {
             for (int i = 0; i < THRESHOLDS.length; i++) {
                 BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
-                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i]);
+                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
                 nodesToWrite.recalculatePositions();
                 writeNodes(nodesToWrite, THRESHOLDS[i]);
             }

@@ -33,7 +33,7 @@ public final class BubbleMain {
         //=======================================
 
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection nodes = dispatcher.getThresholdedBubbles(1);
+        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
         for (Node node : nodes.values()) {
             node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
         }
