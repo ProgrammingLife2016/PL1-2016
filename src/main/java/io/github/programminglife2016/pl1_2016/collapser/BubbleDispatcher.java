@@ -1,10 +1,13 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
+    private static final String COLLAPSER_SERIAL = "/objects/collapser.ser";
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;
@@ -40,14 +44,33 @@ public class BubbleDispatcher {
      * @param collection of nodes
      */
     public BubbleDispatcher(NodeCollection collection) {
-        BubbleCollapser collapser = new BubbleCollapser(collection);
-        collapser.collapseBubbles();
-        this.bubbleCollection = collapser.getBubbles();
-        bubblesListSize = bubbleCollection.size();
-        lowestLevel = collapser.getLowestLevel();
+        try {
+            initAllCollapsedBubbles(collection);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         initDispatcher();
         lastId = bubbleCollection.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
+    }
+
+    private void initAllCollapsedBubbles(NodeCollection collection) throws IOException, ClassNotFoundException {
+        BubbleCollapser collapser;
+        InputStream collapserStream = BubbleDispatcher.class.getResourceAsStream(COLLAPSER_SERIAL);
+        ObjectSerializer ser = new ObjectSerializer();
+        if (collapserStream != null) {
+            collapser = (BubbleCollapser) ser.getSerializedItem(COLLAPSER_SERIAL);
+        }
+        else {
+            collapser = new BubbleCollapser(collection);
+            collapser.collapseBubbles();
+            ser.serializeItem(collapser, COLLAPSER_SERIAL);
+        }
+        this.bubbleCollection = collapser.getBubbles();
+        bubblesListSize = bubbleCollection.size();
+        lowestLevel = collapser.getLowestLevel();
     }
 
     /**

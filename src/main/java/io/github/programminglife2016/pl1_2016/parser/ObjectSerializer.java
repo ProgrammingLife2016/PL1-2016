@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
  * @author Ravi Autar
  */
 public class ObjectSerializer {
-    static void serializeItem(Object object, String infile) throws IOException {
+    public void serializeItem(Object object, String infile) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(infile);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(object);
@@ -20,7 +20,7 @@ public class ObjectSerializer {
         System.out.println("Object saved in: " + infile);
     }
 
-    static Object getSerializedItem(String infile) throws IOException, ClassNotFoundException {
+    public Object getSerializedItem(String infile) throws IOException, ClassNotFoundException {
         Object object;
         FileInputStream fileIn = new FileInputStream(infile);
         ObjectInputStream in = new ObjectInputStream(fileIn);
