@@ -96,7 +96,7 @@ public class BubbleDispatcherTest {
      */
     @Test
     public void testDispatchingCorrectView() {
-        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
+        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4, false);
         assertEquals(7, testCollection.size());
     }
     /**

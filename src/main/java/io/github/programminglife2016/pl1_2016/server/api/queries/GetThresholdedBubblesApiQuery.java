@@ -37,7 +37,7 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
     @Override
     public ApiAction getApiAction() {
         return args -> bubbleDispatcher
-                .getThresholdedBubbles(Integer.parseInt(args.get(0)))
+                .getThresholdedBubbles(Integer.parseInt(args.get(0)), false)
                 .toJson();
     }
 }
