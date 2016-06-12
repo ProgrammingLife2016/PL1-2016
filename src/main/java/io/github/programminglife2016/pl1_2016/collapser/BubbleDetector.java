@@ -50,16 +50,14 @@ public class BubbleDetector {
         levelBubbles.put(1,
                 findLevelBubbles(this.collection.get(1), collection.get(collection.size())));
         this.reachedLevel++;
-        while (true) {
-//            conductedSearches = new HashSet<>();
-            List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
-            if (currLevelList.isEmpty()) {
-                break;
-            }
+
+        List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
+        while (!currLevelList.isEmpty()) {
             levelBubbles.put(reachedLevel, currLevelList);
             reachedLevel++;
+            currLevelList = findDeeperLevelBubbles(levelBubbles);
         }
-        levelBubbles.values().stream().forEach(this.bubbleBoundaries::addAll);
+        levelBubbles.values().forEach(this.bubbleBoundaries::addAll);
     }
 
 
@@ -203,7 +201,7 @@ public class BubbleDetector {
      * Get bubbles with unique pair of start and end node.
      * @return list of unique bubbles
      */
-    List<Node> getBubbleBoundaries() {
+    public List<Node> getBubbleBoundaries() {
         List<Node> retrieved = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> uniques = new HashSet<>();
         for (Node bubble : bubbleBoundaries) {
@@ -216,27 +214,4 @@ public class BubbleDetector {
         }
         return retrieved;
     }
-
-//    boolean[] visited;
-//    public int findConnectedComponents (NodeCollection collection) {
-//        visited = initVisited(collection);
-//        int conncomponents = 0;
-//        for (Node node : collection.values()) {
-//            if (!visited[node.getId()]) {
-//                visited[node.getId()] = true;
-//                conncomponents+=1;
-//                dfs(node);
-//            }
-//        }
-//        return conncomponents;
-//    }
-//
-//    private void dfs(Node node) {
-//        for (Node link : node.getLinks()) {
-//            if (!visited[link.getId()]) {
-//                visited[link.getId()] = true;
-//                dfs(node);
-//            }
-//        }
-//    }
 }

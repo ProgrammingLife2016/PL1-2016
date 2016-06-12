@@ -20,4 +20,12 @@ public class SimplePair<T, E> {
         this.t = t;
         this.e = e;
     }
+
+    public E getE() {
+        return e;
+    }
+
+    public T getT() {
+        return t;
+    }
 }

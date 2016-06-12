@@ -41,9 +41,6 @@ public class BubbleLinker {
                         Integer.compare(b1.getId(),
                                 b2.getId())).get()
                 .getId());
-//        bubblesListSize = bubbles.size();
-
-//        run();
     }
 
     private void createQuickRefForLowering() {
@@ -82,7 +79,6 @@ public class BubbleLinker {
     private void setCorrectLevelsToNodes() {
         setLevels();
         createQuickRefForLowering();
-//        lowestLevel = bubbles
         lowestLevel.set(bubbles
                 .parallelStream()
                 .filter(x -> !x.getStartNode().isBubble())
@@ -141,7 +137,6 @@ public class BubbleLinker {
     }
 
     private boolean needLowerLevels() {
-//        lowestLevel = bubbles
         lowestLevel.set(bubbles
                 .parallelStream()
                 .filter(x -> !x.getStartNode().isBubble())
@@ -164,10 +159,6 @@ public class BubbleLinker {
                     .parallelStream()
                     .filter(x -> x.getZoomLevel() == currLevel)
                     .collect(Collectors.toList());
-//            int l = level.size();
-//            for (int i = 0; i < l; i++) {
-//                addLinkToBubble(level.get(i));
-//            }
             level.parallelStream().forEach(this::addLinkToBubble);
             List<Node> unlinked = bubbles
                     .parallelStream()
@@ -200,11 +191,6 @@ public class BubbleLinker {
         if (prospectiveLink.getZoomLevel() > level
             && quickReference.containsKey(String.valueOf(cId))) {
             prospectiveLink = getHighestBubble(level, quickReference.get(String.valueOf(cId)));
-//                    bubbles
-//                    .parallelStream()
-//                    .filter(x -> x.getId() == cId)
-//                    .findFirst()
-//                    .get());
         }
         if (prospectiveLink != null
                 && prospectiveLink.getZoomLevel() == level
@@ -222,9 +208,7 @@ public class BubbleLinker {
     }
 
     private void lowerSegments() {
-
         List<Node> needLower = getNeedLower().collect(Collectors.toList());
-
         while (needLower.size() != 0) {
             System.out.println("\rPlacing " + needLower.size()
                                + " bubbles to lower level, lowestLevel = " + lowestLevel + " ");
@@ -250,7 +234,6 @@ public class BubbleLinker {
                                  && x.getEndNode().getZoomLevel() < lowestLevel.intValue())
                              || x.getContainer().parallelStream().filter(y -> !y.isBubble()
                                      && y.getZoomLevel() < lowestLevel.intValue()).count() > 0);
-//                .collect(Collectors.toList());
     }
 
     private void lowerSegmentInBubble(Node bubble) {
@@ -266,7 +249,6 @@ public class BubbleLinker {
         Set<Node> newContainer = Collections.synchronizedSet(new HashSet<>());
         List<Node> oldContainer = Collections.synchronizedList(bubble.getContainer());
 
-//        for (Node n : bubble.getContainer())
         oldContainer.parallelStream().forEach(n -> //
         {
             if (!n.isBubble() && n.getZoomLevel() < lowestLevel.intValue()) {
@@ -281,13 +263,6 @@ public class BubbleLinker {
     }
 
     private synchronized Bubble initNewBubble(Node node, int level) {
-//            Optional<Node> exist = bubbles.parallelStream()
-//                    .filter(x -> x.getStartNode().getId() == node.getStartNode().getId()
-//                            && x.getEndNode().getId() == node.getEndNode().getId()
-//                            && x.getZoomLevel() == level).findFirst();
-//            if (exist.isPresent()) {
-//                return (Bubble) exist.get();
-//            }
         String key = node.getStartNode().getId() + "_"
                             + node.getEndNode().getId() + "_"
                             + level;
@@ -298,11 +273,10 @@ public class BubbleLinker {
         if (lowestLevel.intValue() < node.getZoomLevel()) {
             lowestLevel.set(node.getZoomLevel());
         }
-        lastId.incrementAndGet(); //++;
+        lastId.incrementAndGet();
         Bubble newBubble = new Bubble(lastId.intValue(), level, (Segment) node);
         bubbles.add(newBubble);
         quickReference.put(getNodeKeyForLowering(newBubble), newBubble);
-//        bubblesListSize++;
         return newBubble;
     }
 
