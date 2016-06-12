@@ -38,5 +38,8 @@ public interface Database {
      */
     String LINK_GENOMES_TABLE = "genomeslinks";
 
+    /**
+     * Connect to database.
+     */
     void connect();
 }

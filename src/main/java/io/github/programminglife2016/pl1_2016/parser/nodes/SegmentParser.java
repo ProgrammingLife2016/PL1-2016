@@ -153,14 +153,25 @@ public class SegmentParser implements Parser {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
+
+        Set<Subject> genomes;
         if (specimens != null) {
-            Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+            genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
-                    .map(x -> specimens.getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()), new Specimen(x.substring(0, x.length() - GENOME_SUFFIX.length()))))
+                    .map(x -> specimens
+                            .getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()),
+                                    new Specimen(x
+                                            .substring(0, x.length() - GENOME_SUFFIX.length()))))
                     .collect(Collectors.toSet());
-            nodeCollection.get(id).addGenomes(genomes);
         }
-        addRanges(nodeCollection.get(id), seq.length());
+        else {
+            genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                    .stream()
+                    .map(x -> new Specimen(x))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+        }
+        nodeCollection.get(id).addGenomes(genomes);
     }
 
     private String extractGenomeName(String rawName) {
@@ -169,7 +180,7 @@ public class SegmentParser implements Parser {
 
     private void updateLastIndex(String genomeName, int dataLength) {
         int prevIdx = 0;
-        if(lastIndices.containsKey(genomeName)) {
+        if (lastIndices.containsKey(genomeName)) {
             prevIdx = lastIndices.get(genomeName);
         }
         lastIndices.put(genomeName, prevIdx + dataLength);
@@ -178,12 +189,13 @@ public class SegmentParser implements Parser {
     private void addRanges(Node node, int dataLength) {
         int lastId;
         for (Subject s : node.getSubjects()) {
-            if(lastIndices.containsKey(s.getNameId())) {
+            if (lastIndices.containsKey(s.getNameId())) {
                 lastId = lastIndices.get(s.getNameId());
             } else {
                 lastId = 0;
             }
-            node.getRangePerGenome().put(s.getNameId(), new SequenceRange(s.getNameId(), lastId, lastId + dataLength));
+            node.getRangePerGenome().put(s.getNameId(),
+                    new SequenceRange(s.getNameId(), lastId, lastId + dataLength));
             updateLastIndex(s.getNameId(), dataLength);
         }
     }

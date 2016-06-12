@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
  *
  */
 public class BubbleCollapser {
-    List<Node> bubbles;
-    int lastId;
-    int bubblesListSize;
-    Set<Integer> collapsedSegments = new HashSet<>();
-    NodeCollection collection;
-    BubbleLinker linker;
+    private List<Node> bubbles;
+    private int lastId;
+    private int bubblesListSize;
+    private Set<Integer> collapsedSegments = new HashSet<>();
+    private NodeCollection collection;
+    private BubbleLinker linker;
 
     /**
      * Initialize all bubbles to collapse.
@@ -36,6 +36,7 @@ public class BubbleCollapser {
         this.collection = collection;
         BubbleDetector detector = new BubbleDetector(collection);
         detector.findMultiLevelBubbles();
+        System.out.println("Done Detecting..");
         this.bubbles = detector.getBubbleBoundaries();
         lastId = bubbles.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
@@ -58,7 +59,7 @@ public class BubbleCollapser {
         collapseInnerSegments();
         replaceInconsistentSegments();
         linker = new BubbleLinker(bubbles);
-        linker.addLinks();
+        linker.run();
     }
 
     private void replaceInconsistentSegments() {
@@ -77,7 +78,7 @@ public class BubbleCollapser {
     /**
      * Find all segments that given bubble contains using breadth-first-search .
      * @param bubble bubble to collapse
-     * @return
+     * @return bubbles filled with segments
      */
     private List<Node> bfs(Node bubble) {
         List<Node> visited = new ArrayList<>();
@@ -123,7 +124,7 @@ public class BubbleCollapser {
             boolean containsBubbles = bubbles.get(i)
                     .getContainer()
                     .stream()
-                    .filter(x -> x.isBubble())
+                    .filter(Node::isBubble)
                     .collect(Collectors.toList()).size() != 0;
             boolean tooComplex = bubbles.get(i).getContainer().size() > 2
                     && bubbles.get(i).getContainer()
@@ -173,7 +174,7 @@ public class BubbleCollapser {
             bubble.getContainer().add(bubbles.stream()
                     .filter(b -> b.getId() == id).findFirst().get());
         }
-        if (bubble.getContainer().stream().filter(x -> x.isBubble())
+        if (bubble.getContainer().stream().filter(Node::isBubble)
                 .collect(Collectors.toList()).size() != 0) {
             for (int i = 0; i < bubble.getContainer().size(); i++) {
                 if (bubble.getContainer().get(i) instanceof Segment) {
@@ -243,6 +244,17 @@ public class BubbleCollapser {
             }
         }
         return false;
+    }
+
+    /**
+     * Get the lowest bubble level from BubbleLinker.
+     * @return lowest bubble level
+     */
+    public int getLowestLevel() {
+        if (linker != null) {
+            return linker.getLowestLevel();
+        }
+        return -1;
     }
 
     /**

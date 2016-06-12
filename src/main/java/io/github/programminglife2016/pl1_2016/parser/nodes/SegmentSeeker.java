@@ -10,6 +10,10 @@ public class SegmentSeeker implements Seeker {
 
     private NodeCollection collection;
 
+    /**
+     * Create seeker object and initialize it with collection of segments.
+     * @param collection collection of segments
+     */
     public SegmentSeeker(NodeCollection collection) {
         this.collection = collection;
     }
@@ -18,12 +22,14 @@ public class SegmentSeeker implements Seeker {
     public JSONObject find(String name, int position) {
         JSONObject result = new JSONObject();
         for (Node n : collection.values()) {
-            if (n.getRangePerGenome().containsKey(name) && n.getRangePerGenome().get(name).isInInterval(position)) {
+            if (n.getRangePerGenome().containsKey(name)
+                && n.getRangePerGenome().get(name).isInInterval(position)) {
                 result.put("status", "success");
                 result.put("id", n.getId());
                 System.out.println(n.getX() + " " + n.getY());
                 result.put("x", n.getX());
-                result.put("indexInSegment", getLocalPosition(n.getRangePerGenome().get(name), position));
+                result.put("indexInSegment",
+                        getLocalPosition(n.getRangePerGenome().get(name), position));
                 return result;
             }
         }
