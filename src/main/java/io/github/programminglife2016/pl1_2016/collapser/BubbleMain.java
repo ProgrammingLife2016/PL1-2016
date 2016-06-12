@@ -22,8 +22,10 @@ public final class BubbleMain {
      */
     public static void main(String[] args) throws IOException {
         InputStream is =
-                BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
 //        TB328-old
+//        InputStream is =
+//                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328-old.gfa");
         InputStream mt =
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
         InputStream pos =
@@ -33,10 +35,12 @@ public final class BubbleMain {
         //=======================================
 
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection nodes = dispatcher.getThresholdedBubbles(1);
+        NodeCollection nodes = dispatcher.getThresholdedBubbles(4);
         for (Node node : nodes.values()) {
             node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
         }
+        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
+        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
         //=======================================
 
 //        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
@@ -52,8 +56,7 @@ public final class BubbleMain {
 //        for (Node node : detector.getBubbleBoundaries()) {
 //            System.out.println(node.getId());
 //        }
-//        System.out.println(detector.findConnectedComponents(nodeCollection));
-
+//
         //========================================
 //        for (Node node : nodeCollection.values()) {
 //            if (node.getId() > 78053)
