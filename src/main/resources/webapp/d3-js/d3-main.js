@@ -20,7 +20,7 @@ var miniY;
 
 var zoom_levels = [1, 4, 32, 128]
 var previousZoom = 128;
-
+var options;
 //function setFiltered
 function newZoomLevel(s) {
     if (s < 5) {
@@ -86,10 +86,23 @@ function startD3() {
         });
 
         for (var i = 0; i < window.tkks.length; i++) {
-          $( ".tkks" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
+          $( ".tkks" ).append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
         }
-
+        setOptions();
         $(".tkks").chosen({ search_contains: true });
+        $(".metadata").on('change', function(event, params){
+            $.each(params, function(key, value){
+                if (key == "selected") {
+                    $("#characteristics").append("<div class=\"search_item\"><span>" + value + ": </span><select multiple id =\"" + value + "\" data-placeholder=\"Select " + value + "\" ></select></div>");
+                    for (var i = 0; i < options[value].length; i++) {
+                        $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
+                    }
+                    $("#"+value).chosen({ search_contains: true, width: "95%" });
+                } else if (key == "deselected") {
+                    $("#"+value).parent().remove();
+                }
+            });
+        });
     });
 }
 
@@ -100,6 +113,17 @@ var svg;
 var tip;
 
 var minimap;
+var res;
+function setOptions() {
+    $.getJSON("/api/metadata/options", function(response) {
+        options = response.options;
+        $.each(response.options, function(key, value){
+                $(".metadata").append("<option value=\"" + key + "\">" + key + "</option>");
+        });
+        $(".metadata").chosen({ search_contains: true });
+
+    });
+}
 function drawGraph() {
     zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
     tip = d3.tip()

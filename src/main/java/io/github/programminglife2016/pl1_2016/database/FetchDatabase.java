@@ -415,8 +415,8 @@ public class FetchDatabase implements Database {
         return lineage;
     }
 
-    private JSONArray fetchOptions() throws SQLException {
-        JSONArray options = new JSONArray();
+    private JSONObject fetchOptions() throws SQLException {
+        JSONObject options = new JSONObject();
 
         Statement stmt = null;
         ResultSet rs;
@@ -430,9 +430,7 @@ public class FetchDatabase implements Database {
                 while (rs.next()) {
                     values.put(rs.getObject(column));
                 }
-                JSONObject element = new JSONObject();
-                element.put(column, values);
-                options.put(element);
+                options.put(column, values);
             }
         } catch (SQLException e) {
             e.printStackTrace();

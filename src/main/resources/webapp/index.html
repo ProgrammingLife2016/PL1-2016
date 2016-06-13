@@ -106,29 +106,41 @@
                 </ul>
                 <div class="tab-content">
                     <div id="tab1" class="tab active">
-                        <div id="jumpbase">
-                            <div id="jumptobase">Jump to base</div>
-                            <span>Select genome to jump on</span>
+                        <div class="element">
+                            <div class="title">Jump to base</div>
+                            <span>Select genome to jump on.</span>
                             <select class="tkks" data-placeholder="Select the genome"></select>
-                            <span>Select base to jump to<br></span>
+                            <span>Select base to jump to.<br></span>
                             <input id="baseindex" type="number" min="0" step="1"/>
                             <a id="jumpb" href="#" onclick="jumpToBaseGetFromDOM()">
                             <div class="jump">Jump</div>
                             </a>
                         </div>
-                        <div id="jumpgene">
-                            <div id="jumptogene">Jump to gene</div>
+                        <div class="element">
+                            <div class="title">Jump to gene</div>
                             <span>Select genome to jump on</span>
                             <select class="tkks" data-placeholder="Select the genome"></select>
                             <a id="jumpg" href="#">
                             <div class="jump">Jump</div>
                             </a>
                         </div>
-                        <br style="clear:both;"/>
                     </div>
 
                     <div id="tab2" class="tab">
 
+                        <div id="metadatasearcher" class="element">
+                            <div class="title">Search on metadata</div>
+                            <span>Select one or multiple characteristics to search for.</span>
+                            <select class="metadata" data-placeholder="Select a characteristic ..." multiple></select>
+                        </div>
+                        <div id="characteristics" class="element">
+
+                        </div>
+                        <div class="element">
+                            <a id="jumpg" href="#">
+                                <div class="jump">Search</div>
+                            </a>
+                        </div>
                     </div>
 
                     <div id="tab3" class="tab">
