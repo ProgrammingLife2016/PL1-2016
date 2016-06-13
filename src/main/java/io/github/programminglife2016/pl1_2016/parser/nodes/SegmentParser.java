@@ -29,7 +29,7 @@ public class SegmentParser implements Parser {
     private NodeCollection nodeCollection;
     private InputStream positions;
     private Map<String, Subject> specimens;
-    private Map<String, Integer> lastIndices;
+    private Map<String, Integer> lastIndices = new HashMap<>();
 
 
     /**
@@ -48,7 +48,6 @@ public class SegmentParser implements Parser {
     public SegmentParser(InputStream positions, InputStream metadata) {
         this();
         this.positions = positions;
-        lastIndices = new HashMap<>();
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
     }
