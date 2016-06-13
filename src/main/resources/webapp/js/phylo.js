@@ -118,6 +118,14 @@ function phylo(n, offset) {
   }
 }
 
+function getMetadata(name) {
+    console.log(name);
+    var value = $.getJSON("/api/metadata/info/"+name, function (response) {
+        return response.subject[name];
+    }).responseText;
+    console.log(value);
+    return value;
+}
 d3.text("/static/file.nwk", function(text) {
   var x = newick.parse(text);
   var treenodes = cluster.nodes(x);
@@ -152,10 +160,12 @@ d3.text("/static/file.nwk", function(text) {
   var label = tree.selectAll("text")
       .data(treenodes.filter(function(d) { return d.x !== undefined && !d.children; }))
     .enter().append("text")
+
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
-      .text(function(d) { return d.name.replace(/_/g, ' '); })
+      .text(function(d) { return d.name; })
+      .attr("metadata", function(d) { return getMetadata(d.name)})
       .attr("class", function(d) {
             var str = $("."+d.name).attr("class");
             return str.replace("treelink", "");
@@ -179,8 +189,13 @@ d3.text("/static/file.nwk", function(text) {
           highlight(e.name);
       });
       enableZooming(svgId);
-
-  window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
+      window.infoOnGenomes = [];
+    $("text").toArray().map(function(tkk) {
+        $.getJSON("/api/metadata/info/"+tkk.textContent, function (response) {
+            window.infoOnGenomes.push([tkk.textContent, response.subject[tkk.textContent]]);
+            });
+    });
+    window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
 });
 
  var highlight = function(name) {

@@ -137,15 +137,15 @@ public class FetchDatabase implements Database {
         return result;
     }
 
-    private JSONArray fetchMetadata(String genome) {
+    private JSONObject fetchMetadata(String genome) {
         Statement stmt;
         String query = String.format("select * from %s WHERE specimen_id='%s'", SPECIMEN_TABLE, genome);
         ResultSet rs;
-        JSONArray res = null;
+        JSONObject res = null;
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-            res = convertResultSetIntoJSON(rs);
+            res = convertResultSetIntoJSONString(rs);
             rs.close();
             stmt.close();
         } catch (SQLException e) {
@@ -297,6 +297,42 @@ public class FetchDatabase implements Database {
             e.printStackTrace();
         }
         return jsonArray;
+    }
+
+    /**
+     * Convert a result set into a JSON Array
+     *
+     * @param resultSet ResultSet that has to be converted
+     * @return a JSONArray
+     * @throws Exception thrown if resultset is not valid
+     */
+    private JSONObject convertResultSetIntoJSONString(ResultSet resultSet) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            while (resultSet.next()) {
+                String specimen = "";
+                int totalColumns = resultSet.getMetaData().getColumnCount();
+                JSONObject obj = new JSONObject();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < totalColumns; i++) {
+
+                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                    Object columnValue = resultSet.getObject(i + 1);
+                    // if value in DB is null, then we set it to default value
+                    if (columnValue == null) {
+                        columnValue = "null";
+                    }
+                    if (columnName.equals("specimen_id")) {
+                        specimen = (String) columnValue;
+                    }
+                    sb.append(columnName + ":" + columnValue +", ");
+                }
+                jsonObject.put(specimen, sb.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     /**

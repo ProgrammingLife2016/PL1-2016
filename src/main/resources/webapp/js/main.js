@@ -239,7 +239,7 @@ $(function() { // on dom ready
             $("#options").css("z-index", "0");
             $("#search").css("display", "block");
             for (var i = 0; i < window.tkks.length; i++) {
-                $("#search ul").append($("<li>").text(window.tkks[i].textContent));
+                $("#search ul").append($("<li>").text(window.tkks[i][1]));
             }
 
             if (this.fuse === undefined) {
@@ -355,12 +355,16 @@ $(function() { // on dom ready
         this.fuse = undefined;
     }
 
+    function initializeData() {
+
+    }
+
     PhyloGeneticTree.prototype.loadFuse = function() {
         console.log("Initialize fuse");
         var listOfGenomes = window.tkks.map(function(tkk) {
             return {
                 "name": tkk.textContent,
-                "compressed": tkk.textContent.replace(" ", "").replace("-", "")
+                "compressed": tkk.textContent
             };
         });
         var options = {
@@ -395,7 +399,6 @@ $(function() { // on dom ready
         $("#search input").on("search", function() {
             phyloTree.listItems();
         });
-
         $("#search input").keyup(function(e) {
             //Reset highlighting
             window.tkks
@@ -452,7 +455,7 @@ $(function() { // on dom ready
         $("#d3").css("height", h);
     };
     updateBounds();
-
+    initializeData();
     graphHandler.loadSettings();
     $("#tree").css("z-index", "0");
     $("#d3").css("z-index", "1");
