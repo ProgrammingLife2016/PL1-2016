@@ -24,7 +24,7 @@ public class SetupDatabase implements Database {
     /**
      * The connection to the database.
      */
-    private static final int[] THRESHOLDS = {1, 4, 16, 32, 64, 128};
+    private static final int[] THRESHOLDS = {4, 16, 32, 64, 128};
 
     private static final int FIVE = 5;
     private static final int FOUR = 4;
@@ -60,7 +60,7 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) throws SQLException {
-//        if (!isSetup()) {
+        if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
@@ -71,8 +71,7 @@ public class SetupDatabase implements Database {
                 nodesToWrite.recalculatePositions();
                 writeNodes(nodesToWrite, THRESHOLDS[i]);
             }
-//        }
-
+        }
     }
 
     private boolean isSetup() throws SQLException {

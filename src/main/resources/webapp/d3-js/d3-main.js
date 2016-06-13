@@ -84,7 +84,7 @@ function startD3() {
           $( ".tkks" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
         }
 
-        $(".tkks").chosen();
+        $(".tkks").chosen({ search_contains: true });
     });
 }
 
@@ -338,9 +338,8 @@ function highlightLineage(genome) {
 }
 
 function jumpToBaseGetFromDOM() {
-    var e = document.getElementById("fuzzOptionsList");
-    var strUser = e.options[e.selectedIndex].value;
-    console.log(strUser + " " + $("#baseindex").text());
+    var strUser = $(".tkks").chosen().val();
+    console.log(strUser + " " + $("#baseindex").val());
     $.getJSON("/api/metadata/navigate/" + strUser + "/" + $("#baseindex").val(), function (response) {
         var dx = 10;
         var dy = 10;

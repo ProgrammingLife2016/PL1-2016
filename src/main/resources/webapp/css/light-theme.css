@@ -531,3 +531,20 @@ option {
     margin-bottom: 0;
     padding-left: 0;
 }
+    #jumpbase {
+        width: 50%;
+        float: left;
+    }
+
+    #jumpgene {
+        width: 50%;
+        float: right;
+    }
+
+    #optionsgraph span {
+        display: block;
+    }
+
+.chosen-container .chosen-results {
+    max-height:150px !important;
+}

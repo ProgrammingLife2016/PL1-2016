@@ -66,22 +66,22 @@
                                 <span class="fuzzArrow"></span>
                             </div>
                             <div id="fuzzDropdownContainer">
-                                <input id="baseindex" type="text" value="" class="fuzzMagicBox" placeholder="search.." style="
-                                    margin: 0;
-                                    letter-spacing: 1px;
-                                    font-size: 23px;
-                                    border: none;
-                                    width: 295px;
-                                    padding: 4px;
-                                    color: #FFF;
-                                    background-color: rgba(255,255,255,0.3);
-                                    border-radius: 5px;
-                                    margin-left: 0px;
-                                    margin-top: 12px;
-                                    font-weight: 100;
-                                    outline: none;
-                                ">
-                                <button id="jump">Jump</button>
+                                <!--<input id="baseindex" type="text" value="" class="fuzzMagicBox" placeholder="search.." style="-->
+                                    <!--margin: 0;-->
+                                    <!--letter-spacing: 1px;-->
+                                    <!--font-size: 23px;-->
+                                    <!--border: none;-->
+                                    <!--width: 295px;-->
+                                    <!--padding: 4px;-->
+                                    <!--color: #FFF;-->
+                                    <!--background-color: rgba(255,255,255,0.3);-->
+                                    <!--border-radius: 5px;-->
+                                    <!--margin-left: 0px;-->
+                                    <!--margin-top: 12px;-->
+                                    <!--font-weight: 100;-->
+                                    <!--outline: none;-->
+                                <!--">-->
+                                <!--<button id="jump">Jump</button>-->
                                 <span class="fuzzSearchIcon"></span>
                                 <ul id="fuzzResults">
                                 </ul>
@@ -133,14 +133,18 @@
             <div id="optionsgraph">
                 <ul class="tab-links">
                     <li class="active"><a href="#tab1"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Jumping</a></li>
-                    <li><a href="#tab2"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>N</a></li>
+                    <li><a href="#tab2"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Not yet</a></li>
                     <li><a href="#tab3"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Jump to Base</a></li>
                     <li><a href="#tab4"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Jump to Base</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="tab1" class="tab active">
                         <div id="jumpbase">
+                            <span>Select genome to jump on</span>
                             <select class="tkks" data-placeholder="Select the genome"></select>
+                            <span>Select base to jump to<br></span>
+                            <input id="baseindex" type="number" min="0" step="1"/>
+                            <button id="jump">Jump</button>
                         </div>
                         <div id="jumpgene">
 
