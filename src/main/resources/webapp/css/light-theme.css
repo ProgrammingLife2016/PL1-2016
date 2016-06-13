@@ -10,7 +10,9 @@
 *:-ms-input-placeholder {
     color: #f8f8f8;
 }
-
+a {
+    text-decoration: none;
+}
 html, body {
   font-family: 'Open Sans', serif;
   font-weight: 100;
@@ -430,28 +432,6 @@ html, body {
   display: none;
 }
 
-#fuzzOptionsList {
-  margin: 0;
-  letter-spacing: 1px;
-  font-size: 23px;
-  border: none;
-  width: 295px;
-  padding: 4px;
-  color: #FFF;
-  border-radius: 5px;
-  margin-left: 0px;
-  margin-top: 12px;
-  font-weight: 100;
-  outline: none;
-  background-color: rgba(255,255,255,0.3);
-
-}
-
-option {
-
-  background-color: #54a0ab;
-}
-
 #d3 > svg:nth-child(2) {
     vertical-align: bottom;
     float: right;
@@ -490,7 +470,7 @@ option {
         .tab-links a {
             padding:9px 15px;
             display:inline-block;
-            border-radius:3px 3px 0px 0px;
+            border-radius:6px 6px 0px 0px;
             background: #54a0ab;
             font-size:16px;
             font-weight:600;
@@ -500,13 +480,13 @@ option {
         }
 
         .tab-links a:hover {
-            background:#a7cce5;
+            background:#5eb3c2;
             text-decoration:none;
         }
 
     li.active a, li.active a:hover {
-        background:#fff;
-        color:#5EB3C2;
+        background:#5eb3c2;
+        color:#fff;
     }
 
     /*----- Content of Tabs -----*/
@@ -515,7 +495,7 @@ option {
         padding:15px;
         border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-        background:#fff;
+        background:#5eb3c2;
     }
 
         .tab {
@@ -531,20 +511,72 @@ option {
     margin-bottom: 0;
     padding-left: 0;
 }
+    .jump {
+        margin-top: 5px;
+        background-color: #54a0ab;
+        border-radius:3px;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        display: block;
+    }
+    .jump:hover {
+        background-color: #5eb3c2;
+
+    }
     #jumpbase {
+        text-align: center;
         width: 50%;
         float: left;
     }
+        #jumptobase {
+            font-size: 120%;
+            color: #fff;
+            font-weight: bold;
+        }
+    #jumpbase input[type=number] {
+        text-align: center;
+        padding:5px;
+        border:2px solid #ccc;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        width: 50%;
+    }
+
+    #jumpbase>span {
+        margin-top: 20px;
+        display: block;
+        color: #fff;
+    }
+
 
     #jumpgene {
-        width: 50%;
-        float: right;
+            text-align: center;
+            width: 50%;
+            float: left;
+        }
+            #jumptogene {
+                font-size: 120%;
+                color: #fff;
+                font-weight: bold;
+            }
+
+        #jumpgene>span {
+            margin-top: 20px;
+            display: block;
+            color: #fff;
+        }
+    #jumpg {
+        margin-top: 76px;
     }
 
-    #optionsgraph span {
-        display: block;
+    #jumpg>div {
+        margin-top: 76px;
     }
-
 .chosen-container .chosen-results {
     max-height:150px !important;
 }

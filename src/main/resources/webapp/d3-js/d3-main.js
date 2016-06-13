@@ -79,6 +79,11 @@ function startD3() {
         drawGraph();
         $("#optionsgraph").css("display", "block");
         d3.select("#jump").on("click", jumpToBaseGetFromDOM);
+        $("#baseindex").keyup(function(e){
+            if(e.keyCode == 13) {
+                jumpToBaseGetFromDOM();
+            }
+        });
 
         for (var i = 0; i < window.tkks.length; i++) {
           $( ".tkks" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
@@ -186,7 +191,7 @@ function zoom(beginX) {
                         response = JSON.parse(response);
                         nodes = response.nodes;
                         edges = response.edges;
-                        console.log(nodes.length);
+
                         line.remove();
                         circle.remove();
                         line = svg.selectAll("line")

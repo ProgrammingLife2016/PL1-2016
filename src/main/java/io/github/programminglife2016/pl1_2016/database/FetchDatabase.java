@@ -21,6 +21,13 @@ import java.util.Map;
  */
 public class FetchDatabase implements Database {
 
+    private static final String[] SPECIMEN_COLUMNS = {"age" , "sex" , "hiv_status" , "cohort" ,
+            "date_of_collection" , "study_geographic_district" , "specimen_type" , "microscopy_smear_status" ,
+            "dna_isolation_single_colony_or_nonsingle_colony" , "phenotypic_dst_pattern" ,
+            "capreomycin_10ugml" , "ethambutol_75ugml" , "ethionamide_10ugml" ,
+            "isoniazid_02ugml_or_1ugml" , "kanamycin_6ugml" , "pyrazinamide_nicotinamide_5000ugml_or_pzamgit" ,
+            "ofloxacin_2ugml" , "rifampin_1ugml" , "streptomycin_2ugml" , "digital_spoligotype" , "lineage" ,
+            "genotypic_dst_pattern" , "tugela_ferry_vs_nontugela_ferry_xdr"};
     /**
      * The connection to the database.
      */
@@ -406,5 +413,45 @@ public class FetchDatabase implements Database {
             }
         }
         return lineage;
+    }
+
+    private JSONArray fetchOptions() throws SQLException {
+        JSONArray options = new JSONArray();
+
+        Statement stmt = null;
+        ResultSet rs;
+        try {
+            stmt = connection.createStatement();
+            String query;
+            for (String column : SPECIMEN_COLUMNS) {
+                JSONArray values = new JSONArray();
+                query = String.format("SELECT DISTINCT %s FROM specimen", column);
+                rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    values.put(rs.getObject(column));
+                }
+                JSONObject element = new JSONObject();
+                element.put(column, values);
+                options.put(element);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return options;
+    }
+    public JSONObject getOptions() {
+        JSONObject options = new JSONObject();
+        try {
+            options.put("options", fetchOptions());
+            options.put("status", "success");
+        } catch (SQLException e) {
+            options.put("status", "error");
+            e.printStackTrace();
+        }
+        return options;
     }
 }
