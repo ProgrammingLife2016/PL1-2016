@@ -172,6 +172,7 @@ public class SegmentParser implements Parser {
                     .collect(Collectors.toSet());
         }
         nodeCollection.get(id).addGenomes(genomes);
+        addRanges(nodeCollection.get(id), seq.length());
     }
 
     private String extractGenomeName(String rawName) {
