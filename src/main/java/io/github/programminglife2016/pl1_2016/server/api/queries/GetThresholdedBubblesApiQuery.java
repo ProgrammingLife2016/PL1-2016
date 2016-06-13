@@ -4,6 +4,8 @@ import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
+import java.io.IOException;
+
 /**
  * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
  */

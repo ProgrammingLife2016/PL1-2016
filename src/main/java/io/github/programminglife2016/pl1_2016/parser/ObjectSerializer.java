@@ -1,10 +1,7 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.URISyntaxException;
 
 /**
  * Serializer for any object of choice.
@@ -17,16 +14,16 @@ public class ObjectSerializer {
         out.writeObject(object);
         out.close();
         fileOut.close();
-        System.out.println("Object saved in: " + infile);
+        System.out.println("Object saved succesfully!");
     }
 
     public Object getSerializedItem(String infile) throws IOException, ClassNotFoundException {
-        Object object;
+        Object serializedObject = null;
         FileInputStream fileIn = new FileInputStream(infile);
         ObjectInputStream in = new ObjectInputStream(fileIn);
-        object = in.readObject();
+        serializedObject = in.readObject();
         in.close();
         fileIn.close();
-        return object;
+        return serializedObject;
     }
 }
