@@ -211,7 +211,7 @@ public class BubbleLinker {
         List<Node> needLower = getNeedLower().collect(Collectors.toList());
         while (needLower.size() != 0) {
             System.out.println("\rPlacing " + needLower.size()
-                               + " bubbles to lower level, lowestLevel = " + lowestLevel + " ");
+                               + " bubbles to lower level, lowestLevel.ser = " + lowestLevel + " ");
             long startTime = System.nanoTime();
 //            needLower.forEach(this::lowerSegmentInBubble);
             for (int i = 0; i < needLower.size(); i++) {

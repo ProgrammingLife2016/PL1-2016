@@ -1,11 +1,19 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to view bubbling changes
@@ -20,7 +28,7 @@ public final class BubbleMain {
      * @param args arguments.
      * @throws IOException thrown when reading the files fails.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, URISyntaxException {
         InputStream is =
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
 //        TB328-old
@@ -32,8 +40,10 @@ public final class BubbleMain {
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
-        //=======================================
-
+//        File file = new File("src/main/resources/objects/buebbles.ser");
+//        file.createNewFile();
+//        System.out.println(file.exists());
+        //==============================
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
         for (Node node : nodes.values()) {

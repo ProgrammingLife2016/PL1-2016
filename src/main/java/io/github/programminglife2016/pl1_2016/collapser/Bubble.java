@@ -5,6 +5,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SequenceRange;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,20 +20,20 @@ import java.util.stream.Collectors;
  *
  * @author Ravi Autar
  */
-public class Bubble implements Node {
+public class Bubble implements Node, Serializable {
     private int id;
     private int x;
     private int y;
-    private transient Boolean isBubble = true;
-    private transient Node startNode;
-    private transient Node endNode;
-    private transient List<Node> container = new ArrayList<>();
-    private transient Set<Node> links = new HashSet<>();
-    private transient Set<Node> backLinks = new HashSet<>();
-    private transient int containerid;
-    private transient int level;
-    private transient String data = "";
-    private transient int containersize;
+    private Boolean isBubble = true;
+    private Node startNode;
+    private Node endNode;
+    private List<Node> container = new ArrayList<>();
+    private Set<Node> links = new HashSet<>();
+    private Set<Node> backLinks = new HashSet<>();
+    private int containerid;
+    private int level;
+    private String data = "";
+    private int containersize;
     private HashMap<String, SequenceRange> rangePerGenome;
     private boolean coordinateOverridden = false;
     private boolean genomesOverridden = false;
