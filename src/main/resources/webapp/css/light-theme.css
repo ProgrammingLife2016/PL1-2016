@@ -451,3 +451,83 @@ option {
 
   background-color: #54a0ab;
 }
+
+#d3 > svg:nth-child(2) {
+    vertical-align: bottom;
+    float: right;
+    max-width: 50%;
+}
+
+#optionsgraph {
+    display: none;
+    width: 50%;
+    height: 350px;
+    background-color: #54a0ab;
+    vertical-align: bottom;
+    float: left;
+
+}
+
+.tabs {
+    width:100%;
+    display:inline-block;
+}
+
+    /*----- Tab Links -----*/
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+
+    .tab-links li {
+        margin:0px 5px;
+        float:left;
+        list-style:none;
+    }
+
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            border-radius:3px 3px 0px 0px;
+            background: #54a0ab;
+            font-size:16px;
+            font-weight:600;
+            color:#fff;
+            transition:all linear 0.15s;
+            text-decoration: none;
+        }
+
+        .tab-links a:hover {
+            background:#a7cce5;
+            text-decoration:none;
+        }
+
+    li.active a, li.active a:hover {
+        background:#fff;
+        color:#5EB3C2;
+    }
+
+    /*----- Content of Tabs -----*/
+    .tab-content {
+        height: 80%;
+        padding:15px;
+        border-radius:3px;
+        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+        background:#fff;
+    }
+
+        .tab {
+            display:none;
+        }
+
+        .tab.active {
+            display:block;
+        }
+
+#optionsgraph > ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+}

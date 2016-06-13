@@ -1,7 +1,7 @@
 var width = window.innerWidth - 10;
-var height = window.innerHeight - 300;
-var miniWidth = width;
-var miniHeight = 250;
+var height = window.innerHeight - 400;
+var miniWidth = width/2;
+var miniHeight = 350;
 var maxZoomLevel = 100;
 var zoomThreshold = 1;
 
@@ -18,15 +18,21 @@ var somethingIsHighlighted = false;
 var miniX;
 var miniY;
 
+var zoom_levels = [1, 4, 32, 128]
 var previousZoom = 128;
 
+//function setFiltered
 function newZoomLevel(s) {
-    if (s < 10) {
-        return 128;
-    } else if (5 <= s && s < 20) {
-        return 4;
+    if (s < 5) {
+        return zoom_levels[3];
+    } else if (5 <= s && s < 10) {
+        return zoom_levels[2];
+    } else if (10 <= s && s < 15) {
+        return zoom_levels[1];
+    } else if (15 <= s && s < 20) {
+        return zoom_levels[0];
     } else {
-        return 1;
+        return zoom_levels[0];
     }
 }
 
@@ -69,9 +75,16 @@ function startD3() {
             colorFactor = 20;
             widthFactor = 1;
         }
-        drawGraph();
         drawMinimap();
+        drawGraph();
+        $("#optionsgraph").css("display", "block");
         d3.select("#jump").on("click", jumpToBaseGetFromDOM);
+
+        for (var i = 0; i < window.tkks.length; i++) {
+          $( ".tkks" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
+        }
+
+        $(".tkks").chosen();
     });
 }
 
@@ -82,7 +95,6 @@ var svg;
 var tip;
 
 var minimap;
-
 function drawGraph() {
     zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
     tip = d3.tip()
@@ -92,7 +104,7 @@ function drawGraph() {
             getData(d.id);
             return "<strong>Segment:</strong> <span id='data" + d.id + "'>...</span>";
         });
-    svg = d3.select("#d3").append("svg")
+    svg = d3.select("#d3").insert("svg",":first-child")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -128,7 +140,7 @@ function drawGraph() {
 var rect;
 
 function drawMinimap() {
-    minimap = d3.select("#d3").append("svg")
+    minimap = d3.select("#d3").insert("svg",":first-child")
         .attr("width", miniWidth)
         .attr("height", miniHeight)
         .append("g");
@@ -153,6 +165,7 @@ function drawMinimap() {
         .attr("height", miniHeight);
 }
 var previousX = [0, 1000000];
+
 function zoom(beginX) {
     var t = d3.event.translate;
     var s = d3.event.scale;
@@ -162,7 +175,9 @@ function zoom(beginX) {
         t[1] = beginX + 1000;
     }
 
-    if (Math.abs(previousX[0] - x.domain()[0]) >= 1500 || Math.abs(previousX[1] - x.domain()[1]) >= 1500) {
+
+    console.log(10000/s);
+    if (Math.abs(previousX[0] - x.domain()[0]) >= 10000/s || Math.abs(previousX[1] - x.domain()[1]) >= 10000/s) {
         previousX = x.domain();
         $.ajax({
                     url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
@@ -171,7 +186,7 @@ function zoom(beginX) {
                         response = JSON.parse(response);
                         nodes = response.nodes;
                         edges = response.edges;
-
+                        console.log(nodes.length);
                         line.remove();
                         circle.remove();
                         line = svg.selectAll("line")

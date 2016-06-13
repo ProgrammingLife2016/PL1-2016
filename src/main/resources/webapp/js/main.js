@@ -449,4 +449,16 @@ $(function() { // on dom ready
     $("#options").css("z-index", "2");
 
 
+
+    $("#optionsgraph > ul > li> a").on("click", function(e)  {
+            var currentAttrValue = jQuery(this).attr('href');
+            console.log(currentAttrValue);
+            // Show/Hide Tabs
+            $(currentAttrValue).slideDown(400).siblings().slideUp(400);
+
+            // Change/remove current tab to active
+            jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+            e.preventDefault();
+        });
 }); // on dom ready
