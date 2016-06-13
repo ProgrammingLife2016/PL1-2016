@@ -18,7 +18,7 @@ var somethingIsHighlighted = false;
 var miniX;
 var miniY;
 
-var previousZoom = 500;
+var previousZoom = 128;
 
 function newZoomLevel(s) {
     if (s < 10) {
@@ -44,7 +44,7 @@ var lineageColors = {
 }
 
 function startD3() {
-    $.getJSON("/api/nodes/128", function (response) {
+    $.getJSON("/api/nodes/128/0/100000000", function (response) {
         nodes = response.nodes;
         edges = response.edges;
         x = d3.scale.linear()
@@ -71,6 +71,7 @@ function startD3() {
         }
         drawGraph();
         drawMinimap();
+        d3.select("#jump").on("click", jumpToBaseGetFromDOM);
     });
 }
 
@@ -140,7 +141,7 @@ function drawMinimap() {
         .attr("y1", function (d) {return miniY(d.y1)})
         .attr("x2", function (d) {return miniX(d.x2)})
         .attr("y2", function (d) {return miniY(d.y2)})
-        .attr("stroke", function (d) {var x = d.genomes.length * colorFactor; return "rgb(" + (255 - x) + "," + (127 - x) + "," + (0) + ")"})
+        .attr("stroke", defaultColor)
         .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
 
     rect = minimap
@@ -151,16 +152,56 @@ function drawMinimap() {
         .attr("width", miniWidth)
         .attr("height", miniHeight);
 }
-
-function zoom() {
+var previousX = [0, 1000000];
+function zoom(beginX) {
     var t = d3.event.translate;
     var s = d3.event.scale;
+
+    if (beginX) {
+        t[0] = beginX;
+        t[1] = beginX + 1000;
+    }
+
+    if (Math.abs(previousX[0] - x.domain()[0]) >= 1500 || Math.abs(previousX[1] - x.domain()[1]) >= 1500) {
+        previousX = x.domain();
+        $.ajax({
+                    url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
+                    async: false,
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        nodes = response.nodes;
+                        edges = response.edges;
+
+                        line.remove();
+                        circle.remove();
+                        line = svg.selectAll("line")
+                            .data(edges)
+                            .enter()
+                            .append("line")
+                            .attr("x1", function (d) {return x(d.x1)})
+                            .attr("y1", function (d) {return y(d.y1)})
+                            .attr("x2", function (d) {return x(d.x2)})
+                            .attr("y2", function (d) {return y(d.y2)})
+                            .attr("stroke", defaultColor)
+                            .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
+
+                        circle = svg.selectAll("circle")
+                            .data(nodes)
+                            .enter()
+                            .append("circle")
+                            .attr("r", 2.5)
+                            .attr("transform", "translate(-9999, -9999)")
+                            .on("mouseover", tip.show)
+                            .on("mouseout", tip.hide);
+                        }
+                });
+    }
     if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
         previousZoom = newZoomLevel(s);
         console.log(previousZoom);
         console.log(newZoomLevel(s));
         $.ajax({
-            url: "/api/nodes/" + newZoomLevel(s),
+            url: "/api/nodes/" + newZoomLevel(s) + "/" + Math.round(x.domain()[0]) + "/" + Math.round(x.domain()[1]),
             async: false,
             success: function (response) {
                 response = JSON.parse(response);
@@ -188,6 +229,8 @@ function zoom() {
                     .attr("transform", "translate(-9999, -9999)")
                     .on("mouseover", tip.show)
                     .on("mouseout", tip.hide);
+
+                somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
                 }
         });
     }
@@ -210,17 +253,7 @@ function zoom() {
         .attr("y1", function (d) {return y(d.y1)})
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke-width", function (d) {
-            if (somethingIsHighlighted) {
-                if (d.highlighted) {
-                    return 5;
-                } else {
-                    return 1;
-                }
-            } else {
-                return Math.max(1, d.genomes.length / zm.scale() * 2)
-            }
-        });
+        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
     if (zm.scale() > 20) {
         circle.attr("transform", transform);
     } else {
@@ -244,24 +277,19 @@ function getData(id) {
     });
 }
 
-var highlightGenome = highlightLineage;
-
-function actuallyHighlightGenome(genome) {
-    somethingIsHighlighted = true;
+function highlightGenome(genome) {
+    somethingIsHighlighted = genome;
+    window.graphHandler.setSelectedGenome(genome);
+    window.graphHandler.showGraph();
     line.attr("stroke", function (d) {
         d.highlighted = d.genomes.map(function (x) {return x.split("_").join(" ")}).indexOf(genome.split("_").join(" ")) != -1;
         if (d.highlighted) {
             return "#eeee00";
         } else {
-            if (d.lineageHighlighted) {
-                return d.currentColor;
-            } else {
-                return defaultColor(d);
-            }
+            return defaultColor(d);
         }
-        return d.highlighted ? "#eeee00" : defaultColor(d);
     })
-        .attr("stroke-width", function (d) {return d.highlighted ? 5 : 1});
+        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / zm.scale() * 2)});
 }
 
 function disableHighlighting() {
@@ -274,8 +302,7 @@ function disableHighlighting() {
 }
 
 function defaultColor(d) {
-    var y = 150 - (d.genomes.length - 3) * colorFactor;
-    return "rgb(" + y + "," + y + "," + y + ")";
+    return lineageColors[mode(d.lineages)] || "#000000";
 }
 
 function highlightLineage(genome) {
@@ -293,4 +320,53 @@ function highlightLineage(genome) {
         });
         actuallyHighlightGenome(genome);
     });
+}
+
+function jumpToBaseGetFromDOM() {
+    var e = document.getElementById("fuzzOptionsList");
+    var strUser = e.options[e.selectedIndex].value;
+    console.log(strUser + " " + $("#baseindex").text());
+    $.getJSON("/api/metadata/navigate/" + strUser + "/" + $("#baseindex").val(), function (response) {
+        var dx = 10;
+        var dy = 10;
+        var x = response.x + 5;
+        var y = 10;
+        var scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
+        var translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        svg.transition()
+            .duration(750)
+            .call(zm.translate(translate).scale(scale).event);
+    });
+}
+
+function jumpToBase(genome, index) {
+    $.ajax({
+        url: "/api/metadata/navigate/" + genome + "/" + index,
+        async: false,
+        success: function (response) {
+            return JSON.parse(response).x;
+        }
+    });
+}
+function mode(array) {
+	if (array.length == 0) {
+		return null;
+	}
+	var modeMap = {};
+	var maxEl = array[0]
+    var maxCount = 1;
+    for (var i = 0; i < array.length; i++) {
+		var el = array[i];
+		if (modeMap[el] == null) {
+			modeMap[el] = 1;
+		} else {
+			modeMap[el]++;
+	    }
+		if (modeMap[el] > maxCount) {
+			maxEl = el;
+			maxCount = modeMap[el];
+		}
+	}
+    return maxEl;
 }

@@ -17,35 +17,6 @@ import java.util.Set;
  * Class for creating a database to setup the database.
  */
 public class SetupDatabase implements Database {
-
-    /**
-     * Driver for the database.
-     */
-    private static final String DATABASE_DRIVER = "org.postgresql.Driver";
-    /**
-     * Host for the database.
-     */
-    private static final String HOST = "jdbc:postgresql://localhost:5432/pl1";
-    /**
-     * Roll for the database.
-     */
-    private static final String ROLL = "pl";
-    /**
-     * Password for database.
-     */
-    private static final String PASSWORD = "visual";
-    /**
-     * Name of segments table.
-     */
-    private static final String NODES_TABLE = "segments";
-    /**
-     * Name of links table.
-     */
-    private static final String LINK_TABLE = "links";
-    /**
-     * Name of specimen table.
-     */
-    private static final String LINK_GENOMES_TABLE = "genomeslinks";
     /**
      * The connection to the database.
      */
@@ -69,7 +40,7 @@ public class SetupDatabase implements Database {
     /**
      * Connect to database.
      */
-    private void connect() {
+    public void connect() {
         try {
             Class.forName(DATABASE_DRIVER);
         } catch (ClassNotFoundException e) {
@@ -89,18 +60,18 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) throws SQLException {
-        if (!isSetup()) {
+//        if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int i = 0; i < THRESHOLDS.length; i++) {
+                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
-                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i]);
+                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
                 nodesToWrite.recalculatePositions();
                 writeNodes(nodesToWrite, THRESHOLDS[i]);
             }
-        }
+//        }
 
     }
 
@@ -127,7 +98,7 @@ public class SetupDatabase implements Database {
     }
 
     /**
-     * Write a collection of segments into the database
+     * Write a collection of nodes into the database
      * @param  threshold threshold of graph that has to be written.
      * @param nodes the collection to write
      * @throws SQLException thrown if SQL connection or query is not valid
@@ -222,7 +193,9 @@ public class SetupDatabase implements Database {
                     for (String genome : intersection) {
                         stmtgenomes.setInt(1, node.getId());
                         stmtgenomes.setInt(2, link.getId());
-                        stmtgenomes.setString(THREE, genome.trim().replace(" ", "_").split("\\.")[0]);
+                        stmtgenomes.setString(
+                                THREE,
+                                genome.trim().replace(" ", "_").split("\\.")[0]);
                         stmtgenomes.executeUpdate();
                     }
                 }

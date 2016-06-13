@@ -1,50 +1,76 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to view bubbling changes
  */
 public final class BubbleMain {
-    private static final int THRESHOLD = 100;
+    private static final int THRESHOLD = 500;
 
     private BubbleMain() { }
 
     /**
      * Execute bubbling
-     * @param args
-     * @throws IOException
+     * @param args arguments.
+     * @throws IOException thrown when reading the files fails.
      */
-    public static void main(String[] args) throws IOException {
-//        InputStream segis =
-//              BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.gfa");
-//        InputStream dotis =
-//              BubbleMain.class.getClass().getResourceAsStream("/genomes/tb10_interestingpart.txt");
-//        InputStream segis =
-//              BubbleMain.class.getClass().getResourceAsStream("/genomes/output.gfa");
-        InputStream dotis =
+    public static void main(String[] args) throws IOException, ClassNotFoundException, URISyntaxException {
+        InputStream is =
+                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
+//        TB328-old
+//        InputStream is =
+//                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328-old.gfa");
+        InputStream mt =
+                BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
+        InputStream pos =
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
+        NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
-        InputStream is = BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
-        InputStream mt = BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");
-        NodeCollection nodeCollection = new SegmentParser(dotis, mt).parse(is);
-
+//        File file = new File("src/main/resources/objects/buebbles.ser");
+//        file.createNewFile();
+//        System.out.println(file.exists());
+        //==============================
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        nodeCollection = dispatcher.getThresholdedBubbles(THRESHOLD);
-//        for(Map.Entry<Integer, Node> entry : nodeCollection.entrySet()) {
-//            Node node = entry.getValue();
-//            int x = (node.getStartNode().getX() + node.getEndNode().getX())/2;
-//            int y = (node.getStartNode().getY() + node.getEndNode().getY())/2;
-//            nodeCollection.get(entry.getKey()).setXY(x, y);
+        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
+        for (Node node : nodes.values()) {
+            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+        }
+        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
+        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
+        //=======================================
+
+//        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);
+//        collapser.collapseBubbles();
+//        for (Node node : collapser.getBubbles()) {
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+//        }
+
+        //=======================================
+
+//        BubbleDetector detector = new BubbleDetector(nodeCollection);
+//        detector.findMultiLevelBubbles();
+//        for (Node node : detector.getBubbleBoundaries()) {
+//            System.out.println(node.getId());
 //        }
 //
-//        System.out.println(nodeCollection.size());
-//        Server server = new RestServer(dispatcher.getThresholdedBubbles(0,7));
-////        Server server = new RestServer(nodeCollection);
-//        server.startServer();
+        //========================================
+//        for (Node node : nodeCollection.values()) {
+//            if (node.getId() > 78053)
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+//        }
     }
 }

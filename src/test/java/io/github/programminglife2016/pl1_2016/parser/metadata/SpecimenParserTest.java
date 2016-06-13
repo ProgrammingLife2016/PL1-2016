@@ -67,24 +67,6 @@ public class SpecimenParserTest {
     }
 
     /**
-     * Test an exception thrown after not finding certain file.
-     *
-     * @throws IOException Could not locate file.
-     */
-    @Test (expected = NullPointerException.class)
-    public void testEmptyStringInput() throws IOException {
-        InputStream in = null;
-        try {
-            in = SpecimenParserTest.class.getResourceAsStream("/webapp/statictestfil");
-            specimenParser.parse(in);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-        }
-    }
-
-    /**
      * Test all getters for specimen.
      *
      * @throws IOException thrown if test string contains wrong encoding.
