@@ -30,7 +30,7 @@ public final class BubbleMain {
      */
     public static void main(String[] args) throws IOException, ClassNotFoundException, URISyntaxException {
         InputStream is =
-                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
+                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
 //        TB328-old
 //        InputStream is =
 //                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328-old.gfa");
