@@ -24,7 +24,7 @@ public class SetupDatabase implements Database {
     /**
      * The connection to the database.
      */
-    private static final int[] THRESHOLDS = {1, 4, 16, 32, 64, 128};
+    private static final int[] THRESHOLDS = {4, 16, 32, 64, 128};
 
     private static final int FIVE = 5;
     private static final int FOUR = 4;
@@ -64,15 +64,14 @@ public class SetupDatabase implements Database {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int i = 0; i < THRESHOLDS.length; i++) {
-                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
                 nodesToWrite.recalculatePositions();
                 writeNodes(nodesToWrite, THRESHOLDS[i]);
             }
 //        }
-
     }
 
     private boolean isSetup() throws SQLException {
@@ -107,14 +106,14 @@ public class SetupDatabase implements Database {
     private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + NODES_TABLE
-                + "(id, data, x, y, isbubble) VALUES"
-                + "(?,?,?,?,?) ON CONFLICT DO NOTHING";
+                + "(id, data, x, y, isbubble, containersize) VALUES"
+                + "(?,?,?,?,?,?) ON CONFLICT DO NOTHING";
 
         try {
             stmt = connection.prepareStatement(query);
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
-                if (node.getStartNode().getId() == node.getEndNode().getId()) {
+                if (node.getStartNode().getId() == node.getEndNode().getId() && !node.getStartNode().isBubble()) {
                     stmt.setString(2, node.getStartNode().getData());
                     stmt.setBoolean(FIVE, false);
 
@@ -122,10 +121,9 @@ public class SetupDatabase implements Database {
                     stmt.setString(2, node.getData());
                     stmt.setBoolean(FIVE, node.isBubble());
                 }
-
                 stmt.setInt(THREE, node.getX());
                 stmt.setInt(FOUR, node.getY());
-
+                stmt.setInt(6, node.getContainerSize());
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {

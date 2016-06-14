@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -59,6 +60,13 @@ public final class Launcher {
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
+        SetupDatabase sdb = new SetupDatabase();
+//        try {
+//            sdb.setup(nodeCollection);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);

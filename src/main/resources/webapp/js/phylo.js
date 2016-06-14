@@ -181,9 +181,7 @@ d3.text("/static/file.nwk", function(text) {
       enableZooming(svgId);
 
   window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
-      for (var i = 0; i < window.tkks.length; i++) {
-              $( "#fuzzOptionsList" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
-           }
+
 
 
 });
