@@ -60,7 +60,7 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) throws SQLException {
-        if (!isSetup()) {
+//        if (!isSetup()) {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
@@ -71,7 +71,7 @@ public class SetupDatabase implements Database {
                 nodesToWrite.recalculatePositions();
                 writeNodes(nodesToWrite, THRESHOLDS[i]);
             }
-        }
+//        }
     }
 
     private boolean isSetup() throws SQLException {
@@ -106,14 +106,15 @@ public class SetupDatabase implements Database {
     private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + NODES_TABLE
-                + "(id, data, x, y, isbubble) VALUES"
-                + "(?,?,?,?,?) ON CONFLICT DO NOTHING";
+                + "(id, data, x, y, isbubble, containersize) VALUES"
+                + "(?,?,?,?,?,?) ON CONFLICT DO NOTHING";
 
         try {
             stmt = connection.prepareStatement(query);
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
-                if (node.getStartNode().getId() == node.getEndNode().getId()) {
+                if (node.getStartNode().getId() == node.getEndNode().getId() && !node.getStartNode().isBubble()) {
+                    System.out.println(node.getStartNode().getId() + ": " + node.getStartNode().getData());
                     stmt.setString(2, node.getStartNode().getData());
                     stmt.setBoolean(FIVE, false);
 
@@ -121,10 +122,9 @@ public class SetupDatabase implements Database {
                     stmt.setString(2, node.getData());
                     stmt.setBoolean(FIVE, node.isBubble());
                 }
-
                 stmt.setInt(THREE, node.getX());
                 stmt.setInt(FOUR, node.getY());
-
+                stmt.setInt(6, node.getContainerSize());
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {

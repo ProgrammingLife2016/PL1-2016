@@ -532,6 +532,7 @@ html, body {
         text-align: center;
         width: 50%;
         float: left;
+        height: 100%;
     }
     .element input[type=number] {
         text-align: center;
@@ -544,13 +545,7 @@ html, body {
 
 
 
-    #jumpg {
-        margin-top: 76px;
-    }
 
-    #jumpg>div {
-        margin-top: 76px;
-    }
 .chosen-container .chosen-results {
     max-height:150px !important;
 }
@@ -560,6 +555,14 @@ html, body {
     margin-top: 20px;
     display: block;
     color: #fff;
+}
+
+.button {
+    margin-top: 76px;
+}
+
+.button>div {
+    margin-top: 76px;
 }
 .title {
     font-size: 120%;

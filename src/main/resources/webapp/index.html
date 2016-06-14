@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="/static/lib/fuzzy-dropdown.js"></script>
@@ -29,156 +29,158 @@
     <title>DNA Visualizer</title>
 </head>
 <body>
-    <!-- Navigation bar -->
-    <nav id="nav">
-        <div id="nav_wrapper">
-            <div id="logo">
-                <h1>DNA Visualizer</h1>
-            </div>
-            <ul>
-                <li>
-                    <a id="viewlist"><i class="fa fa-desktop fa-fw" aria-hidden="true"></i>&nbsp; View</a>
-                    <ul>
-                        <li><a href="#" class="dnaGraph">DNA Graph</a>
-                        </li>
-                        <li><a href="#" class="phylogeneticTree">Phylogenetic Tree</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings</a>
-                    <ul>
-                        <li><a href="#" id="connect">Connect to server</a>
-                        </li>
-                        <li><a href="#" id="zoomButton">Reload data</a>
-                        </li>
-                        <li><a href="#" id="resetHighlighting">Reset highlighting</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a id="status">
-                        <i class="fa fa-circle-o-notch fa-spin fa-fw fa-lg" aria-hidden="true"></i>
-                        <span id="txt">Loading...</span>
-                    </a>
-                </li>
+<!-- Navigation bar -->
+<nav id="nav">
+    <div id="nav_wrapper">
+        <div id="logo">
+            <h1>DNA Visualizer</h1>
+        </div>
+        <ul>
+            <li>
+                <a id="viewlist"><i class="fa fa-desktop fa-fw" aria-hidden="true"></i>&nbsp; View</a>
+                <ul>
+                    <li><a href="#" class="dnaGraph">DNA Graph</a>
+                    </li>
+                    <li><a href="#" class="phylogeneticTree">Phylogenetic Tree</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings</a>
+                <ul>
+                    <li><a href="#" id="connect">Connect to server</a>
+                    </li>
+                    <li><a href="#" id="zoomButton">Reload data</a>
+                    </li>
+                    <li><a href="#" id="resetHighlighting">Reset highlighting</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a id="status">
+                    <i class="fa fa-circle-o-notch fa-spin fa-fw fa-lg" aria-hidden="true"></i>
+                    <span id="txt">Loading...</span>
+                </a>
+            </li>
 
+        </ul>
+    </div>
+</nav>
+
+
+<div id="stackpane">
+    <!-- Start screen -->
+    <div class="pane" id="options">
+        <img src="http://i.imgur.com/7Hsccql.png"/>
+        <div id="container">
+            <h1>Tool for visualizing DNA genomes</h1>
+            <ul>
+                <li id="startConnection"><i class="fa fa-circle-o fa-fw fa-lg" aria-hidden="true"></i>&nbsp; Connect to
+                    server
+                </li>
+                <!--<li id="optionButton" data-open="false"><i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>&nbsp; Options</li>-->
             </ul>
         </div>
-    </nav>
-
-
-    <div id="stackpane">
-        <!-- Start screen -->
-        <div class="pane" id="options">
-            <img src="http://i.imgur.com/7Hsccql.png"/>
-            <div id="container">
-                <h1>Tool for visualizing DNA genomes</h1>
-                <ul>
-                    <li id="startConnection"><i class="fa fa-circle-o fa-fw fa-lg" aria-hidden="true"></i>&nbsp; Connect to server</li>
-                    <!--<li id="optionButton" data-open="false"><i class="fa fa-arrow-down fa-fw" aria-hidden="true"></i>&nbsp; Options</li>-->
-                </ul>
-            </div>
-            <div id="optionsContainer">
-                <ul>
-                    <li id="enableDragging"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
-                        &nbsp; Enable dragging
-                    </li>
-                    <li id="op2"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
-                        &nbsp; option 2
-                    </li>
-                    <li id="op3"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
-                        &nbsp; option 3
-                    </li>
-                </ul>
-            </div>
+        <div id="optionsContainer">
+            <ul>
+                <li id="enableDragging"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
+                    &nbsp; Enable dragging
+                </li>
+                <li id="op2"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
+                    &nbsp; option 2
+                </li>
+                <li id="op3"><i class="fa fa-square-o fa-fw fa-lg" aria-hidden="true"></i>
+                    &nbsp; option 3
+                </li>
+            </ul>
         </div>
+    </div>
 
-        <!-- Graph view -->
-        <div class="pane" id="d3">
+    <!-- Graph view -->
+    <div class="pane" id="d3">
 
-            <div id="optionsgraph">
-                <ul class="tab-links">
-                    <li class="active"><a href="#tab1"><i class="fa fa-upload" aria-hidden="true"> </i>Jumping</a></li>
-                    <li><a href="#tab2"><i class="fa fa-search" aria-hidden="true"> </i>Metadata searcher</a></li>
-                    <li><a href="#tab3"><i class="fa fa-lightbulb-o" aria-hidden="true"> </i>highlighting</a></li>
-                    <li><a href="#tab4"><i class="fa fa-cog fa-fw" aria-hidden="true"> </i>additional settings</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div id="tab1" class="tab active">
-                        <div class="element">
-                            <div class="title">Jump to base</div>
-                            <span>Select genome to jump on.</span>
-                            <select class="tkks" data-placeholder="Select the genome"></select>
-                            <span>Select base to jump to.<br></span>
-                            <input id="baseindex" type="number" min="0" step="1"/>
-                            <a id="jumpb" href="#" onclick="jumpToBaseGetFromDOM()">
+        <div id="optionsgraph">
+            <ul class="tab-links">
+                <li class="active"><a href="#tab1"><i class="fa fa-upload" aria-hidden="true"> </i>Jumping</a></li>
+                <li><a href="#tab2"><i class="fa fa-search" aria-hidden="true"> </i>Metadata searcher</a></li>
+                <li><a href="#tab3"><i class="fa fa-lightbulb-o" aria-hidden="true"> </i>highlighting</a></li>
+                <li><a href="#tab4"><i class="fa fa-cog fa-fw" aria-hidden="true"> </i>additional settings</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab1" class="tab active">
+                    <div class="element">
+                        <div class="title">Jump to base</div>
+                        <span>Select genome to jump on.</span>
+                        <select class="tkks" data-placeholder="Select the genome"></select>
+                        <span>Select base to jump to.<br></span>
+                        <input id="baseindex" type="number" min="0" step="1"/>
+                        <a class="button" id="jumpb" href="#" onclick="jumpToBaseGetFromDOM()">
                             <div class="jump">Jump</div>
-                            </a>
-                        </div>
-                        <div class="element">
-                            <div class="title">Jump to gene</div>
-                            <span>Select genome to jump on</span>
-                            <select class="tkks" data-placeholder="Select the genome"></select>
-                            <a id="jumpg" href="#">
+                        </a>
+                    </div>
+                    <div class="element">
+                        <div class="title">Jump to gene</div>
+                        <span>Select genome to jump on</span>
+                        <select class="tkks" data-placeholder="Select the genome"></select>
+                        <a class="button" id="jumpg" onclick="#">
                             <div class="jump">Jump</div>
-                            </a>
-                        </div>
+                        </a>
                     </div>
+                </div>
 
-                    <div id="tab2" class="tab">
+                <div id="tab2" class="tab">
 
-                        <div id="metadatasearcher" class="element">
-                            <div class="title">Search on metadata</div>
-                            <span>Select one or multiple characteristics to search for.</span>
-                            <select class="metadata" data-placeholder="Select a characteristic ..." multiple></select>
-                        </div>
-                        <div id="characteristics" class="element">
-
-                        </div>
-                        <div class="element">
-                            <a id="jumpg" href="#">
-                                <div class="jump">Search</div>
-                            </a>
-                        </div>
+                    <div id="metadatasearcher" class="element">
+                        <!--<div class="title">Search on metadata</div>-->
+                        <!--<span>Select one or multiple characteristics to search for.</span>-->
+                        <select class="metadata" data-placeholder="Select a characteristic ..." multiple></select>
                     </div>
+                    <div id="characteristics" class="element">
 
-                    <div id="tab3" class="tab">
                     </div>
+                    <div class="element">
+                        <a class="button" id="search_button" href="#">
+                            <div class="jump">Search</div>
+                        </a>
+                    </div>
+                </div>
 
-                    <div id="tab4" class="tab">
-                    </div>
+                <div id="tab3" class="tab">
+                </div>
+
+                <div id="tab4" class="tab">
                 </div>
             </div>
         </div>
-        <div id="info">
-            <!--<div id="selectedGenome">
-                <div id="color"></div>
-                <p>TKK..</p>
-            </div>
-            <div id="selectedGenome">
-                <div id="color"></div>
-                <p>TKK..</p>
-            </div>
-            <!--<p id="selectedGenome">TKK...</p>-->
-            <ul>
-                <li id="resetButton">Reset highlighting</li>
-                <li id="selectButton">Select other genome</li>
-            </ul>
-        </div>
-
-        <!-- Search bar for phylogenetic tree -->
-        <div id="search">
-            <input type="search" placeholder="Search genomes..." autofocus />
-            <div id="results" tabindex="0" >
-                 <ul></ul>
-            </div>
-        </div>
-        <!-- Phylogenetic tree -->
-        <div class="pane" id="tree">
-        </div>
-        <div id="rotation"></div>
     </div>
+    <div id="info">
+        <!--<div id="selectedGenome">
+            <div id="color"></div>
+            <p>TKK..</p>
+        </div>
+        <div id="selectedGenome">
+            <div id="color"></div>
+            <p>TKK..</p>
+        </div>
+        <!--<p id="selectedGenome">TKK...</p>-->
+        <ul>
+            <li id="resetButton">Reset highlighting</li>
+            <li id="selectButton">Select other genome</li>
+        </ul>
+    </div>
+
+    <!-- Search bar for phylogenetic tree -->
+    <div id="search">
+        <input type="search" placeholder="Search genomes..." autofocus/>
+        <div id="results" tabindex="0">
+            <ul></ul>
+        </div>
+    </div>
+    <!-- Phylogenetic tree -->
+    <div class="pane" id="tree">
+    </div>
+    <div id="rotation"></div>
+</div>
 
 
 </body>
