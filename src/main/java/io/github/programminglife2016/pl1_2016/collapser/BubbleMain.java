@@ -1,18 +1,18 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.Launcher;
 import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,6 +20,7 @@ import java.util.List;
  */
 public final class BubbleMain {
     private static final int THRESHOLD = 500;
+    private static final double SEGMENT_POSITION_FACTOR = 100;
 
     private BubbleMain() { }
 
@@ -40,17 +41,25 @@ public final class BubbleMain {
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
-//        File file = new File("src/main/resources/objects/buebbles.ser");
-//        file.createNewFile();
-//        System.out.println(file.exists());
-        //==============================
+
+        ObjectSerializer serializer = new ObjectSerializer();
+
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
-        for (Node node : nodes.values()) {
-            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
-        }
-        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
-        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
+        System.out.println("reached");
+        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(4, false);
+        collectionToShow.assignNewPositions(Launcher.class.getResourceAsStream("/genomes/tb328-filtered.positions"));
+
+        List<Node> bubblesWithPositions = new ArrayList<Node>(collectionToShow.values());
+        serializer.serializeItem(bubblesWithPositions, "src/main/resources/objects/bubbles-with-positions.ser");
+
+        //==============================
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
+//        for (Node node : nodes.values()) {
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+//        }
+//        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
+//        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
         //=======================================
 
 //        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);

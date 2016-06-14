@@ -1,7 +1,9 @@
 package io.github.programminglife2016.pl1_2016;
 
+import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import io.github.programminglife2016.pl1_2016.server.Server;
@@ -13,6 +15,7 @@ import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QuerySt
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,11 +62,15 @@ public final class Launcher {
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
+
+        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
+
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {
-            return new NoDatabaseQueryStrategy(nodeCollection, subjects);
+            return new NoDatabaseQueryStrategy(collectionToShow, subjects);
         }
     }
 }

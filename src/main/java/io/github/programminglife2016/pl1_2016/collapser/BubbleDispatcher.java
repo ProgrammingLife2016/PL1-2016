@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
-    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles.ser";
+    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles-with-positions.ser";
     private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel.ser";
     private List<Node> bubbleCollection;
     private int lastId;
@@ -72,6 +72,7 @@ public class BubbleDispatcher {
         ObjectSerializer ser = new ObjectSerializer();
         try {
             this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
+            System.out.println("reached");
             this.bubblesListSize = bubbleCollection.size();
             this.lowestLevel = (int) ser.getSerializedItem(LOWEST_LEVEL_SERIAL);
         } catch (IOException | ClassNotFoundException e) {

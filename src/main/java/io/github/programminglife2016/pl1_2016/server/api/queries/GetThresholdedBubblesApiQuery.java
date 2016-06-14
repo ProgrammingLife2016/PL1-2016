@@ -11,14 +11,15 @@ import java.io.IOException;
  */
 public class GetThresholdedBubblesApiQuery implements ApiQuery {
     private BubbleDispatcher bubbleDispatcher;
-
+    private NodeCollection nc;
     /**
      * Construct the ApiQuery.
      *
      * @param nodeCollection node collection to retrieve the data information from
      */
     public GetThresholdedBubblesApiQuery(NodeCollection nodeCollection) {
-        this.bubbleDispatcher = new BubbleDispatcher(nodeCollection);
+        nc = nodeCollection;
+//        this.bubbleDispatcher = new BubbleDispatcher(nodeCollection);
     }
 
     /**
@@ -38,8 +39,9 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> bubbleDispatcher
-                .getThresholdedBubbles(Integer.parseInt(args.get(0)), false)
-                .toJson();
+//        return args -> bubbleDispatcher
+//                .getThresholdedBubbles(Integer.parseInt(args.get(0)), false)
+//                .toJson();
+        return args -> nc.toJson();
     }
 }
