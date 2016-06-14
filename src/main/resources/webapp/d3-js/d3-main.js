@@ -4,31 +4,26 @@ var miniWidth = width/2;
 var miniHeight = 350;
 var maxZoomLevel = 100;
 var zoomThreshold = 1;
-
 var colorFactor;
 var widthFactor;
-
 var nodes;
 var edges;
 var x;
 var y;
-
 var somethingIsHighlighted = false;
-
 var miniX;
 var miniY;
-
-var zoom_levels = [1, 4, 32, 128]
+var zoom_levels = [4, 32, 128]
 var previousZoom = 128;
 var options;
-//function setFiltered
+
 function newZoomLevel(s) {
     if (s < 5) {
-        return zoom_levels[3];
-    } else if (5 <= s && s < 10) {
         return zoom_levels[2];
-    } else if (10 <= s && s < 15) {
+    } else if (5 <= s && s < 10) {
         return zoom_levels[1];
+    } else if (10 <= s && s < 15) {
+        return zoom_levels[0];
     } else if (15 <= s && s < 20) {
         return zoom_levels[0];
     } else {
@@ -77,43 +72,11 @@ function startD3() {
         }
         drawMinimap();
         drawGraph();
-        $("#optionsgraph").css("display", "block");
-        d3.select("#jump").on("click", jumpToBaseGetFromDOM);
-        $("#baseindex").keyup(function(e){
-            if(e.keyCode == 13) {
-                jumpToBaseGetFromDOM();
-            }
-        });
-
-        for (var i = 0; i < window.tkks.length; i++) {
-          $( ".tkks" ).append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
-        }
+        setTKKs();
         setOptions();
-        $(".tkks").chosen({ search_contains: true });
-        $(".metadata").on('change', function(event, params){
-            $.each(params, function(key, value){
-                if (key == "selected") {
-                    $("#characteristics").append("<div class=\"search_item\"><span>" + value + ": </span><select multiple id =\"" + value + "\" data-placeholder=\"Select " + value + "\" ></select></div>");
-                    for (var i = 0; i < options[value].length; i++) {
-                        $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
-                    }
-                    $("#"+value).chosen({ search_contains: true, width: "95%" });
-                } else if (key == "deselected") {
-                    $("#"+value).parent().remove();
-                }
-            });
-        });
     });
 }
 
-var circle;
-var line;
-var zm;
-var svg;
-var tip;
-
-var minimap;
-var res;
 function setOptions() {
     $.getJSON("/api/metadata/options", function(response) {
         options = response.options;
@@ -123,6 +86,33 @@ function setOptions() {
         $(".metadata").chosen({ search_contains: true });
 
     });
+
+    $(".metadata").on('change', function(event, params){
+        $.each(params, function(key, value){
+            if (key == "selected") {
+                $("#characteristics").append("<div class=\"search_item\"><span>" + value + ": </span><select multiple id =\"" + value + "\" data-placeholder=\"Select " + value + "\" ></select></div>");
+                for (var i = 0; i < options[value].length; i++) {
+                    $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
+                }
+                $("#"+value).chosen({ search_contains: true, width: "95%" });
+            } else if (key == "deselected") {
+                $("#"+value).parent().remove();
+            }
+        });
+    });
+}
+
+function setTKKs() {
+    $("#optionsgraph").css("display", "block");
+    $("#baseindex").keyup(function(e){
+        if(e.keyCode == 13) {
+            jumpToBaseGetFromDOM();
+        }
+    });
+    for (var i = 0; i < window.tkks.length; i++) {
+      $( ".tkks" ).append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
+    }
+    $(".tkks").chosen({ search_contains: true });
 }
 function drawGraph() {
     zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
@@ -159,8 +149,8 @@ function drawGraph() {
     circle = svg.selectAll("circle")
         .data(nodes)
         .enter()
-        .append("circle")
-        .attr("r", 2.5)
+        .append("polygon")
+        .attr("points", "0,-20 -20,20 20,20")
         .attr("transform", "translate(-9999, -9999)")
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
@@ -233,7 +223,7 @@ function zoom(beginX) {
                             .data(nodes)
                             .enter()
                             .append("circle")
-                            .attr("r", 2.5)
+                            .attr("r", 10)
                             .attr("transform", "translate(-9999, -9999)")
                             .on("mouseover", tip.show)
                             .on("mouseout", tip.hide);
@@ -269,7 +259,7 @@ function zoom(beginX) {
                     .data(nodes)
                     .enter()
                     .append("circle")
-                    .attr("r", 2.5)
+                    .attr("r", 10)
                     .attr("transform", "translate(-9999, -9999)")
                     .on("mouseover", tip.show)
                     .on("mouseout", tip.hide);
@@ -304,7 +294,6 @@ function zoom(beginX) {
         circle.attr("transform", "translate(-9999, -9999)");
     }
 }
-
 function transform(d) {
     return "translate(" + x(d.x) + "," + y(d.y) + ")";
 }

@@ -104,7 +104,6 @@ public class SegmentParser implements Parser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Seeker s = new SegmentSeeker(nodeCollection);
             if (reader != null) {
                 try {
                     reader.close();
