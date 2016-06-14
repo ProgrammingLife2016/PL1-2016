@@ -1,10 +1,11 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
+import io.github.programminglife2016.pl1_2016.parser.metadata.GFFParser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentSeeker;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.DatabaseQueryStrategy;
@@ -14,6 +15,7 @@ import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QuerySt
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,11 +57,16 @@ public final class Launcher {
         InputStream is =
                 Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
         InputStream positions =
-                Launcher.class.getResourceAsStream(String.format("/genomes/TB10.positions"));
+                Launcher.class.getResourceAsStream(String.format("/genomes/%s.positions", dataset));
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
+        InputStream decorations = Launcher.class.getResourceAsStream("/genomes/decorationV5_20130412.gff");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
+        GFFParser gffParser = new GFFParser(decorations);
+        gffParser.read();
+        nodeCollection.setAnnotations(gffParser.getAnnotations());
+        SegmentSeeker segmentSeeker = new SegmentSeeker(nodeCollection);
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);

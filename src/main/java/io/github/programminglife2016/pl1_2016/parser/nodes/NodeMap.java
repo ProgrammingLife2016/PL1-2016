@@ -2,14 +2,25 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Adapter for segment hashmap
  */
 public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
+    private List<Annotation> annotations;
+
+    public NodeMap() {
+    }
+
+    public NodeMap(List<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
     @Override
     public final String toJson() {
         Gson gson = new GsonBuilder().registerTypeAdapter(NodeMap.class,
@@ -34,12 +45,22 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
         }
     }
 
-    private Node retrieveSegment(Node node, boolean start) {
+    @Override
+    public void setAnnotations(List<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    public static Node retrieveSegment(Node node, boolean start) {
         if (node.isBubble()) {
             if (start) {
-                return retrieveSegment(node.getStartNode(), start);
+                return retrieveSegment(node.getStartNode(), true);
             } else {
-                return retrieveSegment(node.getEndNode(), start);
+                return retrieveSegment(node.getEndNode(), false);
             }
         }
         return node;

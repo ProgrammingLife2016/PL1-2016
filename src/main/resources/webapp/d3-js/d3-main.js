@@ -10,6 +10,7 @@ var widthFactor;
 
 var nodes;
 var edges;
+var annotations;
 var x;
 var y;
 
@@ -47,6 +48,8 @@ function startD3() {
     $.getJSON("/api/nodes/128/0/100000000", function (response) {
         nodes = response.nodes;
         edges = response.edges;
+        annotations = response.annotations;
+
         x = d3.scale.linear()
             .domain([0, max(nodes, "x")])
             .range([0, width]);
@@ -54,6 +57,10 @@ function startD3() {
         y = d3.scale.linear()
             .domain([0, max(nodes, "y")])
             .range([height, 0]);
+
+        normalY = d3.scale.linear()
+            .domain([0, max(nodes, "y")])
+            .range([0, height]);
 
         miniX = d3.scale.linear()
             .domain([0, max(nodes, "x")])
@@ -77,9 +84,11 @@ function startD3() {
 
 var circle;
 var line;
+var geneRect;
 var zm;
 var svg;
 var tip;
+var geneTip;
 
 var minimap;
 
@@ -92,12 +101,20 @@ function drawGraph() {
             getData(d.id);
             return "<strong>Segment:</strong> <span id='data" + d.id + "'>...</span>";
         });
+    geneTip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([10, 0])
+        .html(function(d) {
+            console.log(d.displayName);
+            return d.displayName;
+        });
     svg = d3.select("#d3").append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .call(zm)
-        .call(tip);
+        .call(tip)
+        .call(geneTip);
 
     svg.append("rect")
         .attr("class", "overlay")
@@ -174,6 +191,7 @@ function zoom(beginX) {
 
                         line.remove();
                         circle.remove();
+                        geneRect && geneRect.remove();
                         line = svg.selectAll("line")
                             .data(edges)
                             .enter()
@@ -210,6 +228,7 @@ function zoom(beginX) {
 
                 line.remove();
                 circle.remove();
+                geneRect && geneRect.remove();
                 line = svg.selectAll("line")
                     .data(edges)
                     .enter()
@@ -229,7 +248,6 @@ function zoom(beginX) {
                     .attr("transform", "translate(-9999, -9999)")
                     .on("mouseover", tip.show)
                     .on("mouseout", tip.hide);
-
                 somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
                 }
         });
@@ -256,9 +274,24 @@ function zoom(beginX) {
         .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
     if (zm.scale() > 20) {
         circle.attr("transform", transform);
+        setGeneRects();
     } else {
         circle.attr("transform", "translate(-9999, -9999)");
     }
+}
+
+function setGeneRects() {
+    geneRect = svg.selectAll("rect")
+        .data(annotations)
+        .enter()
+        .append("rect")
+        .attr("class", "geneRect")
+        .attr("x", function (d) {return zm.scale() > 20 ? x(d.startX) : -9999})
+        .attr("y", function (d) {return y(Math.max(d.startY, d.endY)) - 50})
+        .attr("width", function (d) {return Math.abs(x(d.endX) - x(d.startX))})
+        .attr("height", function (d) {return 100})
+        .on("mouseover", geneTip.show)
+        .on("mouseout", geneTip.hide);
 }
 
 function transform(d) {

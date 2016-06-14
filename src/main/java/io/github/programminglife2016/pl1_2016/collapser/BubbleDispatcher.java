@@ -32,6 +32,7 @@ public class BubbleDispatcher {
     private static final double TIME = 1000000000d;
     private static final int THREADS = 8;
     private ForkJoinPool forkJoinPool = new ForkJoinPool(THREADS);
+    private NodeCollection originalCollection;
 
     private Map<String, Node> quickReference;
 
@@ -40,6 +41,7 @@ public class BubbleDispatcher {
      * @param collection of nodes
      */
     public BubbleDispatcher(NodeCollection collection) {
+        this.originalCollection = collection;
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
@@ -278,7 +280,7 @@ public class BubbleDispatcher {
      * @return NodeCollection of given nodes
      */
     private NodeCollection listAsNodeCollection(Collection<Node> res) {
-        NodeCollection collection = new NodeMap();
+        NodeCollection collection = new NodeMap(originalCollection.getAnnotations());
         for (Node node: res) {
             collection.put(node.getId(), node);
         }
