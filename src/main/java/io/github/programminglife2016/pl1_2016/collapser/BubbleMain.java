@@ -22,7 +22,7 @@ public final class BubbleMain {
      */
     public static void main(String[] args) throws IOException {
         InputStream is =
-                BubbleMain.class.getClass().getResourceAsStream("/genomes/testGraph.gfa");
+                BubbleMain.class.getClass().getResourceAsStream("/genomes/TB10.gfa");
 //        TB328-old
         InputStream mt =
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/metadata.csv");

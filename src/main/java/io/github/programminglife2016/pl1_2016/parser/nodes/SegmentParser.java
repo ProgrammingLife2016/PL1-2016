@@ -155,23 +155,15 @@ public class SegmentParser implements Parser {
         }
 
         Set<Subject> genomes;
-        if (specimens != null) {
-            genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
-                    .stream()
-                    .map(x -> specimens
-                            .getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()),
-                                    new Specimen(x
-                                            .substring(0, x.length() - GENOME_SUFFIX.length()))))
-                    .collect(Collectors.toSet());
-        }
-        else {
-            genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
-                    .stream()
-                    .map(x -> new Specimen(x))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toSet());
-        }
+        genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                .stream()
+                .map(x -> specimens
+                        .getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()),
+                                new Specimen(x
+                                        .substring(0, x.length() - GENOME_SUFFIX.length()))))
+                .collect(Collectors.toSet());
         nodeCollection.get(id).addGenomes(genomes);
+        addRanges(nodeCollection.get(id), seq.length());
     }
 
     private String extractGenomeName(String rawName) {

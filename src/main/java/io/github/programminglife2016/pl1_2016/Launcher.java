@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
