@@ -48,6 +48,7 @@ function startD3() {
     $.getJSON("/api/nodes/128/0/100000000", function (response) {
         nodes = response.nodes;
         edges = response.edges;
+    });
         x = d3.scale.linear()
             .domain([0, max(nodes, "x")])
             .range([0, width]);
@@ -74,7 +75,7 @@ function startD3() {
         drawGraph();
         setTKKs();
         setOptions();
-    });
+
 }
 
 function setOptions() {
@@ -110,7 +111,7 @@ function setTKKs() {
         }
     });
     for (var i = 0; i < window.tkks.length; i++) {
-      $( ".tkks" ).append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
+      $(".tkks").append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
     }
     $(".tkks").chosen({ search_contains: true });
 }
@@ -135,7 +136,15 @@ function drawGraph() {
         .attr("width", width)
         .attr("height", height);
 
-    line = svg.selectAll("line")
+    line = drawLines();
+
+    circle = drawNodes();
+
+}
+
+var rect;
+drawLines(svg, edges) {
+    svg.selectAll("line")
         .data(edges)
         .enter()
         .append("line")
@@ -145,18 +154,26 @@ function drawGraph() {
         .attr("y2", function (d) {return y(d.y2)})
         .attr("stroke", defaultColor)
         .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-    circle = svg.selectAll("circle")
+}
+drawNodes(svg, nodes) {
+    svg.selectAll("circle")
         .data(nodes)
         .enter()
-        .append("polygon")
-        .attr("points", "0,-20 -20,20 20,20")
+        .append("circle")
+        .attr("r", 7.5)
+        .attr("fill", function(d) {
+            if (d.containersize == 3){
+                return "orange";
+            } else if (d.containersize == 4) {
+                return "green";
+            } else if (d.containersize == 1) {
+                return "pink";
+            }
+        })
         .attr("transform", "translate(-9999, -9999)")
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
 }
-
-var rect;
 
 function drawMinimap() {
     minimap = d3.select("#d3").insert("svg",":first-child")
@@ -193,42 +210,24 @@ function zoom(beginX) {
         t[0] = beginX;
         t[1] = beginX + 1000;
     }
-
-
-    console.log(10000/s);
     if (Math.abs(previousX[0] - x.domain()[0]) >= 10000/s || Math.abs(previousX[1] - x.domain()[1]) >= 10000/s) {
         previousX = x.domain();
         $.ajax({
-                    url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
-                    async: false,
-                    success: function (response) {
-                        response = JSON.parse(response);
-                        nodes = response.nodes;
-                        edges = response.edges;
+            url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
+            async: false,
+            success: function (response) {
+                response = JSON.parse(response);
+                nodes = response.nodes;
+                edges = response.edges;
 
-                        line.remove();
-                        circle.remove();
-                        line = svg.selectAll("line")
-                            .data(edges)
-                            .enter()
-                            .append("line")
-                            .attr("x1", function (d) {return x(d.x1)})
-                            .attr("y1", function (d) {return y(d.y1)})
-                            .attr("x2", function (d) {return x(d.x2)})
-                            .attr("y2", function (d) {return y(d.y2)})
-                            .attr("stroke", defaultColor)
-                            .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
+                line.remove();
+                circle.remove();
+                line = drawLines(svg, edges)
+                circle = drawNodes(svg, nodes);
 
-                        circle = svg.selectAll("circle")
-                            .data(nodes)
-                            .enter()
-                            .append("circle")
-                            .attr("r", 10)
-                            .attr("transform", "translate(-9999, -9999)")
-                            .on("mouseover", tip.show)
-                            .on("mouseout", tip.hide);
-                        }
-                });
+                somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
+            }
+        });
     }
     if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
         previousZoom = newZoomLevel(s);
@@ -244,28 +243,11 @@ function zoom(beginX) {
 
                 line.remove();
                 circle.remove();
-                line = svg.selectAll("line")
-                    .data(edges)
-                    .enter()
-                    .append("line")
-                    .attr("x1", function (d) {return x(d.x1)})
-                    .attr("y1", function (d) {return y(d.y1)})
-                    .attr("x2", function (d) {return x(d.x2)})
-                    .attr("y2", function (d) {return y(d.y2)})
-                    .attr("stroke", defaultColor)
-                    .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-                circle = svg.selectAll("circle")
-                    .data(nodes)
-                    .enter()
-                    .append("circle")
-                    .attr("r", 10)
-                    .attr("transform", "translate(-9999, -9999)")
-                    .on("mouseover", tip.show)
-                    .on("mouseout", tip.hide);
+                line = drawLines(svg, edges)
+                circle = drawNodes(svg, nodes);
 
                 somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
-                }
+            }
         });
     }
     if (t[0] > 0) {

@@ -37,12 +37,12 @@ public final class BubbleMain {
 //        System.out.println(file.exists());
         //==============================
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
-        for (Node node : nodes.values()) {
-            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
-        }
-        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
-        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
+//        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
+//        for (Node node : nodes.values()) {
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+//        }
+//        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
+//        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
         //=======================================
 
 //        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);

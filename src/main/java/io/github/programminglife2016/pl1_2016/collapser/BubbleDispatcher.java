@@ -5,6 +5,9 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,8 +49,23 @@ public class BubbleDispatcher {
         bubblesListSize = bubbleCollection.size();
         lowestLevel = collapser.getLowestLevel();
         initDispatcher();
+
         lastId = bubbleCollection.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream("src/main/resources/bubbles.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(bubbleCollection);
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Object saved succesfully!");
+
+
     }
 
     /**

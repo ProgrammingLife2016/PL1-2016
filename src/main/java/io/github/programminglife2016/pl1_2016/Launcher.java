@@ -37,7 +37,7 @@ public final class Launcher {
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
         Server server = new RestServer(queryStrategy);
-        server.startServer();
+//        server.startServer();
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
@@ -60,9 +60,9 @@ public final class Launcher {
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
-        SetupDatabase sdb = new SetupDatabase();
+//        SetupDatabase sdb = new SetupDatabase();
 //        try {
-//            sdb.setup(nodeCollection);
+//            sdb.setup(nodeCollection, subjects.values());
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }

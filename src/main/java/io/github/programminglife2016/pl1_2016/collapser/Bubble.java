@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Ravi Autar
  */
-public class Bubble implements Node {
+public class Bubble implements Node, Serializable{
     private int id;
     private int x;
     private int y;
