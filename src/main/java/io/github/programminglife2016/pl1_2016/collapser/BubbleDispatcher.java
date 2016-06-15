@@ -8,6 +8,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
+    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles.ser";
+    private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel.ser";
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;

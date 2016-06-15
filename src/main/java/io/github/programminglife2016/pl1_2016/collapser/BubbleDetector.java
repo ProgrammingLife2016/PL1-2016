@@ -78,18 +78,18 @@ public class BubbleDetector {
                 return new ArrayList<>();
             }
             switch (status) {
-                case BUBBLE_DETECTED :
+                case BUBBLE_DETECTED:
                     handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
                     startNode = stoppedAtNode.getValue();
                     stoppedAtNode = searchBubble(startNode,
                             startNode.getGenomes(), destination, visited);
                     break;
-                case FOUND_MORE_GENOMES :
+                case FOUND_MORE_GENOMES:
                     startNode = stoppedAtNode.getValue();
                     stoppedAtNode = searchBubble(startNode,
                             startNode.getGenomes(), destination, visited);
                     break;
-                case NO_CHILDREN_FOUND :
+                case NO_CHILDREN_FOUND:
                     checkIfStoppedNodeIsABubble(startNode, destination,
                             levelCollection, stoppedNode);
                     break loop;
