@@ -1,10 +1,12 @@
 // CHECKSTYLE.OFF: JavadocMethod
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
+import java.io.Serializable;
+
 /**
  * Specimen object containing specifications of a certain genome.
  */
-public class Specimen implements Subject {
+public class Specimen implements Subject, Serializable {
 
     private String nameId;
     private int age;

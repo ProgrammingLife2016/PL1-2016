@@ -2,6 +2,8 @@ package io.github.programminglife2016.pl1_2016.parser.nodes;
 
 import io.github.programminglife2016.pl1_2016.parser.JsonSerializable;
 
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -13,4 +15,6 @@ public interface NodeCollection extends Map<Integer, Node>, JsonSerializable {
      * Recalculate positions of the bubbles contained in the collection.
      */
     void recalculatePositions();
+
+    void assignNewPositions(InputStream inputStream);
 }

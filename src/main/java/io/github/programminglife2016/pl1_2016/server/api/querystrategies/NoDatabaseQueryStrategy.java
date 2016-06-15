@@ -27,6 +27,7 @@ public class NoDatabaseQueryStrategy implements QueryStrategy {
     public NoDatabaseQueryStrategy(NodeCollection nodeCollection, Map<String, Subject> subjects) {
         this.nodeCollection = nodeCollection;
         this.subjects = subjects;
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 //CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import com.sun.xml.internal.ws.binding.SOAPBindingImpl;
 import io.github.programminglife2016.pl1_2016.Launcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -96,7 +97,7 @@ public class BubbleDispatcherTest {
      */
     @Test
     public void testDispatchingCorrectView() {
-        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4);
+        NodeCollection testCollection = dispatcher.getThresholdedBubbles(4, false);
         assertEquals(7, testCollection.size());
     }
     /**
