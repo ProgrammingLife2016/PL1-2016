@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.Launcher;
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -9,6 +10,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Class to view bubbling changes
@@ -37,14 +39,30 @@ public final class BubbleMain {
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
 
-//        ObjectSerializer serializer = new ObjectSerializer();
-
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        System.out.println("reached");
         NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(4, false);
-        collectionToShow.assignNewPositions(Launcher.class.getResourceAsStream("/genomes/tb328-filtered.positions"));
 
-        List<Node> bubblesWithPositions = new ArrayList<Node>(collectionToShow.values());
+        ObjectSerializer serializer = new ObjectSerializer();
+        serializer.serializeItem(collectionToShow.values(), "src/main/resources/genomes/TB328dispatched.ser");
+        PrintWriter printer = new PrintWriter(new File("src/main/resources/genomes/TB328-filtered.dot"));
+        for (Node node : collectionToShow.values()) {
+            node.getLinks().forEach(link -> printer.println(node.getId() + " -> " + link.getId()));
+        }
+
+//        collectionToShow.assignNewPositions(Launcher.class.getResourceAsStream("/genomes/tb328-filtered.positions"));
+
+//        PrintWriter printer = new PrintWriter(new File("src/main/resources/genomes/TB328.positions"));
+//        printer.print("graph something blah blah");
+//        for (Node node : collectionToShow.values()) {
+//            printer.print("node " + node.getStartNode().getId() + " " + (((double) node.getStartNode().getX())/100.0) + " " + (((double) node.getStartNode().getY())/100.0) + " something");
+//            printer.print("node " + node.getEndNode().getId() + " " + (((double) node.getEndNode().getX())/100.0) + " " + (((double) node.getEndNode().getY())/100.0) + " something");
+//            for (Node child : node.getContainer()) {
+//                printer.print("node " + child.getId() + " " + (((double) child.getX())/100.0) + " " + (((double) child.getY())/100.0) + " something");
+//            }
+//        }
+//        printer.close();
+
+//        List<Node> bubblesWithPositions = new ArrayList<Node>(collectionToShow.values());
 //        serializer.serializeItem(bubblesWithPositions, "src/main/resources/objects/bubbles-with-positions.ser");
 
         //==============================

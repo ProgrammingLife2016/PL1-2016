@@ -1,5 +1,6 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
-    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles-with-positions.ser";
+    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles.ser";
     private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel.ser";
     private List<Node> bubbleCollection;
     private int lastId;
@@ -46,29 +47,58 @@ public class BubbleDispatcher {
      * @param collection of nodes
      */
     public BubbleDispatcher(NodeCollection collection) {
-        BubbleCollapser collapser = new BubbleCollapser(collection);
-        collapser.collapseBubbles();
-        this.bubbleCollection = collapser.getBubbles();
-        bubblesListSize = bubbleCollection.size();
-        lowestLevel = collapser.getLowestLevel();
-        initDispatcher();
+        if (checkIfSerialExists()) {
+            initBubblesWithSerial();
+        }
+        else {
+            BubbleCollapser collapser = new BubbleCollapser(collection);
+            collapser.collapseBubbles();
+            this.bubbleCollection = collapser.getBubbles();
+            this.bubblesListSize = bubbleCollection.size();
+            this.lowestLevel = collapser.getLowestLevel();
+            initDispatcher();
+            lastId = bubbleCollection.stream().max((b1, b2) ->
+                    Integer.compare(b1.getId(), b2.getId())).get().getId();
+            serializeBubbleCollection();
+        }
+    }
 
-        lastId = bubbleCollection.stream().max((b1, b2) ->
-                Integer.compare(b1.getId(), b2.getId())).get().getId();
+    private boolean checkIfSerialExists() {
+        File file = new File(BUBBLES_SERIAL);
+        return file.exists();
+    }
 
+    private void initBubblesWithSerial() {
+        ObjectSerializer ser = new ObjectSerializer();
         try {
-            FileOutputStream fileOut = new FileOutputStream("src/main/resources/bubbles.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(bubbleCollection);
-            out.close();
-            fileOut.close();
+            this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
+            this.bubblesListSize = bubbleCollection.size();
+            this.lowestLevel = (int) ser.getSerializedItem(LOWEST_LEVEL_SERIAL);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void serializeBubbleCollection() {
+        createNewFiles();
+        ObjectSerializer ser = new ObjectSerializer();
+        try {
+            ser.serializeItem(this.bubbleCollection, BUBBLES_SERIAL);
+            ser.serializeItem(this.lowestLevel, LOWEST_LEVEL_SERIAL);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        System.out.println("Object saved succesfully!");
-
-
+    private void createNewFiles() {
+        File bubblefile = new File(BUBBLES_SERIAL);
+        File keyfile = new File(LOWEST_LEVEL_SERIAL);
+        try {
+            bubblefile.createNewFile();
+            keyfile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
