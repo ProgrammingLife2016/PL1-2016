@@ -36,8 +36,8 @@ public final class Launcher {
         int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
-//        Server server = new RestServer(queryStrategy);
-//        server.startServer();
+        Server server = new RestServer(queryStrategy);
+        server.startServer();
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {

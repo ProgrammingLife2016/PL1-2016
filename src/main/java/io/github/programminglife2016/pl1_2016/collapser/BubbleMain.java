@@ -1,10 +1,16 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.URISyntaxException;
+import java.util.List;
+
 /**
  * Class to view bubbling changes
  */
@@ -34,7 +40,7 @@ public final class BubbleMain {
 //        file.createNewFile();
 //        System.out.println(file.exists());
         //==============================
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
 //        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
 //        for (Node node : nodes.values()) {
 //            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
@@ -62,5 +68,15 @@ public final class BubbleMain {
 //            if (node.getId() > 78053)
 //            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
 //        }
+
+        Object serializedObject = null;
+        FileInputStream fileIn = new FileInputStream("src/main/resources/bubbles.ser");
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        serializedObject = in.readObject();
+        in.close();
+        fileIn.close();
+
+        List<Node> bubbleCollection =  (List<Node>) serializedObject;
+        System.out.println(bubbleCollection.size());
     }
 }

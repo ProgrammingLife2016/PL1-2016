@@ -87,7 +87,7 @@ public class BubbleDispatcherTest {
                       + "\tCRD:Z:G-1.fasta\tCRDCTG:Z:MT_H37RV_BRD_V5\tCTG:Z:NZ_KK327777.1"
                       + "\tSTART:Z:0";
         input = stringToInputStream(meta);
-        pos = Launcher.class.getClass().getResourceAsStream("/genomes/TB10.positions");
+        pos = Launcher.class.getClass().getResourceAsStream("/genomes/testGraph.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, null).parse(input);
         dispatcher = new BubbleDispatcher(nodeCollection);
     }
