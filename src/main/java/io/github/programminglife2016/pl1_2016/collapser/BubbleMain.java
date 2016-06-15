@@ -1,20 +1,10 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
-import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Class to view bubbling changes
  */
@@ -45,12 +35,12 @@ public final class BubbleMain {
 //        System.out.println(file.exists());
         //==============================
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
-        for (Node node : nodes.values()) {
-            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
-        }
-        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
-        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
+//        NodeCollection nodes = dispatcher.getThresholdedBubbles(4, false);
+//        for (Node node : nodes.values()) {
+//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
+//        }
+//        System.out.println("NodeCollection before filtering: " + nodeCollection.size());
+//        System.out.println("NodeCollection after filtering SNPs and indels: " + nodes.size());
         //=======================================
 
 //        BubbleCollapser collapser = new BubbleCollapser(nodeCollection);

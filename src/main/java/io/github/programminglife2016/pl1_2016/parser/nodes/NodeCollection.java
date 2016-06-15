@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * A data structure that represents the segments.
  */
-public interface NodeCollection extends Map<Integer, Node>, JsonSerializable, Serializable {
+public interface NodeCollection extends Map<Integer, Node>, JsonSerializable {
 
     /**
      * Recalculate positions of the bubbles contained in the collection.

@@ -44,25 +44,25 @@ public class BubbleLinker {
     }
 
     private void createQuickRefForLowering() {
-        System.out.println("Started creating quick reference for lowering....");
+//        System.out.println("Started creating quick reference for lowering....");
         long startTime = System.nanoTime();
         quickReference = Collections.synchronizedMap(new HashMap<>(bubbles.size()));
         for (Node n : bubbles) {
             quickReference.put(getNodeKeyForLowering(n), n);
         }
         long endTime = System.nanoTime();
-        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
+//        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
     }
 
     private void createQuickRefForLinking() {
-        System.out.println("Started creating quick reference for linking....");
+//        System.out.println("Started creating quick reference for linking....");
         long startTime = System.nanoTime();
         quickReference = Collections.synchronizedMap(new HashMap<>(bubbles.size()));
         for (Node n : bubbles) {
             quickReference.put(String.valueOf(n.getId()), n);
         }
         long endTime = System.nanoTime();
-        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
+//        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
     }
 
     /**
@@ -91,15 +91,15 @@ public class BubbleLinker {
         while (needLowerLevels()) {
             lowerSegments();
         }
-        System.out.println("Finished lower segments.");
-
-        System.out.println("Started linking....");
+//        System.out.println("Finished lower segments.");
+//
+//        System.out.println("Started linking....");
         long startTime = System.nanoTime();
         addLinks();
         long endTime = System.nanoTime();
-        System.out.println("Linking time: " + ((endTime - startTime) / TIME) + " s.");
+//        System.out.println("Linking time: " + ((endTime - startTime) / TIME) + " s.");
         quickReference = null;
-        System.out.println("Lowest bubble level: " + lowestLevel);
+//        System.out.println("Lowest bubble level: " + lowestLevel);
         for (Node bubble : bubbles) {
             if (bubble.getZoomLevel() == -1) {
                 throw new RuntimeException("Not single neither nested bubble with zoom level = "
@@ -216,10 +216,10 @@ public class BubbleLinker {
 //            needLower.forEach(this::lowerSegmentInBubble);
             for (int i = 0; i < needLower.size(); i++) {
                 lowerSegmentInBubble(needLower.get(i));
-                System.out.print("\rPlaced: " + i);
+//                System.out.print("\rPlaced: " + i);
             }
             long endTime = System.nanoTime();
-            System.out.println("Lowered segments in: " + ((endTime - startTime) / TIME) + " s.");
+//            System.out.println("Lowered segments in: " + ((endTime - startTime) / TIME) + " s.");
             needLower = getNeedLower().collect(Collectors.toList());
         }
         System.out.println("");
