@@ -1,13 +1,14 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
-import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,54 +46,29 @@ public class BubbleDispatcher {
      * @param collection of nodes
      */
     public BubbleDispatcher(NodeCollection collection) {
-        try {
-            initAllCollapsedBubbles(collection);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        initDispatcher();
-        lastId = bubbleCollection.stream().max((b1, b2) ->
-                Integer.compare(b1.getId(), b2.getId())).get().getId();
-    }
-
-    private void initAllCollapsedBubbles(NodeCollection collection) throws IOException, ClassNotFoundException {
-        File file = new File(BUBBLES_SERIAL);
-        if (file.exists()) {
-            initBubblesWithSerial();
-        }
-        else {
-            file.createNewFile();
-            file = new File(LOWEST_LEVEL_SERIAL);
-            file.createNewFile();
-            constructBubblesFromScratch(collection);
-        }
-    }
-
-    private void initBubblesWithSerial() {
-        ObjectSerializer ser = new ObjectSerializer();
-        try {
-            this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
-            System.out.println("reached");
-            this.bubblesListSize = bubbleCollection.size();
-            this.lowestLevel = (int) ser.getSerializedItem(LOWEST_LEVEL_SERIAL);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void constructBubblesFromScratch(NodeCollection collection) {
-        ObjectSerializer ser = new ObjectSerializer();
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
+        this.bubbleCollection = collapser.getBubbles();
+        bubblesListSize = bubbleCollection.size();
+        lowestLevel = collapser.getLowestLevel();
+        initDispatcher();
+
+        lastId = bubbleCollection.stream().max((b1, b2) ->
+                Integer.compare(b1.getId(), b2.getId())).get().getId();
+
         try {
-            ser.serializeItem(collapser.getBubbles(), BUBBLES_SERIAL);
-            ser.serializeItem(collapser.getLowestLevel(), LOWEST_LEVEL_SERIAL);
+            FileOutputStream fileOut = new FileOutputStream("src/main/resources/bubbles.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(bubbleCollection);
+            out.close();
+            fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.bubbleCollection = collapser.getBubbles();
-        this.bubblesListSize = bubbleCollection.size();
-        this.lowestLevel = collapser.getLowestLevel();
+
+        System.out.println("Object saved succesfully!");
+
+
     }
 
     /**

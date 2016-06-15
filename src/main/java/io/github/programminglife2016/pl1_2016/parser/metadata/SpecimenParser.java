@@ -67,7 +67,7 @@ public class SpecimenParser {
      * @param specimen The specimen for whom the data belongs to.
      */
     private void parseBasicInfo(String[] string, Subject specimen) {
-        specimen.setNameId(string[0]);
+        specimen.setNameId(string[0].replaceAll(" ", "_").replaceAll("-", "_"));
         if (string[1].equals("unknown")) {
             specimen.setAge(0);
         }

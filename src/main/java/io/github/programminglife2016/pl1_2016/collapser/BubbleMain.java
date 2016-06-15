@@ -1,18 +1,13 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.Launcher;
-import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 
 import java.io.*;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,7 +37,7 @@ public final class BubbleMain {
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
 
-        ObjectSerializer serializer = new ObjectSerializer();
+//        ObjectSerializer serializer = new ObjectSerializer();
 
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         System.out.println("reached");
@@ -50,7 +45,7 @@ public final class BubbleMain {
         collectionToShow.assignNewPositions(Launcher.class.getResourceAsStream("/genomes/tb328-filtered.positions"));
 
         List<Node> bubblesWithPositions = new ArrayList<Node>(collectionToShow.values());
-        serializer.serializeItem(bubblesWithPositions, "src/main/resources/objects/bubbles-with-positions.ser");
+//        serializer.serializeItem(bubblesWithPositions, "src/main/resources/objects/bubbles-with-positions.ser");
 
         //==============================
 //        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);

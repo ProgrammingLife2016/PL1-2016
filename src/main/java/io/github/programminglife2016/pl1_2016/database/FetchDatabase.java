@@ -21,6 +21,13 @@ import java.util.Map;
  */
 public class FetchDatabase implements Database {
 
+    private static final String[] SPECIMEN_COLUMNS = {"age" , "sex" , "hiv_status" , "cohort" ,
+            "date_of_collection" , "study_geographic_district" , "specimen_type" , "microscopy_smear_status" ,
+            "dna_isolation_single_colony_or_nonsingle_colony" , "phenotypic_dst_pattern" ,
+            "capreomycin_10ugml" , "ethambutol_75ugml" , "ethionamide_10ugml" ,
+            "isoniazid_02ugml_or_1ugml" , "kanamycin_6ugml" , "pyrazinamide_nicotinamide_5000ugml_or_pzamgit" ,
+            "ofloxacin_2ugml" , "rifampin_1ugml" , "streptomycin_2ugml" , "digital_spoligotype" , "lineage" ,
+            "genotypic_dst_pattern" , "tugela_ferry_vs_nontugela_ferry_xdr"};
     /**
      * The connection to the database.
      */
@@ -128,16 +135,16 @@ public class FetchDatabase implements Database {
         return result;
     }
 
-    private JSONArray fetchMetadata(String genome) {
+    private JSONObject fetchMetadata(String genome) {
         Statement stmt;
         String query =
                 String.format("select * from %s WHERE specimen_id='%s'", SPECIMEN_TABLE, genome);
         ResultSet rs;
-        JSONArray res = null;
+        JSONObject res = null;
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-            res = convertResultSetIntoJSON(rs);
+            res = convertResultSetIntoJSONString(rs);
             rs.close();
             stmt.close();
         } catch (SQLException e) {
@@ -311,6 +318,42 @@ public class FetchDatabase implements Database {
     }
 
     /**
+     * Convert a result set into a JSON Array
+     *
+     * @param resultSet ResultSet that has to be converted
+     * @return a JSONArray
+     * @throws Exception thrown if resultset is not valid
+     */
+    private JSONObject convertResultSetIntoJSONString(ResultSet resultSet) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            while (resultSet.next()) {
+                String specimen = "";
+                int totalColumns = resultSet.getMetaData().getColumnCount();
+                JSONObject obj = new JSONObject();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < totalColumns; i++) {
+
+                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                    Object columnValue = resultSet.getObject(i + 1);
+                    // if value in DB is null, then we set it to default value
+                    if (columnValue == null) {
+                        columnValue = "null";
+                    }
+                    if (columnName.equals("specimen_id")) {
+                        specimen = (String) columnValue;
+                    }
+                    sb.append(columnName + ":" + columnValue +", ");
+                }
+                jsonObject.put(specimen, sb.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    /**
      * Convert a result set of genomes into a JSON Array
      *
      * @param resultSet ResultSet that has to be converted
@@ -406,5 +449,43 @@ public class FetchDatabase implements Database {
             }
         }
         return lineage;
+    }
+
+    private JSONObject fetchOptions() throws SQLException {
+        JSONObject options = new JSONObject();
+
+        Statement stmt = null;
+        ResultSet rs;
+        try {
+            stmt = connection.createStatement();
+            String query;
+            for (String column : SPECIMEN_COLUMNS) {
+                JSONArray values = new JSONArray();
+                query = String.format("SELECT DISTINCT %s FROM specimen", column);
+                rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    values.put(rs.getObject(column));
+                }
+                options.put(column, values);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return options;
+    }
+    public JSONObject getOptions() {
+        JSONObject options = new JSONObject();
+        try {
+            options.put("options", fetchOptions());
+            options.put("status", "success");
+        } catch (SQLException e) {
+            options.put("status", "error");
+            e.printStackTrace();
+        }
+        return options;
     }
 }

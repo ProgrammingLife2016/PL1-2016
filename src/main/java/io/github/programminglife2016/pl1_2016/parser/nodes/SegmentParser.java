@@ -29,7 +29,7 @@ public class SegmentParser implements Parser {
     private NodeCollection nodeCollection;
     private InputStream positions;
     private Map<String, Subject> specimens;
-    private Map<String, Integer> lastIndices;
+    private Map<String, Integer> lastIndices = new HashMap<>();
 
 
     /**
@@ -48,7 +48,6 @@ public class SegmentParser implements Parser {
     public SegmentParser(InputStream positions, InputStream metadata) {
         this();
         this.positions = positions;
-        lastIndices = new HashMap<>();
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
     }
@@ -105,7 +104,6 @@ public class SegmentParser implements Parser {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Seeker s = new SegmentSeeker(nodeCollection);
             if (reader != null) {
                 try {
                     reader.close();
@@ -172,6 +170,7 @@ public class SegmentParser implements Parser {
                     .collect(Collectors.toSet());
         }
         nodeCollection.get(id).addGenomes(genomes);
+        addRanges(nodeCollection.get(id), seq.length());
     }
 
     private String extractGenomeName(String rawName) {

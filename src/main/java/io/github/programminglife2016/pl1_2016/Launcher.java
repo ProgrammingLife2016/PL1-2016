@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -38,8 +39,8 @@ public final class Launcher {
         int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
-        Server server = new RestServer(queryStrategy);
-        server.startServer();
+//        Server server = new RestServer(queryStrategy);
+//        server.startServer();
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
@@ -65,7 +66,12 @@ public final class Launcher {
 
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
         NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
-
+//        SetupDatabase sdb = new SetupDatabase();
+//        try {
+//            sdb.setup(nodeCollection, subjects.values());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);

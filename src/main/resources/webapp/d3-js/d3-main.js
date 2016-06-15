@@ -1,32 +1,33 @@
 var width = window.innerWidth - 10;
-var height = window.innerHeight - 300;
-var miniWidth = width;
-var miniHeight = 250;
+var height = window.innerHeight - 400;
+var miniWidth = width/2;
+var miniHeight = 350;
 var maxZoomLevel = 100;
 var zoomThreshold = 1;
-
 var colorFactor;
 var widthFactor;
-
 var nodes;
 var edges;
 var x;
 var y;
-
 var somethingIsHighlighted = false;
-
 var miniX;
 var miniY;
-
+var zoom_levels = [4, 32, 128]
 var previousZoom = 128;
+var options;
 
 function newZoomLevel(s) {
-    if (s < 10) {
-        return 128;
-    } else if (5 <= s && s < 20) {
-        return 4;
+    if (s < 5) {
+        return zoom_levels[2];
+    } else if (5 <= s && s < 10) {
+        return zoom_levels[1];
+    } else if (10 <= s && s < 15) {
+        return zoom_levels[0];
+    } else if (15 <= s && s < 20) {
+        return zoom_levels[0];
     } else {
-        return 1;
+        return zoom_levels[0];
     }
 }
 
@@ -47,6 +48,7 @@ function startD3() {
     $.getJSON("/api/nodes/128/0/100000000", function (response) {
         nodes = response.nodes;
         edges = response.edges;
+    });
         x = d3.scale.linear()
             .domain([0, max(nodes, "x")])
             .range([0, width]);
@@ -69,20 +71,50 @@ function startD3() {
             colorFactor = 20;
             widthFactor = 1;
         }
-        drawGraph();
         drawMinimap();
-        d3.select("#jump").on("click", jumpToBaseGetFromDOM);
+        drawGraph();
+        setTKKs();
+        setOptions();
+
+}
+
+function setOptions() {
+    $.getJSON("/api/metadata/options", function(response) {
+        options = response.options;
+        $.each(response.options, function(key, value){
+                $(".metadata").append("<option value=\"" + key + "\">" + key + "</option>");
+        });
+        $(".metadata").chosen({ search_contains: true });
+
+    });
+
+    $(".metadata").on('change', function(event, params){
+        $.each(params, function(key, value){
+            if (key == "selected") {
+                $("#characteristics").append("<div class=\"search_item\"><span>" + value + ": </span><select multiple id =\"" + value + "\" data-placeholder=\"Select " + value + "\" ></select></div>");
+                for (var i = 0; i < options[value].length; i++) {
+                    $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
+                }
+                $("#"+value).chosen({ search_contains: true, width: "95%" });
+            } else if (key == "deselected") {
+                $("#"+value).parent().remove();
+            }
+        });
     });
 }
 
-var circle;
-var line;
-var zm;
-var svg;
-var tip;
-
-var minimap;
-
+function setTKKs() {
+    $("#optionsgraph").css("display", "block");
+    $("#baseindex").keyup(function(e){
+        if(e.keyCode == 13) {
+            jumpToBaseGetFromDOM();
+        }
+    });
+    for (var i = 0; i < window.tkks.length; i++) {
+      $(".tkks").append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
+    }
+    $(".tkks").chosen({ search_contains: true });
+}
 function drawGraph() {
     zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
     tip = d3.tip()
@@ -92,7 +124,7 @@ function drawGraph() {
             getData(d.id);
             return "<strong>Segment:</strong> <span id='data" + d.id + "'>...</span>";
         });
-    svg = d3.select("#d3").append("svg")
+    svg = d3.select("#d3").insert("svg",":first-child")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -104,7 +136,15 @@ function drawGraph() {
         .attr("width", width)
         .attr("height", height);
 
-    line = svg.selectAll("line")
+    line = drawLines();
+
+    circle = drawNodes();
+
+}
+
+var rect;
+drawLines(svg, edges) {
+    svg.selectAll("line")
         .data(edges)
         .enter()
         .append("line")
@@ -114,21 +154,29 @@ function drawGraph() {
         .attr("y2", function (d) {return y(d.y2)})
         .attr("stroke", defaultColor)
         .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-    circle = svg.selectAll("circle")
+}
+drawNodes(svg, nodes) {
+    svg.selectAll("circle")
         .data(nodes)
         .enter()
         .append("circle")
-        .attr("r", 2.5)
+        .attr("r", 7.5)
+        .attr("fill", function(d) {
+            if (d.containersize == 3){
+                return "orange";
+            } else if (d.containersize == 4) {
+                return "green";
+            } else if (d.containersize == 1) {
+                return "pink";
+            }
+        })
         .attr("transform", "translate(-9999, -9999)")
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
 }
 
-var rect;
-
 function drawMinimap() {
-    minimap = d3.select("#d3").append("svg")
+    minimap = d3.select("#d3").insert("svg",":first-child")
         .attr("width", miniWidth)
         .attr("height", miniHeight)
         .append("g");
@@ -153,6 +201,7 @@ function drawMinimap() {
         .attr("height", miniHeight);
 }
 var previousX = [0, 1000000];
+
 function zoom(beginX) {
     var t = d3.event.translate;
     var s = d3.event.scale;
@@ -161,40 +210,24 @@ function zoom(beginX) {
         t[0] = beginX;
         t[1] = beginX + 1000;
     }
-
-    if (Math.abs(previousX[0] - x.domain()[0]) >= 1500 || Math.abs(previousX[1] - x.domain()[1]) >= 1500) {
+    if (Math.abs(previousX[0] - x.domain()[0]) >= 10000/s || Math.abs(previousX[1] - x.domain()[1]) >= 10000/s) {
         previousX = x.domain();
         $.ajax({
-                    url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
-                    async: false,
-                    success: function (response) {
-                        response = JSON.parse(response);
-                        nodes = response.nodes;
-                        edges = response.edges;
+            url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
+            async: false,
+            success: function (response) {
+                response = JSON.parse(response);
+                nodes = response.nodes;
+                edges = response.edges;
 
-                        line.remove();
-                        circle.remove();
-                        line = svg.selectAll("line")
-                            .data(edges)
-                            .enter()
-                            .append("line")
-                            .attr("x1", function (d) {return x(d.x1)})
-                            .attr("y1", function (d) {return y(d.y1)})
-                            .attr("x2", function (d) {return x(d.x2)})
-                            .attr("y2", function (d) {return y(d.y2)})
-                            .attr("stroke", defaultColor)
-                            .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
+                line.remove();
+                circle.remove();
+                line = drawLines(svg, edges)
+                circle = drawNodes(svg, nodes);
 
-                        circle = svg.selectAll("circle")
-                            .data(nodes)
-                            .enter()
-                            .append("circle")
-                            .attr("r", 2.5)
-                            .attr("transform", "translate(-9999, -9999)")
-                            .on("mouseover", tip.show)
-                            .on("mouseout", tip.hide);
-                        }
-                });
+                somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
+            }
+        });
     }
     if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
         previousZoom = newZoomLevel(s);
@@ -210,28 +243,11 @@ function zoom(beginX) {
 
                 line.remove();
                 circle.remove();
-                line = svg.selectAll("line")
-                    .data(edges)
-                    .enter()
-                    .append("line")
-                    .attr("x1", function (d) {return x(d.x1)})
-                    .attr("y1", function (d) {return y(d.y1)})
-                    .attr("x2", function (d) {return x(d.x2)})
-                    .attr("y2", function (d) {return y(d.y2)})
-                    .attr("stroke", defaultColor)
-                    .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-                circle = svg.selectAll("circle")
-                    .data(nodes)
-                    .enter()
-                    .append("circle")
-                    .attr("r", 2.5)
-                    .attr("transform", "translate(-9999, -9999)")
-                    .on("mouseover", tip.show)
-                    .on("mouseout", tip.hide);
+                line = drawLines(svg, edges)
+                circle = drawNodes(svg, nodes);
 
                 somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
-                }
+            }
         });
     }
     if (t[0] > 0) {
@@ -260,7 +276,6 @@ function zoom(beginX) {
         circle.attr("transform", "translate(-9999, -9999)");
     }
 }
-
 function transform(d) {
     return "translate(" + x(d.x) + "," + y(d.y) + ")";
 }
@@ -323,9 +338,8 @@ function highlightLineage(genome) {
 }
 
 function jumpToBaseGetFromDOM() {
-    var e = document.getElementById("fuzzOptionsList");
-    var strUser = e.options[e.selectedIndex].value;
-    console.log(strUser + " " + $("#baseindex").text());
+    var strUser = $(".tkks").chosen().val();
+    console.log(strUser + " " + $("#baseindex").val());
     $.getJSON("/api/metadata/navigate/" + strUser + "/" + $("#baseindex").val(), function (response) {
         var dx = 10;
         var dy = 10;
