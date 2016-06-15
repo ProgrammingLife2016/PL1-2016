@@ -1,10 +1,15 @@
 package io.github.programminglife2016.pl1_2016.parser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
 
 /**
  * Serializer for any object of choice.
@@ -28,5 +33,18 @@ public class ObjectSerializer {
         in.close();
         fileIn.close();
         return serializedObject;
+    }
+
+    /**
+     * Convert collection of nodes to NodeCollection
+     * @param res collection of nodes
+     * @return NodeCollection of given nodes
+     */
+    public NodeCollection listAsNodeCollection(Collection<Node> res) {
+        NodeCollection collection = new NodeMap();
+        for (Node node: res) {
+            collection.put(node.getId(), node);
+        }
+        return collection;
     }
 }

@@ -39,15 +39,21 @@ public final class BubbleMain {
         NodeCollection nodeCollection = new SegmentParser(pos, mt).parse(is);
 
 
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(4, false);
+        System.gc();
 
+
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(4, false);
+//
         ObjectSerializer serializer = new ObjectSerializer();
-        serializer.serializeItem(collectionToShow.values(), "src/main/resources/genomes/TB328dispatched.ser");
-        PrintWriter printer = new PrintWriter(new File("src/main/resources/genomes/TB328-filtered.dot"));
-        for (Node node : collectionToShow.values()) {
-            node.getLinks().forEach(link -> printer.println(node.getId() + " -> " + link.getId()));
-        }
+//        serializer.serializeItem((new ArrayList<>(collectionToShow.values())), "src/main/resources/genomes/TB328dispatched.ser");
+//        PrintWriter printer = new PrintWriter(new File("src/main/resources/genomes/TB328-filtered.dot"));
+//        for (Node node : collectionToShow.values()) {
+//            node.getLinks().forEach(link -> printer.println(node.getId() + " -> " + link.getId()));
+//        }
+        List<Node> nodes = (List<Node>) serializer.getSerializedItem("src/main/resources/objects/bubbles-with-positions.ser");
+        System.out.println();
+        NodeCollection collection = serializer.listAsNodeCollection(nodes);
 
 //        collectionToShow.assignNewPositions(Launcher.class.getResourceAsStream("/genomes/tb328-filtered.positions"));
 
@@ -87,12 +93,6 @@ public final class BubbleMain {
 //        detector.findMultiLevelBubbles();
 //        for (Node node : detector.getBubbleBoundaries()) {
 //            System.out.println(node.getId());
-//        }
-//
-        //========================================
-//        for (Node node : nodeCollection.values()) {
-//            if (node.getId() > 78053)
-//            node.getLinks().forEach(x -> System.out.println(node.getId() + " -> " + x.getId()));
 //        }
     }
 }

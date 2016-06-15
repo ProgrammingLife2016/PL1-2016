@@ -6,9 +6,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,7 +69,9 @@ public class BubbleDispatcher {
     private void initBubblesWithSerial() {
         ObjectSerializer ser = new ObjectSerializer();
         try {
+            System.out.println("reached");
             this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
+            System.out.println("reached1");
             this.bubblesListSize = bubbleCollection.size();
             this.lowestLevel = (int) ser.getSerializedItem(LOWEST_LEVEL_SERIAL);
         } catch (IOException | ClassNotFoundException e) {
