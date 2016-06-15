@@ -55,20 +55,6 @@ public class BubbleDispatcher {
 
         lastId = bubbleCollection.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
-
-        try {
-            FileOutputStream fileOut = new FileOutputStream("src/main/resources/bubbles.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(bubbleCollection);
-            out.close();
-            fileOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Object saved succesfully!");
-
-
     }
 
     /**
