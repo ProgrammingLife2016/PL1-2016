@@ -454,7 +454,7 @@ $(function() { // on dom ready
 
 
 
-    $("#optionsgraph > ul > li> a").on("click", function(e)  {
+    $("#optionsgraph > ul > li > a").on("click", function(e)  {
             var currentAttrValue = jQuery(this).attr('href');
             console.log(currentAttrValue);
             // Show/Hide Tabs

@@ -86,6 +86,13 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, redraw) 
             $("#d3").append($("#optionsgraph").remove());
             setOptions();
             setTKKs();
+
+            $("#optionsgraph > ul > li > a").on("click", function(e) {
+                var currentAttrValue = jQuery(this).attr('href');
+                $(currentAttrValue).slideDown(400).siblings().slideUp(400);
+                $(this).parent('li').addClass('active').siblings().removeClass('active');
+                e.preventDefault();
+            });
         }
     });
 }
@@ -393,7 +400,6 @@ function updateCharacteristic(event, params) {
                     } else {
                         search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
                     }
-                    console.log(search_query);
             }
             if ( search_query != "") {
               selectedGenomes = JSON.search(selectedGenomes, search_query);
@@ -404,8 +410,6 @@ function updateCharacteristic(event, params) {
         for(var key in selectedGenomes) {
             $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
         }
-        console.log(selectedGenomes.length);
-
     });
 
 }
