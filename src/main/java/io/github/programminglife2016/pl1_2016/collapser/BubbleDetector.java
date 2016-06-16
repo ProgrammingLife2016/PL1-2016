@@ -57,6 +57,7 @@ public class BubbleDetector {
 
         List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
         while (!currLevelList.isEmpty()) {
+            System.out.println("In level: " + reachedLevel);
             this.conductedSearches = new HashSet<>();
             levelBubbles.put(reachedLevel, currLevelList);
             reachedLevel++;
@@ -90,7 +91,6 @@ public class BubbleDetector {
     }
 
     private List<Node> findLevelBubbles(Node startNode, Node destination) {
-        System.out.println(startNode.getId() + "  " + destination.getId() + " ==> " + reachedLevel);
         conductedSearches.add(new SimplePair<>(startNode.getId(), destination.getId()));
         if (startNode.getId() >= destination.getId()) {
             return new ArrayList<>();

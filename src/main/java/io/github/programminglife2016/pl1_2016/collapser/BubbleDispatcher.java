@@ -6,8 +6,8 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
-    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles-with-positions.ser";
-    private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel.ser";
+    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles-organized.ser";
+    private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel-orgi.ser";
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;
@@ -45,34 +45,33 @@ public class BubbleDispatcher {
      * @param collection of nodes
      */
     public BubbleDispatcher(NodeCollection collection) {
-        try {
-            initAllCollapsedBubbles(collection);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        initDispatcher();
-        lastId = bubbleCollection.stream().max((b1, b2) ->
-                Integer.compare(b1.getId(), b2.getId())).get().getId();
-    }
-
-    private void initAllCollapsedBubbles(NodeCollection collection) throws IOException, ClassNotFoundException {
-        File file = new File(BUBBLES_SERIAL);
-        if (file.exists()) {
+        if (checkIfSerialExists()) {
             initBubblesWithSerial();
         }
         else {
-            file.createNewFile();
-            file = new File(LOWEST_LEVEL_SERIAL);
-            file.createNewFile();
-            constructBubblesFromScratch(collection);
+            BubbleCollapser collapser = new BubbleCollapser(collection);
+            collapser.collapseBubbles();
+            this.bubbleCollection = collapser.getBubbles();
+            this.bubblesListSize = bubbleCollection.size();
+            this.lowestLevel = collapser.getLowestLevel();
+            initDispatcher();
+            lastId = bubbleCollection.stream().max((b1, b2) ->
+                    Integer.compare(b1.getId(), b2.getId())).get().getId();
+            serializeBubbleCollection();
         }
+    }
+
+    private boolean checkIfSerialExists() {
+        File file = new File(BUBBLES_SERIAL);
+        return file.exists();
     }
 
     private void initBubblesWithSerial() {
         ObjectSerializer ser = new ObjectSerializer();
         try {
-            this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
             System.out.println("reached");
+            this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
+            System.out.println("reached1");
             this.bubblesListSize = bubbleCollection.size();
             this.lowestLevel = (int) ser.getSerializedItem(LOWEST_LEVEL_SERIAL);
         } catch (IOException | ClassNotFoundException e) {
@@ -80,19 +79,26 @@ public class BubbleDispatcher {
         }
     }
 
-    private void constructBubblesFromScratch(NodeCollection collection) {
+    private void serializeBubbleCollection() {
+        createNewFiles();
         ObjectSerializer ser = new ObjectSerializer();
-        BubbleCollapser collapser = new BubbleCollapser(collection);
-        collapser.collapseBubbles();
         try {
-            ser.serializeItem(collapser.getBubbles(), BUBBLES_SERIAL);
-            ser.serializeItem(collapser.getLowestLevel(), LOWEST_LEVEL_SERIAL);
+            ser.serializeItem(this.bubbleCollection, BUBBLES_SERIAL);
+            ser.serializeItem(this.lowestLevel, LOWEST_LEVEL_SERIAL);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.bubbleCollection = collapser.getBubbles();
-        this.bubblesListSize = bubbleCollection.size();
-        this.lowestLevel = collapser.getLowestLevel();
+    }
+
+    private void createNewFiles() {
+        File bubblefile = new File(BUBBLES_SERIAL);
+        File keyfile = new File(LOWEST_LEVEL_SERIAL);
+        try {
+            bubblefile.createNewFile();
+            keyfile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -129,6 +135,7 @@ public class BubbleDispatcher {
      * @return graph with thresholded bubbles
      */
     public NodeCollection getThresholdedBubbles(int threshold, boolean onlyGivenThreshold) {
+        System.gc();
         System.out.println("Started filtering....");
         long startTime = System.nanoTime();
         Set<Node> filtered = filterMultithreaded(threshold, onlyGivenThreshold);
@@ -152,18 +159,18 @@ public class BubbleDispatcher {
         List<Node> kowed = new ArrayList<>();
         nodeCollection.values().stream().filter(node -> node.getLinks().size() == 1)
                 .forEach(node -> {
-            boolean repeat = true;
-            while (repeat) {
-                repeat = false;
-                Node link = node.getLinks().iterator().next();
-                if (link.getBackLinks().size() == 1 && link.getLinks().size() == 1) {
-                    repeat = true;
-                    kowed.add(link);
-                    node.getLinks().clear();
-                    node.getLinks().add(link.getLinks().iterator().next());
-                }
-            }
-        });
+                    boolean repeat = true;
+                    while (repeat) {
+                        repeat = false;
+                        Node link = node.getLinks().iterator().next();
+                        if (link.getBackLinks().size() == 1 && link.getLinks().size() == 1) {
+                            repeat = true;
+                            kowed.add(link);
+                            node.getLinks().clear();
+                            node.getLinks().add(link.getLinks().iterator().next());
+                        }
+                    }
+                });
         kowed.stream().map(Node::getId).forEach(nodeCollection::remove);
         return nodeCollection;
     }
@@ -177,8 +184,8 @@ public class BubbleDispatcher {
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         try {
             forkJoinPool.submit(() -> {
-                filtered.addAll(filterBubbles(threshold, onlyGivenThreshold));
-                }
+                        filtered.addAll(filterBubbles(threshold, onlyGivenThreshold));
+                    }
             ).get();
         } catch (Exception e) {
             e.printStackTrace();

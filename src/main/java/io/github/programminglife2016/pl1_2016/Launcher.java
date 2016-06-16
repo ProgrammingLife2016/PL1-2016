@@ -2,6 +2,7 @@ package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -57,14 +58,15 @@ public final class Launcher {
         InputStream is =
                 Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
         InputStream positions =
-                Launcher.class.getResourceAsStream(String.format("/genomes/TB10.positions"));
+                Launcher.class.getResourceAsStream(String.format("/genomes/TB328-uniques.positions"));
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
 
+        System.gc();
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
+        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(4, false);
 
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
