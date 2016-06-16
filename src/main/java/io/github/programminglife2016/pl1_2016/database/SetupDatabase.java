@@ -27,8 +27,7 @@ public class SetupDatabase implements Database {
     /**
      * The connection to the database.
      */
-    private static final int[] THRESHOLDS = {4, 16, 32, 64, 128};
-
+    private static final int[] THRESHOLDS = {4, 16, 64, 256, 1024, 4096};
     private static final int FIVE = 5;
     private static final int FOUR = 4;
     private static final int THREE = 3;

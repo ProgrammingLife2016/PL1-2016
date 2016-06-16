@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -45,17 +44,13 @@ public final class Launcher {
         long startTime = System.nanoTime();
         QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.",
-                (endTime - startTime) / NANOSECONDS_PER_SECOND));
+        System.out.println(String.format("Loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
-    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset,
-                                                                 boolean useDatabase) {
-        InputStream is =
-                Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
-        InputStream positions =
-                Launcher.class.getResourceAsStream(String.format("/genomes/TB10.positions"));
+    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset, boolean useDatabase) {
+        InputStream is = Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
+        InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/TB328-uniques.positions"));
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
@@ -66,6 +61,9 @@ public final class Launcher {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+//        System.gc();
+//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
+//        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
 
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
