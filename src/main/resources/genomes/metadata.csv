@@ -126,7 +126,7 @@ TKK_05SA_0011,27,Male,Negative,CUBS,5/31/2013,eThekwini,sputum,Positive,single c
 TKK_05SA_0014,39,Male,Positive,CUBS,41400,iLembe,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
 TKK_05SA_0020,31,Male,Positive,CUBS,41614,eThekwini,sputum,Positive,single colony,MDR,U,R,U,R,S,U,S,R,S,T1,LIN 4,MDR,n/a
 TKK_05SA_0025,42,Male,Positive,CUBS,6/19/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,R,LAM3,LIN 4,MDR,n/a
-TKK_05SA_0041,26,Female,Positive,CUBS,41585,eThekwini,sputum,Positive,single colony,MDR,U,R,U,R,S,U,S,R,R,T3,T1,LIN 4,MDR,n/a
+TKK_05SA_0041,26,Female,Positive,CUBS,41585,eThekwini,sputum,Positive,single colony,MDR,U,R,U,R,S,U,S,R,R,T3 T1,LIN 4,MDR,n/a
 TKK_05SA_0042,38,Male,Positive,CUBS,41615,iLembe,sputum,Positive,single colony,MDR,U,S,U,R,S,U,R,R,S,LAM4,LIN 4,MDR,n/a
 TKK_05SA_0044,32,Male,Positive,CUBS,7/15/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,R,T3,LIN 4,MDR,n/a
 TKK_05SA_0048,52,Male,Positive,CUBS,7/17/2013,eThekwini,sputum,Positive,single colony,MDR,U,S,U,R,S,U,S,R,S,LAM4,LIN 4,MDR,n/a
@@ -266,8 +266,8 @@ TKK_03_0159,37,Male,Negative,Phage,8/27/2013,eThekwini,sputum,Positive,non-singl
 TKK_03_0160,27,Female,Positive,Phage,8/27/2013,eThekwini,sputum,Positive,non-single colony,susceptible,U,S,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
 TKK_04_0018,33,Female,unknown,NHLS,41428,eThekwini,sputum,Positive,single colony,MDR,U,U,U,R,S,U,S,R,R,Beijing,LIN 2,susceptible,n/a
 TKK_04_0029,50,Female,unknown,NHLS,3/27/2013,eThekwini,pleural fluid,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,LAM3,LIN 4,susceptible,n/a
-TKK_04_0030,53,Male,unknown,NHLS,3/25/2013,eThekwini,sputum,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,S,T1,LIN 4,susceptible,n/a
-TKK_04_0031,unknown,Female,unknown,NHLS,41429,eThekwini,blood,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,T4,T1,LIN 4,susceptible,n/a
+TKK_04_0030,53,Male,unknown,NHLS,3/25/2013,eThekwini,sputum,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,T1,LIN 4,susceptible,n/a
+TKK_04_0031,unknown,Female,unknown,NHLS,41429,eThekwini,blood,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,T4 T1,LIN 4,susceptible,n/a
 TKK_04_0033,34,Male,unknown,NHLS,41398,eThekwini,blood,unknown,single colony,susceptible,U,U,U,S,S,U,S,S,S,Beijing,LIN 2,susceptible,n/a
 TKK-01-0004,30,Female,unknown,KZNSUR,39601,eThekwini,sputum,Positive,single colony,XDR,R,R,S,R,R,R,R,R,R,LAM4,LIN 4,XDR,Tugela Ferry XDR
 TKK-01-0013,40,Male,Positive,KZNSUR,2/26/2008,uThungulu,sputum,Positive,single colony,XDR,S,R,S,R,R,R,R,R,R,Beijing,LIN 2,XDR,non-Tugela Ferry XDR
