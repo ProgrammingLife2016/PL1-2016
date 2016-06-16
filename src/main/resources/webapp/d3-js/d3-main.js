@@ -22,6 +22,49 @@ var ZOOM_THRESHOLDS = function (s) {
     }
 }
 
+var STROKE_WIDTHS = function (gens) {
+    return Math.max(1, Math.log(gens - 3) / Math.log(1.2));
+}
+
+var LINEAGE_COLORS = {
+    "LIN 1": "#ed00c3",
+    "LIN 2": "#0000ff",
+    "LIN 3": "#500079",
+    "LIN 4": "#ff0000",
+    "LIN 5": "#4e2c00",
+    "LIN 6": "#69ca00",
+    "LIN 7": "#ff7e00",
+    "LIN animal": "#00ff9c",
+    "LIN B": "#00ff9c",
+    "LIN CANETTII": "#00ffff"
+}
+
+var DEFAULT_COLOR = function (edge) {
+    return LINEAGE_COLORS[mode(edge.lineages)] || "#000000";
+}
+
+function mode(array) {
+    if (array.length == 0) {
+        return null;
+    }
+    var modeMap = {};
+    var maxEl = array[0]
+    var maxCount = 1;
+    for (var i = 0; i < array.length; i++) {
+        var el = array[i];
+        if (modeMap[el] == null) {
+            modeMap[el] = 1;
+        } else {
+            modeMap[el]++;
+        }
+        if (modeMap[el] > maxCount) {
+            maxEl = el;
+            maxCount = modeMap[el];
+        }
+    }
+    return maxEl;
+}
+
 var ServerConnection = function() {
     var self = this;
     self.graph;
@@ -144,8 +187,8 @@ Svg.prototype.drawEdges = function (edges, xScale, yScale) {
         .data(edges)
         .enter()
         .append("line")
-        .attr("stroke-width", function (d) {return 1})
-        .attr("stroke", function (d) {return "#000000"});
+        .attr("stroke-width", function (d) {return STROKE_WIDTHS(d.genomes.length)})
+        .attr("stroke", function (d) {return DEFAULT_COLOR(d)});
     self.positionEdges(self.svgEdges, xScale, yScale);
 }
 
@@ -203,7 +246,7 @@ Svg.prototype.positionMinimapRect = function (miniXScale, graphXScale) {
     self.minimapRect
         .attr("x", miniXScale(graphXScale.invert(0)))
         .attr("y", 0)
-        .attr("width", miniXScale(graphXScale.invert(WIDTH)))
+        .attr("width", miniXScale(graphXScale.invert(WIDTH)) - miniXScale(graphXScale.invert(0)))
         .attr("height", MINI_HEIGHT);
 }
 
