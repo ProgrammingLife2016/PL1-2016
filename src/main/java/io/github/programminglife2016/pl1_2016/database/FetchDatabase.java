@@ -111,19 +111,14 @@ public class FetchDatabase implements Database {
      * @param threshold level of treshold.
      * @param x1 the left bounding x.
      * @param x2 the right bounding x.
-     * @param requestNodes
      * @param minContainerSize
      * @return JSON response.
      */
-    public final JSONObject getNodes(int threshold, int x1, int x2, boolean requestNodes, int minContainerSize) {
+    public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize) {
         JSONObject result = new JSONObject();
         result.put("status", "success");
         try {
-            if (requestNodes) {
-                result.put("nodes", fetchNodes(threshold, x1, x2, minContainerSize));
-            } else {
-                result.put("nodes", "");
-            }
+            result.put("nodes", fetchNodes(threshold, x1, x2, minContainerSize));
             result.put("edges", fetchLinks(threshold, x1, x2));
             if (threshold <= 4) {
                 result.put("annotations", fetchAnnotations());

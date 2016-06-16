@@ -25,7 +25,7 @@ public class OptionsOfGenomesFromDatabase implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/metadata/options";
+        return "^/api/metadata/options$";
     }
 
     /**

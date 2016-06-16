@@ -38,6 +38,38 @@ var DEFAULT_COLOR = function (edge) {
     return LINEAGE_COLORS[mode(edge.lineages)] || "#000000";
 }
 
+var NODE_TYPE = function (node) {
+    switch (node.containersize) {
+    case 3:
+        return "triangle-up";
+    case 4:
+        return "diamond";
+    default:
+        return "circle";
+    }
+}
+var NODE_SIZE = 500;
+var NODE_COLOR = function (node) {
+    switch (node.containersize) {
+    case 3:
+        return "orange";
+    case 4:
+        return "green";
+    default:
+        return "pink";
+    }
+}
+
+var MIN_CONTAINERSIZES = function (s) {
+    if (s < 5) {
+        return 32;
+    } else if (s < 7.5) {
+        return 16;
+    } else {
+        return 0;
+    }
+}
+
 function mode(array) {
     if (array.length == 0) {
         return null;
@@ -68,10 +100,10 @@ var ServerConnection = function() {
     self.minimap;
 }
 
-ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, redraw) {
+ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minContainersize, redraw) {
     var self = this;
     self.previousZoomThreshold = threshold;
-    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/true/0", function (response) {
+    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize, function (response) {
         var nodes = response.nodes;
         var edges = response.edges;
         var annotations = response.annotations;
@@ -104,7 +136,7 @@ ServerConnection.prototype.updateGraph = function () {
     if (self.previousZoomThreshold != ZOOM_THRESHOLDS(s) || self.previousDomain[0] - domainX[0] >= PAN_THRESHOLD || domainX[1] - self.previousDomain[1]  >= PAN_THRESHOLD) {
         self.previousZoomThreshold = ZOOM_THRESHOLDS(s);
         self.previousDomain = [domainX[0] - PAN_EXTRA_X, domainX[1] + PAN_EXTRA_X];
-        self.loadGraph(ZOOM_THRESHOLDS(s), self.previousDomain[0], self.previousDomain[1], true);
+        self.loadGraph(ZOOM_THRESHOLDS(s), self.previousDomain[0], self.previousDomain[1], MIN_CONTAINERSIZES(s), true);
     } else {
         self.graph.redraw();
     }
@@ -129,8 +161,8 @@ var Graph = function(nodes, edges, annotations) {
     self.edges = edges;
     self.annotations = annotations;
 
-    self.xScale = d3.scale.linear().domain([0, d3.max(self.nodes.map(function (n) {return n.x}))]).range([0, WIDTH]);
-    self.yScale = d3.scale.linear().domain([0, d3.max(self.nodes.map(function (n) {return n.y}))]).range([HEIGHT, 0]);
+    self.xScale = d3.scale.linear().domain([0, d3.max(self.edges.map(function (e) {return e.x2}))]).range([0, WIDTH]);
+    self.yScale = d3.scale.linear().domain([0, d3.max(self.edges.map(function (e) {return e.y2}))]).range([HEIGHT, 0]);
     self.geneTip = new Tip(10, 0, function (gene) {return gene.displayname});
     self.zoom = d3.behavior.zoom().x(self.xScale).scaleExtent([1, MAX_ZOOM_LEVEL]).on("zoom", zoomCallback);
 
@@ -142,8 +174,8 @@ var Graph = function(nodes, edges, annotations) {
 
 Graph.prototype.draw = function () {
     var self = this;
-    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
+    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
     self.svg.drawAnnotations(self.annotations, self.xScale, self.yScale, self.geneTip.tip);
 }
 Graph.prototype.redraw = function () {
@@ -185,11 +217,12 @@ Svg.prototype.addCallback = function (callback) {
 
 Svg.prototype.drawNodes = function (nodes, xScale, yScale) {
     var self = this;
-    self.svgNodes = self.svg.selectAll("circle")
+    self.svgNodes = self.svg.selectAll("path")
          .data(nodes)
          .enter()
-         .append("circle")
-         .attr("r", CIRCLE_SIZE);
+         .append("path")
+         .attr("d", d3.svg.symbol().type(NODE_TYPE).size(NODE_SIZE))
+         .attr("fill", NODE_COLOR);
     self.positionNodes(self.svgNodes, xScale, yScale);
 }
 
@@ -217,9 +250,7 @@ Svg.prototype.drawAnnotations = function (annotations, xScale, yScale, tip) {
 }
 
 Svg.prototype.positionNodes = function (svgNodes, xScale, yScale) {
-    svgNodes
-         .attr("cx", function (d) {return xScale(d.x)})
-         .attr("cy", function (d) {return yScale(d.y)});
+    svgNodes.attr("transform", function (d) {return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")"});
 }
 
 Svg.prototype.positionEdges = function (svgEdges, xScale, yScale) {
@@ -305,8 +336,8 @@ var Tip = function(offsetX, offsetY, text) {
 var Minimap = function(nodes, edges) {
     var self = this;
     self.edges = edges;
-    self.xScale = d3.scale.linear().domain([0, d3.max(nodes.map(function (n) {return n.x}))]).range([0, MINI_WIDTH]);
-    self.yScale = d3.scale.linear().domain([0, d3.max(nodes.map(function (n) {return n.y}))]).range([MINI_HEIGHT, 0]);
+    self.xScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.x2}))]).range([0, MINI_WIDTH]);
+    self.yScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.y2}))]).range([MINI_HEIGHT, 0]);
     self.svg = new Svg("#d3", MINI_WIDTH, MINI_HEIGHT);
 }
 
@@ -324,7 +355,7 @@ Minimap.prototype.updateMinimapRect = function (graphXScale) {
 var serverConnection;
 function startD3() {
     serverConnection = new ServerConnection();
-    serverConnection.loadGraph(128, 0, 100000000);
+    serverConnection.loadGraph(128, 0, 100000000, 64);
 }
 
 function zoomCallback() {

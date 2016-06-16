@@ -35,7 +35,6 @@ public class DatabaseQueryStrategy implements QueryStrategy {
         apiHandler.addQuery(new ReturnAllNodesFromDatabaseApiQuery(fdb))
                   .addQuery(new GetStaticFileApiQuery())
                   .addQuery(new RootIndexApiQuery())
-                  .addQuery(new IndividualSegmentDataApiQuery(nodeCollection))
                   .addQuery(new MetadataNavigateApiQuery(nodeCollection))
                   .addQuery(new MetadataInfoFromDatabaseQuery(fdb))
                   .addQuery(new IndividualSegmentDataFromDatabaseApiQuery(fdb))

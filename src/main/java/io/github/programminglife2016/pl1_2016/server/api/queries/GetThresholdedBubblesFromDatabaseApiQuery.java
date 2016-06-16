@@ -25,7 +25,7 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/nodes/(\\d+)/(-?\\d+)/(-?\\d+)/(\\S+)/(\\d+)$";
+        return "^/api/nodes/(\\d+)/(-?\\d+)/(-?\\d+)/(\\d+)$";
     }
 
     /**
@@ -36,6 +36,6 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
     @Override
     public ApiAction getApiAction() {
         return args -> fdb.getNodes(Integer.parseInt(args.get(0)),
-                Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)), Boolean.parseBoolean(args.get(3)), Integer.parseInt(args.get(4))).toString();
+                Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3))).toString();
     }
 }
