@@ -63,7 +63,7 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) {
-        if (true) {
+        if (!isSetup()) {
             clearTable(SPECIMEN_TABLE);
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
@@ -184,6 +184,7 @@ public class SetupDatabase implements Database {
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     Set<String> intersection = new HashSet<String>(node.getGenomes());
+                    System.out.println(link.getGenomes());
                     intersection.retainAll(link.getGenomes());
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());
@@ -263,7 +264,7 @@ public class SetupDatabase implements Database {
                 if (specimen.getNameId().equals("MT_H37RV_BRD_V5.ref")) {
                     continue;
                 }
-                stmtgenomes.setString(1, specimen.getNameId().replaceAll("_", "-").replaceAll(" ", "-"));
+                stmtgenomes.setString(1, specimen.getNameId().replaceAll("-", "_").replaceAll(" ", "_"));
                 stmtgenomes.setInt(2, specimen.getAge());
                 stmtgenomes.setBoolean(3, specimen.isMale());
                 stmtgenomes.setInt(4, specimen.getHivStatus());
