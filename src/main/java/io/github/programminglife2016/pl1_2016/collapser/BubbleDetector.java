@@ -2,7 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
-import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -53,6 +52,7 @@ public class BubbleDetector {
 
         List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
         while (!currLevelList.isEmpty()) {
+            this.conductedSearches = new HashSet<>();
             levelBubbles.put(reachedLevel, currLevelList);
             reachedLevel++;
             currLevelList = findDeeperLevelBubbles(levelBubbles);
@@ -78,18 +78,18 @@ public class BubbleDetector {
                 return new ArrayList<>();
             }
             switch (status) {
-                case BUBBLE_DETECTED :
+                case BUBBLE_DETECTED:
                     handleDetectedBubble(startNode, stoppedAtNode.getValue(), levelCollection);
                     startNode = stoppedAtNode.getValue();
                     stoppedAtNode = searchBubble(startNode,
                             startNode.getGenomes(), destination, visited);
                     break;
-                case FOUND_MORE_GENOMES :
+                case FOUND_MORE_GENOMES:
                     startNode = stoppedAtNode.getValue();
                     stoppedAtNode = searchBubble(startNode,
                             startNode.getGenomes(), destination, visited);
                     break;
-                case NO_CHILDREN_FOUND :
+                case NO_CHILDREN_FOUND:
                     checkIfStoppedNodeIsABubble(startNode, destination,
                             levelCollection, stoppedNode);
                     break loop;
@@ -131,7 +131,7 @@ public class BubbleDetector {
                                                     List<Node> levelCollection) {
         for (Node childNode : startNode.getLinks()) {
             if (!this.conductedSearches
-                    .contains(new MutablePair<>(childNode.getId(), destination.getId()))) {
+                    .contains(new SimplePair<>(childNode.getId(), destination.getId()))) {
                 levelCollection.addAll(findLevelBubbles(childNode, destination));
             }
         }

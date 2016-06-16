@@ -4,6 +4,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @author Kamran Tadzjibov
  *
  */
-public class BubbleCollapser {
+public class BubbleCollapser implements Serializable {
     private List<Node> bubbles;
     private int lastId;
     private int bubblesListSize;

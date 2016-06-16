@@ -5,6 +5,10 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +29,8 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
+    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles.ser";
+    private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel.ser";
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;
@@ -48,6 +54,7 @@ public class BubbleDispatcher {
         bubblesListSize = bubbleCollection.size();
         lowestLevel = collapser.getLowestLevel();
         initDispatcher();
+
         lastId = bubbleCollection.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
     }
@@ -85,10 +92,10 @@ public class BubbleDispatcher {
      * @param threshold value to filter the graphs bubbles
      * @return graph with thresholded bubbles
      */
-    public NodeCollection getThresholdedBubbles(int threshold) {
+    public NodeCollection getThresholdedBubbles(int threshold, boolean onlyGivenThreshold) {
         System.out.println("Started filtering....");
         long startTime = System.nanoTime();
-        Set<Node> filtered = filterMultithreaded(threshold);
+        Set<Node> filtered = filterMultithreaded(threshold, onlyGivenThreshold);
         long endTime = System.nanoTime();
         System.out.println("Done filtering. time: " + ((endTime - startTime) / TIME) + " s.");
         startTime = System.nanoTime();
@@ -130,11 +137,11 @@ public class BubbleDispatcher {
      * @param threshold amount of segments per bubble which is used to filter bubbles
      * @return filtered set of bubbles
      */
-    public Set<Node> filterMultithreaded(int threshold) {
+    public Set<Node> filterMultithreaded(int threshold, boolean onlyGivenThreshold) {
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         try {
             forkJoinPool.submit(() -> {
-                filtered.addAll(filterBubbles(threshold));
+                filtered.addAll(filterBubbles(threshold, onlyGivenThreshold));
                 }
             ).get();
         } catch (Exception e) {
@@ -148,13 +155,13 @@ public class BubbleDispatcher {
      * @param threshold value to filter the graphs bubbles
      * @return set of wrong linked in current context bubbles which are filtered on threshold value
      */
-    private Set<Node> filterBubbles(int threshold) {
+    private Set<Node> filterBubbles(int threshold, boolean onlyGivenThreshold) {
         createQuickRefForFiltering();
         Set<Integer> containers = Collections.synchronizedSet(new HashSet<>()); //new ArrayList<>();
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         for (int i = 1; i < lowestLevel; i++) {
             Set<Node> tempFiltered = getFilteredNodes(containers, i,
-                    filtered, threshold);
+                    filtered, threshold, onlyGivenThreshold);
             containers.addAll(tempFiltered.parallelStream().map(Node::getId)
                     .collect(Collectors.toList()));
             filtered.addAll(tempFiltered);
@@ -169,10 +176,11 @@ public class BubbleDispatcher {
      * @param currentLevel current bubbles level
      * @param filtered set of already filtered nodes
      * @param threshold value to filter the graphs bubbles
+     * @param onlyGivenThreshold if true collapse only bubbles with threshold amount of segments
      * @return filtered bubbles by threshold for given level
      */
     private Set<Node> getFilteredNodes(Set<Integer> containers, int currentLevel,
-                                       Set<Node> filtered, int threshold) {
+                                       Set<Node> filtered, int threshold, boolean onlyGivenThreshold) {
         Set<Node> tempFiltered = Collections.synchronizedSet(new HashSet<>());
         List<Node> currLevelBubbles = bubbleCollection.parallelStream()
                 .filter(x -> x.getZoomLevel() == currentLevel).collect(Collectors.toList());
@@ -184,7 +192,14 @@ public class BubbleDispatcher {
              * Make use of this code:
              * (x.getContainerSize() == threshold || x.getContainerSize() <= 1) {
              */
-                if (x.getContainerSize() <= threshold) {
+                boolean compareMethod;
+                if (onlyGivenThreshold) {
+                    compareMethod = (x.getContainerSize() == threshold || x.getContainerSize() <= 1);
+                }
+                else {
+                    compareMethod = (x.getContainerSize() <= threshold);
+                }
+                if (compareMethod) {
                     tempFiltered.removeAll(filtered.stream().filter(b -> b.getZoomLevel() == -1
                             && (b.getStartNode().getId() == x.getStartNode().getId()
                             || b.getEndNode().getId() == x.getEndNode().getId()))

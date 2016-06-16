@@ -1,7 +1,7 @@
 var WIDTH = window.innerWidth;
-var HEIGHT = window.innerHeight - 250;
-var MINI_WIDTH = window.innerWidth;
-var MINI_HEIGHT = 250;
+var HEIGHT = window.innerHeight - 400;
+var MINI_WIDTH = window.innerWidth / 2;
+var MINI_HEIGHT = 350;
 var MAX_ZOOM_LEVEL = 100;
 var CIRCLE_SIZE = 2.5;
 var GENE_ANNOTATION_RECT_SIZE = 100;
@@ -10,18 +10,13 @@ var PAN_EXTRA_X = 50000;
 
 var ZOOM_THRESHOLDS = function (s) {
     if (s < 5) {
-        return 128;
-    } else if (s < 10) {
-        return 64;
-    } else if (s < 20) {
         return 32;
-    } else if (s < 30) {
+    } else if (s < 7.5) {
         return 16;
-    } else {
-        return 1;
+    } else if (s < 12.5) {
+        return 4;
     }
 }
-
 var STROKE_WIDTHS = function (gens) {
     return Math.max(1, Math.log(gens - 3) / Math.log(1.2));
 }
@@ -76,7 +71,7 @@ var ServerConnection = function() {
 ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, redraw) {
     var self = this;
     self.previousZoomThreshold = threshold;
-    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX), function (response) {
+    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/true/0", function (response) {
         var nodes = response.nodes;
         var edges = response.edges;
         var annotations = response.annotations;
@@ -88,6 +83,9 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, redraw) 
             self.graph.draw();
             self.minimap = new Minimap(nodes, edges);
             self.minimap.draw(self.graph.xScale);
+            $("#d3").append($("#optionsgraph").remove());
+            setOptions();
+            setTKKs();
         }
     });
 }
@@ -104,6 +102,18 @@ ServerConnection.prototype.updateGraph = function () {
         self.graph.redraw();
     }
     self.minimap.updateMinimapRect(self.graph.xScale);
+}
+
+ServerConnection.prototype.jumpToBase = function (genome, base) {
+    var self = this;
+    $.getJSON("/api/metadata/navigate/" + genome + "/" + base, function (response) {
+        var scale = 100;
+        var translate = [- response.x * scale, - response.y * scale];
+
+        self.graph.svg.svg.transition()
+            .duration(750)
+            .call(self.graph.zoom.translate(translate).scale(scale).event);
+    });
 }
 
 var Graph = function(nodes, edges, annotations) {
@@ -131,7 +141,6 @@ Graph.prototype.draw = function () {
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
     self.svg.drawAnnotations(self.annotations, self.xScale, self.yScale, self.geneTip.tip);
 }
-
 Graph.prototype.redraw = function () {
     var self = this;
     var t = d3.event.translate;
@@ -226,6 +235,38 @@ Svg.prototype.positionAnnotations = function (svgAnnotations, xScale, yScale) {
         .attr("height", function (d) {return GENE_ANNOTATION_RECT_SIZE});
 }
 
+function drawNodes(svg, nodes) {
+    return svg.selectAll("path")
+        .data(nodes)
+        .enter()
+        .append("path")
+        .attr("d", d3.svg.symbol()
+            .type(function(d) {
+                if (d.containersize == 3){
+                    return "triangle-up";
+                } else if (d.containersize == 4){
+                    return "diamond";
+                } else {
+                    return "circle";
+                }
+            })
+            .size("500")
+            )
+
+        .attr("fill", function(d) {
+            if (d.containersize == 3){
+                return "orange";
+            } else if (d.containersize == 4) {
+                return "green";
+            } else if (d.containersize == 1) {
+                return "pink";
+            }
+        })
+        .attr("transform", "translate(-9999, -9999)")
+        .on("mouseover", tip.show)
+        .on("mouseout", tip.hide);
+}
+
 Svg.prototype.clear = function () {
     var self = this;
     self.svgNodes.remove();
@@ -285,4 +326,102 @@ function startD3() {
 
 function zoomCallback() {
     serverConnection.updateGraph();
+}
+var currentSelection = {};
+
+function setOptions() {
+    $.getJSON("/api/metadata/options", function(response) {
+        options = response.options;
+        $.each(response.options, function(key, value){
+                currentSelection[key] = [];
+                $(".metadata").append("<option value=\"" + key + "\">" + key + "</option>");
+        });
+        var my_options = $(".metadata option");
+        my_options.sort(function(a,b) {
+            if (a.text > b.text) return 1;
+            else if (a.text < b.text) return -1;
+            else return 0
+        });
+        $(".metadata").empty().append(my_options);
+
+        $(".metadata").chosen({ search_contains: true });
+
+    });
+
+    $(".metadata").on('change', function(event, params){
+        $.each(params, function(key, value){
+            if (key == "selected") {
+                $("#characteristics").append("<div class=\"search_item\"><span>" + value + ": </span><select multiple id =\"" + value + "\" data-placeholder=\"Select " + value + "\" ></select></div>");
+                $("#"+value).on('change', function(event, params) {
+                    updateCharacteristic(event, params);
+                });
+                for (var i = 0; i < options[value].length; i++) {
+                    $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
+                }
+
+                var my_options = $("#"+value+" option");
+                my_options.sort(function(a,b) {
+                    if (a.text > b.text) return 1;
+                    else if (a.text < b.text) return -1;
+                    else return 0
+                });
+                $("#" + value).empty().append(my_options);
+
+                $("#" + value).chosen({ search_contains: true, width: "95%" });
+            } else if (key == "deselected") {
+                $("#"+value).parent().remove();
+            }
+        });
+    });
+}
+function updateCharacteristic(event, params) {
+    $.each(params, function(key, value){
+        if (key == "selected") {
+            currentSelection[event.currentTarget.id].push(value);
+        } else {
+            currentSelection[event.currentTarget.id].splice(currentSelection[event.currentTarget.id].indexOf(value), 1);
+        }
+        var selectedGenomes = genomes;
+        for (var i = 0; i < Object.keys(currentSelection).length; i++) {
+            var search_query = "";
+            var search_term = Object.keys(currentSelection)[i];
+            for (var j = 0; j < currentSelection[search_term].length; j++) {
+                    var search_value = currentSelection[search_term][j]
+                    if (j == 0) {
+
+                        search_query = "//*["+search_term+"=\"" + search_value +"\"]";
+                    } else {
+                        search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
+                    }
+                    console.log(search_query);
+            }
+            if ( search_query != "") {
+              selectedGenomes = JSON.search(selectedGenomes, search_query);
+            }
+
+        }
+        $("#selectedTKKs>option").remove();
+        for(var key in selectedGenomes) {
+            $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
+        }
+        console.log(selectedGenomes.length);
+
+    });
+
+}
+function setTKKs() {
+    $("#optionsgraph").css("display", "block");
+    $("#baseindex").keyup(function(e){
+        if(e.keyCode == 13) {
+            jumpToBaseGetFromDOM();
+        }
+    });
+    for (var i = 0; i < window.tkks.length; i++) {
+      $(".tkks").append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
+    }
+    $(".tkks").chosen({ search_contains: true });
+}
+
+function jumpToBaseGetFromDOM() {
+    serverConnection.jumpToBase($(".tkks").chosen().val(), $("#baseindex").val());
 }

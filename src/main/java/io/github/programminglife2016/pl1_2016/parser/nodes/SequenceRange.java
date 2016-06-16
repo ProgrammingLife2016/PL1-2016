@@ -1,9 +1,11 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
+import java.io.Serializable;
+
 /**
  * @author Kamran Tadzjibov on 08.06.2016.
  */
-public class SequenceRange implements IndexRange {
+public class SequenceRange implements IndexRange, Serializable {
 
     private String genomeName;
     private int start;

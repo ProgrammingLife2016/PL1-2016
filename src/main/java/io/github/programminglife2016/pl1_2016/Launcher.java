@@ -3,6 +3,7 @@ package io.github.programminglife2016.pl1_2016;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.GFFParser;
+
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -48,8 +49,7 @@ public final class Launcher {
         long startTime = System.nanoTime();
         QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.",
-                (endTime - startTime) / NANOSECONDS_PER_SECOND));
+        System.out.println(String.format("Loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
@@ -67,6 +67,7 @@ public final class Launcher {
         GFFParser gffParser = new GFFParser(decorations);
         gffParser.read();
         nodeCollection.setAnnotations(gffParser.getAnnotations());
+        SetupDatabase setupDatabase = new SetupDatabase();
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
