@@ -435,7 +435,7 @@ public class FetchDatabase implements Database {
 
                 if (columnName.equals("from")) {
                     List<JSONArray> genomes =
-                            getGenomes(resultSet.getInt("from"), resultSet.getInt("to"));
+                    getGenomes(resultSet.getInt("from"), resultSet.getInt("to"));
                     obj.put("genomes", genomes.get(0));
                     obj.put("lineages", genomes.get(1));
                     continue;
@@ -456,18 +456,19 @@ public class FetchDatabase implements Database {
         JSONArray genomes = new JSONArray();
         JSONArray lineages = new JSONArray();
         String query = String.format(
-                "select DISTINCT %s.genome as genome, specimen.lineage as lineage from %s JOIN "
-              + "specimen ON %s.genome = specimen.specimen_id WHERE from_id = %d AND to_id = %d",
-                LINK_GENOMES_TABLE, LINK_GENOMES_TABLE, LINK_GENOMES_TABLE, from, to);
+                "select genomes from "
+              + "%s WHERE from_id = %d AND to_id = %d",
+                LINK_TABLE, LINK_TABLE, from, to);
         ResultSet rs;
+        ArrayList<String> genomesList = new ArrayList();
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                genomes.put(rs.getString(1));
-                lineages.put(rs.getString(2));
+                genomesList.add(rs.getString(1));
             }
+            
 
 
         } catch (Exception e) {

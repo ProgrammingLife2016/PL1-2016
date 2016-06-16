@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -62,11 +63,11 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) {
-//        if (!isSetup()) {
-//            clearTable(SPECIMEN_TABLE);
-//            clearTable(LINK_TABLE);
+        if (true) {
+            clearTable(SPECIMEN_TABLE);
+            clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
-//            clearTable(LINK_GENOMES_TABLE);
+            clearTable(LINK_GENOMES_TABLE);
             try {
                 writeSpecimen(this.splist);
             } catch (SQLException e) {
@@ -83,7 +84,7 @@ public class SetupDatabase implements Database {
                     e.printStackTrace();
                 }
             }
-//        }
+        }
 
     }
 
@@ -156,7 +157,7 @@ public class SetupDatabase implements Database {
                 stmt.close();
             }
         }
-//        writeLinks(nodes, threshold);
+        writeLinks(nodes, threshold);
     }
 
     private void clearTable(String tableName) {
@@ -174,7 +175,7 @@ public class SetupDatabase implements Database {
     @SuppressWarnings("checkstyle:magicnumber")
     private void writeLinks(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
-        String query = "INSERT INTO " + LINK_TABLE + "(from_id, to_id, threshold) VALUES" + "(?,?,?)";
+        String query = "INSERT INTO " + LINK_TABLE + "(from_id, to_id, threshold, genomes) VALUES" + "(?,?,?,?)";
 
         try {
             stmt = connection.prepareStatement(query);
@@ -182,9 +183,12 @@ public class SetupDatabase implements Database {
             int i = 0;
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
+                    Set<String> intersection = new HashSet<String>(node.getGenomes());
+                    intersection.retainAll(link.getGenomes());
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());
                     stmt.setInt(THREE, threshold);
+                    stmt.setString(4, intersection.toString());
                     stmt.addBatch();
                     i++;
 
@@ -194,7 +198,7 @@ public class SetupDatabase implements Database {
                 }
             }
             stmt.executeBatch();
-            writeLinksGenomes(nodes);
+//            writeLinksGenomes(nodes);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
