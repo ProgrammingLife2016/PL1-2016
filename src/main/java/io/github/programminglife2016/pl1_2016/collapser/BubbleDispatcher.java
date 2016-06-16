@@ -84,6 +84,7 @@ public class BubbleDispatcher {
         ObjectSerializer ser = new ObjectSerializer();
         try {
             ser.serializeItem(this.bubbleCollection, BUBBLES_SERIAL);
+            System.out.println("REACHED");
             ser.serializeItem(this.lowestLevel, LOWEST_LEVEL_SERIAL);
         } catch (IOException e) {
             e.printStackTrace();

@@ -6,22 +6,17 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
 
 /**
  * Detect all bubbles in the given graph, inclusive nested bubbles using top-bottom method
  * @author Ravi Autar
  */
 public class BubbleDetector {
-    private static int CORES = Runtime.getRuntime().availableProcessors();
-    ForkJoinPool forkJoinPool;
     private static final int NOT_A_BUBBLE = 0;
     private static final int BUBBLE_DETECTED = 1;
     private static final int FOUND_MORE_GENOMES = 2;
@@ -57,7 +52,6 @@ public class BubbleDetector {
 
         List<Node> currLevelList = findDeeperLevelBubbles(levelBubbles);
         while (!currLevelList.isEmpty()) {
-            System.out.println("In level: " + reachedLevel);
             this.conductedSearches = new HashSet<>();
             levelBubbles.put(reachedLevel, currLevelList);
             reachedLevel++;
@@ -66,29 +60,6 @@ public class BubbleDetector {
         levelBubbles.values().forEach(this.bubbleBoundaries::addAll);
     }
 
-    private List<Node> findDeeperLevelBubbles(Map<Integer, List<Node>> levelBubbles) {
-        this.forkJoinPool =  new ForkJoinPool(CORES);
-        List<Node> parallelUpperLevelList = Collections.synchronizedList(levelBubbles.get(reachedLevel - 1));
-        List<Node> currLevelList = new ArrayList<>();
-        try {
-            forkJoinPool.submit(
-                    () -> parallelUpperLevelList.parallelStream()
-                            .forEach(bubble -> {
-                                if (bubble.getStartNode().getId() < bubble.getEndNode().getId()) {
-                                    for (Node node : bubble.getStartNode().getLinks()) {
-                                        List<Node> newBubbles = findLevelBubbles(node, bubble.getEndNode());
-                                        currLevelList.addAll(newBubbles);
-                                    }
-                                }
-                            })
-            ).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return currLevelList;
-    }
 
     private List<Node> findLevelBubbles(Node startNode, Node destination) {
         conductedSearches.add(new SimplePair<>(startNode.getId(), destination.getId()));
@@ -101,8 +72,7 @@ public class BubbleDetector {
                 searchBubble(startNode, startNode.getGenomes(), destination, visited);
         int status = stoppedAtNode.getKey();
         Node stoppedNode = stoppedAtNode.getValue();
-        loop:
-        while (status != REACHED_FINAL_DESTINATION) {
+        loop : while (status != REACHED_FINAL_DESTINATION) {
             if (startNode.getId() == stoppedNode.getId()
                     || stoppedNode.getId() > destination.getId()) {
                 return new ArrayList<>();
@@ -131,6 +101,19 @@ public class BubbleDetector {
         return levelCollection;
     }
 
+    private List<Node> findDeeperLevelBubbles(Map<Integer, List<Node>> levelBubbles) {
+        List<Node> currLevelList = new ArrayList<>();
+        for (Node bubble : levelBubbles.get(reachedLevel - 1)) {
+            if (bubble.getStartNode().getId() >= bubble.getEndNode().getId()) {
+                continue;
+            }
+            for (Node node : bubble.getStartNode().getLinks()) {
+                List<Node> newBubbles = findLevelBubbles(node, bubble.getEndNode());
+                currLevelList.addAll(newBubbles);
+            }
+        }
+        return currLevelList;
+    }
 
     private void checkIfStoppedNodeIsABubble(Node startNode,
                                              Node destination,

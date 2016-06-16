@@ -66,7 +66,7 @@ public final class Launcher {
 
         System.gc();
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(4, false);
+        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
 
         if (useDatabase) {
             FetchDatabase fdb = new FetchDatabase();

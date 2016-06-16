@@ -44,25 +44,25 @@ public class BubbleLinker {
     }
 
     private void createQuickRefForLowering() {
-        System.out.println("Started creating quick reference for lowering....");
+//        System.out.println("Started creating quick reference for lowering....");
         long startTime = System.nanoTime();
         quickReference = Collections.synchronizedMap(new HashMap<>(bubbles.size()));
         for (Node n : bubbles) {
             quickReference.put(getNodeKeyForLowering(n), n);
         }
         long endTime = System.nanoTime();
-        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
+//        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
     }
 
     private void createQuickRefForLinking() {
-        System.out.println("Started creating quick reference for linking....");
+//        System.out.println("Started creating quick reference for linking....");
         long startTime = System.nanoTime();
         quickReference = Collections.synchronizedMap(new HashMap<>(bubbles.size()));
         for (Node n : bubbles) {
             quickReference.put(String.valueOf(n.getId()), n);
         }
         long endTime = System.nanoTime();
-        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
+//        System.out.println("Done. time: " + ((endTime - startTime) / TIME) + " s.");
     }
 
     /**
