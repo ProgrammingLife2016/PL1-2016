@@ -5,10 +5,6 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,17 +52,17 @@ public class BubbleDispatcher {
         lastId = bubbleCollection.stream().max((b1, b2) ->
                 Integer.compare(b1.getId(), b2.getId())).get().getId();
 
-        try {
-            FileOutputStream fileOut = new FileOutputStream("src/main/resources/bubbles.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(bubbleCollection);
-            out.close();
-            fileOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Object saved succesfully!");
+//        try {
+//            FileOutputStream fileOut = new FileOutputStream("src/main/resources/bubbles.ser");
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(bubbleCollection);
+//            out.close();
+//            fileOut.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("Object saved succesfully!");
 
 
     }
@@ -114,6 +110,12 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
+
+        if(threshold >= 128) {
+            BubbleAligner aligner = new BubbleAligner(filtered);
+            Collection<Node> temp = aligner.alignVertical();
+            return listAsNodeCollection(temp);
+        }
         return listAsNodeCollection(filtered);
 //        return aggregateLines(listAsNodeCollection(filtered));
     }

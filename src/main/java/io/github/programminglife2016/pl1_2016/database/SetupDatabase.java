@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -71,12 +70,12 @@ public class SetupDatabase implements Database {
             clearTable(LINK_GENOMES_TABLE);
             writeSpecimen(splst);
             BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
-            for (int i = 0; i < THRESHOLDS.length; i++) {
-                System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
-                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
-                nodesToWrite.recalculatePositions();
-                writeNodes(nodesToWrite, THRESHOLDS[i]);
-            }
+        for (int THRESHOLD : THRESHOLDS) {
+            System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
+            NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);
+            nodesToWrite.recalculatePositions();
+            writeNodes(nodesToWrite, THRESHOLD);
+        }
 //        }
     }
 
