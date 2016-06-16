@@ -1,17 +1,11 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
-import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +24,7 @@ public class SetupDatabase implements Database {
     private static final int THREE = 3;
     private Collection splist;
     private String dataset;
+
     /**
      * Constructor to construct a database.
      */
@@ -125,7 +120,7 @@ public class SetupDatabase implements Database {
     private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
         String query = "INSERT INTO " + NODES_TABLE + "(id, data, x, y, isbubble, containersize) VALUES" + "(?,?,?,?,"
-                + "" + "?,?) ON CONFLICT DO NOTHING";
+                + "" + "" + "?,?) ON CONFLICT DO NOTHING";
 
         try {
             stmt = connection.prepareStatement(query);
@@ -250,7 +245,7 @@ public class SetupDatabase implements Database {
         PreparedStatement stmtgenomes = null;
         String querygenomes = String.format("INSERT INTO %s(" +
                 " specimen_id , age , sex , hiv_status , cohort , date_of_collection , " + " microscopy_smear_status "
-                + "" + "" + "" + ", dna_isolation_single_colony_or_nonsingle_colony , phenotypic_dst_pattern , " +
+                + "" + "" + "" + "" + ", dna_isolation_single_colony_or_nonsingle_colony , phenotypic_dst_pattern , " +
                 "capreomycin_10ugml , " + "" + "ethambutol_75ugml , ethionamide_10ugml , isoniazid_02ugml_or_1ugml "
                 + ", kanamycin_6ugml , " +
                 "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , ofloxacin_2ugml , rifampin_1ugml , " +

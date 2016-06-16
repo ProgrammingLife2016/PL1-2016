@@ -99,12 +99,12 @@ public class FetchDatabase implements Database {
         Statement stmt = null;
         JSONArray nodes = null;
         String query = String.format("SELECT DISTINCT %s.* " + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
-                + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE %s"
-                + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d AND n2.x <= %d)))"
-                + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > %d" + " ORDER"
-                + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE,
-                LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE, NODES_TABLE,
-                minContainerSize, NODES_TABLE);
+                + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
+                + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d AND n2.x <="
+                + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > "
+                + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
+                NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
+                NODES_TABLE, minContainerSize, NODES_TABLE);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -250,8 +250,9 @@ public class FetchDatabase implements Database {
             SQLException {
         Statement stmt = null;
         JSONArray links = null;
-        String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s.genomes"
-                + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + ".to_id " +
+        String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s"
+                + ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + ""
+                + ".to_id " +
                 "WHERE %s" + ".threshold = %d " + "AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x " + "<= "
                 + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
                 NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, x1, x2);
@@ -336,8 +337,9 @@ public class FetchDatabase implements Database {
         return String.format("select specimen_id , age , sex ," + " hiv_status , cohort , date_of_collection , " +
                 "study_geographic_district , specimen_type , microscopy_smear_status , " +
                 "dna_isolation_single_colony_or_nonsingle_colony , " + "phenotypic_dst_pattern , capreomycin_10ugml ,"
-                + " " + "ethambutol_75ugml , ethionamide_10ugml , " + "isoniazid_02ugml_or_1ugml , kanamycin_6ugml , "
-                + "" + "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , " + "ofloxacin_2ugml , rifampin_1ugml , " +
+                + "" + " " + "ethambutol_75ugml , ethionamide_10ugml , " + "isoniazid_02ugml_or_1ugml , "
+                + "kanamycin_6ugml , " + "" + "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , " + "ofloxacin_2ugml ,"
+                + " rifampin_1ugml , " +
                 "streptomycin_2ugml , digital_spoligotype , lineage , genotypic_dst_pattern , " +
                 "tugela_ferry_vs_nontugela_ferry_xdr from %s", SPECIMEN_TABLE);
     }
@@ -451,7 +453,7 @@ public class FetchDatabase implements Database {
                     ArrayList<String> mostCommon = new ArrayList<>();
                     for (String lingen : genoms.split(",")) {
                         lingen = lingen.trim();
-                        mostCommon.add(genomeToLineage.getOrDefault(lingen,""));
+                        mostCommon.add(genomeToLineage.getOrDefault(lingen, ""));
                     }
 
                     for (int key : items.keySet()) {
@@ -479,21 +481,21 @@ public class FetchDatabase implements Database {
 
         Map<String, Integer> map = new HashMap<String, Integer>();
 
-        for(int i=0; i< list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
 
             Integer frequency = map.get(list.get(i));
-            if(frequency == null) {
+            if (frequency == null) {
                 map.put(list.get(i), 1);
             } else {
-                map.put(list.get(i), frequency+1);
+                map.put(list.get(i), frequency + 1);
             }
         }
 
         String mostCommonKey = null;
         int maxValue = -1;
-        for(Map.Entry<String, Integer> entry: map.entrySet()) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
 
-            if(entry.getValue() > maxValue) {
+            if (entry.getValue() > maxValue) {
                 mostCommonKey = entry.getKey();
                 maxValue = entry.getValue();
             }
@@ -501,6 +503,7 @@ public class FetchDatabase implements Database {
 
         return mostCommonKey;
     }
+
     private List<JSONArray> getGenomes(int from, int to) throws SQLException {
         Statement stmt = null;
         JSONArray genomes = new JSONArray();
