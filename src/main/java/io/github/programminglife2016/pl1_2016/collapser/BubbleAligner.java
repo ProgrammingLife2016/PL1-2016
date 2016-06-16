@@ -49,35 +49,14 @@ public class BubbleAligner {
                 }
             }
             mainNode.setXY(mainNode.getX(), node.getY());
-            modify(mainNode, true);
+            modify(mainNode, isMainBranch);
         }
     }
 
     private void setNewY(Node node) {
-        Optional<Node> opt =
-                node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size()));
-        if (opt.isPresent()) {
-            Node main = opt.get();
-            int delta = node.getY() - main.getY();
-            node.getLinks().forEach(next -> {
-                if (node.getGenomes().containsAll(node.getLinks().iterator().next().getGenomes())) {
-                    next.setXY(next.getX(), next.getY() + delta);
-                }
-            });
+        if (node.getLinks().size() == 1) {
+            Node next = node.getLinks().iterator().next();
+            next.setXY(next.getX(), node.getY());
         }
     }
-//
-//    private void collectConvergentNodes() {
-//        List<Node> links = new ArrayList<>();
-//        for (Node curr: bubbleCollection) {
-//            links.addAll(curr.getLinks());
-//        }
-//        Set<Integer> temp = new HashSet<>();
-//        for (Node curr : links) {
-//            if (!temp.add(curr.getId())) {
-//                convergentNodes.add(curr);
-//            }
-//        }
-//        sortByX(convergentNodes);
-//    }
 }
