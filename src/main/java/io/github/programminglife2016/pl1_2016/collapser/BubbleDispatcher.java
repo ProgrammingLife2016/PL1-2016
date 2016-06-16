@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
-    private static final String BUBBLES_SERIAL = "src/main/resources/objects/bubbles-organized.ser";
-    private static final String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/lowestLevel-orgi.ser";
+    private String BUBBLES_SERIAL = "src/main/resources/objects/%s/bubbles-organized.ser";
+    private String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/%s/lowestLevel-orgi.ser";
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;
@@ -36,8 +36,9 @@ public class BubbleDispatcher {
      * Initialize bubbles by running bubble collapser.
      * @param collection of nodes
      */
-    public BubbleDispatcher(NodeCollection collection) {
-
+    public BubbleDispatcher(NodeCollection collection, String dataset) {
+        BUBBLES_SERIAL = String.format(BUBBLES_SERIAL, dataset);
+        LOWEST_LEVEL_SERIAL = String.format(LOWEST_LEVEL_SERIAL, dataset);
         if (checkIfSerialExists()) {
             initBubblesWithSerial();
         }

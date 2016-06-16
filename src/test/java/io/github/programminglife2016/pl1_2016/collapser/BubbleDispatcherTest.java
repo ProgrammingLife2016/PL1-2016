@@ -88,7 +88,7 @@ public class BubbleDispatcherTest {
         input = stringToInputStream(meta);
         pos = Launcher.class.getClass().getResourceAsStream("/genomes/testGraph.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, null).parse(input);
-        dispatcher = new BubbleDispatcher(nodeCollection);
+        dispatcher = new BubbleDispatcher(nodeCollection, "tests");
     }
 
     /**

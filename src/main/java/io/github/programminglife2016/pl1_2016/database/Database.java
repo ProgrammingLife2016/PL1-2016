@@ -40,7 +40,6 @@ public interface Database {
 
     /**
      * Connect to database.
-     * @param dataset
      */
-    void connect(String dataset);
+    void connect();
 }

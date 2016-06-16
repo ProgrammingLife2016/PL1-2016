@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
@@ -24,26 +23,25 @@ public class SetupDatabase implements Database {
      * The connection to the database.
      */
     private Connection connection;
-    /**
-     * The connection to the database.
-     */
     private static final int[] THRESHOLDS = {4, 16, 64, 256, 1024, 4096};
     private static final int FIVE = 5;
     private static final int FOUR = 4;
     private static final int THREE = 3;
-
+    private Collection splist;
+    private String dataset;
     /**
      * Constructor to construct a database.
      */
-    public SetupDatabase(String dataset) {
-        connect(dataset);
+    public SetupDatabase(String dataset, Collection<Subject> values) {
+        this.dataset = dataset;
+        this.splist = values;
+        connect();
     }
 
     /**
      * Connect to database.
-     * @param dataset
      */
-    public void connect(String dataset) {
+    public void connect() {
         try {
             Class.forName(DATABASE_DRIVER);
         } catch (ClassNotFoundException e) {
@@ -51,7 +49,7 @@ public class SetupDatabase implements Database {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(HOST + dataset, ROLL, PASSWORD);
+            connection = DriverManager.getConnection(HOST + dataset.toLowerCase(), ROLL, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,12 +62,18 @@ public class SetupDatabase implements Database {
      * @throws SQLException thrown if SQL connection or query is not valid
      */
     public final void setup(NodeCollection nodes) {
-        if (!isSetup()) {
-            clearTable(LINK_TABLE);
+//        if (!isSetup()) {
+//            clearTable(SPECIMEN_TABLE);
+//            clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
-            clearTable(LINK_GENOMES_TABLE);
+//            clearTable(LINK_GENOMES_TABLE);
+            try {
+                writeSpecimen(this.splist);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             for (int i = 0; i < THRESHOLDS.length; i++) {
-                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
+                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
                 nodesToWrite.recalculatePositions();
@@ -79,7 +83,7 @@ public class SetupDatabase implements Database {
                     e.printStackTrace();
                 }
             }
-        }
+//        }
 
     }
 
@@ -152,7 +156,7 @@ public class SetupDatabase implements Database {
                 stmt.close();
             }
         }
-        writeLinks(nodes, threshold);
+//        writeLinks(nodes, threshold);
     }
 
     private void clearTable(String tableName) {

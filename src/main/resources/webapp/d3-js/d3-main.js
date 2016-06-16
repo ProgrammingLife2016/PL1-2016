@@ -13,7 +13,7 @@ var y;
 var somethingIsHighlighted = false;
 var miniX;
 var miniY;
-var zoom_levels = [4, 16, 32]
+var zoom_levels = [4, 16, 64]
 var previousZoom = 128;
 var options;
 var svg;
@@ -48,10 +48,10 @@ var lineageColors = {
 function startD3() {
         line = d3.select("line");
         circle = d3.select("circle");
-        update(128,0,1000000, true, 0)
+        update(64,0,1000000, true, 0)
         initializeGraph(nodes,edges);
         drawMinimap();
-        drawGraph(128,0,1000000, true, 0);
+        drawGraph(64,0,1000000, true, 0);
         setTKKs();
         setOptions();
 }
@@ -65,7 +65,7 @@ function drawGraph(threshold, minX, maxX, requestNodes, minContainersize) {
     somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
 }
 function update(threshold, minX, maxX, requestNodes, minContainersize) {
-    console.log("/api/nodes/" + threshold + "/" + minX + "/" + maxX + "/" + requestNodes + "");
+    console.log("/api/nodes/" + threshold + "/" + minX + "/" + maxX + "/" + requestNodes + "/" + minContainersize);
     $.ajax({
         url: "/api/nodes/" + threshold + "/" + minX + "/" + maxX + "/" + requestNodes  + "/" + minContainersize,
         async: false,

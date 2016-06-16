@@ -32,20 +32,21 @@ public class FetchDatabase implements Database {
      * The connection to the database.
      */
     private Connection connection;
+    private String dataset;
 
     /**
      * Constructor to construct a database.
      * @param dataset
      */
     public FetchDatabase(String dataset) {
-        connect(dataset);
+        this.dataset = dataset;
+        connect();
     }
 
     /**
      * Connect to database.
-     * @param dataset
      */
-    public void connect(String dataset) {
+    public void connect() {
         try {
             Class.forName(DATABASE_DRIVER);
         } catch (ClassNotFoundException e) {
@@ -53,7 +54,7 @@ public class FetchDatabase implements Database {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(HOST+dataset, ROLL, PASSWORD);
+            connection = DriverManager.getConnection(HOST + dataset.toLowerCase(), ROLL, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         }
