@@ -396,7 +396,7 @@ function setOptions() {
                 });
                 $("#" + value).empty().append(my_options);
 
-                $("#"+value).chosen({ search_contains: true, width: "95%" });
+                $("#" + value).chosen({ search_contains: true, width: "95%" });
             } else if (key == "deselected") {
                 $("#"+value).parent().remove();
             }
@@ -415,18 +415,23 @@ function updateCharacteristic(event, params) {
             var search_query = "";
             var search_term = Object.keys(currentSelection)[i];
             for (var j = 0; j < currentSelection[search_term].length; j++) {
-                var search_value = currentSelection[search_term][j]
-                if (j == 0) {
+                    var search_value = currentSelection[search_term][j]
+                    if (j == 0) {
 
-                    search_query = "//*["+search_term+"=\"" + search_value +"\"]";
-                } else {
-                    search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
-                }
-                console.log(search_query);
+                        search_query = "//*["+search_term+"=\"" + search_value +"\"]";
+                    } else {
+                        search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
+                    }
+                    console.log(search_query);
             }
             if ( search_query != "") {
-                selectedGenomes = JSON.search(selectedGenomes, search_query);
+              selectedGenomes = JSON.search(selectedGenomes, search_query);
             }
+
+        }
+        $("#selectedTKKs>option").remove();
+        for(var key in selectedGenomes) {
+            $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
         }
         console.log(selectedGenomes.length);
 

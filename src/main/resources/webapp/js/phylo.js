@@ -121,7 +121,8 @@ window.genomes = [];
 function getMetadata(name) {
     console.log(name);
     var value = $.getJSON("/api/metadata/info/"+name, function (response) {
-        window.genomes.push(response["subject"]);
+        window.genomes.push(response["subject"][0]);
+        $("#selectedTKKs").append("<option value=" + response["subject"][0].specimen_id  + ">" +response["subject"][0].specimen_id + "</option>");
     });
 }
 d3.text("/static/file.nwk", function(text) {
