@@ -13,7 +13,7 @@ var ZOOM_THRESHOLDS = function (s) {
         return 32;
     } else if (s < 7.5) {
         return 16;
-    } else if (s < 12.5) {
+    } else {
         return 4;
     }
 }
@@ -131,20 +131,18 @@ var Graph = function(nodes, edges, annotations) {
 
     self.xScale = d3.scale.linear().domain([0, d3.max(self.nodes.map(function (n) {return n.x}))]).range([0, WIDTH]);
     self.yScale = d3.scale.linear().domain([0, d3.max(self.nodes.map(function (n) {return n.y}))]).range([HEIGHT, 0]);
-    self.segmentTip = new Tip(-10, 0, function (node) {return node.data});
-    self.geneTip = new Tip(10, 0, function (gene) {return gene.displayName});
+    self.geneTip = new Tip(10, 0, function (gene) {return gene.displayname});
     self.zoom = d3.behavior.zoom().x(self.xScale).scaleExtent([1, MAX_ZOOM_LEVEL]).on("zoom", zoomCallback);
 
     self.svg = new Svg("#d3", WIDTH, HEIGHT);
 
     self.svg.addCallback(self.zoom);
-    self.svg.addCallback(self.segmentTip.tip);
     self.svg.addCallback(self.geneTip.tip);
 }
 
 Graph.prototype.draw = function () {
     var self = this;
-    self.svg.drawNodes(self.nodes, self.xScale, self.yScale, self.segmentTip.tip);
+    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
     self.svg.drawAnnotations(self.annotations, self.xScale, self.yScale, self.geneTip.tip);
 }
@@ -185,15 +183,13 @@ Svg.prototype.addCallback = function (callback) {
     self.svg.call(callback);
 }
 
-Svg.prototype.drawNodes = function (nodes, xScale, yScale, tip) {
+Svg.prototype.drawNodes = function (nodes, xScale, yScale) {
     var self = this;
     self.svgNodes = self.svg.selectAll("circle")
          .data(nodes)
          .enter()
          .append("circle")
-         .attr("r", CIRCLE_SIZE)
-         .on("mouseover", tip.show)
-         .on("mouseout", tip.hide);
+         .attr("r", CIRCLE_SIZE);
     self.positionNodes(self.svgNodes, xScale, yScale);
 }
 
@@ -302,7 +298,7 @@ var Tip = function(offsetX, offsetY, text) {
     var self = this;
     self.tip = d3.tip()
         .attr("class", "d3-tip")
-        .offset(offsetX, offsetY)
+        .offset([offsetX, offsetY])
         .html(text);
 }
 

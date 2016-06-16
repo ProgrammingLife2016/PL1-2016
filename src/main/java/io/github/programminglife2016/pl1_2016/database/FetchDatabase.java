@@ -125,7 +125,11 @@ public class FetchDatabase implements Database {
                 result.put("nodes", "");
             }
             result.put("edges", fetchLinks(threshold, x1, x2));
-            result.put("annotations", fetchAnnotations());
+            if (threshold <= 4) {
+                result.put("annotations", fetchAnnotations());
+            } else {
+                result.put("annotations", new JSONArray());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
