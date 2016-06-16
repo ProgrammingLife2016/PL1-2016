@@ -2,6 +2,10 @@ package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
+<<<<<<< Updated upstream
+=======
+import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
+>>>>>>> Stashed changes
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -15,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Reads the input and launches the server.
@@ -49,13 +54,23 @@ public final class Launcher {
         return queryStrategy;
     }
 
+<<<<<<< Updated upstream
     private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset, boolean useDatabase) {
         InputStream is = Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
         InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/TB328-uniques.positions"));
+=======
+    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset,
+                                                                 boolean useDatabase) {
+        InputStream is =
+                Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
+        InputStream positions =
+                Launcher.class.getResourceAsStream(String.format("/genomes/%s.positions", dataset));
+>>>>>>> Stashed changes
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
+<<<<<<< Updated upstream
         SetupDatabase sdb = new SetupDatabase();
         try {
             sdb.setup(nodeCollection, subjects.values());
@@ -65,9 +80,13 @@ public final class Launcher {
 //        System.gc();
 //        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
 //        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
+=======
+>>>>>>> Stashed changes
 
         if (useDatabase) {
-            FetchDatabase fdb = new FetchDatabase();
+            SetupDatabase sdb = new SetupDatabase(dataset);
+            sdb.setup(nodeCollection);
+            FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {
             return new NoDatabaseQueryStrategy(nodeCollection, subjects);

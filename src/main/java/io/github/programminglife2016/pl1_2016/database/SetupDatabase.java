@@ -35,14 +35,15 @@ public class SetupDatabase implements Database {
     /**
      * Constructor to construct a database.
      */
-    public SetupDatabase() {
-        connect();
+    public SetupDatabase(String dataset) {
+        connect(dataset);
     }
 
     /**
      * Connect to database.
+     * @param dataset
      */
-    public void connect() {
+    public void connect(String dataset) {
         try {
             Class.forName(DATABASE_DRIVER);
         } catch (ClassNotFoundException e) {
@@ -50,7 +51,7 @@ public class SetupDatabase implements Database {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(HOST, ROLL, PASSWORD);
+            connection = DriverManager.getConnection(HOST + dataset, ROLL, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,24 +63,27 @@ public class SetupDatabase implements Database {
      * @param nodes The nodes that will be used for setup
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    public final void setup(NodeCollection nodes, Collection<Subject> splst) throws SQLException {
-//        if (!isSetup()) {
-        clearTable(SPECIMEN_TABLE);
-        clearTable(LINK_TABLE);
-        clearTable(NODES_TABLE);
-        clearTable(LINK_GENOMES_TABLE);
-        writeSpecimen(splst);
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
-        for (int i = 0; i < THRESHOLDS.length; i++) {
-            System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
-            NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
-            nodesToWrite.recalculatePositions();
-            writeNodes(nodesToWrite, THRESHOLDS[i]);
+    public final void setup(NodeCollection nodes) {
+        if (!isSetup()) {
+            clearTable(LINK_TABLE);
+            clearTable(NODES_TABLE);
+            clearTable(LINK_GENOMES_TABLE);
+            for (int i = 0; i < THRESHOLDS.length; i++) {
+                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
+                System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
+                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
+                nodesToWrite.recalculatePositions();
+                try {
+                    writeNodes(nodesToWrite, THRESHOLDS[i]);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-//        }
+
     }
 
-    private boolean isSetup() throws SQLException {
+    private boolean isSetup() {
         Statement stmt = null;
         String query = "SELECT count(*) FROM " + NODES_TABLE;
         boolean res = false;
@@ -95,7 +99,11 @@ public class SetupDatabase implements Database {
             e.printStackTrace();
         } finally {
             if (stmt != null) {
-                stmt.close();
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return res;

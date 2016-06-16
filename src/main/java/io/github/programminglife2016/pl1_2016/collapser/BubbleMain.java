@@ -40,7 +40,7 @@ public final class BubbleMain {
 
 
 //        Scanner scanner = new Scanner(new File("src/main/resources/genomes/TB328.positions"));
-//        PrintWriter printer = new PrintWriter(new File("src/main/resources/genomes/TB328-uniques.positions"));
+//        PrintWriter printer = new PrintWriter(new File("src/main/resources/genomes/TB328.positions"));
 //        scanner.nextLine();
 //        printer.println("graph blah blah something blah");
 //        Set<String> uniques = new HashSet<>();
