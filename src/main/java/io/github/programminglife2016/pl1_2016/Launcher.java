@@ -2,15 +2,9 @@ package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
-<<<<<<< Updated upstream
-=======
-import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
->>>>>>> Stashed changes
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.server.Server;
-import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.DatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.NoDatabaseQueryStrategy;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QueryStrategy;
@@ -19,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Reads the input and launches the server.
@@ -46,42 +39,22 @@ public final class Launcher {
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
-        System.out.println("Started loading.");
+        System.out.println("Started parsing and loading database.");
         long startTime = System.nanoTime();
         QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
+        System.out.println(String.format("Parsing and loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
-<<<<<<< Updated upstream
     private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset, boolean useDatabase) {
         InputStream is = Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
-        InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/TB328-uniques.positions"));
-=======
-    private static QueryStrategy parseDataAndCreateQueryStrategy(String dataset,
-                                                                 boolean useDatabase) {
-        InputStream is =
-                Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
-        InputStream positions =
-                Launcher.class.getResourceAsStream(String.format("/genomes/%s.positions", dataset));
->>>>>>> Stashed changes
+        InputStream positions = Launcher.class.getResourceAsStream(String.format("/genomes/%s.positions", dataset));
+
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
-<<<<<<< Updated upstream
-        SetupDatabase sdb = new SetupDatabase();
-        try {
-            sdb.setup(nodeCollection, subjects.values());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-//        System.gc();
-//        BubbleDispatcher dispatcher = new BubbleDispatcher(nodeCollection);
-//        NodeCollection collectionToShow = dispatcher.getThresholdedBubbles(1024, false);
-=======
->>>>>>> Stashed changes
 
         if (useDatabase) {
             SetupDatabase sdb = new SetupDatabase(dataset);

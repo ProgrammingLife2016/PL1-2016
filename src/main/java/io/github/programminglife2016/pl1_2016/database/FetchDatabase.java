@@ -82,7 +82,6 @@ public class FetchDatabase implements Database {
                 NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE,
                 LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE,
                 NODES_TABLE, NODES_TABLE, minContainerSize ,NODES_TABLE);
-        System.out.println(query);
         ResultSet rs;
         try {
             stmt = connection.createStatement();

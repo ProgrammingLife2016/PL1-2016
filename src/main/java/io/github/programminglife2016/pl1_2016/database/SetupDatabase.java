@@ -252,7 +252,6 @@ public class SetupDatabase implements Database {
             stmtgenomes = connection.prepareStatement(querygenomes);
             int i = 0;
             for (Subject specimen : splist) {
-                System.out.println(i++);
                 if (specimen.getNameId().equals("MT_H37RV_BRD_V5.ref")) {
                     continue;
                 }
