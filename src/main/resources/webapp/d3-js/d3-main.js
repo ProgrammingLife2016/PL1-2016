@@ -13,16 +13,17 @@ var y;
 var somethingIsHighlighted = false;
 var miniX;
 var miniY;
-var zoom_levels = [4, 32, 128]
+var zoom_levels = [4, 16, 32]
 var previousZoom = 128;
 var options;
+var svg;
 
 function newZoomLevel(s) {
     if (s < 5) {
         return zoom_levels[2];
-    } else if (5 <= s && s < 10) {
+    } else if (5 <= s && s < 7.5) {
         return zoom_levels[1];
-    } else if (10 <= s && s < 15) {
+    } else if (7.5 <= s && s < 12.5) {
         return zoom_levels[0];
     } else if (15 <= s && s < 20) {
         return zoom_levels[0];
@@ -47,25 +48,26 @@ var lineageColors = {
 function startD3() {
         line = d3.select("line");
         circle = d3.select("circle");
-        update(128,0,1000000)
+        update(128,0,1000000, true, 0)
         initializeGraph(nodes,edges);
         drawMinimap();
-        drawGraph();
+        drawGraph(128,0,1000000, true, 0);
         setTKKs();
         setOptions();
 }
 
-function drawGraph(threshold, minX, maxX) {
-    update(threshold, minX, maxX);
+function drawGraph(threshold, minX, maxX, requestNodes, minContainersize) {
+    update(threshold, minX, maxX, requestNodes, minContainersize);
     line.remove();
     circle.remove();
     line = drawLines(svg, edges);
     circle = drawNodes(svg, nodes);
     somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
 }
-function update(threshold, minX, maxX) {
+function update(threshold, minX, maxX, requestNodes, minContainersize) {
+    console.log("/api/nodes/" + threshold + "/" + minX + "/" + maxX + "/" + requestNodes + "");
     $.ajax({
-        url: "/api/nodes/" + threshold + "/" + minX + "/" + maxX,
+        url: "/api/nodes/" + threshold + "/" + minX + "/" + maxX + "/" + requestNodes  + "/" + minContainersize,
         async: false,
         success: function (response) {
             response = JSON.parse(response);
@@ -161,13 +163,19 @@ function zoom(beginX) {
         t[0] = beginX;
         t[1] = beginX + 1000;
     }
+    var requestNodes = true;
+    var minContainersize = 6;
+    if (zm.scale() > 10) {
+        requestNodes = true;
+        minContainersize = 0;
+    }
     if (Math.abs(previousX[0] - x.domain()[0]) >= 10000/s || Math.abs(previousX[1] - x.domain()[1]) >= 10000/s) {
         previousX = x.domain();
-        drawGraph(previousZoom, (Math.round(x.domain()[0]) - 500), (Math.round(x.domain()[1]) + 500));
+        drawGraph(previousZoom, (Math.round(x.domain()[0]) - 500), (Math.round(x.domain()[1]) + 500), requestNodes, minContainersize);
     }
     if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
         previousZoom = newZoomLevel(s);
-        drawGraph(newZoomLevel(s), Math.round(x.domain()[0]), Math.round(x.domain()[1]));
+        drawGraph(newZoomLevel(s), Math.round(x.domain()[0]), Math.round(x.domain()[1]), requestNodes, minContainersize);
 
     }
     if (t[0] > 0) {
@@ -190,11 +198,7 @@ function zoom(beginX) {
         .attr("x2", function (d) {return x(d.x2)})
         .attr("y2", function (d) {return y(d.y2)})
         .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-    if (zm.scale() > 20) {
-        circle.attr("transform", transform);
-    } else {
-        circle.attr("transform", "translate(-9999, -9999)");
-    }
+    circle.attr("transform", transform);
 }
 
 function drawLines(svg, edges) {
@@ -352,13 +356,23 @@ function mode(array) {
     return maxEl;
 }
 
+var currentSelection = {};
 
 function setOptions() {
     $.getJSON("/api/metadata/options", function(response) {
         options = response.options;
         $.each(response.options, function(key, value){
+                currentSelection[key] = [];
                 $(".metadata").append("<option value=\"" + key + "\">" + key + "</option>");
         });
+        var my_options = $(".metadata option");
+        my_options.sort(function(a,b) {
+            if (a.text > b.text) return 1;
+            else if (a.text < b.text) return -1;
+            else return 0
+        });
+        $(".metadata").empty().append(my_options);
+
         $(".metadata").chosen({ search_contains: true });
 
     });
@@ -367,17 +381,63 @@ function setOptions() {
         $.each(params, function(key, value){
             if (key == "selected") {
                 $("#characteristics").append("<div class=\"search_item\"><span>" + value + ": </span><select multiple id =\"" + value + "\" data-placeholder=\"Select " + value + "\" ></select></div>");
+                $("#"+value).on('change', function(event, params) {
+                    updateCharacteristic(event, params);
+                });
                 for (var i = 0; i < options[value].length; i++) {
                     $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
                 }
-                $("#"+value).chosen({ search_contains: true, width: "95%" });
+
+                var my_options = $("#"+value+" option");
+                my_options.sort(function(a,b) {
+                    if (a.text > b.text) return 1;
+                    else if (a.text < b.text) return -1;
+                    else return 0
+                });
+                $("#" + value).empty().append(my_options);
+
+                $("#" + value).chosen({ search_contains: true, width: "95%" });
             } else if (key == "deselected") {
                 $("#"+value).parent().remove();
             }
         });
     });
 }
+function updateCharacteristic(event, params) {
+    $.each(params, function(key, value){
+        if (key == "selected") {
+            currentSelection[event.currentTarget.id].push(value);
+        } else {
+            currentSelection[event.currentTarget.id].splice(currentSelection[event.currentTarget.id].indexOf(value), 1);
+        }
+        var selectedGenomes = genomes;
+        for (var i = 0; i < Object.keys(currentSelection).length; i++) {
+            var search_query = "";
+            var search_term = Object.keys(currentSelection)[i];
+            for (var j = 0; j < currentSelection[search_term].length; j++) {
+                    var search_value = currentSelection[search_term][j]
+                    if (j == 0) {
 
+                        search_query = "//*["+search_term+"=\"" + search_value +"\"]";
+                    } else {
+                        search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
+                    }
+                    console.log(search_query);
+            }
+            if ( search_query != "") {
+              selectedGenomes = JSON.search(selectedGenomes, search_query);
+            }
+
+        }
+        $("#selectedTKKs>option").remove();
+        for(var key in selectedGenomes) {
+            $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
+        }
+        console.log(selectedGenomes.length);
+
+    });
+
+}
 function setTKKs() {
     $("#optionsgraph").css("display", "block");
     $("#baseindex").keyup(function(e){

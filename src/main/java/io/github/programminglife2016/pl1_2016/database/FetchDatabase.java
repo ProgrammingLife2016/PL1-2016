@@ -60,25 +60,27 @@ public class FetchDatabase implements Database {
     /**
      * Fetch all nodes in database.
      *
+     * @param threshold threshold of graph that has to be fetched.
      * @param x1        the left bounding x.
      * @param x2        the right bounding x.
-     * @param threshold threshold of graph that has to be fetched.
+     * @param minContainerSize
      * @return Json array of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchNodes(int threshold, int x1, int x2) throws SQLException {
+    private JSONArray fetchNodes(int threshold, int x1, int x2, int minContainerSize) throws SQLException {
         Statement stmt = null;
         JSONArray nodes = null;
         String query = String.format("SELECT DISTINCT %s.* "
                 + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to FROM "
-                + "" + "" + "%s AS n1 JOIN %s ON n1.id = %s.from_id "
+                + "%s AS n1 JOIN %s ON n1.id = %s.from_id "
                 + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE %s"
                 + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) "
                 + "OR (n2.x >= %d AND n2.x <= %d)))sub "
-                + "WHERE sub.from = %s" + ".id OR sub.to =" + " %s.id ORDER BY %s.id",
+                + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > %d" + " ORDER BY %s.id",
                 NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE,
                 LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE,
-                NODES_TABLE, NODES_TABLE);
+                NODES_TABLE, NODES_TABLE, minContainerSize ,NODES_TABLE);
+        System.out.println(query);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -108,13 +110,19 @@ public class FetchDatabase implements Database {
      * @param threshold level of treshold.
      * @param x1 the left bounding x.
      * @param x2 the right bounding x.
+     * @param requestNodes
+     * @param minContainerSize
      * @return JSON response.
      */
-    public final JSONObject getNodes(int threshold, int x1, int x2) {
+    public final JSONObject getNodes(int threshold, int x1, int x2, boolean requestNodes, int minContainerSize) {
         JSONObject result = new JSONObject();
         result.put("status", "success");
         try {
-            result.put("nodes", fetchNodes(threshold, x1, x2));
+            if (requestNodes) {
+                result.put("nodes", fetchNodes(threshold, x1, x2, minContainerSize));
+            } else {
+                result.put("nodes", "");
+            }
             result.put("edges", fetchLinks(threshold, x1, x2));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,22 +143,72 @@ public class FetchDatabase implements Database {
         return result;
     }
 
-    private JSONObject fetchMetadata(String genome) {
+    private JSONArray fetchMetadata(String genome) {
         Statement stmt;
         String query =
                 String.format("select * from %s WHERE specimen_id='%s'", SPECIMEN_TABLE, genome);
         ResultSet rs;
-        JSONObject res = null;
+        JSONArray res = null;
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-            res = convertResultSetIntoJSONString(rs);
+            res = convertResultSetMetadataIntoJSON(rs);
             rs.close();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
+    }
+
+    private JSONArray convertResultSetMetadataIntoJSON(ResultSet resultSet) {
+        JSONArray jsonArray = new JSONArray();
+        try {
+            while (resultSet.next()) {
+                int totalColumns = resultSet.getMetaData().getColumnCount();
+                JSONObject obj = new JSONObject();
+                for (int i = 0; i < totalColumns; i++) {
+                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
+                    Object columnValue = resultSet.getObject(i + 1);
+                    // if value in DB is null, then we set it to default value
+                    if (columnValue == null) {
+                        columnValue = "null";
+                    }
+                    if (columnName.equals("dna_isolation_single_colony_or_nonsingle_colony")) {
+                        if (columnValue.equals("true")) {
+                            columnValue = "single colony";
+                        } else if (columnValue.equals("false")) {
+                            columnValue = "non single_colony";
+                        } else {
+                            columnValue = "Unknown";
+                        }
+                    }
+                    if (columnName.equals("hiv_status") | columnName.equals("microscopy_smear_status")) {
+                        if (columnValue.equals("1")) {
+                            columnValue = "Positive";
+                        } else if (columnValue.equals("-1")) {
+                            columnValue = "Negative";
+                        } else {
+                            columnValue = "Unknown";
+                        }
+                    }
+                    if (columnName.equals("sex")) {
+                        if (columnValue.equals("true")) {
+                            columnValue = "Male";
+                        } else if (columnValue.equals("false")) {
+                            columnValue = "Female";
+                        } else {
+                            columnValue = "Unknown";
+                        }
+                    }
+                    obj.put(columnName, columnValue);
+                }
+                jsonArray.put(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
     }
 
     /**
@@ -464,7 +522,35 @@ public class FetchDatabase implements Database {
                 query = String.format("SELECT DISTINCT %s FROM specimen", column);
                 rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    values.put(rs.getObject(column));
+                    Object value = rs.getObject(column);
+                    if (column.equals("dna_isolation_single_colony_or_nonsingle_colony")) {
+                        if (value.equals("true")) {
+                            value = "single colony";
+                        } else if (value.equals("false")) {
+                            value = "non single_colony";
+                        } else {
+                            value = "Unknown";
+                        }
+                    }
+                    if (column.equals("hiv_status") | column.equals("microscopy_smear_status")) {
+                        if (value.equals("1")) {
+                            value = "Positive";
+                        } else if (value.equals("-1")) {
+                            value = "Negative";
+                        } else {
+                            value = "Unknown";
+                        }
+                    }
+                    if (column.equals("sex")) {
+                        if (value.equals("true")) {
+                            value = "Male";
+                        } else if (value.equals("false")) {
+                            value = "Female";
+                        } else {
+                            value = "Unknown";
+                        }
+                    }
+                    values.put(value);
                 }
                 options.put(column, values);
             }

@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/lib/fuzzy-dropdown.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="/static/d3-css/d3-main.css">
     <link rel="stylesheet" href="/static/css/light-theme.css">
@@ -19,6 +18,7 @@
     <script src="/static/d3-js/d3-main.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/2.2.0/fuse.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
+    <script type="text/javascript" src="/static/js/defiant.min.js"></script>
     <script type="text/javascript" src="/static/lib/chosen.jquery.min.js"></script>
     <script type="text/javascript" src="/static/lib/newick.js"></script>
     <script type="text/javascript" src="https://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.js"></script>
@@ -28,6 +28,7 @@
     <title>DNA Visualizer</title>
 </head>
 <body>
+</div>
 <!-- Navigation bar -->
 <nav id="nav">
     <div id="nav_wrapper">
@@ -138,9 +139,7 @@
 
                     </div>
                     <div class="element">
-                        <a class="button" id="search_button" href="#">
-                            <div class="jump">Search</div>
-                        </a>
+                        <select id = "selectedTKKs" multiple> </select>
                     </div>
                 </div>
 
