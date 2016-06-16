@@ -114,9 +114,9 @@ public class BubbleDispatcher {
         if(threshold >= 128) {
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.alignVertical();
-            return aggregateLines(listAsNodeCollection(temp));
+            return listAsNodeCollection(temp);//aggregateLines();
         }
-        return aggregateLines(listAsNodeCollection(filtered));
+        return listAsNodeCollection(filtered);//aggregateLines();
 //        return aggregateLines(listAsNodeCollection(filtered));
     }
 
