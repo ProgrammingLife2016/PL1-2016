@@ -1,8 +1,12 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
+import io.github.programminglife2016.pl1_2016.parser.nodes.Seeker;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentSeeker;
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -63,6 +67,8 @@ public class SetupDatabase implements Database {
         clearTable(LINK_TABLE);
         clearTable(NODES_TABLE);
         clearTable(LINK_GENOMES_TABLE);
+        clearTable(ANNOTATIONS_TABLE);
+        writeAnnotations(nodes);
         BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
         for (int THRESHOLD : THRESHOLDS) {
             System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
@@ -72,26 +78,23 @@ public class SetupDatabase implements Database {
         }
     }
 
-    private boolean isSetup() throws SQLException {
-        Statement stmt = null;
-        String query = "SELECT count(*) FROM " + NODES_TABLE;
-        boolean res = false;
-        try {
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            if (rs.getInt("count") != 0) {
-                res = true;
-            }
+    private void writeAnnotations(NodeCollection nodes) throws SQLException {
+        String query = String.format("INSERT INTO %s (id, displayName, startX, startY, endX, endY) VALUES (?,?,?,?,?,?) ON CONFLICT DO NOTHING", ANNOTATIONS_TABLE);
+        PreparedStatement stmt = connection.prepareStatement(query);
+        Seeker sk = new SegmentSeeker(nodes);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
+        for (Annotation annotation : nodes.getAnnotations()) {
+            JSONObject jsonObject1 = sk.find(annotation.getSeqId() + ".ref", annotation.getStart());
+            JSONObject jsonObject2 = sk.find(annotation.getSeqId() + ".ref", annotation.getEnd());
+            stmt.setString(1, annotation.getId());
+            stmt.setString(2, annotation.getDisplayName());
+            stmt.setInt(3, jsonObject1.getInt("x"));
+            stmt.setInt(4, jsonObject1.getInt("y"));
+            stmt.setInt(5, jsonObject2.getInt("x"));
+            stmt.setInt(6, jsonObject2.getInt("y"));
+            stmt.executeUpdate();
         }
-        return res;
+        stmt.close();
     }
 
     /**

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -109,6 +110,7 @@ public class FetchDatabase implements Database {
         try {
             result.put("nodes", fetchNodes(threshold, x1, x2));
             result.put("edges", fetchLinks(threshold, x1, x2));
+            result.put("annotations", fetchAnnotations());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -179,6 +181,27 @@ public class FetchDatabase implements Database {
         }
         return links;
 
+    }
+
+    private JSONArray fetchAnnotations() {
+        String query = String.format("SELECT * FROM %s", ANNOTATIONS_TABLE);
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            return convertResultSetGenomesIntoJSON(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     /**

@@ -26,7 +26,7 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/nodes/(\\d+)/(\\d+)/(\\d+)$";
+        return "^/api/nodes/(\\d+)/(-?\\d+)/(-?\\d+)$";
     }
 
     /**

@@ -33,6 +33,9 @@ public interface Database {
      * Name of links table.
      */
     String LINK_TABLE = "links";
+
+    String ANNOTATIONS_TABLE = "annotations";
+
     /**
      * Name of specimen table.
      */

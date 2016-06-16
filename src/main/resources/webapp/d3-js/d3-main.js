@@ -1,405 +1,245 @@
-var width = window.innerWidth - 10;
-var height = window.innerHeight - 300;
-var miniWidth = width;
-var miniHeight = 250;
-var maxZoomLevel = 100;
-var zoomThreshold = 1;
+var WIDTH = window.innerWidth;
+var HEIGHT = window.innerHeight - 250;
+var MINI_WIDTH = window.innerWidth;
+var MINI_HEIGHT = 250;
+var MAX_ZOOM_LEVEL = 100;
+var CIRCLE_SIZE = 2.5;
+var GENE_ANNOTATION_RECT_SIZE = 100;
+var PAN_THRESHOLD = 5000;
+var PAN_EXTRA_X = 50000;
 
-var colorFactor;
-var widthFactor;
-
-var nodes;
-var edges;
-var annotations;
-var x;
-var y;
-
-var somethingIsHighlighted = false;
-
-var miniX;
-var miniY;
-
-var previousZoom = 128;
-
-function newZoomLevel(s) {
-    if (s < 10) {
+var ZOOM_THRESHOLDS = function (s) {
+    if (s < 5) {
         return 128;
-    } else if (5 <= s && s < 20) {
-        return 4;
+    } else if (s < 10) {
+        return 64;
+    } else if (s < 20) {
+        return 32;
+    } else if (s < 30) {
+        return 16;
     } else {
         return 1;
     }
 }
 
-var lineageColors = {
-    "LIN 1": "#ed00c3",
-    "LIN 2": "#0000ff",
-    "LIN 3": "#500079",
-    "LIN 4": "#ff0000",
-    "LIN 5": "#4e2c00",
-    "LIN 6": "#69ca00",
-    "LIN 7": "#ff7e00",
-    "LIN animal": "#00ff9c",
-    "LIN B": "#00ff9c",
-    "LIN CANETTII": "#00ffff"
+var ServerConnection = function() {
+    var self = this;
+    self.graph;
+    self.previousZoomThreshold;
+    self.previousDomain;
+    self.minimap;
 }
 
-function startD3() {
-    $.getJSON("/api/nodes/128/0/100000000", function (response) {
-        nodes = response.nodes;
-        edges = response.edges;
-        annotations = response.annotations;
-
-        x = d3.scale.linear()
-            .domain([0, max(nodes, "x")])
-            .range([0, width]);
-
-        y = d3.scale.linear()
-            .domain([0, max(nodes, "y")])
-            .range([height, 0]);
-
-        normalY = d3.scale.linear()
-            .domain([0, max(nodes, "y")])
-            .range([0, height]);
-
-        miniX = d3.scale.linear()
-            .domain([0, max(nodes, "x")])
-            .range([0, miniWidth]);
-        miniY = d3.scale.linear()
-            .domain([0, max(nodes, "y")])
-            .range([miniHeight, 0]);
-
-        if (nodes.length > 9000) {
-            colorFactor = 2;
-            widthFactor = 10;
+ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, redraw) {
+    var self = this;
+    self.previousZoomThreshold = threshold;
+    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX), function (response) {
+        var nodes = response.nodes;
+        var edges = response.edges;
+        var annotations = response.annotations;
+        if (redraw) {
+            self.graph.replace(nodes, edges, annotations);
         } else {
-            colorFactor = 20;
-            widthFactor = 1;
+            self.previousDomain = [0, d3.max(nodes.map(function (n) {return n.x}))];
+            self.graph = new Graph(nodes, edges, annotations);
+            self.graph.draw();
+            self.minimap = new Minimap(nodes, edges);
+            self.minimap.draw(self.graph.xScale);
         }
-        drawGraph();
-        drawMinimap();
-        d3.select("#jump").on("click", jumpToBaseGetFromDOM);
     });
 }
 
-var circle;
-var line;
-var geneRect;
-var zm;
-var svg;
-var tip;
-var geneTip;
-
-var minimap;
-
-function drawGraph() {
-    zm = d3.behavior.zoom().x(x).scaleExtent([1, maxZoomLevel]).on("zoom", zoom);
-    tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0])
-        .html(function(d) {
-            getData(d.id);
-            return "<strong>Segment:</strong> <span id='data" + d.id + "'>...</span>";
-        });
-    geneTip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([10, 0])
-        .html(function(d) {
-            console.log(d.displayName);
-            return d.displayName;
-        });
-    svg = d3.select("#d3").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .call(zm)
-        .call(tip)
-        .call(geneTip);
-
-    svg.append("rect")
-        .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height);
-
-    line = svg.selectAll("line")
-        .data(edges)
-        .enter()
-        .append("line")
-        .attr("x1", function (d) {return x(d.x1)})
-        .attr("y1", function (d) {return y(d.y1)})
-        .attr("x2", function (d) {return x(d.x2)})
-        .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke", defaultColor)
-        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-    circle = svg.selectAll("circle")
-        .data(nodes)
-        .enter()
-        .append("circle")
-        .attr("r", 2.5)
-        .attr("transform", "translate(-9999, -9999)")
-        .on("mouseover", tip.show)
-        .on("mouseout", tip.hide);
+ServerConnection.prototype.updateGraph = function () {
+    var self = this;
+    var s = d3.event.scale;
+    var domainX = [self.graph.xScale.invert(0), self.graph.xScale.invert(WIDTH)];
+    if (self.previousZoomThreshold != ZOOM_THRESHOLDS(s) || self.previousDomain[0] - domainX[0] >= PAN_THRESHOLD || domainX[1] - self.previousDomain[1]  >= PAN_THRESHOLD) {
+        self.previousZoomThreshold = ZOOM_THRESHOLDS(s);
+        self.previousDomain = [domainX[0] - PAN_EXTRA_X, domainX[1] + PAN_EXTRA_X];
+        self.loadGraph(ZOOM_THRESHOLDS(s), self.previousDomain[0], self.previousDomain[1], true);
+    } else {
+        self.graph.redraw();
+    }
+    self.minimap.updateMinimapRect(self.graph.xScale);
 }
 
-var rect;
+var Graph = function(nodes, edges, annotations) {
+    var self = this;
+    self.nodes = nodes;
+    self.edges = edges;
+    self.annotations = annotations;
 
-function drawMinimap() {
-    minimap = d3.select("#d3").append("svg")
-        .attr("width", miniWidth)
-        .attr("height", miniHeight)
-        .append("g");
+    self.xScale = d3.scale.linear().domain([0, d3.max(self.nodes.map(function (n) {return n.x}))]).range([0, WIDTH]);
+    self.yScale = d3.scale.linear().domain([0, d3.max(self.nodes.map(function (n) {return n.y}))]).range([HEIGHT, 0]);
+    self.segmentTip = new Tip(-10, 0, function (node) {return node.data});
+    self.geneTip = new Tip(10, 0, function (gene) {return gene.displayName});
+    self.zoom = d3.behavior.zoom().x(self.xScale).scaleExtent([1, MAX_ZOOM_LEVEL]).on("zoom", zoomCallback);
 
-    minimap.selectAll("line")
-        .data(edges)
-        .enter()
-        .append("line")
-        .attr("x1", function (d) {return miniX(d.x1)})
-        .attr("y1", function (d) {return miniY(d.y1)})
-        .attr("x2", function (d) {return miniX(d.x2)})
-        .attr("y2", function (d) {return miniY(d.y2)})
-        .attr("stroke", defaultColor)
-        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
+    self.svg = new Svg("#d3", WIDTH, HEIGHT);
 
-    rect = minimap
-        .append("rect")
-        .attr("class", "minimapRect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", miniWidth)
-        .attr("height", miniHeight);
+    self.svg.addCallback(self.zoom);
+    self.svg.addCallback(self.segmentTip.tip);
+    self.svg.addCallback(self.geneTip.tip);
 }
-var previousX = [0, 1000000];
-function zoom(beginX) {
+
+Graph.prototype.draw = function () {
+    var self = this;
+    self.svg.drawNodes(self.nodes, self.xScale, self.yScale, self.segmentTip.tip);
+    self.svg.drawEdges(self.edges, self.xScale, self.yScale);
+    self.svg.drawAnnotations(self.annotations, self.xScale, self.yScale, self.geneTip.tip);
+}
+
+Graph.prototype.redraw = function () {
+    var self = this;
     var t = d3.event.translate;
     var s = d3.event.scale;
-
-    if (beginX) {
-        t[0] = beginX;
-        t[1] = beginX + 1000;
-    }
-
-    if (Math.abs(previousX[0] - x.domain()[0]) >= 1500 || Math.abs(previousX[1] - x.domain()[1]) >= 1500) {
-        previousX = x.domain();
-        $.ajax({
-                    url: "/api/nodes/" + previousZoom + "/" + (Math.round(x.domain()[0]) - 500) + "/" + (Math.round(x.domain()[1]) + 500),
-                    async: false,
-                    success: function (response) {
-                        response = JSON.parse(response);
-                        nodes = response.nodes;
-                        edges = response.edges;
-
-                        line.remove();
-                        circle.remove();
-                        geneRect && geneRect.remove();
-                        line = svg.selectAll("line")
-                            .data(edges)
-                            .enter()
-                            .append("line")
-                            .attr("x1", function (d) {return x(d.x1)})
-                            .attr("y1", function (d) {return y(d.y1)})
-                            .attr("x2", function (d) {return x(d.x2)})
-                            .attr("y2", function (d) {return y(d.y2)})
-                            .attr("stroke", defaultColor)
-                            .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-                        circle = svg.selectAll("circle")
-                            .data(nodes)
-                            .enter()
-                            .append("circle")
-                            .attr("r", 2.5)
-                            .attr("transform", "translate(-9999, -9999)")
-                            .on("mouseover", tip.show)
-                            .on("mouseout", tip.hide);
-                        }
-                });
-    }
-    if (Math.abs(previousZoom - newZoomLevel(s)) >= zoomThreshold) {
-        previousZoom = newZoomLevel(s);
-        console.log(previousZoom);
-        console.log(newZoomLevel(s));
-        $.ajax({
-            url: "/api/nodes/" + newZoomLevel(s) + "/" + Math.round(x.domain()[0]) + "/" + Math.round(x.domain()[1]),
-            async: false,
-            success: function (response) {
-                response = JSON.parse(response);
-                nodes = response.nodes;
-                edges = response.edges;
-
-                line.remove();
-                circle.remove();
-                geneRect && geneRect.remove();
-                line = svg.selectAll("line")
-                    .data(edges)
-                    .enter()
-                    .append("line")
-                    .attr("x1", function (d) {return x(d.x1)})
-                    .attr("y1", function (d) {return y(d.y1)})
-                    .attr("x2", function (d) {return x(d.x2)})
-                    .attr("y2", function (d) {return y(d.y2)})
-                    .attr("stroke", defaultColor)
-                    .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-
-                circle = svg.selectAll("circle")
-                    .data(nodes)
-                    .enter()
-                    .append("circle")
-                    .attr("r", 2.5)
-                    .attr("transform", "translate(-9999, -9999)")
-                    .on("mouseover", tip.show)
-                    .on("mouseout", tip.hide);
-                somethingIsHighlighted && (resetHighlighting() | highlightGenome(somethingIsHighlighted));
-                }
-        });
-    }
     if (t[0] > 0) {
         t[0] = 0;
-    } else if (t[0] < - width * (s - 1)) {
-        t[0] = - width * (s - 1);
+    } else if (t[0] < - WIDTH * (s - 1)) {
+        t[0] = - WIDTH * (s - 1);
     }
-    console.log("t = " + t + ", s = " + s);
-    zm.translate(t);
-    var visibleX1 = miniX(x.invert(0));
-    var visibleX2 = miniX(x.invert(width));
-    var visibleY1 = miniY(y.invert(0));
-    var visibleY2 = miniY(y.invert(height));
-    rect.attr("x", visibleX1)
-        .attr("y", visibleY1)
-        .attr("width", visibleX2 - visibleX1)
-        .attr("height", visibleY2 - visibleY1);
-    line.attr("x1", function (d) {return x(d.x1)})
-        .attr("y1", function (d) {return y(d.y1)})
-        .attr("x2", function (d) {return x(d.x2)})
-        .attr("y2", function (d) {return y(d.y2)})
-        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / widthFactor)});
-    if (zm.scale() > 20) {
-        circle.attr("transform", transform);
-        setGeneRects();
-    } else {
-        circle.attr("transform", "translate(-9999, -9999)");
-    }
+    self.zoom.translate(t);
+    self.svg.positionNodes(self.svg.svgNodes, self.xScale, self.yScale);
+    self.svg.positionEdges(self.svg.svgEdges, self.xScale, self.yScale);
+    self.svg.positionAnnotations(self.svg.svgAnnotations, self.xScale, self.yScale);
 }
 
-function setGeneRects() {
-    geneRect = svg.selectAll("rect")
+Graph.prototype.replace = function (nodes, edges, annotations) {
+    var self = this;
+    self.nodes = nodes;
+    self.edges = edges;
+    self.annotations = annotations;
+    self.svg.clear();
+    self.draw();
+}
+
+var Svg = function (domId, width, height) {
+    var self = this;
+    self.svg = d3.select(domId)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+}
+
+Svg.prototype.addCallback = function (callback) {
+    var self = this;
+    self.svg.call(callback);
+}
+
+Svg.prototype.drawNodes = function (nodes, xScale, yScale, tip) {
+    var self = this;
+    self.svgNodes = self.svg.selectAll("circle")
+         .data(nodes)
+         .enter()
+         .append("circle")
+         .attr("r", CIRCLE_SIZE)
+         .on("mouseover", tip.show)
+         .on("mouseout", tip.hide);
+    self.positionNodes(self.svgNodes, xScale, yScale);
+}
+
+Svg.prototype.drawEdges = function (edges, xScale, yScale) {
+    var self = this;
+    self.svgEdges = self.svg.selectAll("line")
+        .data(edges)
+        .enter()
+        .append("line")
+        .attr("stroke-width", function (d) {return 1})
+        .attr("stroke", function (d) {return "#000000"});
+    self.positionEdges(self.svgEdges, xScale, yScale);
+}
+
+Svg.prototype.drawAnnotations = function (annotations, xScale, yScale, tip) {
+    var self = this;
+    self.svgAnnotations = self.svg.selectAll("rect")
         .data(annotations)
         .enter()
         .append("rect")
         .attr("class", "geneRect")
-        .attr("x", function (d) {return zm.scale() > 20 ? x(d.startX) : -9999})
-        .attr("y", function (d) {return y(Math.max(d.startY, d.endY)) - 50})
-        .attr("width", function (d) {return Math.abs(x(d.endX) - x(d.startX))})
-        .attr("height", function (d) {return 100})
-        .on("mouseover", geneTip.show)
-        .on("mouseout", geneTip.hide);
+        .on("mouseover", tip.show)
+        .on("mouseout", tip.hide);
+    self.positionAnnotations(self.svgAnnotations, xScale, yScale);
 }
 
-function transform(d) {
-    return "translate(" + x(d.x) + "," + y(d.y) + ")";
+Svg.prototype.positionNodes = function (svgNodes, xScale, yScale) {
+    svgNodes
+         .attr("cx", function (d) {return xScale(d.x)})
+         .attr("cy", function (d) {return yScale(d.y)});
 }
 
-function max(data, dim) {
-    return Math.max(...data.map(function (d) {return d[dim]}));
+Svg.prototype.positionEdges = function (svgEdges, xScale, yScale) {
+    svgEdges
+        .attr("x1", function (d) {return xScale(d.x1)})
+        .attr("y1", function (d) {return yScale(d.y1)})
+        .attr("x2", function (d) {return xScale(d.x2)})
+        .attr("y2", function (d) {return yScale(d.y2)});
 }
 
-function getData(id) {
-    $.get("/api/data/" + id, function (response) {
-        $("#data" + id).html(response);
-        console.log(response);
-        console.log($("#data" + id));
-    });
+Svg.prototype.positionAnnotations = function (svgAnnotations, xScale, yScale) {
+    svgAnnotations
+        .attr("x", function (d) {return xScale(d.startx)})
+        .attr("y", function (d) {return yScale(Math.max(d.starty, d.endy)) - GENE_ANNOTATION_RECT_SIZE / 2})
+        .attr("width", function (d) {return Math.abs(xScale(d.endx) - xScale(d.startx))})
+        .attr("height", function (d) {return GENE_ANNOTATION_RECT_SIZE});
 }
 
-function highlightGenome(genome) {
-    somethingIsHighlighted = genome;
-    window.graphHandler.setSelectedGenome(genome);
-    window.graphHandler.showGraph();
-    line.attr("stroke", function (d) {
-        d.highlighted = d.genomes.map(function (x) {return x.split("_").join(" ")}).indexOf(genome.split("_").join(" ")) != -1;
-        if (d.highlighted) {
-            return "#eeee00";
-        } else {
-            return defaultColor(d);
-        }
-    })
-        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / zm.scale() * 2)});
+Svg.prototype.clear = function () {
+    var self = this;
+    self.svgNodes.remove();
+    self.svgEdges.remove();
+    self.svgAnnotations.remove();
 }
 
-function disableHighlighting() {
-    somethingIsHighlighted = false;
-    line.attr("stroke", function (d) {
-        d.highlighted = false;
-        return defaultColor(d);
-    })
-        .attr("stroke-width", function (d) {return Math.max(1, d.genomes.length / 10 / zm.scale())});
+Svg.prototype.drawMinimapRect = function (miniXScale, graphXScale) {
+    var self = this;
+    self.minimapRect = self.svg
+        .append("rect")
+        .attr("class", "minimapRect")
+    self.positionMinimapRect(miniXScale, graphXScale);
 }
 
-function defaultColor(d) {
-    return lineageColors[mode(d.lineages)] || "#000000";
+Svg.prototype.positionMinimapRect = function (miniXScale, graphXScale) {
+    var self = this;
+    self.minimapRect
+        .attr("x", miniXScale(graphXScale.invert(0)))
+        .attr("y", 0)
+        .attr("width", miniXScale(graphXScale.invert(WIDTH)))
+        .attr("height", MINI_HEIGHT);
 }
 
-function highlightLineage(genome) {
-    $.get("/api/lineage/" + genome.split(" ").join("_"), function(lineage) {
-        window.graphHandler.setSelectedGenome(genome, lineageColors[lineage], lineage);
-        window.graphHandler.showGraph();
-        line.attr("stroke", function (d) {
-            if (d.lineages.indexOf(lineage) != -1) {
-                d.lineageHighlighted = true;
-                d.currentColor = lineageColors[lineage];
-                return lineageColors[lineage];
-            } else {
-                return defaultColor(d);
-            }
-        });
-        actuallyHighlightGenome(genome);
-    });
+var Tip = function(offsetX, offsetY, text) {
+    var self = this;
+    self.tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset(offsetX, offsetY)
+        .html(text);
 }
 
-function jumpToBaseGetFromDOM() {
-    var e = document.getElementById("fuzzOptionsList");
-    var strUser = e.options[e.selectedIndex].value;
-    console.log(strUser + " " + $("#baseindex").text());
-    $.getJSON("/api/metadata/navigate/" + strUser + "/" + $("#baseindex").val(), function (response) {
-        var dx = 10;
-        var dy = 10;
-        var x = response.x + 5;
-        var y = 10;
-        var scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
-        var translate = [width / 2 - scale * x, height / 2 - scale * y];
-
-        svg.transition()
-            .duration(750)
-            .call(zm.translate(translate).scale(scale).event);
-    });
+var Minimap = function(nodes, edges) {
+    var self = this;
+    self.edges = edges;
+    self.xScale = d3.scale.linear().domain([0, d3.max(nodes.map(function (n) {return n.x}))]).range([0, MINI_WIDTH]);
+    self.yScale = d3.scale.linear().domain([0, d3.max(nodes.map(function (n) {return n.y}))]).range([MINI_HEIGHT, 0]);
+    self.svg = new Svg("#d3", MINI_WIDTH, MINI_HEIGHT);
 }
 
-function jumpToBase(genome, index) {
-    $.ajax({
-        url: "/api/metadata/navigate/" + genome + "/" + index,
-        async: false,
-        success: function (response) {
-            return JSON.parse(response).x;
-        }
-    });
+Minimap.prototype.draw = function (graphXScale) {
+    var self = this;
+    self.svg.drawEdges(self.edges, self.xScale, self.yScale);
+    self.svg.drawMinimapRect(self.xScale, graphXScale);
 }
-function mode(array) {
-	if (array.length == 0) {
-		return null;
-	}
-	var modeMap = {};
-	var maxEl = array[0]
-    var maxCount = 1;
-    for (var i = 0; i < array.length; i++) {
-		var el = array[i];
-		if (modeMap[el] == null) {
-			modeMap[el] = 1;
-		} else {
-			modeMap[el]++;
-	    }
-		if (modeMap[el] > maxCount) {
-			maxEl = el;
-			maxCount = modeMap[el];
-		}
-	}
-    return maxEl;
+
+Minimap.prototype.updateMinimapRect = function (graphXScale) {
+    var self = this;
+    self.svg.positionMinimapRect(self.xScale, graphXScale)
+}
+
+var serverConnection;
+function startD3() {
+    serverConnection = new ServerConnection();
+    serverConnection.loadGraph(128, 0, 100000000);
+}
+
+function zoomCallback() {
+    serverConnection.updateGraph();
 }
