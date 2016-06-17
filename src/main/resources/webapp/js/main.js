@@ -197,6 +197,7 @@ $(function() { // on dom ready
         console.log("Start zoom: " + this.zoom);
         this.bindUIEvents();
         this.tree_div_height;
+        this.tree_div_width;
     }
 
     GraphHandler.prototype.loadSettings = function() {
@@ -223,6 +224,7 @@ $(function() { // on dom ready
             $("#options").css("z-index", "0");
             $("#search").css("display", "none");
             $("#tree").height(this.tree_div_height);
+            $("#tree").width(this.tree_div_width);
         });
 
         $(".phylogeneticTree").click(function() {
@@ -237,7 +239,9 @@ $(function() { // on dom ready
             $("#search").css("display", "block");
 
             this.tree_div_height = $("#tree").height();
+            this.tree_div_width = $("#tree").width();
             $("#tree").height($("#tree_display").height());
+            $("#tree").width($("#tree_display").width());
             window.tkks.forEach(function(tkk) {
                 $("#search ul").append($("<li>").text(tkk.textContent));
             })
