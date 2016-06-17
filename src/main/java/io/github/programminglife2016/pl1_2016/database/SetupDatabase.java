@@ -41,6 +41,12 @@ public class SetupDatabase implements Database {
     }
 
     /**
+     * Default Constructor to construct a database.
+     */
+    public SetupDatabase() {
+    }
+
+    /**
      * Connect to database.
      */
     public void connect() {
@@ -297,5 +303,13 @@ public class SetupDatabase implements Database {
                 stmtgenomes.close();
             }
         }
+    }
+
+    public void setSplist(Collection splist) {
+        this.splist = splist;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }
