@@ -8,6 +8,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,8 +29,11 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
-    private String BUBBLES_SERIAL = "src/main/resources/objects/%s/bubbles-organized.ser";
-    private String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/%s/lowestLevel-orgi.ser";
+    private static final String BUBBLES_SERIAL =
+            "src/main/resources/objects/%s/bubbles-organized.ser";
+    private static final String LOWEST_LEVEL_SERIAL =
+            "src/main/resources/objects/%s/lowestLevel-orgi.ser";
+    public static final int ALIGNER_THRESHOLD = 128;
     private List<Node> bubbleCollection;
     private int lastId;
     private int bubblesListSize;
@@ -45,6 +49,7 @@ public class BubbleDispatcher {
      * Initialize bubbles by running bubble collapser.
      *
      * @param collection of nodes
+     * @param dataset segment.
      */
     public BubbleDispatcher(NodeCollection collection, String dataset) {
         BUBBLES_SERIAL = String.format(BUBBLES_SERIAL, dataset);
@@ -58,13 +63,18 @@ public class BubbleDispatcher {
             this.bubblesListSize = bubbleCollection.size();
             this.lowestLevel = collapser.getLowestLevel();
             initDispatcher();
-            lastId = bubbleCollection.stream().max((b1, b2) -> Integer.compare(b1.getId(), b2.getId())).get().getId();
+            lastId = bubbleCollection.stream().max((b1, b2) -> {
+                return Integer.compare(b1.getId(), b2.getId());
+            }).get().getId();
             serializeBubbleCollection();
         }
         originalCollection = collection;
     }
 
-
+    /**
+     * Initialize a bubble dispatcher instance.
+     * @param collection collection of bubbles.
+     */
     public BubbleDispatcher(NodeCollection collection) {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
@@ -150,6 +160,7 @@ public class BubbleDispatcher {
      * Get graph where each bubble contains not more segments than given threshold.
      *
      * @param threshold value to filter the graphs bubbles
+     * @param onlyGivenThreshold whether this method should return bubbles of a specific threshold.
      * @return graph with thresholded bubbles
      */
     public NodeCollection getThresholdedBubbles(int threshold, boolean onlyGivenThreshold) {
@@ -163,18 +174,48 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-        if(threshold >= 128) {
+
+//        getAllParents();
+        if (threshold >= ALIGNER_THRESHOLD) {
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.alignVertical();
-            return listAsNodeCollection(temp);
+            return listAsNodeCollection(temp); //aggregateLines();
         }
-        return listAsNodeCollection(filtered);
+        return listAsNodeCollection(filtered); //aggregateLines();
+//        return aggregateLines(listAsNodeCollection(filtered));
+    }
+
+    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
+        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
+        for (Node node : nodeCollection.values()) {
+            for (Node link : node.getLinks()) {
+                link.getBackLinks().add(node);
+            }
+        }
+        List<Node> kowed = new ArrayList<>();
+        nodeCollection.values().stream()
+                      .filter(node -> node.getLinks().size() == 1).forEach(node -> {
+            boolean repeat = true;
+            while (repeat) {
+                repeat = false;
+                Node link = node.getLinks().iterator().next();
+                if (link.getBackLinks().size() == 1 && link.getLinks().size() == 1) {
+                    repeat = true;
+                    kowed.add(link);
+                    node.getLinks().clear();
+                    node.getLinks().add(link.getLinks().iterator().next());
+                }
+            }
+        });
+        kowed.stream().map(Node::getId).forEach(nodeCollection::remove);
+        return nodeCollection;
     }
 
     /**
      * Run multithreaded bubble filtering based on threshold value.
      *
      * @param threshold amount of segments per bubble which is used to filter bubbles
+     * @param onlyGivenThreshold whether this method should return bubbles of a specific threshold.
      * @return filtered set of bubbles
      */
     public Set<Node> filterMultithreaded(int threshold, boolean onlyGivenThreshold) {
@@ -200,8 +241,14 @@ public class BubbleDispatcher {
         Set<Integer> containers = Collections.synchronizedSet(new HashSet<>()); //new ArrayList<>();
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         for (int i = 1; i < lowestLevel; i++) {
-            Set<Node> tempFiltered = getFilteredNodes(containers, i, filtered, threshold, onlyGivenThreshold);
-            containers.addAll(tempFiltered.parallelStream().map(Node::getId).collect(Collectors.toList()));
+            Set<Node> tempFiltered = getFilteredNodes(containers,
+                    i,
+                    filtered,
+                    threshold,
+                    onlyGivenThreshold);
+            containers.addAll(
+                    tempFiltered.parallelStream().map(Node::getId).collect(Collectors.toList())
+            );
             filtered.addAll(tempFiltered);
         }
         return filtered;
@@ -218,10 +265,14 @@ public class BubbleDispatcher {
      * @param onlyGivenThreshold if true collapse only bubbles with threshold amount of segments
      * @return filtered bubbles by threshold for given level
      */
-    private Set<Node> getFilteredNodes(Set<Integer> containers, int currentLevel, Set<Node> filtered, int threshold,
+    private Set<Node> getFilteredNodes(Set<Integer> containers,
+                                       int currentLevel,
+                                       Set<Node> filtered,
+                                       int threshold,
                                        boolean onlyGivenThreshold) {
         Set<Node> tempFiltered = Collections.synchronizedSet(new HashSet<>());
-        List<Node> currLevelBubbles = bubbleCollection.parallelStream().filter(x -> x.getZoomLevel() == currentLevel)
+        List<Node> currLevelBubbles = bubbleCollection.parallelStream()
+                .filter(x -> x.getZoomLevel() == currentLevel)
                 .collect(Collectors.toList());
         currLevelBubbles.forEach(x -> {
             if (filtered.parallelStream().filter(b -> b.getEndNode().equals(x)).count() == 0
@@ -229,16 +280,20 @@ public class BubbleDispatcher {
                     && !containers.contains(x.getContainerId())) {
                 boolean compareMethod;
                 if (onlyGivenThreshold) {
-                    compareMethod = (x.getContainerSize() == threshold || x.getContainerSize() <= 1);
+                    compareMethod = (x.getContainerSize() == threshold
+                            || x.getContainerSize() <= 1);
                 } else {
                     compareMethod = (x.getContainerSize() <= threshold);
                 }
                 if (compareMethod) {
-                    tempFiltered.removeAll(filtered.stream().filter(b -> b.getZoomLevel() == -1 && (b.getStartNode()
-                            .getId() == x.getStartNode().getId() || b.getEndNode().getId() == x.getEndNode().getId())
+                    tempFiltered.removeAll(filtered.stream()
+                            .filter(b -> b.getZoomLevel() == -1 && (b.getStartNode()
+                            .getId() == x.getStartNode().getId()
+                                    || b.getEndNode().getId() == x.getEndNode().getId())
                     ).collect(Collectors.toList()));
-                    tempFiltered.removeIf(b -> b.getZoomLevel() == -1 && (b.getStartNode().getId() == x.getStartNode
-                            ().getId() || b.getEndNode().getId() == x.getEndNode().getId()));
+                    tempFiltered.removeIf(b -> b.getZoomLevel() == -1
+                            && (b.getStartNode().getId() == x.getStartNode().getId()
+                            || b.getEndNode().getId() == x.getEndNode().getId()));
                     tempFiltered.add(x);
                 } else if (!x.getStartNode().isBubble()) {
                     tempFiltered.addAll(replaceInside(x));
@@ -260,14 +315,18 @@ public class BubbleDispatcher {
         createQuickRefForRelinking();
         filteredBubbles.parallelStream().forEach(bubble -> {
             Node primitiveEnd = getPrimitiveEnd(bubble);
-            Node prospectiveLink = getExistingAncestor(primitiveEnd, filteredBubbles, (n1, n2) -> n1.getStartNode()
+            Node prospectiveLink = getExistingAncestor(primitiveEnd,
+                    filteredBubbles,
+                    (n1, n2) -> n1.getStartNode()
                     .equals(n2));
             bubble.getLinks().clear();
             if (prospectiveLink != null && !prospectiveLink.equals(bubble)) {
                 bubble.getLinks().add(prospectiveLink);
             } else {
                 for (Node primLink : primitiveEnd.getLinks()) {
-                    Node found = getExistingAncestor(primLink, filteredBubbles, (n1, n2) -> n1.getId() == n2
+                    Node found = getExistingAncestor(primLink,
+                            filteredBubbles,
+                            (n1, n2) -> n1.getId() == n2
                             .getContainerId());
                     if (found != null) {
                         bubble.getLinks().add(found);
@@ -300,17 +359,22 @@ public class BubbleDispatcher {
      * @param equals          equals function to filter the ancestors
      * @return highest existing ancestor which exist in filtered bubbles
      */
-    private Node getExistingAncestor(Node node, Collection<Node> filteredBubbles, BiFunction<Node, Node, Boolean>
+    private Node getExistingAncestor(Node node,
+                                     Collection<Node> filteredBubbles,
+                                     BiFunction<Node, Node, Boolean>
             equals) {
         if (filteredBubbles.contains(node)) {
-            Optional<Node> parent = filteredBubbles.parallelStream().filter(x -> equals.apply(x, node)).findAny();
+            Optional<Node> parent = filteredBubbles.parallelStream()
+                    .filter(x -> equals.apply(x, node))
+                    .findAny();
             if (parent.isPresent()) {
                 return parent.get();
             }
             return node;
         }
         if (quickReference.containsKey(String.valueOf(node.getContainerId()))) {
-            return getExistingAncestor(quickReference.get(String.valueOf(node.getContainerId())), filteredBubbles,
+            return getExistingAncestor(quickReference.get(String.valueOf(node.getContainerId())),
+                    filteredBubbles,
                     equals);
         }
         return null;
@@ -377,10 +441,19 @@ public class BubbleDispatcher {
         return node.getStartNode().getId() + "_" + node.getEndNode().getId();
     }
 
+    /**
+     * Get all parents
+     */
     public void getAllParents() {
-        originalCollection.values().forEach(this::getAllParentsOfSegment);//parallelStream().
+        originalCollection.values().forEach(this::getAllParentsOfSegment); //parallelStream().
     }
 
+    /**
+     * Get parents of a specific segment.
+     * @param node node of which the parents are needed.
+     * @return return string array of parents.
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
     public String[] getAllParentsOfSegment(Node node) {
         Node currNode = node;
         Node parent;
@@ -388,7 +461,7 @@ public class BubbleDispatcher {
         StringBuilder endNodeIn = new StringBuilder();
         StringBuilder containsIn = new StringBuilder();
         String formattedId;
-        while(currNode.getContainerId() > 0) {
+        while (currNode.getContainerId() > 0) {
             parent = quickReference.get(String.valueOf(currNode.getContainerId()));
             formattedId = "/" + parent.getId() + "/";
             if (parent.getStartNode().getId() == currNode.getId()) {
@@ -401,6 +474,15 @@ public class BubbleDispatcher {
             currNode = parent;
         }
         System.out.println(startNodeIn);
+        String[] ret = buildStringArray(node, startNodeIn.toString(), endNodeIn.toString(), containsIn.toString());
+        return ret;
+    }
+
+    @SuppressWarnings("checkstyle:magicnumber")
+    private String[] buildStringArray(Node node,
+                                      String startNodeIn,
+                                      String endNodeIn,
+                                      String containsIn) {
         String[] ret = new String[6];
         ret[0] = Integer.toString(node.getId());
         ret[1] = startNodeIn.length() != 0 ? startNodeIn.toString() : "NULL";
@@ -411,6 +493,10 @@ public class BubbleDispatcher {
         return ret;
     }
 
+    /**
+     * Return original collection.
+     * @return original collection.
+     */
     public NodeCollection getOriginalCollection() {
         return originalCollection;
     }

@@ -92,6 +92,7 @@ public class BubbleDetector {
                     checkIfStoppedNodeIsABubble(startNode, destination,
                             levelCollection, stoppedNode);
                     break loop;
+                default: break;
             }
             status = stoppedAtNode.getKey();
             stoppedNode = stoppedAtNode.getValue();
