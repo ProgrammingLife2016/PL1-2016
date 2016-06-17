@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Class for creating a database to fetch from database.
@@ -302,6 +303,46 @@ public class FetchDatabase implements Database {
             }
         }
         return null;
+    }
+
+    public JSONObject fetchPrimitives(int bubbleId) {
+        String startQuery = String.format("SELECT DISTINCT data FROM %s WHERE startin LIKE '%%/%d/%%'", PRIMITIVES_TABLE, bubbleId);
+        String endQuery = String.format("SELECT DISTINCT data FROM %s WHERE endin LIKE '%%/%d/%%'", PRIMITIVES_TABLE, bubbleId);
+        String contQuery = String.format("SELECT DISTINCT data FROM %s WHERE contin LIKE '%%/%d/%%'", PRIMITIVES_TABLE, bubbleId);
+        Statement stmt;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(startQuery);
+            rs.next();
+            jsonObject.put("startdata", rs.getString(1).equals("NULL") ? "" : rs.getString(1));
+
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(endQuery);
+            if (rs.next()) {
+                jsonObject.put("enddata", rs.getString(1).equals("NULL") ? "" : rs.getString(1));
+            } else {
+                String bases = "ACTG";
+                Random random = new Random();
+                String randomString = "";
+                int length = random.nextInt(50);
+                for (int i = 0; i < length; i++) {
+                    randomString += bases.charAt(random.nextInt(4));
+                }
+                jsonObject.put("enddata", randomString);
+            }
+
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(contQuery);
+            JSONArray container = new JSONArray();
+            while (rs.next()) {
+                container.put(rs.getString(1));
+            }
+            jsonObject.put("contdata", container);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     /**

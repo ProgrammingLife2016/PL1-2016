@@ -229,7 +229,8 @@ Svg.prototype.drawNodes = function (nodes, xScale, yScale) {
          .enter()
          .append("path")
          .attr("d", d3.svg.symbol().type(NODE_TYPE).size(NODE_SIZE))
-         .attr("fill", NODE_COLOR);
+         .attr("fill", NODE_COLOR)
+         .on("click", inspectSegment);
     self.positionNodes(self.svgNodes, xScale, yScale);
 }
 
@@ -523,7 +524,6 @@ function setMetadataHighlighting(selectedgenes) {
     }
     SELECTORS = [];
     SELECTORS.push(obj);
-
 }
 
 function getRandomColor() {
@@ -533,4 +533,16 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+
+function inspectSegment(node) {
+    var segmentInspector = new SegmentInspector();
+    $.ajax({
+        url: "/api/data/mutation/" + node.id,
+        async: false,
+        success: function (response) {
+            response = JSON.parse(response);
+            segmentInspector.display("..." + response.startdata.substr(response.startdata.length - 50), response.contdata, response.enddata);
+        }
+    });
 }

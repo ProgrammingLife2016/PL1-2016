@@ -66,8 +66,8 @@ public final class Launcher {
         gffParser.read();
         nodeCollection.setAnnotations(gffParser.getAnnotations());
         if (useDatabase) {
-            SetupDatabase sdb = new SetupDatabase(dataset, subjects.values());
-            sdb.setup(nodeCollection);
+//            SetupDatabase sdb = new SetupDatabase(dataset, subjects.values());
+//            sdb.setup(nodeCollection);
             FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {
