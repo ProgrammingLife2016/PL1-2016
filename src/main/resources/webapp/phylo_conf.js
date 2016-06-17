@@ -677,7 +677,17 @@ $( document ).ready( function () {
             tree (res)
                 .svg (d3.select("#tree_display"))
                 .layout();
+            window.tree = tree;
             //warning_div.attr ("class", "alert alert-success alert-dismissable") .html ("Loaded a tree from  file <strong>" + f.name +": </strong>");
+
+            var notTKK = ["root", "start"];
+            window.tkks = tree.get_nodes()
+                              .filter(function(node) {
+                                  return node.name !== "" && notTKK.indexOf(node.name) == -1;
+                              })
+                              .map(function(node) {
+                                  return {"textContent": node.name};
+                              });
         }
         warning_div.append ("button")
                     .attr ("type", "button")

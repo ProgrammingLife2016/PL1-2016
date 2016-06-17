@@ -55,6 +55,8 @@
             <li>
                 <a id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings</a>
                 <ul>
+                    <li><a href="#" id="toggleSearch" data-open="false">Search genomes</a>
+                    </li>
                     <li><a href="#" id="connect">Connect to server</a>
                     </li>
                     <li><a href="#" id="zoomButton">Reload data</a>
@@ -177,19 +179,22 @@
     </div>
 
     <!-- Search bar for phylogenetic tree -->
-    <!-- <div id="search"> -->
-    <!--     <input type="search" placeholder="Search genomes..." autofocus/> -->
-    <!--     <div id="results" tabindex="0"> -->
-    <!--         <ul></ul> -->
-    <!--     </div> -->
-    <!-- </div> -->
     <!-- Phylogenetic tree -->
     <!-- <div class="pane" id="tree"> -->
     <!-- </div> -->
     <!-- <div id="rotation"></div> -->
-    <!-- New phylogenetic tree-->
 
     <div class="pane" id="tree">
+
+            <!-- Search tab -->
+            <div id="search">
+                <input type="search" placeholder="Search genomes..." autofocus/>
+                <div id="results" tabindex="0">
+                    <ul></ul>
+                </div>
+            </div>
+
+            <!-- Toolbar -->
             <div class="btn-toolbar" role="toolbar">
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm" data-direction = 'vertical' data-amount = '1' title = "Expand vertical spacing">

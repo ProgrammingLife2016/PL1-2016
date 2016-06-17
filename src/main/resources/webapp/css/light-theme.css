@@ -17,6 +17,7 @@ html, body {
   font-family: 'Open Sans', serif;
   font-weight: 100;
   background-color: #32B2B7;
+  letter-spacing: 1px;
 }
 
 #stackpane {
@@ -81,7 +82,7 @@ html, body {
 #logo {
     display: block;
     float: left;
-    margin-top: 1px;
+    margin-top: 6px;
     opacity: 0;
 }
 
@@ -239,7 +240,7 @@ html, body {
 #options ul li {
     display: block;
     margin: 0 auto;
-    width: 25%;
+    width: 28%;
     text-align: left;
     /**background-color: #889DB8;**/
     background-color: rgb(0,0,0, 0.2);
@@ -282,16 +283,17 @@ html, body {
 #search {
    display: none;
    position: absolute;
-   width: 300px;
+   width: 30px;
    /**height: 50px;**/
    /**background-color: #54A0AB;**/
    background-color: #7baab3;
-   left: 0px;
    top: 0px;
+   right: 0px;
+   float: right;
    bottom: 0px;
    z-index: 2000;
    padding: 5px 20px 5px 20px;
-   opacity: 0.95;
+   opacity: 0;
    overflow: hidden;
 }
 
@@ -300,8 +302,8 @@ html, body {
    letter-spacing: 1px;
    font-size: 23px;
    border: none;
-   width: 295px;
-   padding: 4px;
+   width: 250px;
+   padding: 3px 7px;
    color: #FFF;
    background-color: rgba(255,255,255,0.3);
    border-radius: 5px;
@@ -309,6 +311,13 @@ html, body {
    margin-top: 12px;
    font-weight: 100;
    outline: none;
+}
+
+#search #collapseSearch {
+    display: block;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0, 0.9);
 }
 
 #search ul {
@@ -327,7 +336,7 @@ html, body {
    background-color: rgba(255,255,255,0.3);
    color: #FFF;
    margin-top: 3px;
-   width: 290px;
+   width: 250px;
    font-size: 15px;
    cursor: pointer;
 }
@@ -597,7 +606,7 @@ html, body {
 }
 
 .btn-toolbar {
-    margin: 10px;
+    margin: 10px !important;
 }
 
 #tree_display {
