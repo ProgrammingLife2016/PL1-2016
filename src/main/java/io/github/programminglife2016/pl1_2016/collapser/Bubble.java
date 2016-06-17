@@ -18,14 +18,12 @@ import java.util.stream.Collectors;
 
 /**
  * Bubble class that contains segments or nested bubbles.
- *
- * @author Ravi Autar
  */
 public class Bubble implements Node, Serializable {
+    private static final long serialVersionUID = -5399272868997934829L;
     private int id;
     private int x;
     private int y;
-    private Boolean isBubble = true;
     private Node startNode;
     private Node endNode;
     private List<Node> container = new ArrayList<>();
@@ -33,9 +31,7 @@ public class Bubble implements Node, Serializable {
     private Set<Node> backLinks = new HashSet<>();
     private int containerid;
     private int level;
-    private String data = "";
     private int containersize;
-    private HashMap<String, SequenceRange> rangePerGenome;
     private boolean coordinateOverridden = false;
     private boolean genomesOverridden = false;
     private Map<String, Subject> subjects = new HashMap<>();
@@ -76,8 +72,6 @@ public class Bubble implements Node, Serializable {
         this.level = zoomLvl;
         this.containerid = segment.getContainerId();
         segment.setContainerId(id);
-//        this.links.addAll(segment.getLinks());
-//        this.backLinks.addAll(segment.getBackLinks());
     }
 
     /**
@@ -200,7 +194,7 @@ public class Bubble implements Node, Serializable {
     }
 
     /**
-     * Get the column of this node.
+     * Return
      *
      * @return the column of this node
      */
@@ -245,13 +239,17 @@ public class Bubble implements Node, Serializable {
     }
 
     /**
-     * Make a shallow clone of this node. Only the links are cloned one level more.
+     * Make a shallow clone of this node.
      *
      * @return the cloned node.
      */
     @Override
     public Node clone() {
-        return null;
+        try {
+            return (Node) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -319,7 +317,7 @@ public class Bubble implements Node, Serializable {
      */
     @Override
     public Boolean isBubble() {
-        return isBubble;
+        return true;
     }
 
     @Override
@@ -347,7 +345,15 @@ public class Bubble implements Node, Serializable {
 
     @Override
     public Map<String, SequenceRange> getRangePerGenome() {
-        return NodeMap.retrieveSegment(startNode, false).getRangePerGenome();
+        return startSegment(startNode).getRangePerGenome();
+    }
+
+    private Node startSegment(Node startNode) {
+        if (startNode.isBubble()) {
+            return startSegment(startNode.getStartNode());
+        } else {
+            return startNode;
+        }
     }
 
     /**
@@ -383,9 +389,7 @@ public class Bubble implements Node, Serializable {
      */
     @Override
     public int hashCode() {
-        int result = id;
-        result = 1 * result + x;
-        return result;
+        return id + x;
     }
 
     /**
@@ -393,13 +397,14 @@ public class Bubble implements Node, Serializable {
      * @return String representation of Bubble.
      */
     public String toString() {
-        return "Bubble{"
-                + "id=" + id
-                + ", startNode=" + startNode
-                + ", container=" + container.stream()
-                                    .map(x -> x.getId()).collect(Collectors.toList())
-                + ", endNode=" + endNode
-                + ", containerSize=" + containersize
-                + '}';
+        String baseString = "Bubble{id=%d, startNode=%s, container=%s, endNode=%s, containerSize=%d}";
+        return String.format(
+                baseString,
+                id,
+                startNode,
+                container.stream().map(Node::getId).collect(Collectors.toList()),
+                endNode,
+                containersize
+        );
     }
 }

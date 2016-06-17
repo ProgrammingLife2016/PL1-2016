@@ -21,14 +21,14 @@ import java.util.Random;
  * Class for creating a database to fetch from database.
  */
 public class FetchDatabase implements Database {
-
-    private static final String[] SPECIMEN_COLUMNS = {"age", "sex", "hiv_status", "cohort", "date_of_collection",
-            "study_geographic_district", "specimen_type", "microscopy_smear_status",
-            "dna_isolation_single_colony_or_nonsingle_colony", "phenotypic_dst_pattern", "capreomycin_10ugml",
-            "ethambutol_75ugml", "ethionamide_10ugml", "isoniazid_02ugml_or_1ugml", "kanamycin_6ugml",
-            "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml", "rifampin_1ugml",
-            "streptomycin_2ugml", "digital_spoligotype", "lineage", "genotypic_dst_pattern",
-            "tugela_ferry_vs_nontugela_ferry_xdr"};
+    private static final String[] SPECIMEN_COLUMNS = {"age", "sex", "hiv_status", "cohort",
+            "date_of_collection", "study_geographic_district", "specimen_type",
+            "microscopy_smear_status", "dna_isolation_single_colony_or_nonsingle_colony",
+            "phenotypic_dst_pattern", "capreomycin_10ugml", "ethambutol_75ugml",
+            "ethionamide_10ugml", "isoniazid_02ugml_or_1ugml", "kanamycin_6ugml",
+            "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml",
+            "rifampin_1ugml", "streptomycin_2ugml", "digital_spoligotype", "lineage",
+            "genotypic_dst_pattern", "tugela_ferry_vs_nontugela_ferry_xdr"};
     /**
      * The connection to the database.
      */
@@ -105,10 +105,10 @@ public class FetchDatabase implements Database {
         Statement stmt = null;
         JSONArray nodes = null;
         String query = String.format("SELECT DISTINCT %s.* " + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
-                + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
-                + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d AND n2.x <="
-                + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > "
-                + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
+                        + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
+                        + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d AND n2.x <="
+                        + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > "
+                        + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
                 NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
                 NODES_TABLE, minContainerSize, NODES_TABLE);
         ResultSet rs;
@@ -137,9 +137,10 @@ public class FetchDatabase implements Database {
 
     /**
      * Convert data fetched from the server to JSON.
-     * @param threshold level of treshold.
-     * @param x1 the left bounding x.
-     * @param x2 the right bounding x.
+     *
+     * @param threshold        level of treshold.
+     * @param x1               the left bounding x.
+     * @param x2               the right bounding x.
      * @param minContainerSize
      * @param items
      * @return JSON response.
@@ -161,8 +162,10 @@ public class FetchDatabase implements Database {
         }
         return result;
     }
+
     /**
      * Convert data fetched from the server to JSON.
+     *
      * @return JSON response.
      */
     public final JSONObject getAnnotations() {
@@ -171,6 +174,7 @@ public class FetchDatabase implements Database {
         result.put("annotations", fetchAnnotations());
         return result;
     }
+
     /**
      * Convert metadata fetched from the server to JSON.
      *
@@ -264,10 +268,10 @@ public class FetchDatabase implements Database {
         Statement stmt = null;
         JSONArray links = null;
         String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s"
-                + ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + ""
-                + ".to_id " +
-                "WHERE %s" + ".threshold = %d " + "AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x " + "<= "
-                + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
+                        + ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + ""
+                        + ".to_id " +
+                        "WHERE %s" + ".threshold = %d " + "AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x " + "<= "
+                        + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
                 NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, x1, x2);
         ResultSet rs;
         try {
