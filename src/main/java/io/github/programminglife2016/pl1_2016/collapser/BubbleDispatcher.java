@@ -34,6 +34,7 @@ public class BubbleDispatcher {
     private static final double TIME = 1000000000d;
     private static final int THREADS = 8;
     private ForkJoinPool forkJoinPool = new ForkJoinPool(THREADS);
+    private NodeCollection originalCollection;
 
     private Map<String, Node> quickReference;
 
@@ -46,6 +47,7 @@ public class BubbleDispatcher {
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
         bubblesListSize = bubbleCollection.size();
+        originalCollection = collection;
         lowestLevel = collapser.getLowestLevel();
         initDispatcher();
 
@@ -111,6 +113,7 @@ public class BubbleDispatcher {
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
 
+//        getAllParents();
         if(threshold >= 128) {
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.alignVertical();
@@ -318,11 +321,11 @@ public class BubbleDispatcher {
 
     private Set<Node> replaceInside(Node bubble) {
         Set<Node> newBubbles = new HashSet<>();
-        newBubbles.add(initNewBubble(bubble.getStartNode()));
-        newBubbles.add(initNewBubble(bubble.getEndNode()));
+        newBubbles.add(initNewBubble(bubble.getStartNode(), bubble.getId()));
+        newBubbles.add(initNewBubble(bubble.getEndNode(), bubble.getId()));
         for (Node n : bubble.getContainer()) {
             if (!n.isBubble()) {
-                newBubbles.add(initNewBubble(n));
+                newBubbles.add(initNewBubble(n, bubble.getId()));
             }
             else {
                 newBubbles.add(n);
@@ -331,13 +334,13 @@ public class BubbleDispatcher {
         return newBubbles;
     }
 
-    private Bubble initNewBubble(Node node) {
+    private Bubble initNewBubble(Node node, int contId) {
         String key = getNodeKeyForFiltering(node);
         if (quickReference.containsKey(key)) {
             return (Bubble) quickReference.get(key);
         }
         lastId++;
-        Bubble newBubble = new Bubble(lastId, -1, (Segment) node);
+        Bubble newBubble = new Bubble(lastId, contId, (Segment) node);
         bubbleCollection.add(newBubble);
         quickReference.put(getNodeKeyForFiltering(newBubble), newBubble);
         bubblesListSize++;
@@ -362,6 +365,35 @@ public class BubbleDispatcher {
     private String getNodeKeyForFiltering(Node node) {
         return node.getStartNode().getId() + "_"
                 + node.getEndNode().getId();
+    }
+
+    public void getAllParents() {
+        originalCollection.values().forEach(this::getAllParentsOfSegment);//parallelStream().
+    }
+
+    public void getAllParentsOfSegment(Node node) {
+        Node currNode = node;
+        Node parent;
+        String startNodeIn = "", endNodeIn = "", containsIn = "";
+        String formattedId;
+        while(currNode.getContainerId() > 0) {
+            parent = quickReference.get(String.valueOf(currNode.getContainerId()));
+            formattedId = "/" + parent.getId() + "/";
+            if (parent.getStartNode().getId() == currNode.getId()) {
+                startNodeIn += formattedId;
+            } else if (parent.getEndNode().getId() == currNode.getId()) {
+                endNodeIn += formattedId;
+            } else {
+                containsIn += formattedId;
+            }
+            currNode = parent;
+        }
+        System.out.println("Id:" + node.getId()
+                           + "\t\tStartIn:" + startNodeIn
+                           + "\t\tEndIn:" + endNodeIn
+                           + "\t\tContIn:" + containsIn
+                           + "\t\tData:" + node.getData()
+                           + "\t\tGenomes:" + node.getGenomes().toString());
     }
 
 }
