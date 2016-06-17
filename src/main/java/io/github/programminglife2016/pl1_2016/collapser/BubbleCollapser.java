@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author Kamran Tadzjibov
  *
  */
-public class BubbleCollapser implements Serializable {
+public class BubbleCollapser {
     private List<Node> bubbles;
     private int lastId;
     private int bubblesListSize;
