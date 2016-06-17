@@ -1,4 +1,3 @@
-$(function() {
 $('#newick_export_modal').on('show.bs.modal', function (e) {
     $('textarea[id$="nwk_export_spec"]').val(
         tree.get_newick (
@@ -202,7 +201,7 @@ function default_tree_settings () {
     tree.branch_name (null);
     tree.node_span ('equal');
     tree.options ({'draw-size-bubbles' : false}, false);
-    tree.radial (true);
+    //tree.radial (true);
     tree.style_nodes (node_colorizer);
     tree.style_edges (edge_colorizer);
     tree.selection_label (current_selection_name);
@@ -606,92 +605,49 @@ function selection_handler_delete (e) {
 $( document ).ready( function () {
     default_tree_settings();
     tree(test_string).svg (svg).layout();
-    // $("#selection_new").get(0).addEventListener(selection_menu_element_action,selection_handler_new,false);
-    // $("#selection_rename").get(0).addEventListener(selection_menu_element_action,selection_handler_rename,false);
-    // $("#selection_delete").get(0).addEventListener(selection_menu_element_action,selection_handler_delete,false);
-    // $("#selection_delete").get(0).dispatchEvent (new CustomEvent (selection_menu_element_action,
-    //                              {'detail' : ['cancel', null]}));
-    // $("#selection_name_box").get(0).addEventListener(selection_menu_element_action,selection_handler_name_box,false);
-    // $("#save_selection_name").get(0).addEventListener(selection_menu_element_action,selection_handler_save_selection_name,false);
-    // $("#selection_name_dropdown").get(0).addEventListener(selection_menu_element_action,selection_handler_name_dropdown,false);
+    $("#selection_new").get(0).addEventListener(selection_menu_element_action,selection_handler_new,false);
+    $("#selection_rename").get(0).addEventListener(selection_menu_element_action,selection_handler_rename,false);
+    $("#selection_delete").get(0).addEventListener(selection_menu_element_action,selection_handler_delete,false);
+    $("#selection_delete").get(0).dispatchEvent (new CustomEvent (selection_menu_element_action,
+                                 {'detail' : ['cancel', null]}));
+    $("#selection_name_box").get(0).addEventListener(selection_menu_element_action,selection_handler_name_box,false);
+    $("#save_selection_name").get(0).addEventListener(selection_menu_element_action,selection_handler_save_selection_name,false);
+    $("#selection_name_dropdown").get(0).addEventListener(selection_menu_element_action,selection_handler_name_dropdown,false);
     update_selection_names();
 
-    // jQuery.get("/static/file.nwk", function(data) {
-    //     var res = d3_phylotree_newick_parser (data);
-    //     default_tree_settings ();
-    //     tree.branch_length (function (n) {return undefined;});
-    //     var year_re     = new RegExp ("_virus_A_([^_]+)"),
-    //         color_scale = d3.scale.category20();
+    jQuery.get("/static/file.nwk", function(data) {
+        var res = d3_phylotree_newick_parser (data);
+        default_tree_settings ();
+        tree.branch_length (function (n) {return undefined;});
+        var year_re     = new RegExp ("_virus_A_([^_]+)"),
+            color_scale = d3.scale.category20();
 
-    //     tree.branch_name (function (d) {
-    //         var n = d.name.split ('_');
-    //         if (n.length > 13) {
-    //             return [n[9],n[10],n[12]].join (" ");
-    //         }
-    //         return n.join ("_");
-    //     });
-
-    //     tree.style_nodes (function (element, data) {
-    //         var m = (tree.branch_name () (data)).split (" ");
-    //         if (m.length > 1) {
-    //             element.style ("fill", color_scale(m[0]));
-    //         }
-    //         node_colorizer (element, data);
-    //     });
-
-
-    //     tree.style_edges (function (element, data) {
-    //         var m = (tree.branch_name () (data.target)).split (" ");
-    //         if (m.length > 1) {
-    //             element.style ("stroke", color_scale(m[0]));
-    //         }
-    //         edge_colorizer (element, data);
-    //     });
-
-    //     tree (res).svg (svg).layout();
-    // });
-
-    d3.text ("/static/file.nwk", function (error, newick) {
-        // var tree = d3.layout.phylotree()
-        //     .svg (d3.select ("#tree_display"))
-        //     .radial (true);
-
-        // tree (d3_phylotree_newick_parser (newick)) .layout();
-
-        var res = d3_phylotree_newick_parser (newick);
-
-        if (res["json"]) {
-            if (!("children" in res["json"])) {
-                res["error"] = "Empty tree";
+        tree.branch_name (function (d) {
+            var n = d.name.split ('_');
+            if (n.length > 13) {
+                return [n[9],n[10],n[12]].join (" ");
             }
-        }
-
-        var warning_div = d3.select ("#main_display").insert ("div", ":first-child");
-        if (res["error"]) {
-            warning_div.attr ("class", "alert alert-danger alert-dismissable")
-                        .html ("<strong>Newick parser error for file " + f.name +": </strong> In file " + res["error"]);
-
-        } else {
-            default_tree_settings ();
-            tree.radial(true);
-            tree (res)
-                .svg (d3.select("#tree_display"))
-                .layout();
-            //warning_div.attr ("class", "alert alert-success alert-dismissable") .html ("Loaded a tree from  file <strong>" + f.name +": </strong>");
-        }
-        warning_div.append ("button")
-                    .attr ("type", "button")
-                    .attr ("class", "close")
-                    .attr ("data-dismiss", "alert")
-                    .attr ("aria-hidden", "true")
-                    .html ("&times;");
-
-        $("#layout").on("click", function (e) {
-            // tree.radial ($(this).prop ("checked")).placenodes().update ();
-            tree.spacing_y(tree.spacing_y() + 1).update();
-            tree.spacing_x(tree.spacing_x() + 1).update();
+            return n.join ("_");
         });
+
+        tree.style_nodes (function (element, data) {
+            var m = (tree.branch_name () (data)).split (" ");
+            if (m.length > 1) {
+                element.style ("fill", color_scale(m[0]));
+            }
+            node_colorizer (element, data);
+        });
+
+
+        tree.style_edges (function (element, data) {
+            var m = (tree.branch_name () (data.target)).split (" ");
+            if (m.length > 1) {
+                element.style ("stroke", color_scale(m[0]));
+            }
+            edge_colorizer (element, data);
+        });
+
+        tree (res).svg (svg).layout();
     });
 
-});
 });

@@ -25,6 +25,7 @@ html, body {
   position: relative;
   margin: 0px;
   padding: 0px;
+  overflow: scroll;
 }
 
 #stackpane .pane {
@@ -426,6 +427,7 @@ html, body {
   background-color: #32B2B7; /*#ECf0f1;*/
   display: block;
   opacity: 0;
+  overflow: scroll;
 }
 
 #rotation {
@@ -592,4 +594,16 @@ html, body {
     height: 200px;
     background-color: #5eb3c2;
     border-width: 0;
+}
+
+.btn-toolbar {
+    margin: 10px;
+}
+
+#tree_display {
+    overflow: scroll;
+}
+
+.pane {
+    overflow: scroll;
 }
