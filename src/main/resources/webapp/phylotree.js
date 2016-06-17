@@ -595,6 +595,21 @@ d3.layout.phylotree = function(container) {
 
         phylotree.placenodes();
         links = phylotree.links(nodes);
+        console.log("Links");
+        //console.log(links);
+        console.log("Links 2");
+        links
+            .filter(function(link) {
+                return link.source.children[0] !== "" ||
+                    link.source.children[1] !== "";
+            })
+            .forEach(function(link) {
+                d3.selectAll(link).attr("stroke", "#F00");
+                console.log(link);
+                $(link).css("stroke", "#F00");
+                $(".branch[d=" + link.existing_path + "]").css("stroke", "#F00");
+            });
+
         return phylotree;
     }
 
@@ -662,6 +677,14 @@ d3.layout.phylotree = function(container) {
     };
 
     phylotree.handle_node_click = function(node) {
+        console.log("Node click");
+        console.log(node);
+        var desc = phylotree.select_all_descendants(node, true, true);
+        var tkks = desc.filter(function(desc) {return desc.name !== "";})
+                       .map(function(desc) {return desc.name;})
+        console.log(tkks);
+
+
 
         var menu_object = d3.select(self.container).select("#" + d3_layout_phylotree_context_menu_id);
 

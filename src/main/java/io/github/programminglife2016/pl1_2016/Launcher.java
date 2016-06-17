@@ -56,7 +56,7 @@ public final class Launcher {
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
-        SetupDatabase sdb = new SetupDatabase();
+        //SetupDatabase sdb = new SetupDatabase();
 //        try {
 //            sdb.setup(nodeCollection, subjects.values());
 //        } catch (SQLException e) {

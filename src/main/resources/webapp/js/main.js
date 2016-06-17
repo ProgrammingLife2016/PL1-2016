@@ -247,11 +247,11 @@ $(function() { // on dom ready
             }
 
             //Center phylogenetic tree in view
-            var el = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
-            var tr = el.getAttribute("transform");
-            var values = tr.split('(')[1].split(')')[0].split(',');
-            var wrap = d3.select(".svg-pan-zoom_viewport > g")
-                .attr("transform", "matrix(0.809726453085347,0,0,0.809726453085347," + values[4] + ",120)");
+            // var el = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
+            // var tr = el.getAttribute("transform");
+            // var values = tr.split('(')[1].split(')')[0].split(',');
+            // var wrap = d3.select(".svg-pan-zoom_viewport > g")
+            //     .attr("transform", "matrix(0.809726453085347,0,0,0.809726453085347," + values[4] + ",120)");
 
         });
 
@@ -427,13 +427,6 @@ $(function() { // on dom ready
             res.forEach(function(tkk) {
                 nameMap[tkk["name"]] = 1;
             });
-            // window.tkks
-            //     .filter(function(tkk) {
-            //         return nameMap[tkk.textContent] === 1;
-            //     })
-            //     .forEach(function(tkk) {
-            //         $(tkk).css("fill", "#05dbe4");
-            //     });
 
             tree.modify_selection (function (n) {
                 return filter_value.length && (tree.branch_name () (n.target).search (rx)) != -1;
