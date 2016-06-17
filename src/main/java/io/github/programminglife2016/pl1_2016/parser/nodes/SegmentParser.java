@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
@@ -28,6 +29,8 @@ public class SegmentParser implements Parser {
     private NodeCollection nodeCollection;
     private InputStream positions;
     private Map<String, Subject> specimens;
+    private Map<String, Integer> lastIndices = new HashMap<>();
+
 
     /**
      * Create parser object.
@@ -47,9 +50,6 @@ public class SegmentParser implements Parser {
         this.positions = positions;
         SpecimenParser specimenParser = new SpecimenParser();
         this.specimens = specimenParser.parse(metadata);
-        Subject ref = new Specimen();
-        ref.setNameId(REFERENCE);
-        specimens.put(REFERENCE, ref);
     }
 
     /**
@@ -151,13 +151,51 @@ public class SegmentParser implements Parser {
             nodeCollection.get(id).setData(seq);
             nodeCollection.get(id).setColumn(column);
         }
+
+        Set<Subject> genomes;
         if (specimens != null) {
-            Set<Subject> genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+            genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
                     .stream()
-                    .map(x -> specimens.get(x.substring(0, x.length() - GENOME_SUFFIX.length())))
+                    .map(x -> specimens
+                            .getOrDefault(x.substring(0, x.length() - GENOME_SUFFIX.length()),
+                                    new Specimen(x
+                                            .substring(0, x.length() - GENOME_SUFFIX.length()))))
+                    .collect(Collectors.toSet());
+        }
+        else {
+            genomes = Arrays.asList(data[4].substring(ATTR_ORI.length()).split(";"))
+                    .stream()
+                    .map(x -> new Specimen(x))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
-            nodeCollection.get(id).addGenomes(genomes);
+        }
+        nodeCollection.get(id).addGenomes(genomes);
+        addRanges(nodeCollection.get(id), seq.length());
+    }
+
+    private String extractGenomeName(String rawName) {
+        return rawName.substring(0, rawName.length() - GENOME_SUFFIX.length());
+    }
+
+    private void updateLastIndex(String genomeName, int dataLength) {
+        int prevIdx = 0;
+        if (lastIndices.containsKey(genomeName)) {
+            prevIdx = lastIndices.get(genomeName);
+        }
+        lastIndices.put(genomeName, prevIdx + dataLength);
+    }
+
+    private void addRanges(Node node, int dataLength) {
+        int lastId;
+        for (Subject s : node.getSubjects()) {
+            if (lastIndices.containsKey(s.getNameId())) {
+                lastId = lastIndices.get(s.getNameId());
+            } else {
+                lastId = 0;
+            }
+            node.getRangePerGenome().put(s.getNameId(),
+                    new SequenceRange(s.getNameId(), lastId, lastId + dataLength));
+            updateLastIndex(s.getNameId(), dataLength);
         }
     }
 
@@ -190,7 +228,7 @@ public class SegmentParser implements Parser {
      *
      * @return the parsed metadata information
      */
-    public Map<String,Subject> getSubjects() {
+    public Map<String, Subject> getSubjects() {
         return specimens;
     }
 }

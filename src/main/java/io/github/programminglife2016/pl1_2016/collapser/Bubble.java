@@ -3,33 +3,37 @@ package io.github.programminglife2016.pl1_2016.collapser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
+import io.github.programminglife2016.pl1_2016.parser.nodes.SequenceRange;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Bubble class that contains segments or nested bubbles.
- *
- * @author Ravi Autar
  */
-public class Bubble implements Node {
+public class Bubble implements Node, Serializable {
+    private static final long serialVersionUID = -5399272868997934829L;
     private int id;
     private int x;
     private int y;
-    private transient Boolean isBubble = true;
-    private transient Node startNode;
-    private transient Node endNode;
-    private transient List<Node> container = new ArrayList<>();
-    private transient Set<Node> links = new HashSet<>();
-    private transient Set<Node> backLinks = new HashSet<>();
-    private transient int containerid;
-    private transient int level;
-    private transient String data = "";
-    private transient int containersize;
+    private Node startNode;
+    private Node endNode;
+    private List<Node> container = new ArrayList<>();
+    private Set<Node> links = new HashSet<>();
+    private Set<Node> backLinks = new HashSet<>();
+    private int containerid;
+    private int level;
+    private int containersize;
+    private boolean coordinateOverridden = false;
+    private boolean genomesOverridden = false;
+    private Map<String, Subject> subjects = new HashMap<>();
 
     /**
      * Constructor for a bubble with start and endnode.
@@ -67,8 +71,6 @@ public class Bubble implements Node {
         this.level = zoomLvl;
         this.containerid = segment.getContainerId();
         segment.setContainerId(id);
-//        this.links.addAll(segment.getLinks());
-//        this.backLinks.addAll(segment.getBackLinks());
     }
 
     /**
@@ -79,6 +81,7 @@ public class Bubble implements Node {
      */
     @Override
     public void setXY(int x, int y) {
+        coordinateOverridden = true;
         this.x = x;
         this.y = y;
     }
@@ -90,7 +93,11 @@ public class Bubble implements Node {
      */
     @Override
     public int getX() {
-        return (startNode.getX() + endNode.getX()) / 2;
+        if (coordinateOverridden) {
+            return x;
+        } else {
+            return (startNode.getX() + endNode.getX()) / 2;
+        }
     }
 
     /**
@@ -100,7 +107,11 @@ public class Bubble implements Node {
      */
     @Override
     public int getY() {
-        return (startNode.getY() + endNode.getY()) / 2;
+        if (coordinateOverridden) {
+            return y;
+        } else {
+            return (startNode.getY() + endNode.getY()) / 2;
+        }
     }
 
     /**
@@ -182,7 +193,7 @@ public class Bubble implements Node {
     }
 
     /**
-     * Get the column of this node.
+     * Return
      *
      * @return the column of this node
      */
@@ -198,7 +209,8 @@ public class Bubble implements Node {
      */
     @Override
     public void addGenomes(Collection<Subject> genomes) {
-
+        genomesOverridden = true;
+        genomes.forEach(x -> subjects.put(x.getNameId(), x));
     }
 
     /**
@@ -208,7 +220,11 @@ public class Bubble implements Node {
      */
     @Override
     public Set<String> getGenomes() {
-        return this.startNode.getGenomes();
+        if (genomesOverridden) {
+            return subjects.values().stream().map(Subject::getLineage).collect(Collectors.toSet());
+        } else {
+            return this.startNode.getGenomes();
+        }
     }
 
     /**
@@ -222,13 +238,17 @@ public class Bubble implements Node {
     }
 
     /**
-     * Make a shallow clone of this node. Only the links are cloned one level more.
+     * Make a shallow clone of this node.
      *
      * @return the cloned node.
      */
     @Override
     public Node clone() {
-        return null;
+        try {
+            return (Node) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -296,7 +316,7 @@ public class Bubble implements Node {
      */
     @Override
     public Boolean isBubble() {
-        return isBubble;
+        return true;
     }
 
     @Override
@@ -320,6 +340,19 @@ public class Bubble implements Node {
      */
     public void setStartNode(Node node) {
         this.startNode = node;
+    }
+
+    @Override
+    public Map<String, SequenceRange> getRangePerGenome() {
+        return startSegment(startNode).getRangePerGenome();
+    }
+
+    private Node startSegment(Node startNode) {
+        if (startNode.isBubble()) {
+            return startSegment(startNode.getStartNode());
+        } else {
+            return startNode;
+        }
     }
 
     /**
@@ -355,9 +388,7 @@ public class Bubble implements Node {
      */
     @Override
     public int hashCode() {
-        int result = id;
-        result = 1 * result + x;
-        return result;
+        return id + x;
     }
 
     /**
@@ -365,13 +396,18 @@ public class Bubble implements Node {
      * @return String representation of Bubble.
      */
     public String toString() {
-        return "Bubble{"
-                + "id=" + id
-                + ", startNode=" + startNode
-                + ", container=" + container.stream()
-                                    .map(x -> x.getId()).collect(Collectors.toList())
-                + ", endNode=" + endNode
-                + ", containerSize=" + containersize
-                + '}';
+        String baseString = "Bubble{id=%d, "
+                + "startNode=%s, "
+                + "container=%s, "
+                + "endNode=%s, "
+                + "containerSize=%d}";
+        return String.format(
+                baseString,
+                id,
+                startNode,
+                container.stream().map(Node::getId).collect(Collectors.toList()),
+                endNode,
+                containersize
+        );
     }
 }

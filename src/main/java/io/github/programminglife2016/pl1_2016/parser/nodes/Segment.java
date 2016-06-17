@@ -1,29 +1,31 @@
 package io.github.programminglife2016.pl1_2016.parser.nodes;
 
-import java.util.Set;
-
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Data structure for representing a DNA sequence
  */
-public class Segment implements Node {
+public class Segment implements Node, Serializable {
     private int id;
     private int x;
     private int y;
-    private transient String data;
-    private transient int column;
-    private transient Set<Node> links = new HashSet<>();
-    private transient Set<Node> backLinks = new HashSet<>();
+    private String data;
+    private int column;
+    private Set<Node> links = new HashSet<>();
+    private Set<Node> backLinks = new HashSet<>();
     private Set<Subject> genomes = new HashSet<>();
-    private transient int containerid;
-    private transient int level;
+    private int containerid;
+    private int level;
+    private HashMap<String, SequenceRange> rangePerGenome;
 
     /**
      * Create segment with id and sequence data.
@@ -120,6 +122,7 @@ public class Segment implements Node {
      */
     @Override
     public void addGenomes(Collection<Subject> genomes) {
+        rangePerGenome = new HashMap<>(genomes.size());
         this.genomes.addAll(genomes);
     }
 
@@ -278,4 +281,11 @@ public class Segment implements Node {
     @Override
     public void setStartNode(Node node) {
     }
+
+    @Override
+    public HashMap<String, SequenceRange> getRangePerGenome() {
+        return rangePerGenome;
+    }
+
+
 }

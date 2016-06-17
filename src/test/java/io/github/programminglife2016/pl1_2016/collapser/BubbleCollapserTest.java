@@ -1,13 +1,17 @@
 //CHECKSTYLE.OFF: MagicNumber
 package io.github.programminglife2016.pl1_2016.collapser;
 
+import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Tests for the BubbleCollapser class.
@@ -73,7 +77,7 @@ public class BubbleCollapserTest {
     /**
      * Create parser object.
      *
-     * @throws IOException thrown if the test data is faulty
+     * @throws IOException thrown if the test data input faulty
      */
     @Before
     public void setUp() throws IOException {
@@ -85,21 +89,21 @@ public class BubbleCollapserTest {
     /**
      * Verify that the end node had not changed after bubbling.
      */
-//    @Test
-//    public void testRetainEndNode() {
-//        collapser.collapseBubbles();
-//        Node bubble = collapser.getBubbles().get(2).getEndNode();
-//        assertEquals(bubble, nodeCollection.get(5));
-//    }
-//
-//    /**
-//     * Verify that a correct bubble has formed.
-//     */
-//    @Test
-//    public void testSimpleBubbleCollapsing() {
-//        collapser.collapseBubbles();
-//        Node bubble = collapser.getBubbles().get(2);
-//        assertEquals(3, bubble.getStartNode().getId());
-//        assertEquals(5, bubble.getEndNode().getId());
-//    }
+    @Test
+    public void testRetainEndNode() {
+        collapser.collapseBubbles();
+        Node bubble = collapser.getBubbles().get(2).getEndNode();
+        assertEquals(nodeCollection.get(12), bubble);
+    }
+
+    /**
+     * Verify that a correct bubble has formed.
+     */
+    @Test
+    public void testSimpleBubbleCollapsing() {
+        collapser.collapseBubbles();
+        Node bubble = collapser.getBubbles().get(2);
+        assertEquals(6, bubble.getStartNode().getId());
+        assertEquals(12, bubble.getEndNode().getId());
+    }
 }

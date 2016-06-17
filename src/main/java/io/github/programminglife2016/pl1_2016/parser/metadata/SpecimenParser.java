@@ -25,6 +25,9 @@ public class SpecimenParser {
      * @param inputStream stream of data.
      */
     private Map<String, Subject> read(InputStream inputStream) {
+        if (inputStream == null) {
+            return null;
+        }
         Map<String, Subject> specimens = new HashMap<>();
         BufferedReader reader = null;
         try {
@@ -64,7 +67,7 @@ public class SpecimenParser {
      * @param specimen The specimen for whom the data belongs to.
      */
     private void parseBasicInfo(String[] string, Subject specimen) {
-        specimen.setNameId(string[0]);
+        specimen.setNameId(string[0].replaceAll(" ", "_").replaceAll("-", "_"));
         if (string[1].equals("unknown")) {
             specimen.setAge(0);
         }

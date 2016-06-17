@@ -21,6 +21,8 @@
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+  z-index: 22;
+
 }
 
 .minimapRect {
@@ -32,4 +34,32 @@
     -moz-box-shadow: 0 0 5px 2px #000;
     box-shadow: 0 0 5px 2px #000;
     background-color: #dde4e6;
+}
+
+.geneRect {
+    stroke: #000000;
+    fill-opacity: 0;
+}
+
+#segmentinspector {
+    position: absolute;
+    bottom: 350px;
+    height: 100px;
+    width: 100%;
+    font-family: "Courier Sans", monospace;
+    font-size: 21px;
+}
+
+#segmentinspector p {
+    margin: 0 0 0 10px;
+}
+
+#segmentinspector p span {
+    font-weight: 800;
+}
+
+#d3minimap {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

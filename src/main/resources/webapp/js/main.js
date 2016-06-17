@@ -1,11 +1,12 @@
 $(function() { // on dom ready
 
+
     /* Settings */
     var settings = {
         animationDuration: 500, //length of the animations in ms
         zoomTreshold: 0.50, //change in percentage/100 between zoom levels for sending a new AJAX request
         startZoom: 0.1, //Zoom level at the start of the application
-        nodesDir: "/api/nodes/128", //directory at the server for the first AJAX request
+        nodesDir: "/api/nodes/64/0/1000000000/4", //directory at the server for the first AJAX request
     };
 
     /*
@@ -49,7 +50,8 @@ $(function() { // on dom ready
     */
     ServerConnection.prototype.retrieveDataFromServer = function() {
         console.log(this.req);
-        $.ajax(this.req);
+        graphHandler.loadDataInGraph("");
+//        $.ajax(this.req);
     }
 
     ServerConnection.prototype.sendZoomlevel = function(z, minX, maxX) {
@@ -211,13 +213,6 @@ $(function() { // on dom ready
       Add UI events concerning the graph view.
     */
     GraphHandler.prototype.bindUIEvents = function() {
-        $("#zoomButton").click(function() {
-            graphHandler.highlightGenome("G 2");
-            $("#status").stop().animate({
-                opacity: 0
-            }, settings.animationDuration, "swing");
-        });
-
         $(".dnaGraph").click(function() {
             $("#d3").show();
             $("#tree").hide();
@@ -331,13 +326,8 @@ $(function() { // on dom ready
         }
     }
 
-    GraphHandler.prototype.setSelectedGenome = function(name, color, lineage) {
-        /**<div id="selectedGenome"> <div id="color"></div> <p>TKK..</p> </div>**/
-        console.log("Color");
-        console.log(color);
-        var listitem = $("<div>").append($("<div>").attr("id", "color").css("background-color", color))
-                                 .append($("<p>").text(name + ", " + lineage));
-
+    GraphHandler.prototype.setSelectedGenome = function(name) {
+        var listitem = $("<div>").append($("<p>").text(name));
         $("#info").prepend(listitem);
         $("#info").height($("#info").height() + 36);
         $("#info").fadeIn();
@@ -355,12 +345,16 @@ $(function() { // on dom ready
         this.fuse = undefined;
     }
 
+    function initializeData() {
+
+    }
+
     PhyloGeneticTree.prototype.loadFuse = function() {
         console.log("Initialize fuse");
         var listOfGenomes = window.tkks.map(function(tkk) {
             return {
                 "name": tkk.textContent,
-                "compressed": tkk.textContent.replace(" ", "").replace("-", "")
+                "compressed": tkk.textContent
             };
         });
         var options = {
@@ -389,13 +383,12 @@ $(function() { // on dom ready
             }
         });
         $("#results").on("click", "li", function(e) {
-            highlightLineage($(this).html());
+            highlightGenome($(this).html());
         });
 
         $("#search input").on("search", function() {
             phyloTree.listItems();
         });
-
         $("#search input").keyup(function(e) {
             //Reset highlighting
             window.tkks
@@ -432,6 +425,7 @@ $(function() { // on dom ready
         });
     }
 
+
     /**
 
         Initialisation
@@ -452,9 +446,23 @@ $(function() { // on dom ready
         $("#d3").css("height", h);
     };
     updateBounds();
-
+    initializeData();
     graphHandler.loadSettings();
     $("#tree").css("z-index", "0");
     $("#d3").css("z-index", "1");
     $("#options").css("z-index", "2");
+
+
+
+    $("#optionsgraph > ul > li > a").on("click", function(e)  {
+            var currentAttrValue = jQuery(this).attr('href');
+            console.log(currentAttrValue);
+            // Show/Hide Tabs
+            $(currentAttrValue).slideDown(400).siblings().slideUp(400);
+
+            // Change/remove current tab to active
+            jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+            e.preventDefault();
+        });
 }); // on dom ready
