@@ -63,7 +63,7 @@ public class SpecimenParserTest {
     public void testSpecimenParsedCorrect() throws IOException {
         InputStream stream = IOUtils.toInputStream(file, "UTF-8");
         Map<String, Subject> specimenCollection = specimenParser.parse(stream);
-        assertEquals(70, specimenCollection.get("TKK-01-0006").getAge());
+        assertEquals(70, specimenCollection.get("TKK_01_0006").getAge());
     }
 
     /**
@@ -75,29 +75,29 @@ public class SpecimenParserTest {
     public void testSpecimen() throws IOException {
         InputStream stream = IOUtils.toInputStream(file, "UTF-8");
         Map<String, Subject> specimenCollection = specimenParser.parse(stream);
-        assertEquals("TKK-01-0006", specimenCollection.get("TKK-01-0006").getNameId());
-        assertEquals(70, specimenCollection.get("TKK-01-0006").getAge());
-        assertEquals(true, specimenCollection.get("TKK-01-0006").isMale());
-        assertEquals(-1, specimenCollection.get("TKK-01-0006").getHivStatus());
-        assertEquals("KZNSUR", specimenCollection.get("TKK-01-0006").getCohort());
-        assertEquals("2/15/2008", specimenCollection.get("TKK-01-0006").getDate());
-        assertEquals("eThekwini", specimenCollection.get("TKK-01-0006").getDistrict());
-        assertEquals("sputum", specimenCollection.get("TKK-01-0006").getType());
-        assertEquals(1, specimenCollection.get("TKK-01-0006").getSmear());
-        assertEquals(true, specimenCollection.get("TKK-01-0006").isSingleColony());
-        assertEquals("MDR", specimenCollection.get("TKK-01-0006").getPdstpattern());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getCapreomycin());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getEthambutol());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getEthionamide());
-        assertEquals("R", specimenCollection.get("TKK-01-0006").getIsoniazid());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getKanamycin());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getPyrazinamide());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getOfloxacin());
-        assertEquals("R", specimenCollection.get("TKK-01-0006").getRifampin());
-        assertEquals("S", specimenCollection.get("TKK-01-0006").getStreptomycin());
-        assertEquals("LAM4", specimenCollection.get("TKK-01-0006").getSpoligotype());
-        assertEquals("LIN 4", specimenCollection.get("TKK-01-0006").getLineage());
-        assertEquals("MDR", specimenCollection.get("TKK-01-0006").getGdstPattern());
-        assertEquals("n/a", specimenCollection.get("TKK-01-0006").getXdr());
+        assertEquals("TKK_01_0006", specimenCollection.get("TKK_01_0006").getNameId());
+        assertEquals(70, specimenCollection.get("TKK_01_0006").getAge());
+        assertEquals(true, specimenCollection.get("TKK_01_0006").isMale());
+        assertEquals(-1, specimenCollection.get("TKK_01_0006").getHivStatus());
+        assertEquals("KZNSUR", specimenCollection.get("TKK_01_0006").getCohort());
+        assertEquals("2/15/2008", specimenCollection.get("TKK_01_0006").getDate());
+        assertEquals("eThekwini", specimenCollection.get("TKK_01_0006").getDistrict());
+        assertEquals("sputum", specimenCollection.get("TKK_01_0006").getType());
+        assertEquals(1, specimenCollection.get("TKK_01_0006").getSmear());
+        assertEquals(true, specimenCollection.get("TKK_01_0006").isSingleColony());
+        assertEquals("MDR", specimenCollection.get("TKK_01_0006").getPdstpattern());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getCapreomycin());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getEthambutol());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getEthionamide());
+        assertEquals("R", specimenCollection.get("TKK_01_0006").getIsoniazid());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getKanamycin());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getPyrazinamide());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getOfloxacin());
+        assertEquals("R", specimenCollection.get("TKK_01_0006").getRifampin());
+        assertEquals("S", specimenCollection.get("TKK_01_0006").getStreptomycin());
+        assertEquals("LAM4", specimenCollection.get("TKK_01_0006").getSpoligotype());
+        assertEquals("LIN 4", specimenCollection.get("TKK_01_0006").getLineage());
+        assertEquals("MDR", specimenCollection.get("TKK_01_0006").getGdstPattern());
+        assertEquals("n/a", specimenCollection.get("TKK_01_0006").getXdr());
     }
 }

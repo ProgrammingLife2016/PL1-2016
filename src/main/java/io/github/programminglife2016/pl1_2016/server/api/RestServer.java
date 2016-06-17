@@ -55,6 +55,8 @@ public class RestServer implements Server {
      * Stop the server.
      */
     public final void stopServer() {
-        server.stop(0);
+        if (server != null) {
+            server.stop(0);
+        }
     }
 }

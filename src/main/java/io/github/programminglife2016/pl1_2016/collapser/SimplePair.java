@@ -8,6 +8,7 @@ package io.github.programminglife2016.pl1_2016.collapser;
  */
 public class SimplePair<T, E> {
 
+    private static final int HASH_FACTOR = 31;
     private T t;
     private E e;
 
@@ -27,5 +28,23 @@ public class SimplePair<T, E> {
 
     public T getT() {
         return t;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SimplePair<?, ?> that = (SimplePair<?, ?>) o;
+
+        if (!t.equals(that.t)) return false;
+        return e.equals(that.e);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = t.hashCode();
+        result = HASH_FACTOR * result + e.hashCode();
+        return result;
     }
 }

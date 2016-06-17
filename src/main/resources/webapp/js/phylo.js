@@ -117,7 +117,13 @@ function phylo(n, offset) {
       });
   }
 }
-
+window.genomes = [];
+function getMetadata(name) {
+    var value = $.getJSON("/api/metadata/info/"+name, function (response) {
+        window.genomes.push(response["subject"][0]);
+        $("#selectedTKKs").append("<option value=" + response["subject"][0].specimen_id  + ">" +response["subject"][0].specimen_id + "</option>");
+    });
+}
 d3.text("/static/file.nwk", function(text) {
   var x = newick.parse(text);
   var treenodes = cluster.nodes(x);
@@ -148,15 +154,16 @@ d3.text("/static/file.nwk", function(text) {
   treenode.append("circle")
       .attr("r", 2.5);
   window.tree = tree;
-
   var label = tree.selectAll("text")
       .data(treenodes.filter(function(d) { return d.x !== undefined && !d.children; }))
     .enter().append("text")
+
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
       .text(function(d) { return d.name.replace('-', '_').replace('-', '_'); })
       .attr("class", function(d) {
+            getMetadata(d.name.replace('-', '_').replace('-', '_'));
             var str = $("."+d.name).attr("class");
             return str.replace("treelink", "");
             })
@@ -179,13 +186,7 @@ d3.text("/static/file.nwk", function(text) {
           highlight(e.name);
       });
       enableZooming(svgId);
-
-  window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
-      for (var i = 0; i < window.tkks.length; i++) {
-              $( "#fuzzOptionsList" ).append( "<<option value=" + window.tkks[i].textContent + ">" + window.tkks[i].textContent+ "</option>" );
-           }
-
-
+    window.tkks = $("text").toArray().map(function(tkk) {return tkk;});
 });
 
  var highlight = function(name) {

@@ -1,6 +1,9 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
+import io.github.programminglife2016.pl1_2016.parser.metadata.GFFParser;
+
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -32,7 +35,6 @@ public final class Launcher {
      * @throws SQLException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, SQLException {
-        int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
         Server server = new RestServer(queryStrategy);
@@ -40,12 +42,11 @@ public final class Launcher {
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
-        System.out.println("Started loading.");
+        System.out.println("Started parsing and loading database.");
         long startTime = System.nanoTime();
         QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.",
-                (endTime - startTime) / NANOSECONDS_PER_SECOND));
+        System.out.println(String.format("Parsing and loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
@@ -54,16 +55,31 @@ public final class Launcher {
         InputStream is =
                 Launcher.class.getResourceAsStream(String.format("/genomes/%s.gfa", dataset));
         InputStream positions =
-                Launcher.class.getResourceAsStream(String.format("/genomes/TB10.positions"));
+                Launcher.class.getResourceAsStream(String.format("/genomes/%s.positions", dataset));
         InputStream metadata = Launcher.class.getResourceAsStream("/genomes/metadata.csv");
+        InputStream decorations = Launcher.class.getResourceAsStream("/genomes/decorationV5_20130412.gff");
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
+        GFFParser gffParser = new GFFParser(decorations);
+        gffParser.read();
+        nodeCollection.setAnnotations(gffParser.getAnnotations());
+        closeInputStreams(is, positions, metadata, decorations);
         if (useDatabase) {
-            FetchDatabase fdb = new FetchDatabase();
+            FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {
             return new NoDatabaseQueryStrategy(nodeCollection, subjects);
+        }
+    }
+
+    private static void closeInputStreams(InputStream... inputStreams) {
+        for (InputStream inputStream : inputStreams) {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -9,12 +9,15 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import io.github.programminglife2016.pl1_2016.collapser.Bubble;
+import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
+import io.github.programminglife2016.pl1_2016.parser.metadata.AnnotationSerializer;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Custom serializer for NodeCollection. Conforms API.
@@ -32,11 +35,14 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                                  JsonSerializationContext jsonSerializationContext) {
         final Gson nodeBuilder = new GsonBuilder()
                 .registerTypeAdapter(Segment.class, new NodeSerializer())
-                .registerTypeAdapter(Bubble.class, new NodeSerializer()).create();
+                .registerTypeAdapter(Bubble.class, new NodeSerializer())
+                .registerTypeAdapter(Annotation.class, new AnnotationSerializer(nodeCollection))
+                .create();
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("status", new JsonPrimitive("success"));
         addNodes(nodeCollection, nodeBuilder, jsonObject);
         addEdges(nodeCollection, jsonObject);
+        addAnnotations(nodeCollection, nodeBuilder, jsonObject);
         return jsonObject;
     }
 
@@ -95,5 +101,16 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
                 .map(nodeBuilder::toJsonTree)
                 .forEach(nodes::add);
         jsonObject.add("nodes", nodes);
+    }
+
+    private void addAnnotations(NodeCollection nodeCollection, Gson nodeBuilder, JsonObject jsonObject) {
+        JsonArray annotations = new JsonArray();
+        if (nodeCollection.getAnnotations() != null) {
+            nodeCollection.getAnnotations().stream()
+                    .map(nodeBuilder::toJsonTree)
+                    .filter(x -> !x.isJsonNull())
+                    .forEach(annotations::add);
+        }
+        jsonObject.add("annotations", annotations);
     }
 }
