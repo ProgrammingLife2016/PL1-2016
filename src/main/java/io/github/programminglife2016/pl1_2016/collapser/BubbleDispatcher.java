@@ -32,7 +32,6 @@ public class BubbleDispatcher {
     private String LOWEST_LEVEL_SERIAL = "src/main/resources/objects/%s/lowestLevel-orgi.ser";
     private List<Node> bubbleCollection;
     private int lastId;
-    private int bubblesListSize;
     private int lowestLevel;
     private static final double TIME = 1000000000d;
     private static final int THREADS = 8;
@@ -55,7 +54,6 @@ public class BubbleDispatcher {
             BubbleCollapser collapser = new BubbleCollapser(collection);
             collapser.collapseBubbles();
             this.bubbleCollection = collapser.getBubbles();
-            this.bubblesListSize = bubbleCollection.size();
             this.lowestLevel = collapser.getLowestLevel();
             initDispatcher();
             lastId = bubbleCollection.stream().max((b1, b2) -> Integer.compare(b1.getId(), b2.getId())).get().getId();
@@ -69,7 +67,6 @@ public class BubbleDispatcher {
         BubbleCollapser collapser = new BubbleCollapser(collection);
         collapser.collapseBubbles();
         this.bubbleCollection = collapser.getBubbles();
-        bubblesListSize = bubbleCollection.size();
         originalCollection = collection;
         lowestLevel = collapser.getLowestLevel();
         initDispatcher();
@@ -87,7 +84,6 @@ public class BubbleDispatcher {
         ObjectSerializer ser = new ObjectSerializer();
         try {
             this.bubbleCollection = (List<Node>) ser.getSerializedItem(BUBBLES_SERIAL);
-            this.bubblesListSize = bubbleCollection.size();
             this.lowestLevel = (int) ser.getSerializedItem(LOWEST_LEVEL_SERIAL);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -354,7 +350,6 @@ public class BubbleDispatcher {
         Bubble newBubble = new Bubble(lastId, contId, (Segment) node);
         bubbleCollection.add(newBubble);
         quickReference.put(getNodeKeyForFiltering(newBubble), newBubble);
-        bubblesListSize++;
         return newBubble;
     }
 

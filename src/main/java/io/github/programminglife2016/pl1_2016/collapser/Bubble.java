@@ -2,7 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SequenceRange;
 
