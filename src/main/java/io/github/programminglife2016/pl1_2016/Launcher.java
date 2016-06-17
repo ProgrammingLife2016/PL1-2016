@@ -35,7 +35,6 @@ public final class Launcher {
      * @throws SQLException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, SQLException {
-        int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
         Server server = new RestServer(queryStrategy);
@@ -65,13 +64,22 @@ public final class Launcher {
         GFFParser gffParser = new GFFParser(decorations);
         gffParser.read();
         nodeCollection.setAnnotations(gffParser.getAnnotations());
+        closeInputStreams(is, positions, metadata, decorations);
         if (useDatabase) {
-//            SetupDatabase sdb = new SetupDatabase(dataset, subjects.values());
-//            sdb.setup(nodeCollection);
             FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {
             return new NoDatabaseQueryStrategy(nodeCollection, subjects);
+        }
+    }
+
+    private static void closeInputStreams(InputStream... inputStreams) {
+        for (InputStream inputStream : inputStreams) {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
