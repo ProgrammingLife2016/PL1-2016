@@ -34,7 +34,6 @@ public class BubbleLinker {
      */
     public BubbleLinker(List<Node> bubbles) {
         this.bubbles = Collections.synchronizedList(bubbles);
-//        lastId =
         lastId.set(bubbles
                 .stream()
                 .max((b1, b2) -> Integer.compare(b1.getId(),
@@ -61,7 +60,7 @@ public class BubbleLinker {
      */
     public void run() {
         try {
-            forkJoinPool.submit(() -> { setCorrectLevelsToNodes(); }).get();
+            forkJoinPool.submit(this::setCorrectLevelsToNodes).get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,6 +80,7 @@ public class BubbleLinker {
         while (needLowerLevels()) {
             lowerSegments();
         }
+        addLinks();
         quickReference = null;
         for (Node bubble : bubbles) {
             if (bubble.getZoomLevel() == -1) {

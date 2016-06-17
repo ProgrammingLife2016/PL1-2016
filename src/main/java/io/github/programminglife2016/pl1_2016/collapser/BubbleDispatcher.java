@@ -8,7 +8,6 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,8 +110,9 @@ public class BubbleDispatcher {
         File bubblefile = new File(BUBBLES_SERIAL);
         File keyfile = new File(LOWEST_LEVEL_SERIAL);
         try {
-            bubblefile.createNewFile();
-            keyfile.createNewFile();
+            if (!(bubblefile.createNewFile() && keyfile.createNewFile())) {
+                System.out.println("Serialize files already exist.");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,39 +163,12 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-//        getAllParents();
         if(threshold >= 128) {
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.alignVertical();
-            return listAsNodeCollection(temp);//aggregateLines();
+            return listAsNodeCollection(temp);
         }
-        return listAsNodeCollection(filtered);//aggregateLines();
-//        return aggregateLines(listAsNodeCollection(filtered));
-    }
-
-    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
-        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
-        for (Node node : nodeCollection.values()) {
-            for (Node link : node.getLinks()) {
-                link.getBackLinks().add(node);
-            }
-        }
-        List<Node> kowed = new ArrayList<>();
-        nodeCollection.values().stream().filter(node -> node.getLinks().size() == 1).forEach(node -> {
-            boolean repeat = true;
-            while (repeat) {
-                repeat = false;
-                Node link = node.getLinks().iterator().next();
-                if (link.getBackLinks().size() == 1 && link.getLinks().size() == 1) {
-                    repeat = true;
-                    kowed.add(link);
-                    node.getLinks().clear();
-                    node.getLinks().add(link.getLinks().iterator().next());
-                }
-            }
-        });
-        kowed.stream().map(Node::getId).forEach(nodeCollection::remove);
-        return nodeCollection;
+        return listAsNodeCollection(filtered);
     }
 
     /**
@@ -331,7 +304,6 @@ public class BubbleDispatcher {
             equals) {
         if (filteredBubbles.contains(node)) {
             Optional<Node> parent = filteredBubbles.parallelStream().filter(x -> equals.apply(x, node)).findAny();
-//                    .findFirst();
             if (parent.isPresent()) {
                 return parent.get();
             }
@@ -412,26 +384,28 @@ public class BubbleDispatcher {
     public String[] getAllParentsOfSegment(Node node) {
         Node currNode = node;
         Node parent;
-        String startNodeIn = "", endNodeIn = "", containsIn = "";
+        StringBuilder startNodeIn = new StringBuilder();
+        StringBuilder endNodeIn = new StringBuilder();
+        StringBuilder containsIn = new StringBuilder();
         String formattedId;
         while(currNode.getContainerId() > 0) {
             parent = quickReference.get(String.valueOf(currNode.getContainerId()));
             formattedId = "/" + parent.getId() + "/";
             if (parent.getStartNode().getId() == currNode.getId()) {
-                startNodeIn += formattedId;
+                startNodeIn.append(formattedId);
             } else if (parent.getEndNode().getId() == currNode.getId()) {
-                endNodeIn += formattedId;
+                endNodeIn.append(formattedId);
             } else {
-                containsIn += formattedId;
+                containsIn.append(formattedId);
             }
             currNode = parent;
         }
         System.out.println(startNodeIn);
         String[] ret = new String[6];
         ret[0] = Integer.toString(node.getId());
-        ret[1] = !startNodeIn.isEmpty() ? startNodeIn : "NULL";
-        ret[2] = !endNodeIn.isEmpty() ? endNodeIn : "NULL";
-        ret[3] = !containsIn.isEmpty() ? containsIn : "NULL";
+        ret[1] = startNodeIn.length() != 0 ? startNodeIn.toString() : "NULL";
+        ret[2] = endNodeIn.length() != 0 ? endNodeIn.toString() : "NULL";
+        ret[3] = containsIn.length() != 0 ? containsIn.toString() : "NULL";
         ret[4] = node.getData();
         ret[5] = node.getGenomes().toString();
         return ret;
