@@ -285,38 +285,6 @@ Svg.prototype.positionAnnotations = function (svgAnnotations, xScale, yScale) {
         .attr("height", function (d) {return GENE_ANNOTATION_RECT_SIZE});
 }
 
-function drawNodes(svg, nodes) {
-    return svg.selectAll("path")
-        .data(nodes)
-        .enter()
-        .append("path")
-        .attr("d", d3.svg.symbol()
-            .type(function(d) {
-                if (d.containersize == 3){
-                    return "triangle-up";
-                } else if (d.containersize == 4){
-                    return "diamond";
-                } else {
-                    return "circle";
-                }
-            })
-            .size("500")
-            )
-
-        .attr("fill", function(d) {
-            if (d.containersize == 3){
-                return "orange";
-            } else if (d.containersize == 4) {
-                return "green";
-            } else if (d.containersize == 1) {
-                return "pink";
-            }
-        })
-        .attr("transform", "translate(-9999, -9999)")
-        .on("mouseover", tip.show)
-        .on("mouseout", tip.hide);
-}
-
 Svg.prototype.clear = function () {
     var self = this;
     self.svgNodes.remove();

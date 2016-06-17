@@ -40,6 +40,7 @@ public interface Database {
      * Name of specimen table.
      */
     String LINK_GENOMES_TABLE = "genomeslinks";
+    String PRIMITIVES_TABLE = "primitives";
 
     /**
      * Connect to database.
