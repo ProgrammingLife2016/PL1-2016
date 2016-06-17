@@ -8,7 +8,6 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -164,7 +163,6 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-
 //        getAllParents();
         if(threshold >= 128) {
             BubbleAligner aligner = new BubbleAligner(filtered);
