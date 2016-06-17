@@ -396,7 +396,11 @@ public class Bubble implements Node, Serializable {
      * @return String representation of Bubble.
      */
     public String toString() {
-        String baseString = "Bubble{id=%d, startNode=%s, container=%s, endNode=%s, containerSize=%d}";
+        String baseString = "Bubble{id=%d, "
+                + "startNode=%s, "
+                + "container=%s, "
+                + "endNode=%s, "
+                + "containerSize=%d}";
         return String.format(
                 baseString,
                 id,

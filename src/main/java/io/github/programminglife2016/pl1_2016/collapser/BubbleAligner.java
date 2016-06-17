@@ -17,10 +17,18 @@ public class BubbleAligner {
 
     private List<Node> bubbleCollection;
 
+    /**
+     * Create instance of bubbel aligner to align the position the node in the graph.
+     * @param bubbleCollection collection of collapsed bubbles in the graph.
+     */
     public BubbleAligner(Set<Node> bubbleCollection) {
         this.bubbleCollection = new ArrayList<>(bubbleCollection);
     }
 
+    /**
+     * Smooth the bubbles by minimizing the variance in the y coordinate of the bubbles.
+     * @return collection with bubbles with modified posititons.
+     */
     public Collection<Node> alignVertical() {
         sortByX(bubbleCollection);
         bubbleCollection.forEach(this::setNewY);
