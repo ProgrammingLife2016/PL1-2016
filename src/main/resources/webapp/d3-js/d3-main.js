@@ -116,7 +116,6 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
     }
 
     $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize + tkksToHighlight, function (response) {
-        console.log("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize);
         var nodes = response.nodes;
         var edges = response.edges;
         var annotations = response.annotations;
@@ -160,6 +159,16 @@ ServerConnection.prototype.jumpToBase = function (genome, base) {
             .duration(750)
             .call(self.graph.zoom.translate(translate).scale(scale).event);
     });
+}
+
+ServerConnection.prototype.jumpToGene = function (gene) {
+    var self = this;
+    var scale = 100;
+    var translate = [- annopositions[gene][0] * scale, - annopositions[1] * scale];
+
+    self.graph.svg.svg.transition()
+        .duration(750)
+        .call(self.graph.zoom.translate(translate).scale(scale).event);
 }
 
 var Graph = function(nodes, edges, annotations) {
@@ -386,6 +395,9 @@ function zoomCallback() {
 var currentSelection = {};
 
 function setOptions() {
+    $(".search-choice-close").on('click', function(e) {
+        $(e.target).parent().remove();
+    });
     $.getJSON("/api/metadata/options", function(response) {
         options = response.options;
         $.each(response.options, function(key, value){
@@ -410,8 +422,10 @@ function updateCharacteristic(event, params) {
     $.each(params, function(key, value){
         if (key == "selected") {
             currentSelection[event.currentTarget.id].push(value);
+
         } else {
             currentSelection[event.currentTarget.id].splice(currentSelection[event.currentTarget.id].indexOf(value), 1);
+
         }
         var selectedGenomes = genomes;
         for (var i = 0; i < Object.keys(currentSelection).length; i++) {
@@ -441,6 +455,7 @@ function updateCharacteristic(event, params) {
     });
 
 }
+var annopositions = {};
 function setTKKs() {
     $("#optionsgraph").css("display", "block");
     $("#baseindex").keyup(function(e){
@@ -458,9 +473,13 @@ function setTKKs() {
     $(".tkks").chosen({ search_contains: true });
     $.getJSON("/api/metadata/annotations", function (response) {
         for (var i = 0; i < response["annotations"].length; i++) {
+                var obj = {};
+                var x = (response.annotations[i].startx + response.annotations[i].endx)/2;
+                var y = (response.annotations[i].starty + response.annotations[i].endy)/2;
+                annopositions[response.annotations[i].displayname] = [x, y];
               $(".annotations").append( "<option value=\"" + response.annotations[i].displayname + "\">" + response.annotations[i].displayname + "</option>" );
         }
-        $(".annotations").chosen({ search_contains: true });
+        $(".annotations").chosen({ search_contains: true, width: "65%"});
     });
 
 
@@ -471,6 +490,7 @@ function setTKKs() {
                 $("#"+value).on('change', function(event, params) {
                     updateCharacteristic(event, params);
                 });
+
                 for (var i = 0; i < options[value].length; i++) {
                     $("#"+value).append("<option value=\"" + options[value][i] + "\">" + options[value][i] + "</option>" );
                 }
@@ -502,6 +522,11 @@ function setTKKs() {
 function jumpToBaseGetFromDOM() {
     serverConnection.jumpToBase($(".tkks").chosen().val(), $("#baseindex").val());
 }
+
+function jumpToGeneGetFromDOM() {
+    serverConnection.jumpToGene($(".annotations").chosen().val());
+}
+
 
 function initializeHighlighting() {
     $("ol.highlighted").sortable({
@@ -550,8 +575,9 @@ function setMetadataHighlighting(selectedgenes) {
     obj["id"] = SELECTORS.length + 1;
     obj["color"] = getRandomColor();
     obj["genomes"] = selectedgenes;
+    $("#4>ol").empty();
     for (var i = 0; i < selectedgenes.length; i++) {
-        $("#4>ol").append("<li value=\"" + selectedgenes[i] + "\">" + selectedgenes[i]+"</li>")
+        $("#4>ol").append("<li style=\"background-color:" + obj["color"] + ";\"value=\"" + selectedgenes[i] + "\">" + selectedgenes[i]+"</li>")
     }
     SELECTORS = [];
     SELECTORS.push(obj);

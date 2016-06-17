@@ -561,9 +561,7 @@ html, body {
     margin-top: 76px;
 }
 
-.button>div {
-    margin-top: 76px;
-}
+
 .title {
     font-size: 120%;
     color: #fff;
@@ -761,6 +759,8 @@ ol.nav ol.dropdown-menu li.placeholder:before {
     backgound-color: white;
     height: 100%;
     width: 50%;
+    border-radius: 10px;
+    margin: 5px;
 }
 
 #tab3 > .element {
