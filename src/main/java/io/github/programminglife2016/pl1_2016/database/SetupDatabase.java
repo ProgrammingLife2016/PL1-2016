@@ -74,6 +74,25 @@ public class SetupDatabase implements Database {
         stmt.close();
     }
 
+    private void writePrimitives(BubbleDispatcher bubbleDispatcher) throws SQLException {
+        String format = "INSERT INTO primitives (id, startin, endin, contin, data, genomes) VALUES (?,?,?,?,?,?)";
+        PreparedStatement stmt = connection.prepareStatement(format);
+
+        NodeCollection nodes = bubbleDispatcher.getOriginalCollection();
+        for (Node node : nodes.values()) {
+            String[] params = bubbleDispatcher.getAllParentsOfSegment(node);
+            stmt.setInt(1, Integer.parseInt(params[0]));
+            stmt.setString(2, params[1]);
+            stmt.setString(3, params[2]);
+            stmt.setString(4, params[3]);
+            stmt.setString(5, params[4]);
+            stmt.setString(6, params[5]);
+            stmt.addBatch();
+        }
+        stmt.executeBatch();
+        stmt.close();
+    }
+
     public final void setup(NodeCollection nodes) {
         if (!isSetup()) {
             clearTable(ANNOTATIONS_TABLE);
@@ -81,25 +100,26 @@ public class SetupDatabase implements Database {
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
+            clearTable(PRIMITIVES_TABLE);
             try {
                 writeSpecimen(this.splist);
                 writeAnnotations(nodes);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
             for (int i = 0; i < THRESHOLDS.length; i++) {
-                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
                 nodesToWrite.recalculatePositions();
                 try {
                     writeNodes(nodesToWrite, THRESHOLDS[i]);
+                    writePrimitives(dispatcher);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         }
-
     }
 
     private boolean isSetup() {

@@ -8,7 +8,16 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -30,6 +39,7 @@ public class BubbleDispatcher {
     private static final double TIME = 1000000000d;
     private static final int THREADS = 8;
     private ForkJoinPool forkJoinPool = new ForkJoinPool(THREADS);
+    private NodeCollection originalCollection;
 
     private Map<String, Node> quickReference;
 
@@ -53,6 +63,21 @@ public class BubbleDispatcher {
             lastId = bubbleCollection.stream().max((b1, b2) -> Integer.compare(b1.getId(), b2.getId())).get().getId();
             serializeBubbleCollection();
         }
+        originalCollection = collection;
+    }
+
+
+    public BubbleDispatcher(NodeCollection collection) {
+        BubbleCollapser collapser = new BubbleCollapser(collection);
+        collapser.collapseBubbles();
+        this.bubbleCollection = collapser.getBubbles();
+        bubblesListSize = bubbleCollection.size();
+        originalCollection = collection;
+        lowestLevel = collapser.getLowestLevel();
+        initDispatcher();
+
+        lastId = bubbleCollection.stream().max((b1, b2) ->
+                Integer.compare(b1.getId(), b2.getId())).get().getId();
     }
 
     private boolean checkIfSerialExists() {
@@ -139,7 +164,14 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-        return listAsNodeCollection(filtered);
+
+//        getAllParents();
+        if(threshold >= 128) {
+            BubbleAligner aligner = new BubbleAligner(filtered);
+            Collection<Node> temp = aligner.alignVertical();
+            return listAsNodeCollection(temp);//aggregateLines();
+        }
+        return listAsNodeCollection(filtered);//aggregateLines();
 //        return aggregateLines(listAsNodeCollection(filtered));
     }
 
@@ -221,12 +253,9 @@ public class BubbleDispatcher {
         List<Node> currLevelBubbles = bubbleCollection.parallelStream().filter(x -> x.getZoomLevel() == currentLevel)
                 .collect(Collectors.toList());
         currLevelBubbles.forEach(x -> {
-            if (filtered.parallelStream().filter(b -> b.getEndNode().equals(x)).count() == 0 && x.getZoomLevel() ==
-                    currentLevel && !containers.contains(x.getContainerId())) {
-            /* TODO collapse only one threshold level or everything under the threshold on choise
-             * Make use of this code:
-             * (x.getContainerSize() == threshold || x.getContainerSize() <= 1) {
-             */
+            if (filtered.parallelStream().filter(b -> b.getEndNode().equals(x)).count() == 0
+                    && x.getZoomLevel() == currentLevel
+                    && !containers.contains(x.getContainerId())) {
                 boolean compareMethod;
                 if (onlyGivenThreshold) {
                     compareMethod = (x.getContainerSize() == threshold || x.getContainerSize() <= 1);
@@ -333,25 +362,26 @@ public class BubbleDispatcher {
 
     private Set<Node> replaceInside(Node bubble) {
         Set<Node> newBubbles = new HashSet<>();
-        newBubbles.add(initNewBubble(bubble.getStartNode()));
-        newBubbles.add(initNewBubble(bubble.getEndNode()));
+        newBubbles.add(initNewBubble(bubble.getStartNode(), bubble.getId()));
+        newBubbles.add(initNewBubble(bubble.getEndNode(), bubble.getId()));
         for (Node n : bubble.getContainer()) {
             if (!n.isBubble()) {
-                newBubbles.add(initNewBubble(n));
-            } else {
+                newBubbles.add(initNewBubble(n, bubble.getId()));
+            }
+            else {
                 newBubbles.add(n);
             }
         }
         return newBubbles;
     }
 
-    private Bubble initNewBubble(Node node) {
+    private Bubble initNewBubble(Node node, int contId) {
         String key = getNodeKeyForFiltering(node);
         if (quickReference.containsKey(key)) {
             return (Bubble) quickReference.get(key);
         }
         lastId++;
-        Bubble newBubble = new Bubble(lastId, -1, (Segment) node);
+        Bubble newBubble = new Bubble(lastId, contId, (Segment) node);
         bubbleCollection.add(newBubble);
         quickReference.put(getNodeKeyForFiltering(newBubble), newBubble);
         bubblesListSize++;
@@ -377,4 +407,39 @@ public class BubbleDispatcher {
         return node.getStartNode().getId() + "_" + node.getEndNode().getId();
     }
 
+    public void getAllParents() {
+        originalCollection.values().forEach(this::getAllParentsOfSegment);//parallelStream().
+    }
+
+    public String[] getAllParentsOfSegment(Node node) {
+        Node currNode = node;
+        Node parent;
+        String startNodeIn = "", endNodeIn = "", containsIn = "";
+        String formattedId;
+        while(currNode.getContainerId() > 0) {
+            parent = quickReference.get(String.valueOf(currNode.getContainerId()));
+            formattedId = "/" + parent.getId() + "/";
+            if (parent.getStartNode().getId() == currNode.getId()) {
+                startNodeIn += formattedId;
+            } else if (parent.getEndNode().getId() == currNode.getId()) {
+                endNodeIn += formattedId;
+            } else {
+                containsIn += formattedId;
+            }
+            currNode = parent;
+        }
+        System.out.println(startNodeIn);
+        String[] ret = new String[6];
+        ret[0] = Integer.toString(node.getId());
+        ret[1] = !startNodeIn.isEmpty() ? startNodeIn : "NULL";
+        ret[2] = !endNodeIn.isEmpty() ? endNodeIn : "NULL";
+        ret[3] = !containsIn.isEmpty() ? containsIn : "NULL";
+        ret[4] = node.getData();
+        ret[5] = node.getGenomes().toString();
+        return ret;
+    }
+
+    public NodeCollection getOriginalCollection() {
+        return originalCollection;
+    }
 }
