@@ -119,7 +119,6 @@ function phylo(n, offset) {
 }
 window.genomes = [];
 function getMetadata(name) {
-    console.log(name);
     var value = $.getJSON("/api/metadata/info/"+name, function (response) {
         window.genomes.push(response["subject"][0]);
         $("#selectedTKKs").append("<option value=" + response["subject"][0].specimen_id  + ">" +response["subject"][0].specimen_id + "</option>");
@@ -163,10 +162,8 @@ d3.text("/static/file.nwk", function(text) {
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r -(r/480)) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
       .text(function(d) { return d.name.replace('-', '_').replace('-', '_'); })
-//      .text(function(d) { return d.name; })
-//      .attr("metadata", function(d) { return getMetadata(d.name)})
       .attr("class", function(d) {
-            getMetadata(d.name);
+            getMetadata(d.name.replace('-', '_').replace('-', '_'));
             var str = $("."+d.name).attr("class");
             return str.replace("treelink", "");
             })

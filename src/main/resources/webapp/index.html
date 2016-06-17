@@ -18,6 +18,7 @@
     <script src="/static/d3-js/d3-main.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/2.2.0/fuse.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-sortable.js"></script>
     <script type="text/javascript" src="/static/js/defiant.min.js"></script>
     <script type="text/javascript" src="/static/lib/chosen.jquery.min.js"></script>
     <script type="text/javascript" src="/static/lib/newick.js"></script>
@@ -123,7 +124,7 @@
                         <div class="element">
                             <div class="title">Jump to gene</div>
                             <span>Select genome to jump on</span>
-                            <select class="tkks" data-placeholder="Select the genome"></select>
+                            <select class="annotations" data-placeholder="Select the genome"></select>
                             <a class="button" id="jumpg" onclick="#">
                                 <div class="jump">Jump</div>
                             </a>
@@ -142,10 +143,21 @@
                         </div>
                         <div class="element">
                             <select id = "selectedTKKs" multiple> </select>
+                            <a class="button" id="highlight" href="#" onclick="highLightGenomesFromMetadata()">
+                                <div class="jump">highlight</div>
+                            </a>
                         </div>
                     </div>
 
                     <div id="tab3" class="tab">
+                        <div id="3" class="element phylohighlighting">
+                            <ol class="highlighted">
+                            </ol>
+                        </div>
+                        <div id="4" class="element metahighlighting">
+                            <ol class="highlighted">
+                            </ol>
+                        </div>
                     </div>
 
                     <div id="tab4" class="tab">

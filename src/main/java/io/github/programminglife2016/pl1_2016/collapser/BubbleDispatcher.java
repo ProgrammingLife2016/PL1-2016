@@ -8,15 +8,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -38,7 +30,6 @@ public class BubbleDispatcher {
     private static final double TIME = 1000000000d;
     private static final int THREADS = 8;
     private ForkJoinPool forkJoinPool = new ForkJoinPool(THREADS);
-    private NodeCollection originalCollection;
 
     private Map<String, Node> quickReference;
 
@@ -333,8 +324,8 @@ public class BubbleDispatcher {
      * @return NodeCollection of given nodes
      */
     private NodeCollection listAsNodeCollection(Collection<Node> res) {
-        NodeCollection collection = new NodeMap(originalCollection.getAnnotations());
-        for (Node node: res) {
+        NodeCollection collection = new NodeMap();
+        for (Node node : res) {
             collection.put(node.getId(), node);
         }
         return collection;

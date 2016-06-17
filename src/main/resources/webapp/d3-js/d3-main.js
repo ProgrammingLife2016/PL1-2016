@@ -7,10 +7,12 @@ var CIRCLE_SIZE = 2.5;
 var GENE_ANNOTATION_RECT_SIZE = 100;
 var PAN_THRESHOLD = 5000;
 var PAN_EXTRA_X = 50000;
+var adjustment;
+var SELECTORS = [];
 
 var ZOOM_THRESHOLDS = function (s) {
     if (s < 5) {
-        return 32;
+        return 64;
     } else if (s < 7.5) {
         return 16;
     } else {
@@ -35,7 +37,9 @@ var LINEAGE_COLORS = {
 }
 
 var DEFAULT_COLOR = function (edge) {
-    return LINEAGE_COLORS[mode(edge.lineages)] || "#000000";
+    if (edge.highlight.length > 0) {
+        return SELECTORS[SELECTORS.length - 1].color;
+    } else return LINEAGE_COLORS[edge.lineages] || "#000000";
 }
 
 var NODE_TYPE = function (node) {
@@ -97,13 +101,22 @@ var ServerConnection = function() {
     self.graph;
     self.previousZoomThreshold;
     self.previousDomain;
+    self.previousScale = 1;
     self.minimap;
 }
 
 ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minContainersize, redraw) {
     var self = this;
     self.previousZoomThreshold = threshold;
-    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize, function (response) {
+    var tkksToHighlight = "";
+    for (var i = 0; i < SELECTORS.length; i++) {
+        for(var j = 0; j < SELECTORS[i].genomes.length; j++) {
+            tkksToHighlight += "/"+SELECTORS[i].genomes[j] + "-" + SELECTORS[i].id;
+        }
+    }
+
+    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize + tkksToHighlight, function (response) {
+        console.log("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize);
         var nodes = response.nodes;
         var edges = response.edges;
         var annotations = response.annotations;
@@ -117,6 +130,7 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
             self.minimap.draw(self.graph.xScale);
             setOptions();
             setTKKs();
+            initializeHighlighting();
         }
     });
 }
@@ -124,6 +138,7 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
 ServerConnection.prototype.updateGraph = function () {
     var self = this;
     var s = d3.event.scale;
+    self.previousScale = s;
     var domainX = [self.graph.xScale.invert(0), self.graph.xScale.invert(WIDTH)];
     if (self.previousZoomThreshold != ZOOM_THRESHOLDS(s) || self.previousDomain[0] - domainX[0] >= PAN_THRESHOLD || domainX[1] - self.previousDomain[1]  >= PAN_THRESHOLD) {
         self.previousZoomThreshold = ZOOM_THRESHOLDS(s);
@@ -224,7 +239,7 @@ Svg.prototype.drawEdges = function (edges, xScale, yScale) {
         .data(edges)
         .enter()
         .append("line")
-        .attr("stroke-width", function (d) {return STROKE_WIDTHS(d.genomes.length)})
+        .attr("stroke-width", function (d) {return STROKE_WIDTHS(d.genomes)})
         .attr("stroke", function (d) {return DEFAULT_COLOR(d)});
     self.positionEdges(self.svgEdges, xScale, yScale);
 }
@@ -362,7 +377,7 @@ SegmentInspector.prototype.display = function (commonStart, differences, commonE
 var serverConnection;
 function startD3() {
     serverConnection = new ServerConnection();
-    serverConnection.loadGraph(128, 0, 100000000, 64);
+    serverConnection.loadGraph(64, 0, 100000000, 64, false);
 }
 
 function zoomCallback() {
@@ -388,6 +403,66 @@ function setOptions() {
         $(".metadata").chosen({ search_contains: true });
 
     });
+    console.log($('.metadata'))
+
+}
+function updateCharacteristic(event, params) {
+    $.each(params, function(key, value){
+        if (key == "selected") {
+            currentSelection[event.currentTarget.id].push(value);
+        } else {
+            currentSelection[event.currentTarget.id].splice(currentSelection[event.currentTarget.id].indexOf(value), 1);
+        }
+        var selectedGenomes = genomes;
+        for (var i = 0; i < Object.keys(currentSelection).length; i++) {
+            var search_query = "";
+            var search_term = Object.keys(currentSelection)[i];
+            for (var j = 0; j < currentSelection[search_term].length; j++) {
+                    var search_value = currentSelection[search_term][j]
+                    if (j == 0) {
+
+                        search_query = "//*["+search_term+"=\"" + search_value +"\"]";
+                    } else {
+                        search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
+                    }
+                    console.log(search_query);
+            }
+            if ( search_query != "") {
+              selectedGenomes = JSON.search(selectedGenomes, search_query);
+            }
+
+        }
+        $("#selectedTKKs>option").remove();
+        for(var key in selectedGenomes) {
+            $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
+        }
+        console.log(selectedGenomes.length);
+
+    });
+
+}
+function setTKKs() {
+    $("#optionsgraph").css("display", "block");
+    $("#baseindex").keyup(function(e){
+        if(e.keyCode == 13) {
+            serverConnection.jumpToBase($(".tkks").chosen().val(), $("#baseindex").val());
+        }
+    });
+    for (var i = 0; i < window.tkks.length; i++) {
+      $(".tkks").append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
+    }
+
+
+
+    $("#d3minimap").append($("#optionsgraph").remove());
+    $(".tkks").chosen({ search_contains: true });
+    $.getJSON("/api/metadata/annotations", function (response) {
+        for (var i = 0; i < response["annotations"].length; i++) {
+              $(".annotations").append( "<option value=\"" + response.annotations[i].displayname + "\">" + response.annotations[i].displayname + "</option>" );
+        }
+        $(".annotations").chosen({ search_contains: true });
+    });
+
 
     $(".metadata").on('change', function(event, params){
         $.each(params, function(key, value){
@@ -414,52 +489,7 @@ function setOptions() {
             }
         });
     });
-}
-function updateCharacteristic(event, params) {
-    $.each(params, function(key, value){
-        if (key == "selected") {
-            currentSelection[event.currentTarget.id].push(value);
-        } else {
-            currentSelection[event.currentTarget.id].splice(currentSelection[event.currentTarget.id].indexOf(value), 1);
-        }
-        var selectedGenomes = genomes;
-        for (var i = 0; i < Object.keys(currentSelection).length; i++) {
-            var search_query = "";
-            var search_term = Object.keys(currentSelection)[i];
-            for (var j = 0; j < currentSelection[search_term].length; j++) {
-                    var search_value = currentSelection[search_term][j]
-                    if (j == 0) {
 
-                        search_query = "//*["+search_term+"=\"" + search_value +"\"]";
-                    } else {
-                        search_query += "|//*["+search_term+"=\"" + search_value +"\"]";
-                    }
-            }
-            if ( search_query != "") {
-              selectedGenomes = JSON.search(selectedGenomes, search_query);
-            }
-
-        }
-        $("#selectedTKKs>option").remove();
-        for(var key in selectedGenomes) {
-            $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
-        }
-    });
-
-}
-function setTKKs() {
-    $("#optionsgraph").css("display", "block");
-    $("#baseindex").keyup(function(e){
-        if(e.keyCode == 13) {
-            jumpToBaseGetFromDOM();
-        }
-    });
-    for (var i = 0; i < window.tkks.length; i++) {
-      $(".tkks").append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
-    }
-    $(".tkks").chosen({ search_contains: true });
-
-    $("#d3minimap").append($("#optionsgraph").remove());
 
     $("#optionsgraph > ul > li > a").on("click", function(e) {
         var currentAttrValue = jQuery(this).attr('href');
@@ -471,4 +501,68 @@ function setTKKs() {
 
 function jumpToBaseGetFromDOM() {
     serverConnection.jumpToBase($(".tkks").chosen().val(), $("#baseindex").val());
+}
+
+function initializeHighlighting() {
+    $("ol.highlighted").sortable({
+      group: 'highlighted',
+      pullPlaceholder: false,
+      // animation on drop
+      onDrop: function  ($item, container, _super) {
+        var $clonedItem = $('<li/>').css({height: 0});
+        $item.before($clonedItem);
+        $clonedItem.animate({'height': $item.height()});
+
+        $item.animate($clonedItem.position(), function  () {
+          $clonedItem.detach();
+          _super($item, container);
+        });
+      },
+
+      // set $item relative to cursor position
+      onDragStart: function ($item, container, _super) {
+        var offset = $item.offset(),
+            pointer = container.rootGroup.pointer;
+
+        adjustment = {
+          left: pointer.left - offset.left,
+          top: pointer.top - offset.top
+        };
+
+        _super($item, container);
+      },
+      onDrag: function ($item, position) {
+        $item.css({
+          left: position.left - adjustment.left,
+          top: position.top - adjustment.top
+        });
+      }
+    });
+}
+
+function highLightGenomesFromMetadata() {
+    setMetadataHighlighting($("#selectedTKKs").val());
+    serverConnection.loadGraph(serverConnection.previousZoomThreshold, serverConnection.graph.xScale.invert(0), serverConnection.graph.xScale.invert(WIDTH), MIN_CONTAINERSIZES(serverConnection.previousScale), true);
+}
+
+function setMetadataHighlighting(selectedgenes) {
+    var obj = [];
+    obj["id"] = SELECTORS.length + 1;
+    obj["color"] = getRandomColor();
+    obj["genomes"] = selectedgenes;
+    for (var i = 0; i < selectedgenes.length; i++) {
+        $("#4>ol").append("<li value=\"" + selectedgenes[i] + "\">" + selectedgenes[i]+"</li>")
+    }
+    SELECTORS = [];
+    SELECTORS.push(obj);
+
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }

@@ -160,7 +160,16 @@ public class FetchDatabase implements Database {
         }
         return result;
     }
-
+    /**
+     * Convert data fetched from the server to JSON.
+     * @return JSON response.
+     */
+    public final JSONObject getAnnotations() {
+        JSONObject result = new JSONObject();
+        result.put("status", "success");
+        result.put("annotations", fetchAnnotations());
+        return result;
+    }
     /**
      * Convert metadata fetched from the server to JSON.
      *
@@ -488,6 +497,7 @@ public class FetchDatabase implements Database {
                             }
                         }
                     }
+                    obj.put("genomes", mostCommon.size());
                     obj.put("highlight", gens);
                     obj.put("lineages", mostCommonElement(mostCommon));
                     continue;
