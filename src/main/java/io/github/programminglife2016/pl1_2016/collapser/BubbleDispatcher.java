@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
  */
 public class BubbleDispatcher {
 
-    private static final String BUBBLES_SERIAL =
+    private static String BUBBLES_SERIAL =
             "src/main/resources/objects/%s/bubbles-organized.ser";
-    private static final String LOWEST_LEVEL_SERIAL =
+    private static String LOWEST_LEVEL_SERIAL =
             "src/main/resources/objects/%s/lowestLevel-orgi.ser";
     public static final int ALIGNER_THRESHOLD = 128;
     private List<Node> bubbleCollection;
