@@ -205,10 +205,6 @@ public class BubbleDispatcher {
             if (filtered.parallelStream().filter(b -> b.getEndNode().equals(x)).count() == 0
                     && x.getZoomLevel() == currentLevel
                     && !containers.contains(x.getContainerId())) {
-            /* TODO collapse only one threshold level or everything under the threshold on choise
-             * Make use of this code:
-             * (x.getContainerSize() == threshold || x.getContainerSize() <= 1) {
-             */
                 boolean compareMethod;
                 if (onlyGivenThreshold) {
                     compareMethod = (x.getContainerSize() == threshold || x.getContainerSize() <= 1);
@@ -371,7 +367,7 @@ public class BubbleDispatcher {
         originalCollection.values().forEach(this::getAllParentsOfSegment);//parallelStream().
     }
 
-    public void getAllParentsOfSegment(Node node) {
+    public String getAllParentsOfSegment(Node node) {
         Node currNode = node;
         Node parent;
         String startNodeIn = "", endNodeIn = "", containsIn = "";
@@ -388,12 +384,13 @@ public class BubbleDispatcher {
             }
             currNode = parent;
         }
-        System.out.println("Id:" + node.getId()
-                           + "\t\tStartIn:" + startNodeIn
-                           + "\t\tEndIn:" + endNodeIn
-                           + "\t\tContIn:" + containsIn
-                           + "\t\tData:" + node.getData()
-                           + "\t\tGenomes:" + node.getGenomes().toString());
+        return  ("INSERT INTO Primitives (ID, StartIn, EndIn, ContIn, Data, Genomes) "
+                           + "VALUES ("
+                           + startNodeIn + ", "
+                           + endNodeIn + ", "
+                           + containsIn + ", "
+                           + node.getData() + ", "
+                           + node.getGenomes().toString() + ");");
     }
 
 }
