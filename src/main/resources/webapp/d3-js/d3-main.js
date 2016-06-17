@@ -1,5 +1,5 @@
 var WIDTH = window.innerWidth;
-var HEIGHT = window.innerHeight - 400;
+var HEIGHT = window.innerHeight - 450;
 var MINI_WIDTH = window.innerWidth / 2;
 var MINI_HEIGHT = 350;
 var MAX_ZOOM_LEVEL = 100;
@@ -115,16 +115,8 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
             self.graph.draw();
             self.minimap = new Minimap(nodes, edges);
             self.minimap.draw(self.graph.xScale);
-            $("#d3").append($("#optionsgraph").remove());
             setOptions();
             setTKKs();
-
-            $("#optionsgraph > ul > li > a").on("click", function(e) {
-                var currentAttrValue = jQuery(this).attr('href');
-                $(currentAttrValue).slideDown(400).siblings().slideUp(400);
-                $(this).parent('li').addClass('active').siblings().removeClass('active');
-                e.preventDefault();
-            });
         }
     });
 }
@@ -166,7 +158,7 @@ var Graph = function(nodes, edges, annotations) {
     self.geneTip = new Tip(10, 0, function (gene) {return gene.displayname});
     self.zoom = d3.behavior.zoom().x(self.xScale).scaleExtent([1, MAX_ZOOM_LEVEL]).on("zoom", zoomCallback);
 
-    self.svg = new Svg("#d3", WIDTH, HEIGHT);
+    self.svg = new Svg("#d3graph", WIDTH, HEIGHT);
 
     self.svg.addCallback(self.zoom);
     self.svg.addCallback(self.geneTip.tip);
@@ -338,7 +330,7 @@ var Minimap = function(nodes, edges) {
     self.edges = edges;
     self.xScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.x2}))]).range([0, MINI_WIDTH]);
     self.yScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.y2}))]).range([MINI_HEIGHT, 0]);
-    self.svg = new Svg("#d3", MINI_WIDTH, MINI_HEIGHT);
+    self.svg = new Svg("#d3minimap", MINI_WIDTH, MINI_HEIGHT);
 }
 
 Minimap.prototype.draw = function (graphXScale) {
@@ -350,6 +342,21 @@ Minimap.prototype.draw = function (graphXScale) {
 Minimap.prototype.updateMinimapRect = function (graphXScale) {
     var self = this;
     self.svg.positionMinimapRect(self.xScale, graphXScale)
+}
+
+var SegmentInspector = function () {
+    var self = this;
+    self.segmentInspector = $("#segmentinspector");
+}
+
+SegmentInspector.prototype.display = function (commonStart, differences, commonEnd) {
+    var self = this;
+    var html = "";
+    var longestDiff = d3.max(differences.map(function (d) {return d.length}));
+    for (var i = 0; i < differences.length; i++) {
+        html += "<p>" + commonStart + "<span>" + differences[i] + Array(longestDiff - differences[i].length + 1).join("&nbsp;") + "</span>" + commonEnd;
+    }
+    self.segmentInspector.html(html);
 }
 
 var serverConnection;
@@ -451,6 +458,15 @@ function setTKKs() {
       $(".tkks").append( "<option value=\"" + window.tkks[i].textContent + "\">" + window.tkks[i].textContent+ "</option>" );
     }
     $(".tkks").chosen({ search_contains: true });
+
+    $("#d3minimap").append($("#optionsgraph").remove());
+
+    $("#optionsgraph > ul > li > a").on("click", function(e) {
+        var currentAttrValue = jQuery(this).attr('href');
+        $(currentAttrValue).slideDown(400).siblings().slideUp(400);
+        $(this).parent('li').addClass('active').siblings().removeClass('active');
+        e.preventDefault();
+    });
 }
 
 function jumpToBaseGetFromDOM() {

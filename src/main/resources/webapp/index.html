@@ -98,55 +98,58 @@
 
     <!-- Graph view -->
     <div class="pane" id="d3">
-
-        <div id="optionsgraph">
-            <ul class="tab-links">
-                <li class="active"><a href="#tab1"><i class="fa fa-upload" aria-hidden="true"> </i>Jumping</a></li>
-                <li><a href="#tab2"><i class="fa fa-search" aria-hidden="true"> </i>Metadata searcher</a></li>
-                <li><a href="#tab3"><i class="fa fa-lightbulb-o" aria-hidden="true"> </i>highlighting</a></li>
-                <li><a href="#tab4"><i class="fa fa-cog fa-fw" aria-hidden="true"> </i>additional settings</a></li>
-            </ul>
-            <div class="tab-content">
-                <div id="tab1" class="tab active">
-                    <div class="element">
-                        <div class="title">Jump to base</div>
-                        <span>Select genome to jump on.</span>
-                        <select class="tkks" data-placeholder="Select the genome"></select>
-                        <span>Select base to jump to.<br></span>
-                        <input id="baseindex" type="number" min="0" step="1"/>
-                        <a class="button" id="jumpb" href="#" onclick="jumpToBaseGetFromDOM()">
-                            <div class="jump">Jump</div>
-                        </a>
+        <div id="d3graph"></div>
+        <div id="segmentinspector"></div>
+        <div id="d3minimap">
+            <div id="optionsgraph">
+                <ul class="tab-links">
+                    <li class="active"><a href="#tab1"><i class="fa fa-upload" aria-hidden="true"> </i>Jumping</a></li>
+                    <li><a href="#tab2"><i class="fa fa-search" aria-hidden="true"> </i>Metadata searcher</a></li>
+                    <li><a href="#tab3"><i class="fa fa-lightbulb-o" aria-hidden="true"> </i>highlighting</a></li>
+                    <li><a href="#tab4"><i class="fa fa-cog fa-fw" aria-hidden="true"> </i>additional settings</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab1" class="tab active">
+                        <div class="element">
+                            <div class="title">Jump to base</div>
+                            <span>Select genome to jump on.</span>
+                            <select class="tkks" data-placeholder="Select the genome"></select>
+                            <span>Select base to jump to.<br></span>
+                            <input id="baseindex" type="number" min="0" step="1"/>
+                            <a class="button" id="jumpb" href="#" onclick="jumpToBaseGetFromDOM()">
+                                <div class="jump">Jump</div>
+                            </a>
+                        </div>
+                        <div class="element">
+                            <div class="title">Jump to gene</div>
+                            <span>Select genome to jump on</span>
+                            <select class="tkks" data-placeholder="Select the genome"></select>
+                            <a class="button" id="jumpg" onclick="#">
+                                <div class="jump">Jump</div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="element">
-                        <div class="title">Jump to gene</div>
-                        <span>Select genome to jump on</span>
-                        <select class="tkks" data-placeholder="Select the genome"></select>
-                        <a class="button" id="jumpg" onclick="#">
-                            <div class="jump">Jump</div>
-                        </a>
+
+                    <div id="tab2" class="tab">
+
+                        <div id="metadatasearcher" class="element">
+                            <!--<div class="title">Search on metadata</div>-->
+                            <!--<span>Select one or multiple characteristics to search for.</span>-->
+                            <select class="metadata" data-placeholder="Select a characteristic ..." multiple></select>
+                        </div>
+                        <div id="characteristics" class="element">
+
+                        </div>
+                        <div class="element">
+                            <select id = "selectedTKKs" multiple> </select>
+                        </div>
                     </div>
-                </div>
 
-                <div id="tab2" class="tab">
-
-                    <div id="metadatasearcher" class="element">
-                        <!--<div class="title">Search on metadata</div>-->
-                        <!--<span>Select one or multiple characteristics to search for.</span>-->
-                        <select class="metadata" data-placeholder="Select a characteristic ..." multiple></select>
+                    <div id="tab3" class="tab">
                     </div>
-                    <div id="characteristics" class="element">
 
+                    <div id="tab4" class="tab">
                     </div>
-                    <div class="element">
-                        <select id = "selectedTKKs" multiple> </select>
-                    </div>
-                </div>
-
-                <div id="tab3" class="tab">
-                </div>
-
-                <div id="tab4" class="tab">
                 </div>
             </div>
         </div>

@@ -40,3 +40,26 @@
     stroke: #000000;
     fill-opacity: 0;
 }
+
+#segmentinspector {
+    position: absolute;
+    bottom: 350px;
+    height: 100px;
+    width: 100%;
+    font-family: "Courier Sans", monospace;
+    font-size: 21px;
+}
+
+#segmentinspector p {
+    margin: 0 0 0 10px;
+}
+
+#segmentinspector p span {
+    font-weight: 800;
+}
+
+#d3minimap {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
