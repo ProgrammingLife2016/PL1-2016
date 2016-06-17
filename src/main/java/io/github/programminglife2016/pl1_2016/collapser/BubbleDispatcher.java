@@ -120,8 +120,9 @@ public class BubbleDispatcher {
         File bubblefile = new File(BUBBLES_SERIAL);
         File keyfile = new File(LOWEST_LEVEL_SERIAL);
         try {
-            bubblefile.createNewFile();
-            keyfile.createNewFile();
+            if (!(bubblefile.createNewFile() && keyfile.createNewFile())) {
+                System.out.println("Serialize files already exist.");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -364,8 +365,8 @@ public class BubbleDispatcher {
             equals) {
         if (filteredBubbles.contains(node)) {
             Optional<Node> parent = filteredBubbles.parallelStream()
-                    .filter(x -> equals.apply(x, node)).findAny();
-//                    .findFirst();
+                    .filter(x -> equals.apply(x, node))
+                    .findAny();
             if (parent.isPresent()) {
                 return parent.get();
             }
@@ -456,22 +457,24 @@ public class BubbleDispatcher {
     public String[] getAllParentsOfSegment(Node node) {
         Node currNode = node;
         Node parent;
-        String startNodeIn = "", endNodeIn = "", containsIn = "";
+        StringBuilder startNodeIn = new StringBuilder();
+        StringBuilder endNodeIn = new StringBuilder();
+        StringBuilder containsIn = new StringBuilder();
         String formattedId;
         while (currNode.getContainerId() > 0) {
             parent = quickReference.get(String.valueOf(currNode.getContainerId()));
             formattedId = "/" + parent.getId() + "/";
             if (parent.getStartNode().getId() == currNode.getId()) {
-                startNodeIn += formattedId;
+                startNodeIn.append(formattedId);
             } else if (parent.getEndNode().getId() == currNode.getId()) {
-                endNodeIn += formattedId;
+                endNodeIn.append(formattedId);
             } else {
-                containsIn += formattedId;
+                containsIn.append(formattedId);
             }
             currNode = parent;
         }
         System.out.println(startNodeIn);
-        String[] ret = buildStringArray(node, startNodeIn, endNodeIn, containsIn);
+        String[] ret = buildStringArray(node, startNodeIn.toString(), endNodeIn.toString(), containsIn.toString());
         return ret;
     }
 
@@ -482,24 +485,9 @@ public class BubbleDispatcher {
                                       String containsIn) {
         String[] ret = new String[6];
         ret[0] = Integer.toString(node.getId());
-        if (!startNodeIn.isEmpty()) {
-            ret[1] = startNodeIn;
-        }
-        else {
-            ret[1] = "NULL";
-        }
-        if (!endNodeIn.isEmpty()) {
-            ret[2] = endNodeIn;
-        }
-        else {
-            ret[2] = "NULL";
-        }
-        if (!containsIn.isEmpty()) {
-            ret[3] = containsIn;
-        }
-        else {
-            ret[3] = "NULL";
-        }
+        ret[1] = startNodeIn.length() != 0 ? startNodeIn.toString() : "NULL";
+        ret[2] = endNodeIn.length() != 0 ? endNodeIn.toString() : "NULL";
+        ret[3] = containsIn.length() != 0 ? containsIn.toString() : "NULL";
         ret[4] = node.getData();
         ret[5] = node.getGenomes().toString();
         return ret;

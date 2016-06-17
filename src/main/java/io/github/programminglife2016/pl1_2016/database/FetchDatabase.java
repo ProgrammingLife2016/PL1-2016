@@ -1,7 +1,5 @@
 package io.github.programminglife2016.pl1_2016.database;
 
-import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -57,7 +55,6 @@ public class FetchDatabase implements Database {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
-                int totalColumns = rs.getMetaData().getColumnCount();
                 String genome = rs.getString(1);
                 String lineage = rs.getString(2);
                 lineages.put(genome, lineage);
@@ -98,7 +95,7 @@ public class FetchDatabase implements Database {
      * @param threshold        threshold of graph that has to be fetched.
      * @param x1               the left bounding x.
      * @param x2               the right bounding x.
-     * @param minContainerSize
+     * @param minContainerSize minimal container size of nodes to be displayed
      * @return Json array of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
@@ -151,8 +148,8 @@ public class FetchDatabase implements Database {
      * @param threshold        level of treshold.
      * @param x1               the left bounding x.
      * @param x2               the right bounding x.
-     * @param minContainerSize minimum container size.
-     * @param items            items.
+     * @param minContainerSize minimal container size of the node to be displayed
+     * @param items            items
      * @return JSON response.
      */
     public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize,
@@ -270,7 +267,7 @@ public class FetchDatabase implements Database {
      * fetch links for nodes
      *
      * @param threshold threshold of graph that has to be fetched
-     * @param items
+     * @param items items
      * @return nodes
      * @throws SQLException thrown if SQL connection or query is not valid
      */
@@ -361,98 +358,10 @@ public class FetchDatabase implements Database {
     }
 
     /**
-     * Fetch all specimen from database
-     *
-     * @return the collection of specimen
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    public final Map<String, Subject> fetchSpecimens() throws SQLException {
-        Map<String, Subject> specimens = new HashMap<>();
-        Statement stmt = null;
-        String query = getFetchQuery();
-        try {
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                Specimen specimen = new Specimen();
-                specimen.setNameId(rs.getString("specimen_id"));
-                setSpecimenAge(rs, specimen);
-                specimen.setMale(rs.getString("sex").equals("Male"));
-                setSpecimenHivStatus(rs, specimen);
-                setSpecimenSmearStatus(rs, specimen);
-                specimen.setSingleColony(rs.getString("dna_isolation_single_colony_or_nonsingle_colony").equals
-                        ("single colony"));
-                setSecondaryValuesSpecimen(specimen, rs);
-                specimens.put(specimen.getNameId(), specimen);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (stmt != null) {
-            stmt.close();
-        }
-        return specimens;
-    }
-
-    private void setSpecimenSmearStatus(ResultSet rs, Specimen specimen) throws SQLException {
-        if (rs.getString("microscopy_smear_status").equals("Positive")) {
-            specimen.setSmear(1);
-        } else if (rs.getString("microscopy_smear_status").equals("Negative")) {
-            specimen.setSmear(-1);
-        } else {
-            specimen.setSmear(0);
-        }
-    }
-
-    private void setSpecimenHivStatus(ResultSet rs, Specimen specimen) throws SQLException {
-        if (rs.getString("hiv_status").equals("Positive")) {
-            specimen.setHivStatus(1);
-        } else if (rs.getString("hiv_status").equals("Negative")) {
-            specimen.setHivStatus(-1);
-        } else {
-            specimen.setHivStatus(0);
-        }
-    }
-
-    private void setSpecimenAge(ResultSet rs, Specimen specimen) throws SQLException {
-        if (rs.getString("age").equals("unknown")) {
-            specimen.setAge(0);
-        } else {
-            specimen.setAge(Integer.parseInt(rs.getString("age")));
-        }
-    }
-
-    private String getFetchQuery() {
-        return String.format("select specimen_id , age , sex ," + " hiv_status , cohort , date_of_collection , " +
-                "study_geographic_district , specimen_type , microscopy_smear_status , " +
-                "dna_isolation_single_colony_or_nonsingle_colony , " + "phenotypic_dst_pattern , capreomycin_10ugml ,"
-                + "" + " " + "ethambutol_75ugml , ethionamide_10ugml , " + "isoniazid_02ugml_or_1ugml , "
-                + "kanamycin_6ugml , " + "" + "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , " + "ofloxacin_2ugml ,"
-                + " rifampin_1ugml , " +
-                "streptomycin_2ugml , digital_spoligotype , lineage , genotypic_dst_pattern , " +
-                "tugela_ferry_vs_nontugela_ferry_xdr from %s", SPECIMEN_TABLE);
-    }
-
-    private void setSecondaryValuesSpecimen(Specimen specimen, ResultSet rs) throws SQLException {
-        specimen.setCohort(rs.getString("cohort")).setDate(rs.getString("date_of_collection")).setDistrict(rs
-                .getString("study_geographic_district")).setType(rs.getString("specimen_type")).setPdstpattern(rs
-                .getString("phenotypic_dst_pattern")).setCapreomycin(rs.getString("capreomycin_10ugml"))
-                .setEthambutol(rs.getString("ethambutol_75ugml")).setEthionamide(rs.getString("ethionamide_10ugml"))
-                .setIsoniazid(rs.getString("isoniazid_02ugml_or_1ugml")).setKanamycin(rs.getString("kanamycin_6ugml")
-        ).setPyrazinamide(rs.getString("pyrazinamide_nicotinamide_5000ugml_or_pzamgit")).setOfloxacin(rs.getString
-                ("ofloxacin_2ugml")).setRifampin(rs.getString("rifampin_1ugml")).setStreptomycin(rs.getString
-                ("streptomycin_2ugml")).setSpoligotype(rs.getString("digital_spoligotype")).setLineage(rs.getString
-                ("lineage")).setGdstPattern(rs.getString("genotypic_dst_pattern")).setXdr(rs.getString
-                ("tugela_ferry_vs_nontugela_ferry_xdr"));
-    }
-
-
-    /**
      * Convert a result set into a JSON Array
      *
      * @param resultSet ResultSet that has to be converted
      * @return a JSONArray
-     * @throws Exception thrown if resultset is not valid
      */
     private JSONArray convertResultSetIntoJSON(ResultSet resultSet) {
         JSONArray jsonArray = new JSONArray();
@@ -478,46 +387,10 @@ public class FetchDatabase implements Database {
     }
 
     /**
-     * Convert a result set into a JSON Array
-     *
-     * @param resultSet ResultSet that has to be converted
-     * @return a JSONArray
-     * @throws Exception thrown if resultset is not valid
-     */
-    private JSONObject convertResultSetIntoJSONString(ResultSet resultSet) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            while (resultSet.next()) {
-                String specimen = "";
-                int totalColumns = resultSet.getMetaData().getColumnCount();
-                JSONObject obj = new JSONObject();
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < totalColumns; i++) {
-
-                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1);
-                    Object columnValue = resultSet.getObject(i + 1);
-                    // if value in DB is null, then we set it to default value
-                    if (columnValue == null) {
-                        columnValue = "null";
-                    }
-                    if (columnName.equals("specimen_id")) {
-                        specimen = (String) columnValue;
-                    }
-                    sb.append(columnName + ":" + columnValue + ", ");
-                }
-                jsonObject.put(specimen, sb.toString());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
-    }
-
-    /**
      * Convert a result set of genomes into a JSON Array
      *
      * @param resultSet ResultSet that has to be converted
-     * @param items
+     * @param items items
      * @return a JSONArray
      * @throws Exception thrown if resultset is not valid
      */
@@ -568,16 +441,13 @@ public class FetchDatabase implements Database {
 
 
     private static String mostCommonElement(List<String> list) {
-
         Map<String, Integer> map = new HashMap<String, Integer>();
-
-        for (int i = 0; i < list.size(); i++) {
-
-            Integer frequency = map.get(list.get(i));
+        for (String aList : list) {
+            Integer frequency = map.get(aList);
             if (frequency == null) {
-                map.put(list.get(i), 1);
+                map.put(aList, 1);
             } else {
-                map.put(list.get(i), frequency + 1);
+                map.put(aList, frequency + 1);
             }
         }
 
@@ -592,36 +462,6 @@ public class FetchDatabase implements Database {
         }
 
         return mostCommonKey;
-    }
-
-    private List<JSONArray> getGenomes(int from, int to) throws SQLException {
-        Statement stmt = null;
-        JSONArray genomes = new JSONArray();
-        JSONArray lineages = new JSONArray();
-        String query = String.format("select genomes from " + "%s WHERE from_id = %d AND to_id = %d", LINK_TABLE,
-                LINK_TABLE, from, to);
-        ResultSet rs;
-        ArrayList<String> genomesList = new ArrayList();
-        try {
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-                genomesList.add(rs.getString(1));
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (stmt != null) {
-            stmt.close();
-        }
-        List<JSONArray> list = new ArrayList<>();
-        list.add(genomes);
-        list.add(lineages);
-        return list;
-
     }
 
     /**
@@ -674,7 +514,7 @@ public class FetchDatabase implements Database {
                             value = "Unknown";
                         }
                     }
-                    if (column.equals("hiv_status") | column.equals("microscopy_smear_status")) {
+                    if (column.equals("hiv_status") || column.equals("microscopy_smear_status")) {
                         if (value.equals("1")) {
                             value = "Positive";
                         } else if (value.equals("-1")) {

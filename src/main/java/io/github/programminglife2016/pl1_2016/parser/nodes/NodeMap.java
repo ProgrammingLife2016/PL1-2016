@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     private static final double SEGMENT_POSITION_FACTOR = 100;
+    private static final long serialVersionUID = -4468555693994055308L;
 
     private List<Annotation> annotations;
 
@@ -90,7 +91,7 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
         }
     }
 
-    public static Node retrieveSegment(Node node, boolean start) {
+    private Node retrieveSegment(Node node, boolean start) {
         if (node.isBubble()) {
             if (start) {
                 return retrieveSegment(node.getStartNode(), true);
