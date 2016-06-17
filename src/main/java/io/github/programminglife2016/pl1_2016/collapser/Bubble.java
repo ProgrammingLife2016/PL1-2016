@@ -2,7 +2,6 @@ package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
-import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SequenceRange;
 
@@ -397,7 +396,11 @@ public class Bubble implements Node, Serializable {
      * @return String representation of Bubble.
      */
     public String toString() {
-        String baseString = "Bubble{id=%d, startNode=%s, container=%s, endNode=%s, containerSize=%d}";
+        String baseString = "Bubble{id=%d, "
+                + "startNode=%s, "
+                + "container=%s, "
+                + "endNode=%s, "
+                + "containerSize=%d}";
         return String.format(
                 baseString,
                 id,

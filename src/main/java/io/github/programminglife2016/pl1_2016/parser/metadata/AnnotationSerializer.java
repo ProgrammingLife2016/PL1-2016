@@ -13,15 +13,24 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 
+/**
+ * Serialize annotation objects.
+ */
 public class AnnotationSerializer implements JsonSerializer<Annotation> {
     private Seeker sk;
 
+    /**
+     * Create instance of annotation serializer.
+     * @param nodeCollection collection of nodes from the graph.
+     */
     public AnnotationSerializer(NodeCollection nodeCollection) {
         this.sk = new SegmentSeeker(nodeCollection);
     }
 
     @Override
-    public JsonElement serialize(Annotation annotation, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(Annotation annotation,
+                                 Type type,
+                                 JsonSerializationContext jsonSerializationContext) {
         try {
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("id", new JsonPrimitive(annotation.getId()));

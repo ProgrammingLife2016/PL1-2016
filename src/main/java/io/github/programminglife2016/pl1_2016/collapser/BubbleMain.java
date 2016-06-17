@@ -23,8 +23,11 @@ public final class BubbleMain {
      * Execute bubbling
      * @param args arguments.
      * @throws IOException thrown when reading the files fails.
+     * @throws ClassNotFoundException thrown when bubble main is not found.
+     * @throws URISyntaxException thrown when there is an error in the URI.
      */
-    public static void main(String[] args) throws IOException, ClassNotFoundException, URISyntaxException {
+    public static void main(String[] args) throws IOException,
+            ClassNotFoundException, URISyntaxException {
         InputStream is =
                 BubbleMain.class.getClass().getResourceAsStream("/genomes/TB328.gfa");
 //        TB328-old

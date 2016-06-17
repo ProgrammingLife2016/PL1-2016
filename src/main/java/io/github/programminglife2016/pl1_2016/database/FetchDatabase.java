@@ -29,6 +29,7 @@ public class FetchDatabase implements Database {
             "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml",
             "rifampin_1ugml", "streptomycin_2ugml", "digital_spoligotype", "lineage",
             "genotypic_dst_pattern", "tugela_ferry_vs_nontugela_ferry_xdr"};
+    public static final int ANNOTATION_THRESHOLD = 4;
     /**
      * The connection to the database.
      */
@@ -39,7 +40,7 @@ public class FetchDatabase implements Database {
     /**
      * Constructor to construct a database.
      *
-     * @param dataset
+     * @param dataset dataset.
      */
     public FetchDatabase(String dataset) {
         this.dataset = dataset;
@@ -101,15 +102,24 @@ public class FetchDatabase implements Database {
      * @return Json array of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchNodes(int threshold, int x1, int x2, int minContainerSize) throws SQLException {
+    private JSONArray fetchNodes(int threshold,
+                                 int x1,
+                                 int x2,
+                                 int minContainerSize) throws SQLException {
         Statement stmt = null;
         JSONArray nodes = null;
-        String query = String.format("SELECT DISTINCT %s.* " + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
-                        + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
-                        + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d AND n2.x <="
-                        + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > "
-                        + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
-                NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
+        String query = String.format("SELECT DISTINCT %s.* "
+                + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
+                + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id "
+                + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
+                + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) "
+                + "OR (n2.x >= %d AND n2.x <="
+                + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to ="
+                + " %s.id) AND %s.containersize > "
+                + "%d" + " ORDER"
+                + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
+                NODES_TABLE, LINK_TABLE, LINK_TABLE,
+                threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
                 NODES_TABLE, minContainerSize, NODES_TABLE);
         ResultSet rs;
         try {
@@ -141,8 +151,8 @@ public class FetchDatabase implements Database {
      * @param threshold        level of treshold.
      * @param x1               the left bounding x.
      * @param x2               the right bounding x.
-     * @param minContainerSize
-     * @param items
+     * @param minContainerSize minimum container size.
+     * @param items            items.
      * @return JSON response.
      */
     public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize,
@@ -151,7 +161,7 @@ public class FetchDatabase implements Database {
         result.put("status", "success");
         try {
             result.put("nodes", fetchNodes(threshold, x1, x2, minContainerSize));
-            if (threshold <= 4) {
+            if (threshold <= ANNOTATION_THRESHOLD) {
                 result.put("annotations", fetchAnnotations());
             } else {
                 result.put("annotations", new JSONArray());
@@ -190,7 +200,8 @@ public class FetchDatabase implements Database {
 
     private JSONArray fetchMetadata(String genome) {
         Statement stmt;
-        String query = String.format("select * from %s WHERE specimen_id='%s'", SPECIMEN_TABLE, genome);
+        String query = String.format("select * from %s WHERE specimen_id='%s'",
+                SPECIMEN_TABLE, genome);
         ResultSet rs;
         JSONArray res = null;
         try {

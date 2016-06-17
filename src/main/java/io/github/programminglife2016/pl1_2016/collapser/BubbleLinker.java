@@ -70,7 +70,9 @@ public class BubbleLinker {
      */
     public void run() {
         try {
-            forkJoinPool.submit(() -> { setCorrectLevelsToNodes(); }).get();
+            forkJoinPool.submit(() -> {
+                setCorrectLevelsToNodes();
+            }).get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -249,8 +251,7 @@ public class BubbleLinker {
         Set<Node> newContainer = Collections.synchronizedSet(new HashSet<>());
         List<Node> oldContainer = Collections.synchronizedList(bubble.getContainer());
 
-        oldContainer.parallelStream().forEach(n -> //
-        {
+        oldContainer.parallelStream().forEach(n -> {
             if (!n.isBubble() && n.getZoomLevel() < lowestLevel.intValue()) {
                 newContainer.add(replaceNode(n, segLevel));
             }
