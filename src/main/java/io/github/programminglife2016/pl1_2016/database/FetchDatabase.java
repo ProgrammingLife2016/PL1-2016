@@ -19,14 +19,13 @@ import java.util.Random;
  * Class for creating a database to fetch from database.
  */
 public class FetchDatabase implements Database {
-    private static final String[] SPECIMEN_COLUMNS = {"age", "sex", "hiv_status", "cohort",
-            "date_of_collection", "study_geographic_district", "specimen_type",
-            "microscopy_smear_status", "dna_isolation_single_colony_or_nonsingle_colony",
-            "phenotypic_dst_pattern", "capreomycin_10ugml", "ethambutol_75ugml",
-            "ethionamide_10ugml", "isoniazid_02ugml_or_1ugml", "kanamycin_6ugml",
-            "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml",
-            "rifampin_1ugml", "streptomycin_2ugml", "digital_spoligotype", "lineage",
-            "genotypic_dst_pattern", "tugela_ferry_vs_nontugela_ferry_xdr"};
+    private static final String[] SPECIMEN_COLUMNS = {"age", "sex", "hiv_status", "cohort", "date_of_collection", 
+            "study_geographic_district", "specimen_type", "microscopy_smear_status", 
+            "dna_isolation_single_colony_or_nonsingle_colony", "phenotypic_dst_pattern", "capreomycin_10ugml", 
+            "ethambutol_75ugml", "ethionamide_10ugml", "isoniazid_02ugml_or_1ugml", "kanamycin_6ugml", 
+            "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml", "rifampin_1ugml", 
+            "streptomycin_2ugml", "digital_spoligotype", "lineage", "genotypic_dst_pattern", 
+            "tugela_ferry_vs_nontugela_ferry_xdr"};
     /**
      * The connection to the database.
      */
@@ -58,6 +57,7 @@ public class FetchDatabase implements Database {
                 String lineage = rs.getString(2);
                 lineages.put(genome, lineage);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,18 +101,19 @@ public class FetchDatabase implements Database {
     private JSONArray fetchNodes(int threshold, int x1, int x2, int minContainerSize) throws SQLException {
         Statement stmt = null;
         JSONArray nodes = null;
-        String query = String.format("SELECT DISTINCT %s.* " + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
-                        + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
-                        + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d AND n2.x <="
-                        + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s.containersize > "
-                        + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
-                NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
-                NODES_TABLE, minContainerSize, NODES_TABLE);
+        String query = String.format("SELECT DISTINCT %s.* " + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to " 
+                + "" + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s.to_id " 
+                + "WHERE" + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR (n2.x >= %d " 
+                + "AND n2.x <=" + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + " %s.id) AND %s" 
+                + ".containersize > " + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, 
+                LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, NODES_TABLE, 
+                NODES_TABLE, NODES_TABLE, minContainerSize, NODES_TABLE);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             nodes = convertResultSetIntoJSON(rs);
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,8 +143,8 @@ public class FetchDatabase implements Database {
      * @param items            items
      * @return JSON response.
      */
-    public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize,
-                                     HashMap<Integer, ArrayList<String>> items) {
+    public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize, HashMap<Integer, 
+            ArrayList<String>> items) {
         JSONObject result = new JSONObject();
         result.put("status", "success");
         try {
@@ -215,33 +216,7 @@ public class FetchDatabase implements Database {
                     if (columnValue == null) {
                         columnValue = "null";
                     }
-                    if (columnName.equals("dna_isolation_single_colony_or_nonsingle_colony")) {
-                        if (columnValue.equals("true")) {
-                            columnValue = "single colony";
-                        } else if (columnValue.equals("false")) {
-                            columnValue = "non single_colony";
-                        } else {
-                            columnValue = "Unknown";
-                        }
-                    }
-                    if (columnName.equals("hiv_status") | columnName.equals("microscopy_smear_status")) {
-                        if (columnValue.equals("1")) {
-                            columnValue = "Positive";
-                        } else if (columnValue.equals("-1")) {
-                            columnValue = "Negative";
-                        } else {
-                            columnValue = "Unknown";
-                        }
-                    }
-                    if (columnName.equals("sex")) {
-                        if (columnValue.equals("true")) {
-                            columnValue = "Male";
-                        } else if (columnValue.equals("false")) {
-                            columnValue = "Female";
-                        } else {
-                            columnValue = "Unknown";
-                        }
-                    }
+                    columnValue = getObject(columnName, columnValue);
                     obj.put(columnName, columnValue);
                 }
                 jsonArray.put(obj);
@@ -252,23 +227,54 @@ public class FetchDatabase implements Database {
         return jsonArray;
     }
 
+    private Object getObject(String columnName, Object columnValue) {
+        if (columnName.equals("dna_isolation_single_colony_or_nonsingle_colony")) {
+            if (columnValue.equals("true")) {
+                columnValue = "single colony";
+            } else if (columnValue.equals("false")) {
+                columnValue = "non single_colony";
+            } else {
+                columnValue = "Unknown";
+            }
+        }
+        if (columnName.equals("hiv_status") | columnName.equals("microscopy_smear_status")) {
+            if (columnValue.equals("1")) {
+                columnValue = "Positive";
+            } else if (columnValue.equals("-1")) {
+                columnValue = "Negative";
+            } else {
+                columnValue = "Unknown";
+            }
+        }
+        if (columnName.equals("sex")) {
+            if (columnValue.equals("true")) {
+                columnValue = "Male";
+            } else if (columnValue.equals("false")) {
+                columnValue = "Female";
+            } else {
+                columnValue = "Unknown";
+            }
+        }
+        return columnValue;
+    }
+
     /**
      * fetch links for nodes
      *
      * @param threshold threshold of graph that has to be fetched
-     * @param items items
+     * @param items     items
      * @return nodes
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchLinks(int threshold, int x1, int x2, HashMap<Integer, ArrayList<String>> items) throws
+    private JSONArray fetchLinks(int threshold, int x1, int x2, HashMap<Integer, ArrayList<String>> items) throws 
             SQLException {
         Statement stmt = null;
         JSONArray links = null;
-        String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s"
-                        + ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + ""
-                        + ".to_id " +
-                        "WHERE %s" + ".threshold = %d " + "AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x " + "<= "
-                        + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
+        String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s" + "" 
+                + ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + "" +
+                ".to_id " +
+                "WHERE %s" + ".threshold = %d " + "AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x " + "<= "
+                + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, 
                 NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, x1, x2);
         ResultSet rs;
         try {
@@ -307,9 +313,12 @@ public class FetchDatabase implements Database {
     }
 
     public JSONObject fetchPrimitives(int bubbleId) {
-        String startQuery = String.format("SELECT DISTINCT data FROM %s WHERE startin LIKE '%%/%d/%%'", PRIMITIVES_TABLE, bubbleId);
-        String endQuery = String.format("SELECT DISTINCT data FROM %s WHERE endin LIKE '%%/%d/%%'", PRIMITIVES_TABLE, bubbleId);
-        String contQuery = String.format("SELECT DISTINCT data FROM %s WHERE contin LIKE '%%/%d/%%'", PRIMITIVES_TABLE, bubbleId);
+        String startQuery = String.format("SELECT DISTINCT data FROM %s WHERE startin LIKE '%%/%d/%%'", 
+                PRIMITIVES_TABLE, bubbleId);
+        String endQuery = String.format("SELECT DISTINCT data FROM %s WHERE endin LIKE '%%/%d/%%'", PRIMITIVES_TABLE,
+                bubbleId);
+        String contQuery = String.format("SELECT DISTINCT data FROM %s WHERE contin LIKE '%%/%d/%%'", 
+                PRIMITIVES_TABLE, bubbleId);
         Statement stmt;
         JSONObject jsonObject = new JSONObject();
         try {
@@ -340,6 +349,7 @@ public class FetchDatabase implements Database {
                 container.put(rs.getString(1));
             }
             jsonObject.put("contdata", container);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -379,7 +389,7 @@ public class FetchDatabase implements Database {
      * Convert a result set of genomes into a JSON Array
      *
      * @param resultSet ResultSet that has to be converted
-     * @param items items
+     * @param items     items
      * @return a JSONArray
      * @throws Exception thrown if resultset is not valid
      */
@@ -484,7 +494,7 @@ public class FetchDatabase implements Database {
         JSONObject options = new JSONObject();
 
         Statement stmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
         try {
             stmt = connection.createStatement();
             String query;
@@ -494,33 +504,7 @@ public class FetchDatabase implements Database {
                 rs = stmt.executeQuery(query);
                 while (rs.next()) {
                     Object value = rs.getObject(column);
-                    if (column.equals("dna_isolation_single_colony_or_nonsingle_colony")) {
-                        if (value.equals("true")) {
-                            value = "single colony";
-                        } else if (value.equals("false")) {
-                            value = "non single_colony";
-                        } else {
-                            value = "Unknown";
-                        }
-                    }
-                    if (column.equals("hiv_status") | column.equals("microscopy_smear_status")) {
-                        if (value.equals("1")) {
-                            value = "Positive";
-                        } else if (value.equals("-1")) {
-                            value = "Negative";
-                        } else {
-                            value = "Unknown";
-                        }
-                    }
-                    if (column.equals("sex")) {
-                        if (value.equals("true")) {
-                            value = "Male";
-                        } else if (value.equals("false")) {
-                            value = "Female";
-                        } else {
-                            value = "Unknown";
-                        }
-                    }
+                    value = getObject(column, value);
                     values.put(value);
                 }
                 options.put(column, values);
@@ -528,7 +512,8 @@ public class FetchDatabase implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (stmt != null) {
+            if (stmt != null || rs != null) {
+                rs.close();
                 stmt.close();
             }
         }
