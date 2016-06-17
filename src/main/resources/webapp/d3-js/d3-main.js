@@ -474,8 +474,8 @@ function setTKKs() {
     $.getJSON("/api/metadata/annotations", function (response) {
         for (var i = 0; i < response["annotations"].length; i++) {
                 var obj = {};
-                var x = (response.annotations[i].startx + response.annotations[i].endx)/2;
-                var y = (response.annotations[i].starty + response.annotations[i].endy)/2;
+                var x = response.annotations[i].startx + (response.annotations[i].endx - response.annotations[i].startx)/2;
+                var y = response.annotations[i].starty + (response.annotations[i].endy - response.annotations[i].starty)/2;
                 annopositions[response.annotations[i].displayname] = [x, y];
               $(".annotations").append( "<option value=\"" + response.annotations[i].displayname + "\">" + response.annotations[i].displayname + "</option>" );
         }
