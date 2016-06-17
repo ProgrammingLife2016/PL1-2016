@@ -39,18 +39,21 @@ public class BubbleAligner {
                 node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size()));
         if (optMain.isPresent()) {
             Node mainNode = optMain.get();
-            if (!isMainBranch && node.getGenomes().size() < mainNode.getGenomes().size()) {
-                return;
+            if (isMainBranch && node.getGenomes().size() < mainNode.getGenomes().size()) {
+                setPositions(node, mainNode);
             }
-            for (Node next : node.getLinks()) {
-                if (next.getId() != mainNode.getId()) {
-                    next.setXY(next.getX(), next.getY() + (node.getY() - mainNode.getY()));
-                    modify(next, false);
-                }
-            }
-            mainNode.setXY(mainNode.getX(), node.getY());
-            modify(mainNode, isMainBranch);
         }
+    }
+
+    private void setPositions(Node node, Node mainNode) {
+        node.getLinks()
+                .stream()
+                .filter(next -> next.getId() != mainNode.getId()).forEach(next -> {
+            next.setXY(next.getX(), next.getY() + (node.getY() - mainNode.getY()));
+            modify(next, false);
+        });
+        mainNode.setXY(mainNode.getX(), node.getY());
+        modify(mainNode, true);
     }
 
     private void setNewY(Node node) {

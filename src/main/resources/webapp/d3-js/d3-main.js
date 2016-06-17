@@ -37,7 +37,7 @@ var LINEAGE_COLORS = {
 }
 
 var DEFAULT_COLOR = function (edge) {
-    if (edge.highlight.length > 0) {
+    if (edge.highlight && edge.highlight.length > 0) {
         return SELECTORS[SELECTORS.length - 1].color;
     } else return LINEAGE_COLORS[edge.lineages] || "#000000";
 }
@@ -115,7 +115,7 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
         }
     }
 
-    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize + tkksToHighlight, function (response) {
+    $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize, function (response) {
         console.log("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize);
         var nodes = response.nodes;
         var edges = response.edges;
