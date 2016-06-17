@@ -7,7 +7,6 @@ import io.github.programminglife2016.pl1_2016.parser.metadata.GFFParser;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
-import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentSeeker;
 import io.github.programminglife2016.pl1_2016.server.Server;
 import io.github.programminglife2016.pl1_2016.server.api.RestServer;
 import io.github.programminglife2016.pl1_2016.server.api.querystrategies.DatabaseQueryStrategy;
@@ -17,7 +16,6 @@ import io.github.programminglife2016.pl1_2016.server.api.querystrategies.QuerySt
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,11 +43,11 @@ public final class Launcher {
     }
 
     private static QueryStrategy getQueryStrategy(String dataset, boolean useDatabase) {
-        System.out.println("Started loading.");
+        System.out.println("Started parsing and loading database.");
         long startTime = System.nanoTime();
         QueryStrategy queryStrategy = parseDataAndCreateQueryStrategy(dataset, useDatabase);
         long endTime = System.nanoTime();
-        System.out.println(String.format("Loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
+        System.out.println(String.format("Parsing and loading time: %f s.", (endTime - startTime) / NANOSECONDS_PER_SECOND));
         return queryStrategy;
     }
 
@@ -67,9 +65,10 @@ public final class Launcher {
         GFFParser gffParser = new GFFParser(decorations);
         gffParser.read();
         nodeCollection.setAnnotations(gffParser.getAnnotations());
-        SetupDatabase setupDatabase = new SetupDatabase();
         if (useDatabase) {
-            FetchDatabase fdb = new FetchDatabase();
+//            SetupDatabase sdb = new SetupDatabase(dataset, subjects.values());
+//            sdb.setup(nodeCollection);
+            FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {
             return new NoDatabaseQueryStrategy(nodeCollection, subjects);

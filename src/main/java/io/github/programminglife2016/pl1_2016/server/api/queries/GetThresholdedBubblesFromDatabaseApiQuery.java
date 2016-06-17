@@ -3,6 +3,9 @@ package io.github.programminglife2016.pl1_2016.server.api.queries;
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
  */
@@ -25,7 +28,7 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/nodes/(\\d+)/(-?\\d+)/(-?\\d+)/(\\d+)$";
+        return "^/api/nodes/(\\d+)/(-?\\d+)/(-?\\d+)/(\\d+)/?(\\S*)$";
     }
 
     /**
@@ -35,7 +38,29 @@ public class GetThresholdedBubblesFromDatabaseApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> fdb.getNodes(Integer.parseInt(args.get(0)),
-                Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3))).toString();
+        return args -> {
+            HashMap<Integer, ArrayList<String>> items = new HashMap<Integer, ArrayList<String>>();
+            if (!args.get(4).isEmpty()) {
+                for (String highlighted : args.get(4).split("/")) {
+
+                    String[] list = highlighted.split("-");
+                    int id = Integer.parseInt(list[1]);
+                    String genome = list[0];
+                    ArrayList<String> itemsList = items.get(id);
+                    if (itemsList == null) {
+                        itemsList = new ArrayList<>();
+                        itemsList.add(genome);
+                        items.put(id, itemsList);
+                    } else {
+                        // add if item is not already in list
+                        if (!itemsList.contains(genome)) {
+                            itemsList.add(genome);
+                        }
+                    }
+                }
+            }
+            return fdb.getNodes(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), Integer.parseInt(args
+                    .get(2)), Integer.parseInt(args.get(3)), items).toString();
+        };
     }
 }

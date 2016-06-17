@@ -26,7 +26,6 @@ public class DatabaseQueryStrategy implements QueryStrategy {
                                  Map<String, Subject> subjects) {
         this.fdb = fdb;
         this.nodeCollection = nodeCollection;
-        System.out.println(nodeCollection.toString());
         this.subjects = subjects;
     }
 

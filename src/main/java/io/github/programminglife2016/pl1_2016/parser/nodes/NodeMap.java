@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +16,8 @@ import java.util.Map;
  * Adapter for segment hashmap
  */
 public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
+    private static final double SEGMENT_POSITION_FACTOR = 100;
+
     private List<Annotation> annotations;
 
     public NodeMap() {
@@ -53,6 +59,35 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     @Override
     public List<Annotation> getAnnotations() {
         return annotations;
+    }
+
+    @Override
+    public void assignNewPositions(InputStream inputStream) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            String line = reader.readLine();
+            while (line != null) {
+                String[] data = line.split(" ");
+                if (data[0].equals("node")) {
+                    resetAllContainerPositions(data);
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetAllContainerPositions(String[] line) {
+        int id = Integer.parseInt(line[1]);
+        int x =(int) (Double.parseDouble(line[2]) * SEGMENT_POSITION_FACTOR);
+        int y = (int) (Double.parseDouble(line[3]) * SEGMENT_POSITION_FACTOR);
+        this.get(id).setXY(x, y);
+        this.get(id).getStartNode().setXY(x, y);
+        this.get(id).getEndNode().setXY(x, y);
+        for (Node contain : this.get(id).getContainer()) {
+            contain.setXY(x, y);
+        }
     }
 
     public static Node retrieveSegment(Node node, boolean start) {

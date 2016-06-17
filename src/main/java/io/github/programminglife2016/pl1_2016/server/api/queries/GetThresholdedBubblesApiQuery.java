@@ -1,24 +1,20 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
 
-import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
-
-import java.io.IOException;
 
 /**
  * Listens to /api/nodes/[threshold] and return the data of segment [threshold].
  */
 public class GetThresholdedBubblesApiQuery implements ApiQuery {
-    private BubbleDispatcher bubbleDispatcher;
-
+    private NodeCollection nc;
     /**
      * Construct the ApiQuery.
      *
      * @param nodeCollection node collection to retrieve the data information from
      */
     public GetThresholdedBubblesApiQuery(NodeCollection nodeCollection) {
-        this.bubbleDispatcher = new BubbleDispatcher(nodeCollection);
+        nc = nodeCollection;
     }
 
     /**
@@ -38,8 +34,6 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      */
     @Override
     public ApiAction getApiAction() {
-        return args -> bubbleDispatcher
-                .getThresholdedBubbles(Integer.parseInt(args.get(0)), false)
-                .toJson();
+        return args -> nc.toJson();
     }
 }

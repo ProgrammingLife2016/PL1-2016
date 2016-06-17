@@ -9,12 +9,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Seeker;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentSeeker;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,19 +22,19 @@ public class SetupDatabase implements Database {
      * The connection to the database.
      */
     private Connection connection;
-    /**
-     * The connection to the database.
-     */
-    private static final int[] THRESHOLDS = {4, 16, 32, 64, 128};
-
+    private static final int[] THRESHOLDS = {4, 16, 64, 256, 1024, 4096};
     private static final int FIVE = 5;
     private static final int FOUR = 4;
     private static final int THREE = 3;
+    private Collection splist;
+    private String dataset;
 
     /**
      * Constructor to construct a database.
      */
-    public SetupDatabase() {
+    public SetupDatabase(String dataset, Collection<Subject> values) {
+        this.dataset = dataset;
+        this.splist = values;
         connect();
     }
 
@@ -54,32 +49,9 @@ public class SetupDatabase implements Database {
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(HOST, ROLL, PASSWORD);
+            connection = DriverManager.getConnection(HOST + dataset.toLowerCase(), ROLL, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Setup the database if it is not setup already.
-     *
-     * @param nodes The nodes that will be used for setup
-     * @throws SQLException thrown if SQL connection or query is not valid
-     */
-    public final void setup(NodeCollection nodes, Collection<Subject> splst) throws SQLException {
-        clearTable(SPECIMEN_TABLE);
-        clearTable(LINK_TABLE);
-        clearTable(NODES_TABLE);
-        clearTable(LINK_GENOMES_TABLE);
-        clearTable(ANNOTATIONS_TABLE);
-        writeSpecimen(splst);
-        writeAnnotations(nodes);
-        BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
-        for (int THRESHOLD : THRESHOLDS) {
-            System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
-            NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);
-            nodesToWrite.recalculatePositions();
-            writeNodes(nodesToWrite, THRESHOLD);
         }
     }
 
@@ -102,6 +74,60 @@ public class SetupDatabase implements Database {
         stmt.close();
     }
 
+    public final void setup(NodeCollection nodes) {
+        if (!isSetup()) {
+            clearTable(ANNOTATIONS_TABLE);
+            clearTable(SPECIMEN_TABLE);
+            clearTable(LINK_TABLE);
+            clearTable(NODES_TABLE);
+            clearTable(LINK_GENOMES_TABLE);
+            try {
+                writeSpecimen(this.splist);
+                writeAnnotations(nodes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < THRESHOLDS.length; i++) {
+                BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
+                System.out.println("Writing to database nodes with threshold: " + THRESHOLDS[i]);
+                NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLDS[i], false);
+                nodesToWrite.recalculatePositions();
+                try {
+                    writeNodes(nodesToWrite, THRESHOLDS[i]);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    private boolean isSetup() {
+        Statement stmt = null;
+        String query = "SELECT count(*) FROM " + NODES_TABLE;
+        boolean res = false;
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            if (rs.getInt("count") != 0) {
+                res = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return res;
+    }
+
     /**
      * Write a collection of nodes into the database
      *
@@ -112,12 +138,12 @@ public class SetupDatabase implements Database {
     @SuppressWarnings("checkstyle:magicnumber")
     private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
-        String query = "INSERT INTO " + NODES_TABLE
-                + "(id, data, x, y, isbubble, containersize) VALUES"
-                + "(?,?,?,?,?,?) ON CONFLICT DO NOTHING";
+        String query = "INSERT INTO " + NODES_TABLE + "(id, data, x, y, isbubble, containersize) VALUES" + "(?,?,?,?,"
+                + "" + "" + "?,?) ON CONFLICT DO NOTHING";
 
         try {
             stmt = connection.prepareStatement(query);
+            int i = 0;
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
                 if (node.getStartNode().getId() == node.getEndNode().getId() && !node.getStartNode().isBubble()) {
@@ -131,7 +157,12 @@ public class SetupDatabase implements Database {
                 stmt.setInt(THREE, node.getX());
                 stmt.setInt(FOUR, node.getY());
                 stmt.setInt(6, node.getContainerSize());
-                stmt.executeUpdate();
+                stmt.addBatch();
+                i++;
+
+                if (i % 1000 == 0 || i == nodes.values().size()) {
+                    stmt.executeBatch();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,20 +189,31 @@ public class SetupDatabase implements Database {
     @SuppressWarnings("checkstyle:magicnumber")
     private void writeLinks(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
-        String query = "INSERT INTO " + LINK_TABLE + "(from_id, to_id, threshold) VALUES" + "(?,?,?)";
+        String query = "INSERT INTO " + LINK_TABLE + "(from_id, to_id, threshold, genomes) VALUES" + "(?,?,?,?)";
 
         try {
             stmt = connection.prepareStatement(query);
 
+            int i = 0;
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
+                    Set<String> intersection = new HashSet<String>(node.getGenomes());
+                    System.out.println(link.getGenomes());
+                    intersection.retainAll(link.getGenomes());
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());
                     stmt.setInt(THREE, threshold);
-                    stmt.executeUpdate();
+                    stmt.setString(4, intersection.toString());
+                    stmt.addBatch();
+                    i++;
+
+                    if (i % 1000 == 0) {
+                        stmt.executeBatch();
+                    }
                 }
             }
-            writeLinksGenomes(nodes);
+            stmt.executeBatch();
+//            writeLinksGenomes(nodes);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -188,7 +230,7 @@ public class SetupDatabase implements Database {
                 + "CONFLICT DO NOTHING";
         try {
             stmtgenomes = connection.prepareStatement(querygenomes);
-
+            int i = 0;
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     Set<String> intersection = new HashSet<String>(node.getGenomes());
@@ -198,10 +240,15 @@ public class SetupDatabase implements Database {
                         stmtgenomes.setInt(1, node.getId());
                         stmtgenomes.setInt(2, link.getId());
                         stmtgenomes.setString(THREE, genome.trim().replaceAll(" ", "-").replaceAll("_", "-"));
-                        stmtgenomes.executeUpdate();
+                        stmtgenomes.addBatch();
+                        i++;
+                        if (i % 1000 == 0) {
+                            stmtgenomes.executeBatch();
+                        }
                     }
                 }
             }
+            stmtgenomes.executeBatch();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,8 +264,8 @@ public class SetupDatabase implements Database {
         PreparedStatement stmtgenomes = null;
         String querygenomes = String.format("INSERT INTO %s(" +
                 " specimen_id , age , sex , hiv_status , cohort , date_of_collection , " + " microscopy_smear_status "
-                + "" + ", dna_isolation_single_colony_or_nonsingle_colony , phenotypic_dst_pattern , "
-                + "capreomycin_10ugml , " + "" + "ethambutol_75ugml , ethionamide_10ugml , isoniazid_02ugml_or_1ugml "
+                + "" + "" + "" + "" + ", dna_isolation_single_colony_or_nonsingle_colony , phenotypic_dst_pattern , " +
+                "capreomycin_10ugml , " + "" + "ethambutol_75ugml , ethionamide_10ugml , isoniazid_02ugml_or_1ugml "
                 + ", kanamycin_6ugml , " +
                 "pyrazinamide_nicotinamide_5000ugml_or_pzamgit , ofloxacin_2ugml , rifampin_1ugml , " +
                 "streptomycin_2ugml , digital_spoligotype , lineage , genotypic_dst_pattern , " +
@@ -228,11 +275,10 @@ public class SetupDatabase implements Database {
             stmtgenomes = connection.prepareStatement(querygenomes);
             int i = 0;
             for (Subject specimen : splist) {
-                System.out.println(i++);
                 if (specimen.getNameId().equals("MT_H37RV_BRD_V5.ref")) {
                     continue;
                 }
-                stmtgenomes.setString(1, specimen.getNameId().replaceAll("_", "-").replaceAll(" ", "-"));
+                stmtgenomes.setString(1, specimen.getNameId().replaceAll("-", "_").replaceAll(" ", "_"));
                 stmtgenomes.setInt(2, specimen.getAge());
                 stmtgenomes.setBoolean(3, specimen.isMale());
                 stmtgenomes.setInt(4, specimen.getHivStatus());

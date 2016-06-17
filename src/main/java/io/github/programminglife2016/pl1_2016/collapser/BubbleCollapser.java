@@ -154,7 +154,7 @@ public class BubbleCollapser implements Serializable {
     private Bubble initNewBubble(Node node) {
         Optional<Node> exist = bubbles.stream().filter(x ->
                 x.getStartNode().getId() == node.getStartNode().getId()
-                && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
+                        && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
         if (exist.isPresent()) {
             return (Bubble) exist.get();
         }
@@ -225,8 +225,8 @@ public class BubbleCollapser implements Serializable {
     private void addContainerIdToNestedBubbles(Collection<Node> bubbles) {
         for (Node bubble : bubbles) {
             bubble.getContainer().stream()
-                  .filter(x -> x.getContainerId() != bubble.getId())
-                  .forEach(x -> x.setContainerId(bubble.getId()));
+                    .filter(x -> x.getContainerId() != bubble.getId())
+                    .forEach(x -> x.setContainerId(bubble.getId()));
             bubble.getStartNode().setContainerId(bubble.getId());
             bubble.getEndNode().setContainerId(bubble.getId());
         }

@@ -1,2 +1,11 @@
 *.gfa filter=lfs diff=lfs merge=lfs -text
 *.sql filter=lfs diff=lfs merge=lfs -text
+*.ser filter=lfs diff=lfs merge=lfs -text
+*.dot filter=lfs diff=lfs merge=lfs -text
+src/main/resources/objects/bubbles-organized.ser filter=lfs diff=lfs merge=lfs -text
+src/main/resources/objects/bubbles-with-positions.ser filter=lfs diff=lfs merge=lfs -text
+src/main/resources/objects/bubbles.ser filter=lfs diff=lfs merge=lfs -text
+target/classes/objects/bubbles-with-positions.ser filter=lfs diff=lfs merge=lfs -text
+target/classes/objects/bubbles.ser filter=lfs diff=lfs merge=lfs -text
+src/main/resources/objects/TB10 filter=lfs diff=lfs merge=lfs -text
+src/main/resources/objects/TB328 filter=lfs diff=lfs merge=lfs -text
