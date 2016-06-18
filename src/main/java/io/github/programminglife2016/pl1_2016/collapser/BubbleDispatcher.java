@@ -172,14 +172,10 @@ public class BubbleDispatcher {
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
 
         addBacklinks(bubbleCollection);
-//        findAllParents();
-//        if (threshold >= ALIGNER_THRESHOLD) {
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.align();
-            return listAsNodeCollection(temp); //aggregateLines();
-//        }
-//        return listAsNodeCollection(filtered); //aggregateLines();
-//        return aggregateLines(listAsNodeCollection(filtered));
+            return listAsNodeCollection(temp); 
+        }
     }
 
     private void addBacklinks(Collection<Node> nodeCollection) {
@@ -499,9 +495,6 @@ public class BubbleDispatcher {
         segmentsWithParents[node.getId()-1][2] += containsIn.length() != 0 ? containsIn.toString() : "NULL";
         segmentsWithParents[node.getId()-1][3] = node.getData();
         segmentsWithParents[node.getId()-1][4] = node.getGenomes().toString();
-
-//        String[] ret = buildStringArray(node, startNodeIn.toString(), endNodeIn.toString(), containsIn.toString());
-//        return ret;
     }
 
     private Node getEndSegment(Node node) {
@@ -513,21 +506,6 @@ public class BubbleDispatcher {
         }
         return segment;
     }
-
-//    @SuppressWarnings("checkstyle:magicnumber")
-//    private String[] buildStringArray(Node node,
-//                                      String startNodeIn,
-//                                      String endNodeIn,
-//                                      String containsIn) {
-//        String[] ret = new String[6];
-//        ret[0] = Integer.toString(node.getId());
-//        ret[1] = startNodeIn.length() != 0 ? startNodeIn.toString() : "NULL";
-//        ret[2] = endNodeIn.length() != 0 ? endNodeIn.toString() : "NULL";
-//        ret[3] = containsIn.length() != 0 ? containsIn.toString() : "NULL";
-//        ret[4] = node.getData();
-//        ret[5] = node.getGenomes().toString();
-//        return ret;
-//    }
 
     public String[][] getSegmentsWithParents() {
         return segmentsWithParents;
