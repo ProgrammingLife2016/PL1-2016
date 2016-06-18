@@ -182,8 +182,8 @@ var Graph = function(nodes, edges, annotations) {
 Graph.prototype.draw = function () {
     var self = this;
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
-    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
     self.svg.drawAnnotations(self.annotations, self.xScale, self.yScale, self.geneTip.tip);
+    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
 }
 Graph.prototype.redraw = function () {
     var self = this;
