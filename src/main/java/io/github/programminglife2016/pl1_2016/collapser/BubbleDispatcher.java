@@ -61,9 +61,8 @@ public class BubbleDispatcher {
             this.bubbleCollection = collapser.getBubbles();
             this.lowestLevel = collapser.getLowestLevel();
             initDispatcher();
-            lastId = bubbleCollection.stream().max((b1, b2) -> {
-                return Integer.compare(b1.getId(), b2.getId());
-            }).get().getId();
+            lastId = bubbleCollection.stream().max((b1, b2) ->
+                Integer.compare(b1.getId(), b2.getId())).get().getId();
             serializeBubbleCollection();
         }
         originalCollection = collection;
@@ -171,23 +170,27 @@ public class BubbleDispatcher {
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
 
+        addBacklinks(filtered);
 //        getAllParents();
-        if (threshold >= ALIGNER_THRESHOLD) {
+//        if (threshold >= ALIGNER_THRESHOLD) {
             BubbleAligner aligner = new BubbleAligner(filtered);
-            Collection<Node> temp = aligner.alignVertical();
+            Collection<Node> temp = aligner.align();
             return listAsNodeCollection(temp); //aggregateLines();
-        }
-        return listAsNodeCollection(filtered); //aggregateLines();
+//        }
+//        return listAsNodeCollection(filtered); //aggregateLines();
 //        return aggregateLines(listAsNodeCollection(filtered));
     }
 
-    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
-        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
-        for (Node node : nodeCollection.values()) {
+    private void addBacklinks(Collection<Node> nodeCollection) {
+        nodeCollection.forEach(x -> x.getBackLinks().clear());
+        for (Node node : nodeCollection) {
             for (Node link : node.getLinks()) {
                 link.getBackLinks().add(node);
             }
         }
+    }
+
+    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
         List<Node> kowed = new ArrayList<>();
         nodeCollection.values().stream()
                       .filter(node -> node.getLinks().size() == 1).forEach(node -> {
