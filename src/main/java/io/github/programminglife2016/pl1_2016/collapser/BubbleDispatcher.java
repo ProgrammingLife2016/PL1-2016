@@ -175,7 +175,6 @@ public class BubbleDispatcher {
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.align();
             return listAsNodeCollection(temp); 
-        }
     }
 
     private void addBacklinks(Collection<Node> nodeCollection) {
