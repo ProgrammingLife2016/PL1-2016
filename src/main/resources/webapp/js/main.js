@@ -400,6 +400,7 @@ $(function() { // on dom ready
 
         $("#search input").keyup(function() {
             if ($("#search input ").val() === "") {
+                tree.modify_selection (function (n) {return false;});
                 phyloTree.listItems();
             }
         });
@@ -410,15 +411,10 @@ $(function() { // on dom ready
         $("#search input").on("search", function() {
             phyloTree.listItems();
         });
+
         $("#search input").keyup(function(e) {
             //Reset highlighting
-            window.tkks
-                .filter(function(tkk) {
-                    return tkk !== undefined;
-                })
-                .forEach(function(tkk) {
-                    $(tkk).css("fill", "#222");
-                });
+            tree.modify_selection (function (n) {return false;});
 
             if (window.fuse === undefined) {
                 console.log("Fuse not defined");
@@ -433,8 +429,8 @@ $(function() { // on dom ready
             });
 
             tree.modify_selection (function (n) {
-                return filter_value.length && (tree.branch_name () (n.target).search (rx)) != -1;
-            },"tag");
+                return d3_phylotree_is_leafnode(n.target) && nameMap[n.target.name] == 1;
+            }, false);
 
             var items = res.map(function(match) {
                 return $("<li>").text(match["name"]);

@@ -605,7 +605,7 @@ d3.layout.phylotree = function(container) {
             })
             .forEach(function(link) {
                 d3.selectAll(link).attr("stroke", "#F00");
-                console.log(link);
+                //console.log(link);
                 $(link).css("stroke", "#F00");
                 $(".branch[d=" + link.existing_path + "]").css("stroke", "#F00");
             });
