@@ -64,7 +64,7 @@ public class BubbleAligner {
             links.retainAll(mainBranch);
             if (links.size() > 1)
                 throw new RuntimeException();
-            Node main = links.get(0);//node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size())).get();
+            Node main = links.get(0);
             for (Node next : node.getLinks()) {
                 if (!visited.contains(next) && next.getId() != main.getId()) {
                     next.setXY(next.getX(), next.getY() + node.getY() - main.getY());
@@ -87,7 +87,6 @@ public class BubbleAligner {
     private void findMainNode(Collection<Node> nodes) {
         if (!nodes.isEmpty()) {
             Node main = nodes.stream()
-                    //.filter(x -> x.getBackLinks().size() == 0)
                     .max(Comparator.comparing(x -> x.getGenomes().size())).get();
             mainBranch.add(main);
             for (Node n : nodes) {
@@ -116,22 +115,3 @@ public class BubbleAligner {
         }
     }
 }
-
-
-    /*
-    else if (node.getLinks().size() > 1) {
-            count++;
-            Node main = node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size())).get();
-            for (Node next : node.getLinks()) {
-                if (!visited.contains(next) && next.getId() != main.getId()) {
-                    next.setXY(next.getX(), next.getY() + node.getY() - main.getY());
-                    visited.add(next);
-                }
-            }
-            if (!visited.contains(main)) {
-                main.setXY(main.getX(), node.getY());
-                visited.add(main);
-            }
-        }
-
-     */
