@@ -87,18 +87,14 @@ public class SetupDatabase implements Database {
         PreparedStatement stmt = connection.prepareStatement(format);
 
         NodeCollection nodes = bubbleDispatcher.getOriginalCollection();
-        bubbleDispatcher.findAllParents();
-//        for (Node node : nodes.values()) {
-//            String[] params = bubbleDispatcher.getAllParentsOfSegment(node);
-        String[][] segmentsWithParents = bubbleDispatcher.getSegmentsWithParents();
-        for (int i = 0; i < segmentsWithParents.length; i++) {
-            String[] params = segmentsWithParents[i];
-            stmt.setInt(1, i+1);//Integer.parseInt(params[0])
-            stmt.setString(2, params[0]);
-            stmt.setString(3, params[1]);
-            stmt.setString(4, params[2]);
-            stmt.setString(5, params[3]);
-            stmt.setString(6, params[4]);
+        for (Node node : nodes.values()) {
+            String[] params = bubbleDispatcher.getAllParentsOfSegment(node);
+            stmt.setInt(1, Integer.parseInt(params[0]));
+            stmt.setString(2, params[1]);
+            stmt.setString(3, params[2]);
+            stmt.setString(4, params[3]);
+            stmt.setString(5, params[4]);
+            stmt.setString(6, params[5]);
             stmt.addBatch();
         }
         stmt.executeBatch();
