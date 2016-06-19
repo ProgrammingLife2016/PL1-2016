@@ -20,6 +20,7 @@ public class BubbleAligner {
     private List<Node> visited = new ArrayList<>();
     private List<Node> mainBranch = new ArrayList<>();
     private Map<Node, Integer> otherNodes = new HashMap<>();
+    private static final double TIME = 1000000000d;
 
     /**
      * Create instance of bubbel aligner to align the position the node in the graph.
@@ -29,17 +30,20 @@ public class BubbleAligner {
         this.bubbleCollection = new ArrayList<>(bubbleCollection);
     }
 
-    private int count = 0;
     /**
      * Smooth the bubbles by minimizing the variance in the y coordinate of the bubbles.
      * @return collection with bubbles with modified posititons.
      */
     public Collection<Node> align() {
+        System.out.println("Start aligner...");
+        long startTime = System.nanoTime();
         sortByX(bubbleCollection);
         findMainBranch(bubbleCollection);
         alignMainBranch();
         alignOtherNodes();
         bubbleCollection.forEach(this::setNewY);
+        long endTime = System.nanoTime();
+        System.out.println("Done aligning. time: " + ((endTime - startTime) / TIME) + " s.");
         return bubbleCollection;
     }
 
@@ -51,7 +55,6 @@ public class BubbleAligner {
 
     private void setNewY(Node node) {
         if (node.getLinks().size() == 1) {
-            count++;
             Node next = node.getLinks().iterator().next();
             if (!visited.contains(next)) {
                 next.setXY(next.getX(), node.getY());
@@ -59,12 +62,14 @@ public class BubbleAligner {
             }
         }
         else if (node.getLinks().size() > 1) {
-            count++;
             List<Node> links = new ArrayList<>(node.getLinks());
             links.retainAll(mainBranch);
-            if (links.size() > 1)
-                throw new RuntimeException();
-            Node main = links.get(0);
+            Node main;
+            if (links.size() == 1) {
+                main = links.get(0);//node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size())).get();
+            } else {
+                main = node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size())).get();
+            }
             for (Node next : node.getLinks()) {
                 if (!visited.contains(next) && next.getId() != main.getId()) {
                     next.setXY(next.getX(), next.getY() + node.getY() - main.getY());
@@ -80,13 +85,14 @@ public class BubbleAligner {
 
     private void findMainBranch(Collection<Node> nodes) {
         List<Node> startNodes = nodes.stream()
-                    .filter(x -> x.getBackLinks().size() == 0).collect(Collectors.toList());
+                .filter(x -> x.getBackLinks().size() == 0).collect(Collectors.toList());
         findMainNode(startNodes);
     }
 
     private void findMainNode(Collection<Node> nodes) {
         if (!nodes.isEmpty()) {
             Node main = nodes.stream()
+                    //.filter(x -> x.getBackLinks().size() == 0)
                     .max(Comparator.comparing(x -> x.getGenomes().size())).get();
             mainBranch.add(main);
             for (Node n : nodes) {
