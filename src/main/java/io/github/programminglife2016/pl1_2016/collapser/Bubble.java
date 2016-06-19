@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * Bubble class that contains segments or nested bubbles.
  */
 public class Bubble implements Node, Serializable {
-    private static final long serialVersionUID = -5399272868997934829L;
+    private static final long serialVersionUID = 5065334268501873327L;
     private int id;
     private int x;
     private int y;
