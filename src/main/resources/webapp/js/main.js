@@ -93,10 +93,10 @@ $(function() { // on dom ready
       Add UI events concerning communicating with the server.
     */
     ServerConnection.prototype.bindUIEvents = function() {
-        $("#connect").click(() => {
-            console.log("Connecting to server...");
-            this.retrieveDataFromServer();
-        });
+        // $("#connect").click(() => {
+        //     console.log("Connecting to server...");
+        //     this.retrieveDataFromServer();
+        // });
 
         var duration = settings.animationDuration;
         var easing = "swing";
@@ -209,7 +209,7 @@ $(function() { // on dom ready
             $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
             console.log("autolock(false)");
         }
-    }
+    };
 
     /*
       Add UI events concerning the graph view.
@@ -240,23 +240,17 @@ $(function() { // on dom ready
 
             this.tree_div_height = $("#tree").height();
             this.tree_div_width = $("#tree").width();
-            $("#tree").height($("#tree_display").height());
-            $("#tree").width($("#tree_display").width());
+            if ($(window).width() < this.tree_div_width) {
+                $("#tree").height($("#tree_display").height());
+                $("#tree").width($("#tree_display").width());
+            }
             window.tkks.forEach(function(tkk) {
                 $("#search ul").append($("<li>").text(tkk.textContent));
-            })
+            });
 
             if (this.fuse === undefined) {
                 phyloTree.loadFuse();
             }
-
-            //Center phylogenetic tree in view
-            // var el = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
-            // var tr = el.getAttribute("transform");
-            // var values = tr.split('(')[1].split(')')[0].split(',');
-            // var wrap = d3.select(".svg-pan-zoom_viewport > g")
-            //     .attr("transform", "matrix(0.809726453085347,0,0,0.809726453085347," + values[4] + ",120)");
-
         });
 
         $("#toggleSearch").click(function() {
@@ -265,9 +259,14 @@ $(function() { // on dom ready
                 $("#toggleSearch").data("open", "true");
                 $("#search input").focus();
             } else {
+                phyloTree.resetHighlighting();
                 $("#search").stop().animate({width: 0, opacity: 0}, 400, "swing");
                 $("#toggleSearch").data("open", "false");
             }
+        });
+
+        $("#connect").click(function() {
+            phyloTree.setLineageHighlighting("LIN 4");
         });
 
         $("#resetHighlighting").click(function() {
@@ -281,14 +280,14 @@ $(function() { // on dom ready
         $("#selectButton").click(function() {
             graphHandler.showPhylotree();
         });
-    }
+    };
 
     GraphHandler.prototype.resetHighlighting = function() {
         disableHighlighting();
         $("#info").fadeOut();
         $("#info div").remove();
         $("#info").height(70);
-    }
+    };
 
     /*
       Load data of graph containing nodes and edges in graph view.
@@ -318,7 +317,7 @@ $(function() { // on dom ready
         $("#optionButton").stop().animate({
             opacity: 0
         }, duration, "swing");
-    }
+    };
 
     GraphHandler.prototype.showGraph = function() {
         $("#d3").show();
@@ -328,7 +327,7 @@ $(function() { // on dom ready
         $("#d3").css("z-index", "2");
         $("#options").css("z-index", "0");
         $("#search").css("display", "none");
-    }
+    };
 
     GraphHandler.prototype.showPhylotree = function() {
         $("#d3").hide();
@@ -344,14 +343,14 @@ $(function() { // on dom ready
         if (this.fuse === undefined) {
             phyloTree.loadFuse();
         }
-    }
+    };
 
     GraphHandler.prototype.setSelectedGenome = function(name) {
         var listitem = $("<div>").append($("<p>").text(name));
         $("#info").prepend(listitem);
         $("#info").height($("#info").height() + 36);
         $("#info").fadeIn();
-    }
+    };
 
 
     /*
@@ -383,15 +382,15 @@ $(function() { // on dom ready
             threshold: 0.1
         };
         window.fuse = new Fuse(listOfGenomes, options);
-    }
+    };
 
     PhyloGeneticTree.prototype.listItems = function() {
-        var items = window.tkks
-            .map(function(tkk) {
-                return $("<li>").text(tkk.textContent);
-            });
+        var text_items = d3.select("#tree_display").selectAll("text");
+        var items = text_items[0].map(function(tkk) {
+            return $("<li>").text(tkk.innerHTML);
+        });
         $("#search ul").html(items);
-    }
+    };
 
     PhyloGeneticTree.prototype.bindUIEvents = function() {
         $("#search input").focus(function() {
@@ -400,7 +399,7 @@ $(function() { // on dom ready
 
         $("#search input").keyup(function() {
             if ($("#search input ").val() === "") {
-                tree.modify_selection (function (n) {return false;});
+                phyloTree.resetHighlighting();
                 phyloTree.listItems();
             }
         });
@@ -414,7 +413,7 @@ $(function() { // on dom ready
 
         $("#search input").keyup(function(e) {
             //Reset highlighting
-            tree.modify_selection (function (n) {return false;});
+            phyloTree.resetHighlighting();
 
             if (window.fuse === undefined) {
                 console.log("Fuse not defined");
@@ -428,16 +427,41 @@ $(function() { // on dom ready
                 nameMap[tkk["name"]] = 1;
             });
 
-            tree.modify_selection (function (n) {
-                return d3_phylotree_is_leafnode(n.target) && nameMap[n.target.name] == 1;
-            }, false);
+            d3.select("#tree_display")
+              .selectAll("text")
+              .attr("fill", function(t) {
+                  if (nameMap[t.name] == 1) {
+                      return "#C63C36";
+                  } else {
+                      return "#000";
+                  }
+              });
+
 
             var items = res.map(function(match) {
                 return $("<li>").text(match["name"]);
             });
             $("#search ul").html(items);
+            return true;
         });
-    }
+    };
+
+    PhyloGeneticTree.prototype.resetHighlighting = function() {
+        d3.select("#tree_display")
+          .selectAll("text")
+          .attr("fill", function(t) {return "#000";});
+    };
+
+    PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
+        $.getJSON("/api/metadata/info/" + lineage.replace(" ", "-"), function(response) {
+            // console.log(response);
+            // console.log("TKK list:");
+            // console.log(response.tkkList);
+            console.log("paths");
+            var list = d3.select("#tree_display").selectAll("circle")[0];
+            console.log(list);
+        });
+    };
 
 
     /**
@@ -461,7 +485,7 @@ $(function() { // on dom ready
     };
     updateBounds();
     initializeData();
-    graphHandler.loadSettings();
+    window.graphHandler.loadSettings();
     $("#tree").css("z-index", "0");
     $("#d3").css("z-index", "1");
     $("#options").css("z-index", "2");

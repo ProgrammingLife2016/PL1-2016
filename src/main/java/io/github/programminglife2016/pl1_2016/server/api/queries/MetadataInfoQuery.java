@@ -4,6 +4,7 @@ import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.Collection;
 import java.util.Map;
@@ -41,8 +42,18 @@ public class MetadataInfoQuery implements ApiQuery {
             JSONObject lineage = new JSONObject();
             lineage.put("specimen_id", args.get(0));
             lineage.put("lineage", subjects.getOrDefault(args.get(0), new Specimen("").setLineage("")).getLineage());
+
+            JSONArray tkkList = new JSONArray();
+            subjects.entrySet().stream()
+                    .filter(e -> e.getValue()
+                                  .getLineage()
+                                  .replace(" ", "-")
+                                  .equals(args.get(0)))
+                    .forEach(e -> tkkList.put(e.getValue().getNameId()));
+
             resp.put("status", "success");
             resp.put("subject", lineage);
+            resp.put("tkkList", tkkList);
             return resp.toString();
         };
     }
