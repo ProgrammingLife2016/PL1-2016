@@ -60,7 +60,12 @@ var NODE_TYPE = function (node) {
         return "circle";
     }
 };
-var NODE_SIZE = 500;
+/**
+ * @return {number}
+ */
+var NODE_SIZE = function (d) {
+    return d.segmentsize / 10;
+};
 /**
  * @return {string}
  */

@@ -102,7 +102,7 @@ public class SetupDatabase implements Database {
     }
 
     public final void setup(NodeCollection nodes) {
-        if (!isSetup()) {
+//        if (!isSetup()) {
             clearTable(ANNOTATIONS_TABLE);
             clearTable(SPECIMEN_TABLE);
             clearTable(LINK_TABLE);
@@ -115,7 +115,7 @@ public class SetupDatabase implements Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int THRESHOLD : THRESHOLDS) {
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);
@@ -127,7 +127,7 @@ public class SetupDatabase implements Database {
                     e.printStackTrace();
                 }
             }
-        }
+//        }
     }
 
     private boolean isSetup() {
@@ -166,12 +166,11 @@ public class SetupDatabase implements Database {
     @SuppressWarnings("checkstyle:magicnumber")
     private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
-        String query = "INSERT INTO " + NODES_TABLE + "(id, data, x, y, isbubble, containersize) VALUES" + "(?,?,?,?,"
-                + "" + "" + "?,?) ON CONFLICT DO NOTHING";
+        String query = "INSERT INTO " + NODES_TABLE + "(id, data, x, y, isbubble, containersize, segmentsize) VALUES" + "(?,?,?,?,"
+                + "" + "" + "?,?,?) ON CONFLICT DO NOTHING";
 
         try {
             stmt = connection.prepareStatement(query);
-            int i = 0;
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
                 if (node.getStartNode().getId() == node.getEndNode().getId() && !node.getStartNode().isBubble()) {
@@ -185,13 +184,10 @@ public class SetupDatabase implements Database {
                 stmt.setInt(THREE, node.getX());
                 stmt.setInt(FOUR, node.getY());
                 stmt.setInt(6, node.getContainerSize());
+                stmt.setInt(7, node.getSegmentSize());
                 stmt.addBatch();
-                i++;
-
-                if (i % 1000 == 0 || i == nodes.values().size()) {
-                    stmt.executeBatch();
-                }
             }
+            stmt.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -222,7 +218,6 @@ public class SetupDatabase implements Database {
         try {
             stmt = connection.prepareStatement(query);
 
-            int i = 0;
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     Set<String> intersection = new HashSet<String>(node.getGenomes());
@@ -233,11 +228,6 @@ public class SetupDatabase implements Database {
                     stmt.setInt(THREE, threshold);
                     stmt.setString(4, intersection.toString());
                     stmt.addBatch();
-                    i++;
-
-                    if (i % 1000 == 0) {
-                        stmt.executeBatch();
-                    }
                 }
             }
             stmt.executeBatch();

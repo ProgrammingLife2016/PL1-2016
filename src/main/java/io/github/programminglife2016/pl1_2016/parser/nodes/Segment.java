@@ -287,5 +287,10 @@ public class Segment implements Node, Serializable {
         return rangePerGenome;
     }
 
+    @Override
+    public int getSegmentSize() {
+        return data.length();
+    }
+
 
 }
