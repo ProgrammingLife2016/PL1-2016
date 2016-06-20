@@ -194,7 +194,6 @@ $(function() { // on dom ready
     function GraphHandler() {
         this.zoomTreshold = settings.zoomTreshold;
         this.requestSend = false;
-        console.log("Start zoom: " + this.zoom);
         this.bindUIEvents();
         this.tree_div_height;
         this.tree_div_width;
@@ -204,10 +203,8 @@ $(function() { // on dom ready
         var c = cookieHandler.getCookie("enableDragging");
         if (c === undefined || c[1] === "false") {
             $("#enableDragging i").attr("class", "fa fa-square-o fa-fw fa-lg");
-            console.log("autolock(true)");
         } else {
             $("#enableDragging i").attr("class", "fa fa-square fa-fw fa-lg");
-            console.log("autolock(false)");
         }
     };
 
@@ -238,9 +235,14 @@ $(function() { // on dom ready
             $("#options").css("z-index", "0");
             $("#search").css("display", "block");
 
-            this.tree_div_height = $("#tree").height();
-            this.tree_div_width = $("#tree").width();
+            this.tree_div_height = $("#tree_display").height();
+            this.tree_div_width = $("#tree_display").width();
+            console.log("Window size");
+            console.log($(document).width());
             console.log($(document).height());
+
+            console.log("Div size");
+            console.log(this.tree_div_width);
             console.log(this.tree_div_height);
             if ($(document).width() < this.tree_div_width) {
                 console.log("Width");
@@ -260,12 +262,12 @@ $(function() { // on dom ready
         });
 
         $("#toggleSearch").click(function() {
-            if ($("#toggleSearch").data("open") !== "true") {
+            if ($("#toggleSearch").data("open") === "false") {
                 $("#search").stop().animate({width: 260, opacity: 1}, 400, "swing");
                 $("#toggleSearch").data("open", "true");
                 $("#search input").focus();
             } else {
-                phyloTree.resetHighlighting();
+                //phyloTree.resetHighlighting();
                 $("#search").stop().animate({width: 0, opacity: 0}, 400, "swing");
                 $("#toggleSearch").data("open", "false");
             }
@@ -459,10 +461,10 @@ $(function() { // on dom ready
           .selectAll("text")
           .attr("fill", function(t) {return "#000";});
         d3.select("#tree_display")
-            .selectAll("path")
-            .style("stroke", function(p) {
-                return "#444";
-            }, "important")
+          .selectAll("path")
+          .style("stroke", function(p) {
+              return "#999";
+          }, "important")
     };
 
     PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
@@ -501,6 +503,7 @@ $(function() { // on dom ready
                       || response.tkkList.indexOf(link.target.name.replaceAll("-", "_")) != -1;
                   })
                   .forEach(leaf => {
+                      console.log(leaf);
                       d3.select("#tree_display")
                         .selectAll("path")
                         .filter(path => path.existing_path === leaf.existing_path)
@@ -508,6 +511,13 @@ $(function() { // on dom ready
                         // .forEach(p => console.log(p));
                   });
         });
+        var tkk = "TKK-01-0037";
+        window.links
+            .filter(link => linl.source.name === tkk || link)
+        d3.select("#tree_display")
+            .selectAll("path")
+            .filter(path => path.existing_path === leaf.parent.existing_path)
+            .style("stroke", "#0FF", "important");
     };
 
 
