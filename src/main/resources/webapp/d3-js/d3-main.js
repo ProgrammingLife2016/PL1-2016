@@ -64,7 +64,7 @@ var NODE_TYPE = function (node) {
  * @return {number}
  */
 var NODE_SIZE = function (d) {
-    return d.segmentsize / 10;
+    return Math.log(d.segmentsize / 3) / Math.log(1.005);
 };
 /**
  * @return {string}

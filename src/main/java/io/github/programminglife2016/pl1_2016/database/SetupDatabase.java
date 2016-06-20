@@ -119,11 +119,10 @@ public class SetupDatabase implements Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
             for (int THRESHOLD : THRESHOLDS) {
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);
-                nodesToWrite.recalculatePositions();
                 try {
                     writeNodes(nodesToWrite, THRESHOLD);
                     writePrimitives(dispatcher);
@@ -225,7 +224,6 @@ public class SetupDatabase implements Database {
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     Set<String> intersection = new HashSet<String>(node.getGenomes());
-                    System.out.println(link.getGenomes());
                     intersection.retainAll(link.getGenomes());
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());
