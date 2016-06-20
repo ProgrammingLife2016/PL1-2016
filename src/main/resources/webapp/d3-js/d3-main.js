@@ -8,7 +8,18 @@ var PAN_THRESHOLD = 5000;
 var PAN_EXTRA_X = 50000;
 var adjustment;
 var SELECTORS = [];
+var genomes;
 
+function getMetadata() {
+    $.getJSON("/api/metadata/infos", function (response) {
+        genomes = response.subjects;
+
+        for(var i = 0; i < genomes.length; i++) {
+            $("#selectedTKKs").append("<option value=" + genomes[1].specimen_id  + ">" + genomes[1].specimen_id + "</option>");
+        }
+    });
+}
+getMetadata();
 /**
  * @return {number}
  */
@@ -135,6 +146,7 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
     }
 
     $.getJSON("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize + tkksToHighlight, function (response) {
+        console.log("/api/nodes/" + threshold + "/" + Math.round(minX) + "/" + Math.round(maxX) + "/" + minContainersize + tkksToHighlight);
         var nodes = response.nodes;
         var edges = response.edges;
         var annotations = response.annotations;
@@ -374,6 +386,7 @@ SegmentInspector.prototype.display = function (commonStart, differences, commonE
 
 var serverConnection;
 function startD3() {
+    getMetadata();
     serverConnection = new ServerConnection();
     serverConnection.loadGraph(64, 0, 100000000, 64, false);
 }
