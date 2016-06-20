@@ -688,18 +688,6 @@ $( document ).ready( function () {
                     .map(function(node) {
                         return {"textContent": node.name};
                     });
-
-            console.log("Style edges");
-            // tree.style_edges (function (element, data) {
-                // var m = (tree.branch_name () (data.target)).split (" ");
-                // if (m.length > 1) {
-                //     element.style ("stroke", color_scale(m[0]));
-                // }
-                // edge_colorizer (element, data);
-                // console.log(element);
-                // console.log(data);
-            // });
-
         }
         warning_div.append ("button")
                     .attr ("type", "button")

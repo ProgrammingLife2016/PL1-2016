@@ -240,10 +240,16 @@ $(function() { // on dom ready
 
             this.tree_div_height = $("#tree").height();
             this.tree_div_width = $("#tree").width();
-            //if ($(window).width() < this.tree_div_width) {
-                $("#tree").height($("#tree_display").height());
+            console.log($(document).height());
+            console.log(this.tree_div_height);
+            if ($(document).width() < this.tree_div_width) {
+                console.log("Width");
                 $("#tree").width($("#tree_display").width());
-            //}
+            }
+            if ($(document).height() - $("#nav").height() < this.tree_div_height) {
+                console.log("Height");
+                $("#tree").height($("#tree_display").height());
+            }
             window.tkks.forEach(function(tkk) {
                 $("#search ul").append($("<li>").text(tkk.textContent));
             });
@@ -255,7 +261,7 @@ $(function() { // on dom ready
 
         $("#toggleSearch").click(function() {
             if ($("#toggleSearch").data("open") !== "true") {
-                $("#search").stop().animate({width: 300, opacity: 1}, 400, "swing");
+                $("#search").stop().animate({width: 260, opacity: 1}, 400, "swing");
                 $("#toggleSearch").data("open", "true");
                 $("#search input").focus();
             } else {
@@ -270,11 +276,11 @@ $(function() { // on dom ready
         });
 
         $("#resetHighlighting").click(function() {
-            graphHandler.resetHighlighting();
+            phyloTree.resetHighlighting();
         });
 
         $("#resetButton").click(function() {
-            graphHandler.resetHighlighting();
+            phyloTree.resetHighlighting();
         });
 
         $("#selectButton").click(function() {
@@ -408,6 +414,7 @@ $(function() { // on dom ready
         });
 
         $("#search input").on("search", function() {
+            phyloTree.resetHighlighting();
             phyloTree.listItems();
         });
 
@@ -447,9 +454,15 @@ $(function() { // on dom ready
     };
 
     PhyloGeneticTree.prototype.resetHighlighting = function() {
+        window.tree.modify_selection (function (d) { return false;});
         d3.select("#tree_display")
           .selectAll("text")
           .attr("fill", function(t) {return "#000";});
+        d3.select("#tree_display")
+            .selectAll("path")
+            .style("stroke", function(p) {
+                return "#444";
+            }, "important")
     };
 
     PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
@@ -459,73 +472,41 @@ $(function() { // on dom ready
             }
             return this.split(search).join(replace);
         };
+
+        var hlParents = function(path) {
+            d3.select("#tree_display")
+                .selectAll("path")
+                .filter(function(path) {
+                    return path.existing_path === leaf.existing_path;
+                })
+                .style("stroke", function(p) {
+                    return "#0FF";
+                }, "important")
+                .forEach(hlParent);
+        };
+
         $.getJSON("/api/metadata/info/" + lineage.replace(" ", "-"), function(response) {
             console.log("paths");
             console.log(window.links);
             console.log("Filtered paths");
-
-            // d3.select("#tree_display")
-            //     .selectAll("path")
-            //     .style("stroke", function(p) {
-            //         return "#0FF";
-            //     }, "important");
-            var tkkInLineage = function(e) {
-                return response.tkkList.indexOf(e.source.name.replaceAll("-", "_")) != -1
-                    || response.tkkList.indexOf(e.target.name.replaceAll("-", "_")) != -1;
-            };
-            var set = [];
             var count = 0;
             console.log("Leafs");
             console.log(response.tkkList);
-            window.links.filter(e => e.source.name !== "" || e.target.name !== "")
-                  .filter(tkkInLineage)
-                  .forEach(function(leaf) {
+            window.links
+                  .filter(link => {
+                      return link.source.name !== "" || link.target.name !== "";
+                  })
+                  .filter(link => {
+                      return response.tkkList.indexOf(link.source.name.replaceAll("-", "_")) != -1
+                      || response.tkkList.indexOf(link.target.name.replaceAll("-", "_")) != -1;
+                  })
+                  .forEach(leaf => {
                       d3.select("#tree_display")
-                          .selectAll("path")
-                          .filter(function(path) {
-                              return path.existing_path === leaf.existing_path;
-                          })
-                          .style("stroke", function(p) {
-                              return "#0FF";
-                          }, "important");
+                        .selectAll("path")
+                        .filter(path => path.existing_path === leaf.existing_path)
+                        .style("stroke", "#0FF", "important");
+                        // .forEach(p => console.log(p));
                   });
-            // window.links.filter(function(path) {
-            //     // if (path.source.children.length == 1
-            //     //     || path.target.children.length == 1) {
-            //     //     console.log(path);
-            //     // }
-            //     // var res = (path.source.children !== undefined &&
-            //     //         response.tkkList.indexOf(path.source.children[0].name) != -1
-            //     //            || response.tkkList.indexOf(path.source.children[1].name) != -1);
-            //     // res = res || (path.target.children !== undefined &&
-            //     //      response.tkkList.indexOf(path.target.children[0].name) != -1
-            //     //               || response.tkkList.indexOf(path.target.children[1].name) != -1);
-            //     if (!path.source.children && !path.target.children) {
-            //         return false;
-            //     }
-            //     return true;
-            // }).forEach(function(path) {
-            //     d3.select("#tree_display")
-            //         .selectAll("path")
-            //         .filter(function(p) {
-            //             return (p.existing_path === path.existing_path
-            //                     && set.indexOf(p.existing_path) == -1);
-            //             // return true;
-            //         })
-            //         .style("stroke", function(p) {
-            //             // console.log(path);
-            //             count++;
-            //             return "#0FF";
-            //         }, "important");
-            //     // console.log(path);
-            // });
-
-            /*
-             Highlight path
-             */
-            // var paths = d3.select("#tree_display")
-            //               .selectAll("path")
-            //               .style("stroke", "#F0F", "important");
         });
     };
 
