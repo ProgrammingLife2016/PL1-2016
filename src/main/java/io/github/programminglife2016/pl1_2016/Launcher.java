@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.GFFParser;
 
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
@@ -65,6 +66,8 @@ public final class Launcher {
         nodeCollection.setAnnotations(gffParser.getAnnotations());
         closeInputStreams(is, positions, metadata, decorations);
         if (useDatabase) {
+//            SetupDatabase setupDatabase = new SetupDatabase(dataset, subjects.values());
+//            setupDatabase.setup(nodeCollection);
             FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {

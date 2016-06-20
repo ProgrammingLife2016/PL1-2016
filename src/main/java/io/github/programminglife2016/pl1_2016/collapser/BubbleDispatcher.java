@@ -9,6 +9,7 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,7 +29,6 @@ import java.util.stream.Collectors;
  * @author Kamran Tadzjibov
  */
 public class BubbleDispatcher {
-
     private static String BUBBLES_SERIAL =
             "src/main/resources/objects/%s/bubbles-organized.ser";
     private static String LOWEST_LEVEL_SERIAL =
@@ -43,6 +43,7 @@ public class BubbleDispatcher {
     private NodeCollection originalCollection;
 
     private Map<String, Node> quickReference;
+    private String [][] segmentsWithParents;
 
     /**
      * Initialize bubbles by running bubble collapser.
@@ -61,9 +62,8 @@ public class BubbleDispatcher {
             this.bubbleCollection = collapser.getBubbles();
             this.lowestLevel = collapser.getLowestLevel();
             initDispatcher();
-            lastId = bubbleCollection.stream().max((b1, b2) -> {
-                return Integer.compare(b1.getId(), b2.getId());
-            }).get().getId();
+            lastId = bubbleCollection.stream().max((b1, b2) ->
+                Integer.compare(b1.getId(), b2.getId())).get().getId();
             serializeBubbleCollection();
         }
         originalCollection = collection;
@@ -170,24 +170,20 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-
-//        getAllParents();
-        if (threshold >= ALIGNER_THRESHOLD) {
-            BubbleAligner aligner = new BubbleAligner(filtered);
-            Collection<Node> temp = aligner.alignVertical();
-            return listAsNodeCollection(temp); //aggregateLines();
-        }
-        return listAsNodeCollection(filtered); //aggregateLines();
-//        return aggregateLines(listAsNodeCollection(filtered));
+        return listAsNodeCollection(filtered);
     }
 
-    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
+    private void addBacklinks(NodeCollection nodeCollection) {
         nodeCollection.values().forEach(x -> x.getBackLinks().clear());
         for (Node node : nodeCollection.values()) {
             for (Node link : node.getLinks()) {
                 link.getBackLinks().add(node);
             }
         }
+    }
+
+    private NodeCollection aggregateLines(NodeCollection nodeCollection) {
+        addBacklinks(nodeCollection);
         List<Node> kowed = new ArrayList<>();
         nodeCollection.values().stream()
                       .filter(node -> node.getLinks().size() == 1).forEach(node -> {
@@ -215,6 +211,7 @@ public class BubbleDispatcher {
      * @return filtered set of bubbles
      */
     public Set<Node> filterMultithreaded(int threshold, boolean onlyGivenThreshold) {
+        createQuickRefForFiltering();
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         try {
             forkJoinPool.submit(() -> {
@@ -233,7 +230,6 @@ public class BubbleDispatcher {
      * @return set of wrong linked in current context bubbles which are filtered on threshold value
      */
     private Set<Node> filterBubbles(int threshold, boolean onlyGivenThreshold) {
-        createQuickRefForFiltering();
         Set<Integer> containers = Collections.synchronizedSet(new HashSet<>()); //new ArrayList<>();
         Set<Node> filtered = Collections.synchronizedSet(new HashSet<>());
         for (int i = 1; i < lowestLevel; i++) {
@@ -436,56 +432,73 @@ public class BubbleDispatcher {
         return node.getStartNode().getId() + "_" + node.getEndNode().getId();
     }
 
+
     /**
      * Get all parents
      */
-    public void getAllParents() {
-        originalCollection.values().forEach(this::getAllParentsOfSegment); //parallelStream().
+    public String [][] findAllParents() {
+        segmentsWithParents = new String[originalCollection.size()][6];
+        for (int i = 0; i < segmentsWithParents.length; i++) {
+            Arrays.fill(segmentsWithParents[i], "");
+        }
+        originalCollection.values().forEach(this::getAllParentsOfSegment);
+        return segmentsWithParents;
     }
 
     /**
      * Get parents of a specific segment.
      * @param node node of which the parents are needed.
-     * @return return string array of parents.
      */
     @SuppressWarnings("checkstyle:magicnumber")
-    public String[] getAllParentsOfSegment(Node node) {
+    public void getAllParentsOfSegment(Node node) {
         Node currNode = node;
+        List<Node> prevNodes = new ArrayList<>();
+        prevNodes.add(node);
         Node parent;
         StringBuilder startNodeIn = new StringBuilder();
         StringBuilder endNodeIn = new StringBuilder();
         StringBuilder containsIn = new StringBuilder();
         String formattedId;
+        int endSegmentId;
         while (currNode.getContainerId() > 0) {
             parent = quickReference.get(String.valueOf(currNode.getContainerId()));
             formattedId = "/" + parent.getId() + "/";
             if (parent.getStartNode().getId() == currNode.getId()) {
                 startNodeIn.append(formattedId);
-            } else if (parent.getEndNode().getId() == currNode.getId()) {
-                endNodeIn.append(formattedId);
-            } else {
+            }
+            endSegmentId = getEndSegment(parent.getEndNode()).getId();
+            if (!segmentsWithParents[endSegmentId - 1][1].contains(formattedId)) {
+                if(segmentsWithParents[endSegmentId - 1][1].contains("NULL")) {
+                    segmentsWithParents[endSegmentId - 1][1] =
+                            segmentsWithParents[endSegmentId - 1][1].replaceAll("NULL", "");
+                }
+                segmentsWithParents[endSegmentId - 1][1] += formattedId;
+            }
+            if (parent.getContainer().contains(currNode)) {
                 containsIn.append(formattedId);
             }
+            prevNodes.add(currNode);
             currNode = parent;
         }
-        System.out.println(startNodeIn);
-        String[] ret = buildStringArray(node, startNodeIn.toString(), endNodeIn.toString(), containsIn.toString());
-        return ret;
+        segmentsWithParents[node.getId()-1][0] += startNodeIn.length() != 0 ? startNodeIn.toString() : "NULL";
+        segmentsWithParents[node.getId()-1][1] += segmentsWithParents[node.getId()-1][1].length() != 0 ? endNodeIn.toString() : "NULL";
+        segmentsWithParents[node.getId()-1][2] += containsIn.length() != 0 ? containsIn.toString() : "NULL";
+        segmentsWithParents[node.getId()-1][3] = node.getData();
+        segmentsWithParents[node.getId()-1][4] = node.getGenomes().toString();
     }
 
-    @SuppressWarnings("checkstyle:magicnumber")
-    private String[] buildStringArray(Node node,
-                                      String startNodeIn,
-                                      String endNodeIn,
-                                      String containsIn) {
-        String[] ret = new String[6];
-        ret[0] = Integer.toString(node.getId());
-        ret[1] = startNodeIn.length() != 0 ? startNodeIn.toString() : "NULL";
-        ret[2] = endNodeIn.length() != 0 ? endNodeIn.toString() : "NULL";
-        ret[3] = containsIn.length() != 0 ? containsIn.toString() : "NULL";
-        ret[4] = node.getData();
-        ret[5] = node.getGenomes().toString();
-        return ret;
+    private Node getEndSegment(Node node) {
+        Node segment;
+        if (node.isBubble()) {
+            segment = getEndSegment(node.getEndNode());
+        } else {
+            segment = node;
+        }
+        return segment;
+    }
+
+    public String[][] getSegmentsWithParents() {
+        return segmentsWithParents;
     }
 
     /**
