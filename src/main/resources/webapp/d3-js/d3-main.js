@@ -145,7 +145,7 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
             self.previousDomain = [0, d3.max(nodes.map(function (n) {return n.x}))];
             self.graph = new Graph(nodes, edges, annotations);
             self.graph.draw();
-            self.minimap = new Minimap(nodes, edges);
+            self.minimap = new Minimap(nodes, edges, self.graph.zoom);
             self.minimap.draw(self.graph.xScale);
             setOptions();
             setTKKs();
@@ -304,20 +304,47 @@ Svg.prototype.clear = function () {
     self.svgAnnotations.remove();
 };
 
-Svg.prototype.drawMinimapRect = function (miniXScale, graphXScale) {
+Svg.prototype.drawMinimapRect = function (miniXScale, graphXScale, zoom) {
     var self = this;
-    self.minimapRect = self.svg
+    var dragstarted = function (d) {
+        d3.event.sourceEvent.stopPropagation();
+        d3.select(this).attr("fill", "#798082");
+    };
+    var dragged = function (d) {
+        d3.select(this).attr("x", d.x = d3.event.x);
+    };
+    var dragended = function (d) {
+        d3.select(this).attr("fill", "#a6adaf");
+        var translate = [-2 * d.x * zoom.scale(), -zoom.scale()];
+        self.svg.transition()
+            .call(zoom.translate(translate).scale(zoom.scale()).event);
+    };
+    var drag = d3.behavior.drag()
+        .origin(function(d) {return d;})
+        .on("dragstart", dragstarted)
+        .on("drag", dragged)
+        .on("dragend", dragended);
+
+    var rectObj = {
+        "x": 0,
+        "width": 0
+    };
+    self.minimapRect = self.svg.selectAll("rect")
+        .data([rectObj])
+        .enter()
         .append("rect")
-        .attr("class", "minimapRect");
+        .attr("class", "minimapRect")
+        .attr("fill", "#a6adaf")
+        .call(drag);
     self.positionMinimapRect(miniXScale, graphXScale);
 };
 
 Svg.prototype.positionMinimapRect = function (miniXScale, graphXScale) {
     var self = this;
     self.minimapRect
-        .attr("x", miniXScale(graphXScale.invert(0)))
+        .attr("x", function (d) {d.x = miniXScale(graphXScale.invert(0)); return d.x})
         .attr("y", 0)
-        .attr("width", miniXScale(graphXScale.invert(WIDTH)) - miniXScale(graphXScale.invert(0)))
+        .attr("width", function (d) {d.width = miniXScale(graphXScale.invert(WIDTH)) - miniXScale(graphXScale.invert(0)); return d.width})
         .attr("height", MINI_HEIGHT);
 };
 
@@ -329,18 +356,19 @@ var Tip = function(offsetX, offsetY, text) {
         .html(text);
 };
 
-var Minimap = function(nodes, edges) {
+var Minimap = function(nodes, edges, zoom) {
     var self = this;
     self.edges = edges;
     self.xScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.x2}))]).range([0, MINI_WIDTH]);
     self.yScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.y2}))]).range([MINI_HEIGHT, 0]);
+    self.zoom = zoom;
     self.svg = new Svg("#d3minimap", MINI_WIDTH, MINI_HEIGHT);
 };
 
 Minimap.prototype.draw = function (graphXScale) {
     var self = this;
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
-    self.svg.drawMinimapRect(self.xScale, graphXScale);
+    self.svg.drawMinimapRect(self.xScale, graphXScale, self.zoom);
 };
 
 Minimap.prototype.updateMinimapRect = function (graphXScale) {
