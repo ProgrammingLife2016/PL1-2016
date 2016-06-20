@@ -4,7 +4,6 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Segment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
  * @author Kamran Tadzjibov
  *
  */
-public class BubbleCollapser implements Serializable {
+public class BubbleCollapser {
     private List<Node> bubbles;
     private int lastId;
     private int bubblesListSize;
@@ -48,9 +47,7 @@ public class BubbleCollapser implements Serializable {
      * Main method that collapses all bubbles.
      */
     public void collapseBubbles() {
-        for (Node bubble : bubbles) {
-            bubble.getContainer().addAll(bfs(bubble));
-        }
+        bubbles.forEach(bubble -> bubble.getContainer().addAll(findSegmentsInBubble(bubble)));
         for (int i = 0; i < bubblesListSize; i++) {
             modifyContainer(bubbles.get(i));
         }
@@ -81,32 +78,39 @@ public class BubbleCollapser implements Serializable {
      * @param bubble bubble to collapse
      * @return bubbles filled with segments
      */
-    private List<Node> bfs(Node bubble) {
+    private List<Node> findSegmentsInBubble(Node bubble) {
         List<Node> visited = new ArrayList<>();
         int startId =  bubble.getStartNode().getId();
         int endId =  bubble.getEndNode().getId();
         collapsedSegments.add(startId);
         collapsedSegments.add(endId);
-        if (startId == endId) {
-            return visited;
+        if (startId != endId) {
+            bubble.getStartNode().setContainerId(bubble.getId());
+            bubble.getEndNode().setContainerId(bubble.getId());
+            breadthFirstSearch(bubble, visited, startId, endId);
         }
-        bubble.getStartNode().setContainerId(bubble.getId());
-        bubble.getEndNode().setContainerId(bubble.getId());
+        return visited;
+    }
+
+    private void breadthFirstSearch(Node bubble, List<Node> visited, int startId, int endId) {
         Queue<Node> q = new ConcurrentLinkedQueue<>();
         q.add(bubble.getStartNode());
         while (!q.isEmpty()) {
-            Node n = q.poll();
-            for (Node v : n.getLinks()) {
-                if (visited.contains(v) || v.getId() == startId || v.getId() == endId) {
-                    continue;
-                }
-                v.setContainerId(bubble.getId());
-                q.add(v);
-                visited.add(v);
-                collapsedSegments.add(v.getId());
-            }
+            visitNodes(bubble, visited, startId, endId, q);
         }
-        return visited;
+    }
+
+    private void visitNodes(Node bubble, List<Node> visited, int startId, int endId, Queue<Node> q) {
+        Node n = q.poll();
+        for (Node v : n.getLinks()) {
+            if (visited.contains(v) || v.getId() == startId || v.getId() == endId) {
+                continue;
+            }
+            v.setContainerId(bubble.getId());
+            q.add(v);
+            visited.add(v);
+            collapsedSegments.add(v.getId());
+        }
     }
 
     private void collapseSingleSegments(NodeCollection collection) {
@@ -122,47 +126,61 @@ public class BubbleCollapser implements Serializable {
         Set<Node> newCont = new HashSet<>();
         for (int i = 0; i < bubblesListSize; i++) {
             Node segS = bubbles.get(i).getStartNode();
-            boolean containsBubbles = bubbles.get(i)
-                    .getContainer()
-                    .stream()
-                    .filter(Node::isBubble)
-                    .collect(Collectors.toList()).size() != 0;
-            boolean tooComplex = bubbles.get(i).getContainer().size() > 2
-                    && bubbles.get(i).getContainer()
-                    .stream()
-                    .filter(x -> !x.isBubble()).count() > 0;
-            if (containsBubbles || tooComplex) {
-                if (!segS.isBubble()) {
-                    bubbles.get(i).setStartNode(initNewBubble(segS));
-                    bubbles.get(i).setEndNode(initNewBubble(bubbles.get(i).getEndNode()));
-                    for (Node n : bubbles.get(i).getContainer()) {
-                        if (!n.isBubble()) {
-                            newCont.add(initNewBubble(n));
-                        }
-                        else {
-                            newCont.add(n);
-                        }
-                    }
-                    bubbles.get(i).getContainer().clear();
-                    bubbles.get(i).getContainer().addAll(newCont);
-                    newCont.clear();
-                }
+            if ((containsBubbles(i) || isTooComplex(i)) && (!segS.isBubble())) {
+                collapseSegmentsInBubble(newCont, i, segS);
+                bubbles.get(i).getContainer().clear();
+                bubbles.get(i).getContainer().addAll(newCont);
+                newCont.clear();
             }
         }
     }
 
-    private Bubble initNewBubble(Node node) {
-        Optional<Node> exist = bubbles.stream().filter(x ->
-                x.getStartNode().getId() == node.getStartNode().getId()
-                        && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
-        if (exist.isPresent()) {
-            return (Bubble) exist.get();
+    private void collapseSegmentsInBubble(Set<Node> newCont, int i, Node segS) {
+        bubbles.get(i).setStartNode(initNewBubble(segS));
+        bubbles.get(i).setEndNode(initNewBubble(bubbles.get(i).getEndNode()));
+        for (Node n : bubbles.get(i).getContainer()) {
+            if (!n.isBubble()) {
+                newCont.add(initNewBubble(n));
+            }
+            else {
+                newCont.add(n);
+            }
         }
+    }
+
+    private boolean isTooComplex(int i) {
+        return bubbles.get(i).getContainer().size() > 2
+                        && bubbles.get(i).getContainer()
+                        .stream()
+                        .filter(x -> !x.isBubble()).count() > 0;
+    }
+
+    private boolean containsBubbles(int i) {
+        return bubbles.get(i)
+                        .getContainer()
+                        .stream()
+                        .filter(Node::isBubble)
+                        .collect(Collectors.toList()).size() != 0;
+    }
+
+    private Bubble initNewBubble(Node node) {
+        Bubble existingBubble = getExistingBubble(node);
+        if (existingBubble != null) return existingBubble;
         lastId++;
         Bubble newBubble = new Bubble(lastId, -1, (Segment) node);
         bubbles.add(newBubble);
         bubblesListSize++;
         return newBubble;
+    }
+
+    private Bubble getExistingBubble(Node node) {
+        Optional<Node> exist = bubbles.stream().filter(x ->
+                x.getStartNode().getId() == node.getStartNode().getId()
+                && x.getEndNode().getId() == node.getEndNode().getId()).findFirst();
+        if (exist.isPresent()) {
+            return (Bubble) exist.get();
+        }
+        return null;
     }
 
     /**
@@ -171,23 +189,31 @@ public class BubbleCollapser implements Serializable {
      */
     private void modifyContainer(Node bubble) {
         Set<Integer> innerBubbles = findAllInnerBubbles(bubble.getContainer(), bubble.getId());
+        fillBubbleContainer(bubble, innerBubbles);
+        if (bubble.getContainer().stream().filter(Node::isBubble)
+                .collect(Collectors.toList()).size() != 0) {
+            encapsulateIfNeeded(bubble);
+        }
+    }
+
+    private void encapsulateIfNeeded(Node bubble) {
+        for (int i = 0; i < bubble.getContainer().size(); i++) {
+            if (!bubble.getContainer().get(i).isBubble()) {
+                lastId++;
+                Node newChild = new Bubble(lastId, bubbles.get(i).getZoomLevel(),
+                        (Segment) bubble.getContainer().get(i));
+                bubble.getContainer().remove(i);
+                bubble.getContainer().add(newChild);
+                bubbles.add(newChild);
+                bubblesListSize++;
+            }
+        }
+    }
+
+    private void fillBubbleContainer(Node bubble, Set<Integer> innerBubbles) {
         for (int id : innerBubbles) {
             bubble.getContainer().add(bubbles.stream()
                     .filter(b -> b.getId() == id).findFirst().get());
-        }
-        if (bubble.getContainer().stream().filter(Node::isBubble)
-                .collect(Collectors.toList()).size() != 0) {
-            for (int i = 0; i < bubble.getContainer().size(); i++) {
-                if (bubble.getContainer().get(i) instanceof Segment) {
-                    lastId++;
-                    Node newChild = new Bubble(lastId, bubbles.get(i).getZoomLevel(),
-                            (Segment) bubble.getContainer().get(i));
-                    bubble.getContainer().remove(i);
-                    bubble.getContainer().add(newChild);
-                    bubbles.add(newChild);
-                    bubblesListSize++;
-                }
-            }
         }
     }
 
@@ -225,8 +251,8 @@ public class BubbleCollapser implements Serializable {
     private void addContainerIdToNestedBubbles(Collection<Node> bubbles) {
         for (Node bubble : bubbles) {
             bubble.getContainer().stream()
-                    .filter(x -> x.getContainerId() != bubble.getId())
-                    .forEach(x -> x.setContainerId(bubble.getId()));
+                  .filter(x -> x.getContainerId() != bubble.getId())
+                  .forEach(x -> x.setContainerId(bubble.getId()));
             bubble.getStartNode().setContainerId(bubble.getId());
             bubble.getEndNode().setContainerId(bubble.getId());
         }

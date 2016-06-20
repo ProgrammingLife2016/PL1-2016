@@ -19,8 +19,6 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class BubbleDispatcherTest {
     private BubbleDispatcher dispatcher;
-    public InputStream input;
-    public InputStream pos;
 
     /**
      * Create parser object.
@@ -62,10 +60,10 @@ public class BubbleDispatcherTest {
                 "\tCRDCTG:Z:MT_H37RV_BRD_V5\tCTG:Z:NZ_KK327777.1\tSTART:Z:0\n" + "L\t15\t+\t16\t+\t0M\n" +
                 "S\t16\tsomedData\t*\tORI:Z:G-1.fasta;G-2.fasta;G-3.fasta;G-4.fasta;G-5.fasta" + "\tCRD:Z:G-1"
                 + ".fasta\tCRDCTG:Z:MT_H37RV_BRD_V5\tCTG:Z:NZ_KK327777.1" + "\tSTART:Z:0";
-        input = stringToInputStream(meta);
-        pos = Launcher.class.getClass().getResourceAsStream("/genomes/testGraph.positions");
+        InputStream input = stringToInputStream(meta);
+        InputStream pos = Launcher.class.getClass().getResourceAsStream("/genomes/testGraph.positions");
         NodeCollection nodeCollection = new SegmentParser(pos, null).parse(input);
-        dispatcher = new BubbleDispatcher(nodeCollection, "tests");
+        dispatcher = new BubbleDispatcher(nodeCollection);
     }
 
     /**

@@ -4,7 +4,17 @@ import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.ApiHandler;
-import io.github.programminglife2016.pl1_2016.server.api.queries.*;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetDataFromMutationApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetLineageFromDatabaseApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedBubblesFromDatabaseApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataFromDatabaseApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoAnnotationsFromDatabaseQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoFromDatabaseQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataNavigateApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.OptionsOfGenomesFromDatabase;
+import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesFromDatabaseApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
 import java.util.Map;
 
@@ -38,7 +48,8 @@ public class DatabaseQueryStrategy implements QueryStrategy {
                   .addQuery(new MetadataInfoFromDatabaseQuery(fdb))
                   .addQuery(new IndividualSegmentDataFromDatabaseApiQuery(fdb))
                   .addQuery(new OptionsOfGenomesFromDatabase(fdb))
-                  .addQuery(new MetadataInfoAnnotationsFromDatabaseQuery(fdb));
+                  .addQuery(new MetadataInfoAnnotationsFromDatabaseQuery(fdb))
+                  .addQuery(new GetDataFromMutationApiQuery(fdb));
         if (subjects != null) {
             apiHandler.addQuery(new GetThresholdedBubblesFromDatabaseApiQuery(fdb))
                       .addQuery(new GetLineageFromDatabaseApiQuery(fdb));

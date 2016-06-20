@@ -1,9 +1,10 @@
 package io.github.programminglife2016.pl1_2016.parser.metadata;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
@@ -22,24 +23,15 @@ public class GFFParserTest {
      * Set up test
      */
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         String s = "MT_H37RV_BRD_V5\tnull\tdifference\t2627279\t2632941\t0.0\t+\t."
            + "\tcalhounClass=Gene;Name=DS9 5662 bp (4 orfs 2 IGs)  (electronically transferred);"
            + "ID=7000008662857514;displayName=DS9 5662 bp (4 orfs 2 IGs)  "
                    + "(electronically transferred)";
-        InputStream is = convertStringToInputStream(s);
+        InputStream is = IOUtils.toInputStream(s, "UTF-8");
         parser = new GFFParser(is);
         parser.read();
         ann = parser.getAnnotations().get(0);
-    }
-
-    /**
-     * Convert string to inputstream.
-     * @param s string to convert
-     * @return inputstream from string
-     */
-    private static InputStream convertStringToInputStream(String s) {
-        return new ByteArrayInputStream(s.getBytes());
     }
 
     /**

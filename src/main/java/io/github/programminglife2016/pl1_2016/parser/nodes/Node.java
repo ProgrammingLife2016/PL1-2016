@@ -209,4 +209,6 @@ public interface Node extends Cloneable {
      * @return map of [genome name -> range] key-value pairs for current node
      */
     Map<String, SequenceRange> getRangePerGenome();
+
+    int getSegmentSize();
 }

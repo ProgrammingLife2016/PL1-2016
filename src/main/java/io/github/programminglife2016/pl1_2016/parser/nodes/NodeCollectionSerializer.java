@@ -104,15 +104,13 @@ public class NodeCollectionSerializer implements JsonSerializer<NodeCollection> 
     }
 
     private void addAnnotations(NodeCollection nodeCollection, Gson nodeBuilder, JsonObject jsonObject) {
-        try {
-            JsonArray annotations = new JsonArray();
+        JsonArray annotations = new JsonArray();
+        if (nodeCollection.getAnnotations() != null) {
             nodeCollection.getAnnotations().stream()
                     .map(nodeBuilder::toJsonTree)
                     .filter(x -> !x.isJsonNull())
                     .forEach(annotations::add);
-            jsonObject.add("annotations", annotations);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        jsonObject.add("annotations", annotations);
     }
 }

@@ -34,7 +34,6 @@ public class BubbleDetector {
      */
     public BubbleDetector(NodeCollection collection) {
         this.lastId = collection.size() + 1;
-        initVisited(collection);
         this.collection = collection;
         this.bubbleBoundaries = new ArrayList<>();
         this.conductedSearches = new HashSet<>();
@@ -93,6 +92,7 @@ public class BubbleDetector {
                     checkIfStoppedNodeIsABubble(startNode, destination,
                             levelCollection, stoppedNode);
                     break loop;
+                default: break;
             }
             status = stoppedAtNode.getKey();
             stoppedNode = stoppedAtNode.getValue();

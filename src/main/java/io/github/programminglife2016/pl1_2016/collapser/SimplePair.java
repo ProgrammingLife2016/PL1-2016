@@ -22,6 +22,10 @@ public class SimplePair<T, E> {
         this.e = e;
     }
 
+    /**
+     * return second element from pair.
+     * @return value of second element.
+     */
     public E getE() {
         return e;
     }

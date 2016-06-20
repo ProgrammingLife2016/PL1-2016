@@ -1,15 +1,17 @@
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight - 450;
-var MINI_WIDTH = window.innerWidth / 2;
+var MINI_WIDTH = window.innerWidth / 2 - 10;
 var MINI_HEIGHT = 350;
 var MAX_ZOOM_LEVEL = 100;
-var CIRCLE_SIZE = 2.5;
 var GENE_ANNOTATION_RECT_SIZE = 100;
 var PAN_THRESHOLD = 5000;
 var PAN_EXTRA_X = 50000;
 var adjustment;
 var SELECTORS = [];
 
+/**
+ * @return {number}
+ */
 var ZOOM_THRESHOLDS = function (s) {
     if (s < 5) {
         return 64;
@@ -18,10 +20,13 @@ var ZOOM_THRESHOLDS = function (s) {
     } else {
         return 4;
     }
-}
+};
+/**
+ * @return {number}
+ */
 var STROKE_WIDTHS = function (gens) {
     return Math.max(1, Math.log(gens - 3) / Math.log(1.2));
-}
+};
 
 var LINEAGE_COLORS = {
     "LIN 1": "#ed00c3",
@@ -34,14 +39,17 @@ var LINEAGE_COLORS = {
     "LIN animal": "#00ff9c",
     "LIN B": "#00ff9c",
     "LIN CANETTII": "#00ffff"
-}
+};
 
 var DEFAULT_COLOR = function (edge) {
-    if (edge.highlight.length > 0) {
+    if (edge.highlight && edge.highlight.length > 0) {
         return SELECTORS[SELECTORS.length - 1].color;
     } else return LINEAGE_COLORS[edge.lineages] || "#000000";
-}
+};
 
+/**
+ * @return {string}
+ */
 var NODE_TYPE = function (node) {
     switch (node.containersize) {
     case 3:
@@ -51,8 +59,16 @@ var NODE_TYPE = function (node) {
     default:
         return "circle";
     }
-}
-var NODE_SIZE = 500;
+};
+/**
+ * @return {number}
+ */
+var NODE_SIZE = function (d) {
+    return Math.log(d.segmentsize / 3) / Math.log(1.005);
+};
+/**
+ * @return {string}
+ */
 var NODE_COLOR = function (node) {
     switch (node.containersize) {
     case 3:
@@ -62,8 +78,11 @@ var NODE_COLOR = function (node) {
     default:
         return "pink";
     }
-}
+};
 
+/**
+ * @return {number}
+ */
 var MIN_CONTAINERSIZES = function (s) {
     if (s < 5) {
         return 32;
@@ -72,14 +91,14 @@ var MIN_CONTAINERSIZES = function (s) {
     } else {
         return 0;
     }
-}
+};
 
 function mode(array) {
     if (array.length == 0) {
         return null;
     }
     var modeMap = {};
-    var maxEl = array[0]
+    var maxEl = array[0];
     var maxCount = 1;
     for (var i = 0; i < array.length; i++) {
         var el = array[i];
@@ -103,7 +122,7 @@ var ServerConnection = function() {
     self.previousDomain;
     self.previousScale = 1;
     self.minimap;
-}
+};
 
 ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minContainersize, redraw) {
     var self = this;
@@ -132,7 +151,7 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
             initializeHighlighting();
         }
     });
-}
+};
 
 ServerConnection.prototype.updateGraph = function () {
     var self = this;
@@ -147,7 +166,7 @@ ServerConnection.prototype.updateGraph = function () {
         self.graph.redraw();
     }
     self.minimap.updateMinimapRect(self.graph.xScale);
-}
+};
 
 ServerConnection.prototype.jumpToBase = function (genome, base) {
     var self = this;
@@ -159,7 +178,7 @@ ServerConnection.prototype.jumpToBase = function (genome, base) {
             .duration(750)
             .call(self.graph.zoom.translate(translate).scale(scale).event);
     });
-}
+};
 
 ServerConnection.prototype.jumpToGene = function (gene) {
     var self = this;
@@ -186,14 +205,15 @@ var Graph = function(nodes, edges, annotations) {
 
     self.svg.addCallback(self.zoom);
     self.svg.addCallback(self.geneTip.tip);
-}
+};
 
 Graph.prototype.draw = function () {
     var self = this;
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
-    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
     self.svg.drawAnnotations(self.annotations, self.xScale, self.yScale, self.geneTip.tip);
-}
+    self.svg.drawNodes(self.nodes, self.xScale, self.yScale);
+};
+
 Graph.prototype.redraw = function () {
     var self = this;
     var t = d3.event.translate;
@@ -207,7 +227,7 @@ Graph.prototype.redraw = function () {
     self.svg.positionNodes(self.svg.svgNodes, self.xScale, self.yScale);
     self.svg.positionEdges(self.svg.svgEdges, self.xScale, self.yScale);
     self.svg.positionAnnotations(self.svg.svgAnnotations, self.xScale, self.yScale);
-}
+};
 
 Graph.prototype.replace = function (nodes, edges, annotations) {
     var self = this;
@@ -216,7 +236,7 @@ Graph.prototype.replace = function (nodes, edges, annotations) {
     self.annotations = annotations;
     self.svg.clear();
     self.draw();
-}
+};
 
 var Svg = function (domId, width, height) {
     var self = this;
@@ -224,12 +244,12 @@ var Svg = function (domId, width, height) {
         .append("svg")
         .attr("width", width)
         .attr("height", height);
-}
+};
 
 Svg.prototype.addCallback = function (callback) {
     var self = this;
     self.svg.call(callback);
-}
+};
 
 Svg.prototype.drawNodes = function (nodes, xScale, yScale) {
     var self = this;
@@ -238,9 +258,10 @@ Svg.prototype.drawNodes = function (nodes, xScale, yScale) {
          .enter()
          .append("path")
          .attr("d", d3.svg.symbol().type(NODE_TYPE).size(NODE_SIZE))
-         .attr("fill", NODE_COLOR);
+         .attr("fill", NODE_COLOR)
+         .on("click", inspectSegment);
     self.positionNodes(self.svgNodes, xScale, yScale);
-}
+};
 
 Svg.prototype.drawEdges = function (edges, xScale, yScale) {
     var self = this;
@@ -251,7 +272,7 @@ Svg.prototype.drawEdges = function (edges, xScale, yScale) {
         .attr("stroke-width", function (d) {return STROKE_WIDTHS(d.genomes)})
         .attr("stroke", function (d) {return DEFAULT_COLOR(d)});
     self.positionEdges(self.svgEdges, xScale, yScale);
-}
+};
 
 Svg.prototype.drawAnnotations = function (annotations, xScale, yScale, tip) {
     var self = this;
@@ -263,11 +284,11 @@ Svg.prototype.drawAnnotations = function (annotations, xScale, yScale, tip) {
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
     self.positionAnnotations(self.svgAnnotations, xScale, yScale);
-}
+};
 
 Svg.prototype.positionNodes = function (svgNodes, xScale, yScale) {
     svgNodes.attr("transform", function (d) {return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")"});
-}
+};
 
 Svg.prototype.positionEdges = function (svgEdges, xScale, yScale) {
     svgEdges
@@ -275,7 +296,7 @@ Svg.prototype.positionEdges = function (svgEdges, xScale, yScale) {
         .attr("y1", function (d) {return yScale(d.y1)})
         .attr("x2", function (d) {return xScale(d.x2)})
         .attr("y2", function (d) {return yScale(d.y2)});
-}
+};
 
 Svg.prototype.positionAnnotations = function (svgAnnotations, xScale, yScale) {
     svgAnnotations
@@ -283,22 +304,22 @@ Svg.prototype.positionAnnotations = function (svgAnnotations, xScale, yScale) {
         .attr("y", function (d) {return yScale(Math.max(d.starty, d.endy)) - GENE_ANNOTATION_RECT_SIZE / 2})
         .attr("width", function (d) {return Math.abs(xScale(d.endx) - xScale(d.startx))})
         .attr("height", function (d) {return GENE_ANNOTATION_RECT_SIZE});
-}
+};
 
 Svg.prototype.clear = function () {
     var self = this;
     self.svgNodes.remove();
     self.svgEdges.remove();
     self.svgAnnotations.remove();
-}
+};
 
 Svg.prototype.drawMinimapRect = function (miniXScale, graphXScale) {
     var self = this;
     self.minimapRect = self.svg
         .append("rect")
-        .attr("class", "minimapRect")
+        .attr("class", "minimapRect");
     self.positionMinimapRect(miniXScale, graphXScale);
-}
+};
 
 Svg.prototype.positionMinimapRect = function (miniXScale, graphXScale) {
     var self = this;
@@ -307,7 +328,7 @@ Svg.prototype.positionMinimapRect = function (miniXScale, graphXScale) {
         .attr("y", 0)
         .attr("width", miniXScale(graphXScale.invert(WIDTH)) - miniXScale(graphXScale.invert(0)))
         .attr("height", MINI_HEIGHT);
-}
+};
 
 var Tip = function(offsetX, offsetY, text) {
     var self = this;
@@ -315,7 +336,7 @@ var Tip = function(offsetX, offsetY, text) {
         .attr("class", "d3-tip")
         .offset([offsetX, offsetY])
         .html(text);
-}
+};
 
 var Minimap = function(nodes, edges) {
     var self = this;
@@ -323,33 +344,33 @@ var Minimap = function(nodes, edges) {
     self.xScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.x2}))]).range([0, MINI_WIDTH]);
     self.yScale = d3.scale.linear().domain([0, d3.max(edges.map(function (e) {return e.y2}))]).range([MINI_HEIGHT, 0]);
     self.svg = new Svg("#d3minimap", MINI_WIDTH, MINI_HEIGHT);
-}
+};
 
 Minimap.prototype.draw = function (graphXScale) {
     var self = this;
     self.svg.drawEdges(self.edges, self.xScale, self.yScale);
     self.svg.drawMinimapRect(self.xScale, graphXScale);
-}
+};
 
 Minimap.prototype.updateMinimapRect = function (graphXScale) {
     var self = this;
     self.svg.positionMinimapRect(self.xScale, graphXScale)
-}
+};
 
 var SegmentInspector = function () {
     var self = this;
     self.segmentInspector = $("#segmentinspector");
-}
+};
 
 SegmentInspector.prototype.display = function (commonStart, differences, commonEnd) {
     var self = this;
     var html = "";
     var longestDiff = d3.max(differences.map(function (d) {return d.length}));
     for (var i = 0; i < differences.length; i++) {
-        html += "<p>" + commonStart + "<span>" + differences[i] + Array(longestDiff - differences[i].length + 1).join("&nbsp;") + "</span>" + commonEnd;
+        html += "<p>" + commonStart + "<span>" + differences[i] + new Array(longestDiff - differences[i].length + 1).join("&nbsp;") + "</span>" + commonEnd;
     }
     self.segmentInspector.html(html);
-}
+};
 
 var serverConnection;
 function startD3() {
@@ -400,7 +421,7 @@ function updateCharacteristic(event, params) {
             var search_query = "";
             var search_term = Object.keys(currentSelection)[i];
             for (var j = 0; j < currentSelection[search_term].length; j++) {
-                    var search_value = currentSelection[search_term][j]
+                    var search_value = currentSelection[search_term][j];
                     if (j == 0) {
 
                         search_query = "//*["+search_term+"=\"" + search_value +"\"]";
@@ -414,7 +435,7 @@ function updateCharacteristic(event, params) {
             }
 
         }
-        $("#selectedTKKs>option").remove();
+        $("#selectedTKKs").find(">option").remove();
         for(var key in selectedGenomes) {
             $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
         }
@@ -479,7 +500,7 @@ function setTKKs() {
     });
 
 
-    $("#optionsgraph > ul > li > a").on("click", function(e) {
+    $("#optionsgraph").find("> ul > li > a").on("click", function(e) {
         var currentAttrValue = jQuery(this).attr('href');
         $(currentAttrValue).slideDown(400).siblings().slideUp(400);
         $(this).parent('li').addClass('active').siblings().removeClass('active');
@@ -549,7 +570,6 @@ function setMetadataHighlighting(selectedgenes) {
     }
     SELECTORS = [];
     SELECTORS.push(obj);
-
 }
 
 function getRandomColor() {
@@ -559,4 +579,16 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+
+function inspectSegment(node) {
+    var segmentInspector = new SegmentInspector();
+    $.ajax({
+        url: "/api/data/mutation/" + node.id,
+        async: false,
+        success: function (response) {
+            response = JSON.parse(response);
+            segmentInspector.display("..." + response.startdata.substr(response.startdata.length - 50), response.contdata, response.enddata);
+        }
+    });
 }
