@@ -240,10 +240,10 @@ $(function() { // on dom ready
 
             this.tree_div_height = $("#tree").height();
             this.tree_div_width = $("#tree").width();
-            if ($(window).width() < this.tree_div_width) {
+            //if ($(window).width() < this.tree_div_width) {
                 $("#tree").height($("#tree_display").height());
                 $("#tree").width($("#tree_display").width());
-            }
+            //}
             window.tkks.forEach(function(tkk) {
                 $("#search ul").append($("<li>").text(tkk.textContent));
             });
@@ -266,7 +266,7 @@ $(function() { // on dom ready
         });
 
         $("#connect").click(function() {
-            phyloTree.setLineageHighlighting("LIN 4");
+            phyloTree.setLineageHighlighting("LIN 4"); //LIN 2
         });
 
         $("#resetHighlighting").click(function() {
@@ -453,13 +453,79 @@ $(function() { // on dom ready
     };
 
     PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
+        String.prototype.replaceAll = function(search, replace) {
+            if (replace === undefined) {
+                return this.toString();
+            }
+            return this.split(search).join(replace);
+        };
         $.getJSON("/api/metadata/info/" + lineage.replace(" ", "-"), function(response) {
-            // console.log(response);
-            // console.log("TKK list:");
-            // console.log(response.tkkList);
             console.log("paths");
-            var list = d3.select("#tree_display").selectAll("circle")[0];
-            console.log(list);
+            console.log(window.links);
+            console.log("Filtered paths");
+
+            // d3.select("#tree_display")
+            //     .selectAll("path")
+            //     .style("stroke", function(p) {
+            //         return "#0FF";
+            //     }, "important");
+            var tkkInLineage = function(e) {
+                return response.tkkList.indexOf(e.source.name.replaceAll("-", "_")) != -1
+                    || response.tkkList.indexOf(e.target.name.replaceAll("-", "_")) != -1;
+            };
+            var set = [];
+            var count = 0;
+            console.log("Leafs");
+            console.log(response.tkkList);
+            window.links.filter(e => e.source.name !== "" || e.target.name !== "")
+                  .filter(tkkInLineage)
+                  .forEach(function(leaf) {
+                      d3.select("#tree_display")
+                          .selectAll("path")
+                          .filter(function(path) {
+                              return path.existing_path === leaf.existing_path;
+                          })
+                          .style("stroke", function(p) {
+                              return "#0FF";
+                          }, "important");
+                  });
+            // window.links.filter(function(path) {
+            //     // if (path.source.children.length == 1
+            //     //     || path.target.children.length == 1) {
+            //     //     console.log(path);
+            //     // }
+            //     // var res = (path.source.children !== undefined &&
+            //     //         response.tkkList.indexOf(path.source.children[0].name) != -1
+            //     //            || response.tkkList.indexOf(path.source.children[1].name) != -1);
+            //     // res = res || (path.target.children !== undefined &&
+            //     //      response.tkkList.indexOf(path.target.children[0].name) != -1
+            //     //               || response.tkkList.indexOf(path.target.children[1].name) != -1);
+            //     if (!path.source.children && !path.target.children) {
+            //         return false;
+            //     }
+            //     return true;
+            // }).forEach(function(path) {
+            //     d3.select("#tree_display")
+            //         .selectAll("path")
+            //         .filter(function(p) {
+            //             return (p.existing_path === path.existing_path
+            //                     && set.indexOf(p.existing_path) == -1);
+            //             // return true;
+            //         })
+            //         .style("stroke", function(p) {
+            //             // console.log(path);
+            //             count++;
+            //             return "#0FF";
+            //         }, "important");
+            //     // console.log(path);
+            // });
+
+            /*
+             Highlight path
+             */
+            // var paths = d3.select("#tree_display")
+            //               .selectAll("path")
+            //               .style("stroke", "#F0F", "important");
         });
     };
 
