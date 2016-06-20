@@ -170,16 +170,12 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-
-        addBacklinks(bubbleCollection);
-            BubbleAligner aligner = new BubbleAligner(filtered);
-            Collection<Node> temp = aligner.align();
-            return listAsNodeCollection(temp); 
+        return listAsNodeCollection(filtered);
     }
 
-    private void addBacklinks(Collection<Node> nodeCollection) {
-        nodeCollection.forEach(x -> x.getBackLinks().clear());
-        for (Node node : nodeCollection) {
+    private void addBacklinks(NodeCollection nodeCollection) {
+        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
+        for (Node node : nodeCollection.values()) {
             for (Node link : node.getLinks()) {
                 link.getBackLinks().add(node);
             }
@@ -187,6 +183,7 @@ public class BubbleDispatcher {
     }
 
     private NodeCollection aggregateLines(NodeCollection nodeCollection) {
+        addBacklinks(nodeCollection);
         List<Node> kowed = new ArrayList<>();
         nodeCollection.values().stream()
                       .filter(node -> node.getLinks().size() == 1).forEach(node -> {
@@ -445,12 +442,6 @@ public class BubbleDispatcher {
             Arrays.fill(segmentsWithParents[i], "");
         }
         originalCollection.values().forEach(this::getAllParentsOfSegment);
-        for (int i = 0; i < segmentsWithParents.length; i++) {
-            System.out.println("ID: " + (i+1)
-                               + "\tStart: " + segmentsWithParents[i][0]
-                               + "\tCont: " +  segmentsWithParents[i][2]
-                               +  "\tEnd: " + segmentsWithParents[i][1]);
-        }
         return segmentsWithParents;
     }
 

@@ -344,15 +344,6 @@ public class FetchDatabase implements Database {
             rs = stmt.executeQuery(endQuery);
             if (rs.next()) {
                 jsonObject.put("enddata", rs.getString(1).equals("NULL") ? "" : rs.getString(1));
-            } else {
-                String bases = "ACTG";
-                Random random = new Random();
-                String randomString = "";
-                int length = random.nextInt(50);
-                for (int i = 0; i < length; i++) {
-                    randomString += bases.charAt(random.nextInt(4));
-                }
-                jsonObject.put("enddata", randomString);
             }
 
             stmt = connection.createStatement();
@@ -360,6 +351,9 @@ public class FetchDatabase implements Database {
             JSONArray container = new JSONArray();
             while (rs.next()) {
                 container.put(rs.getString(1));
+            }
+            if (container.length() == 1) {
+                container.put("");
             }
             jsonObject.put("contdata", container);
             rs.close();

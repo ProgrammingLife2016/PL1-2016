@@ -35,23 +35,6 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
         return gson.toJson(this);
     }
 
-
-    /**
-     * Recalculates the positions of the bubbles contained in the hashmap and leaves all segment
-     * positions as is.
-     */
-    @Override
-    public final void recalculatePositions() {
-        for (Map.Entry<Integer, Node> entry : entrySet()) {
-            Node node = entry.getValue();
-            Node start = retrieveSegment(node, true);
-            Node end = retrieveSegment(node, false);
-            int x = (start.getX() + end.getX()) / 2;
-            int y = (start.getY() + end.getY()) / 2;
-            this.get(entry.getKey()).setXY(x, y);
-        }
-    }
-
     @Override
     public void setAnnotations(List<Annotation> annotations) {
         this.annotations = annotations;
@@ -60,23 +43,6 @@ public class NodeMap extends HashMap<Integer, Node> implements NodeCollection {
     @Override
     public List<Annotation> getAnnotations() {
         return annotations;
-    }
-
-    @Override
-    public void assignNewPositions(InputStream inputStream) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        try {
-            String line = reader.readLine();
-            while (line != null) {
-                String[] data = line.split(" ");
-                if (data[0].equals("node")) {
-                    resetAllContainerPositions(data);
-                }
-                line = reader.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void resetAllContainerPositions(String[] line) {

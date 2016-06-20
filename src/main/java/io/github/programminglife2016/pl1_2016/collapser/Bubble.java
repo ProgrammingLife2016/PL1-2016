@@ -347,6 +347,11 @@ public class Bubble implements Node, Serializable {
         return startSegment(startNode).getRangePerGenome();
     }
 
+    @Override
+    public int getSegmentSize() {
+        return startNode.getSegmentSize() + container.stream().mapToInt(Node::getSegmentSize).sum() + endNode.getSegmentSize();
+    }
+
     private Node startSegment(Node startNode) {
         if (startNode.isBubble()) {
             return startSegment(startNode.getStartNode());
