@@ -173,6 +173,17 @@ ServerConnection.prototype.jumpToBase = function (genome, base) {
     var self = this;
     $.getJSON("/api/metadata/navigate/" + genome + "/" + base, function (response) {
         var scale = 100;
+        var translate = [-response.x * scale, -scale];
+        self.svg.transition()
+            .call(self.graph.zoom.translate(translate).scale(scale).event);
+
+    });
+};
+
+ServerConnection.prototype.jumpToGene = function (gene) {
+    var self = this;
+    $.getJSON("/api/metadata/genenavigate/" + gene, function (response) {
+        var scale = 100;
         var translate = [- response.x * scale, - response.y * scale];
 
         self.graph.svg.svg.transition()
@@ -518,6 +529,10 @@ function setTKKs() {
 
 function jumpToBaseGetFromDOM() {
     serverConnection.jumpToBase($(".tkks").chosen().val(), $("#baseindex").val());
+}
+
+function jumpToGeneGetFromDOM() {
+    serverConnection.jumpToGene($(".annotations").val());
 }
 
 function initializeHighlighting() {
