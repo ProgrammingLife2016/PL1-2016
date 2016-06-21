@@ -9,17 +9,17 @@ import org.json.JSONObject;
 import java.util.Collection;
 import java.util.Map;
 /**
- * Query that responds to /api/metadata/info/<genome> and returns a subject
+ * Query that responds to /api/metriojgnnjemwfjugenrfwoejnreturns a subject
  */
-public class MetadataInfoQuery implements ApiQuery {
+public class MetadataInfoApiQuery implements ApiQuery {
     private Map<String, Subject> subjects;
     /**
      * Construct the ApiQuery.
      *
-     * @param fdb database to retrieve the data information from
+     * @param subjects database to retrieve the data information from
      */
-    public MetadataInfoQuery(Map<String, Subject> fdb) {
-        this.subjects = fdb;
+    public MetadataInfoApiQuery(Map<String, Subject> subjects) {
+        this.subjects = subjects;
     }
     /**
      * Return the regex string of this query.

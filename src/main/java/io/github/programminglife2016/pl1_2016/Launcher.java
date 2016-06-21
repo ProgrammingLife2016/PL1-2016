@@ -62,12 +62,12 @@ public final class Launcher {
         SegmentParser segmentParser = new SegmentParser(positions, metadata);
         NodeCollection nodeCollection = segmentParser.parse(is);
         Map<String, Subject> subjects = segmentParser.getSubjects();
-       GFFParser gffParser = new GFFParser(decorations);
+        GFFParser gffParser = new GFFParser(decorations);
         gffParser.read();
         nodeCollection.setAnnotations(gffParser.getAnnotations());
         if (useDatabase) {
-            SetupDatabase sdb = new SetupDatabase(dataset, subjects.values());
-            sdb.setup(nodeCollection);
+//            SetupDatabase sdb = new SetupDatabase(dataset, subjects.values());
+//            sdb.setup(nodeCollection);
             FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {

@@ -38,7 +38,9 @@ public class DatabaseQueryStrategy implements QueryStrategy {
                   .addQuery(new MetadataInfoFromDatabaseQuery(fdb))
                   .addQuery(new IndividualSegmentDataFromDatabaseApiQuery(fdb))
                   .addQuery(new OptionsOfGenomesFromDatabase(fdb))
-                  .addQuery(new MetadataInfoAnnotationsFromDatabaseQuery(fdb));
+                  .addQuery(new MetadataInfoAnnotationsFromDatabaseQuery(fdb))
+                  .addQuery(new MetadataGenomeApiQuery(subjects))
+                  .addQuery(new MetadataInfoApiQuery(subjects));
         if (subjects != null) {
             apiHandler.addQuery(new GetThresholdedBubblesFromDatabaseApiQuery(fdb))
                       .addQuery(new GetLineageFromDatabaseApiQuery(fdb));

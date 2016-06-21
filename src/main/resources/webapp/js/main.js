@@ -525,7 +525,7 @@ $(function() { // on dom ready
                     });
                 $("#legend").height($("#legend").height() + 140);
                 $("#legend").show();
-                $.getJSON("/api/metadata/genomes/", function(response) {
+                $.getJSON("/api/metadata/genomes", function(response) {
                     console.log(response);
                     console.log("setHL");
                     d3.select("#tree_display")

@@ -8,17 +8,17 @@ import org.json.JSONObject;
 import java.util.Map;
 
 /**
- * Query that responds to /api/metadata/info/<genome> and returns a subject
+ * Query that responds to /api/metadata/genomes and returns all genomes
  */
-public class MetadataGenomeQuery implements ApiQuery {
+public class MetadataGenomeApiQuery implements ApiQuery {
     private Map<String, Subject> subjects;
     /**
      * Construct the ApiQuery.
      *
-     * @param fdb database to retrieve the data information from
+     * @param subjects database to retrieve the data information from
      */
-    public MetadataGenomeQuery(Map<String, Subject> fdb) {
-        this.subjects = fdb;
+    public MetadataGenomeApiQuery(Map<String, Subject> subjects) {
+        this.subjects = subjects;
     }
     /**
      * Return the regex string of this query.
@@ -27,7 +27,7 @@ public class MetadataGenomeQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/metadata/genomes/$";
+        return "^/api/metadata/genomes$";
     }
     /**
      * Return the action of this query.
@@ -39,9 +39,7 @@ public class MetadataGenomeQuery implements ApiQuery {
         return args -> {
             JSONObject resp = new JSONObject();
             JSONObject data = new JSONObject();
-            subjects.entrySet().forEach(s -> {
-                data.put(s.getKey(), s.getValue().getGdstPattern());
-            });
+            subjects.entrySet().forEach(s -> data.put(s.getKey(), s.getValue().getGdstPattern()));
             resp.put("status", "success");
             resp.put("data", data);
             return resp.toString();
