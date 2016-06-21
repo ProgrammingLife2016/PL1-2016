@@ -17,6 +17,7 @@ html, body {
   font-family: 'Open Sans', serif;
   font-weight: 100;
   background-color: #32B2B7;
+  letter-spacing: 1px;
 }
 
 #stackpane {
@@ -25,6 +26,7 @@ html, body {
   position: relative;
   margin: 0px;
   padding: 0px;
+  overflow: scroll;
 }
 
 #stackpane .pane {
@@ -80,7 +82,7 @@ html, body {
 #logo {
     display: block;
     float: left;
-    margin-top: 1px;
+    margin-top: 3px;
     opacity: 0;
 }
 
@@ -169,7 +171,7 @@ html, body {
     opacity: 0;
 }
 #viewlist, #settings {
-    opacity: 0;
+    opacity: 1;
 }
 /*      End Navigation Bar      */
 
@@ -281,16 +283,17 @@ html, body {
 #search {
    display: none;
    position: absolute;
-   width: 300px;
+   width: 260px;
    /**height: 50px;**/
    /**background-color: #54A0AB;**/
    background-color: #7baab3;
-   left: 0px;
    top: 0px;
+   right: 0px;
+   float: right;
    bottom: 0px;
    z-index: 2000;
    padding: 5px 20px 5px 20px;
-   opacity: 0.95;
+   opacity: 1;
    overflow: hidden;
 }
 
@@ -299,8 +302,8 @@ html, body {
    letter-spacing: 1px;
    font-size: 23px;
    border: none;
-   width: 295px;
-   padding: 4px;
+   width: 255px;
+   padding: 3px 7px;
    color: #FFF;
    background-color: rgba(255,255,255,0.3);
    border-radius: 5px;
@@ -308,6 +311,13 @@ html, body {
    margin-top: 12px;
    font-weight: 100;
    outline: none;
+}
+
+#search #collapseSearch {
+    display: block;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0, 0.9);
 }
 
 #search ul {
@@ -326,7 +336,7 @@ html, body {
    background-color: rgba(255,255,255,0.3);
    color: #FFF;
    margin-top: 3px;
-   width: 290px;
+   width: 250px;
    font-size: 15px;
    cursor: pointer;
 }
@@ -426,6 +436,7 @@ html, body {
   background-color: #32B2B7; /*#ECf0f1;*/
   display: block;
   opacity: 0;
+  overflow: scroll;
 }
 
 #rotation {
@@ -435,12 +446,12 @@ html, body {
 #d3 > svg:nth-child(2) {
     vertical-align: bottom;
     float: right;
-    max-width: 50%;
+    max-width: 49%;
 }
 
 #optionsgraph {
     display: none;
-    width: 50%;
+    width: 49%;
     height: 350px;
     background-color: #54a0ab;
     vertical-align: bottom;
@@ -561,9 +572,7 @@ html, body {
     margin-top: 76px;
 }
 
-.button>div {
-    margin-top: 76px;
-}
+
 .title {
     font-size: 120%;
     color: #fff;
@@ -598,18 +607,15 @@ html, body {
 body.dragging, body.dragging * {
   cursor: move !important; }
 
-/* line 4, /Users/jonasvonandrian/jquery-sortable/source/css/jquery-sortable.css.sass */
 .dragged {
   position: absolute;
   top: 0;
   opacity: 0.5;
   z-index: 2000; }
 
-/* line 10, /Users/jonasvonandrian/jquery-sortable/source/css/jquery-sortable.css.sass */
 ol.vertical {
   margin: 0 0 9px 0;
   min-height: 10px; }
-  /* line 13, /Users/jonasvonandrian/jquery-sortable/source/css/jquery-sortable.css.sass */
   ol.vertical li {
     display: block;
     margin: 5px;
@@ -617,13 +623,11 @@ ol.vertical {
     border: 1px solid #cccccc;
     color: #0088cc;
     background: #eeeeee; }
-  /* line 20, /Users/jonasvonandrian/jquery-sortable/source/css/jquery-sortable.css.sass */
   ol.vertical li.placeholder {
     position: relative;
     margin: 0;
     padding: 0;
     border: none; }
-    /* line 25, /Users/jonasvonandrian/jquery-sortable/source/css/jquery-sortable.css.sass */
     ol.vertical li.placeholder:before {
       position: absolute;
       content: "";
@@ -636,59 +640,44 @@ ol.vertical {
       border-left-color: red;
       border-right: none; }
 
-/* line 32, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol {
   list-style-type: none; }
-  /* line 34, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
   ol i.icon-move {
     cursor: pointer; }
-  /* line 36, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
   ol li.highlight {
     background: #333333;
     color: #999999; }
-    /* line 39, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
     ol li.highlight i.icon-move {
       background-image: url("../img/glyphicons-halflings-white.png"); }
 
-/* line 42, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nested_with_switch, ol.nested_with_switch ol {
   border: 1px solid #eeeeee; }
-  /* line 44, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
   ol.nested_with_switch.active, ol.nested_with_switch ol.active {
     border: 1px solid #333333; }
 
-/* line 48, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nested_with_switch li, ol.simple_with_animation li, ol.serialization li, ol.default li {
   cursor: pointer; }
 
-/* line 51, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.simple_with_animation {
   border: 1px solid #999999; }
 
-/* line 54, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 .switch-container {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 80px; }
 
-/* line 60, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 .navbar-sort-container {
   height: 200px; }
 
-/* line 64, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nav li, ol.nav li a {
   cursor: pointer; }
-/* line 66, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nav .divider-vertical {
   cursor: default; }
-/* line 69, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nav li.dragged {
   background-color: #2c2c2c; }
-/* line 71, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nav li.placeholder {
   position: relative; }
-  /* line 73, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
   ol.nav li.placeholder:before {
     content: "";
     position: absolute;
@@ -699,7 +688,6 @@ ol.nav li.placeholder {
     top: -6px;
     margin-left: -5px;
     border-bottom: none; }
-/* line 84, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.nav ol.dropdown-menu li.placeholder:before {
   border: 5px solid transparent;
   border-left-color: red;
@@ -709,10 +697,8 @@ ol.nav ol.dropdown-menu li.placeholder:before {
   left: 10px;
   border-right: none; }
 
-/* line 94, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 .sorted_table tr {
   cursor: pointer; }
-/* line 96, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 .sorted_table tr.placeholder {
   display: block;
   background: red;
@@ -720,7 +706,6 @@ ol.nav ol.dropdown-menu li.placeholder:before {
   margin: 0;
   padding: 0;
   border: none; }
-  /* line 103, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
   .sorted_table tr.placeholder:before {
     content: "";
     position: absolute;
@@ -732,10 +717,8 @@ ol.nav ol.dropdown-menu li.placeholder:before {
     left: -5px;
     border-right: none; }
 
-/* line 114, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 .sorted_head th {
   cursor: pointer; }
-/* line 116, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 .sorted_head th.placeholder {
   display: block;
   background: red;
@@ -744,7 +727,6 @@ ol.nav ol.dropdown-menu li.placeholder:before {
   height: 0;
   margin: 0;
   padding: 0; }
-  /* line 124, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
   .sorted_head th.placeholder:before {
     content: "";
     position: absolute;
@@ -761,8 +743,102 @@ ol.nav ol.dropdown-menu li.placeholder:before {
     backgound-color: white;
     height: 100%;
     width: 50%;
+    border-radius: 10px;
+    margin: 5px;
 }
 
-#tab3 > .element {
+/*#tab3 > .element {*/
 
+.btn-toolbar {
+    margin: 10px !important;
+}
+
+#tree_ {
+    overflow: scroll;
+}
+
+.pane {
+    overflow: scroll;
+}
+
+#legend {
+    display: block;
+    width: 300px;
+    height: 155px;
+    background-color: rgba(123, 170, 179, 0.8);
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 7px;
+}
+
+#legend span {
+    display: inline-block;
+    margin: 5px 2px;
+    color: #ECF0F1;
+    padding: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#legend span:hover {
+    color: #b73732;
+    -webkit-transition: color 300ms ease;
+}
+
+#legend > div {
+   margin: 0;
+   padding: 0;
+   margin-top: 3px;
+   display: relative;
+   background-color: rgba(255, 255, 255, 0.3);
+   padding: 1px;
+   border-radius: 5px;
+}
+
+#legend #color {
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-color: #F00;
+    float: right;
+    position: relative;
+    top: 3px;
+    right: 3px;
+    border-radius: 3px;
+}
+
+#legend div p {
+   margin: 0;
+   padding: 0;
+   font-size: 15px;
+   margin-top: 2px;
+   margin-bottom: 2px;
+   margin-left: 4px;
+   width: 80%;
+   color: #ECF0F1;
+}
+
+#legend ul {
+   display: inline;
+   list-style-type: none;
+   padding: 0;
+   padding-top: 10px;
+   margin: 0;
+   position: relative;
+   min-width: 200px;
+   color: #ECF0F1;
+   outline: none;
+}
+
+#legend ul li {
+  padding: 5px;
+  background-color: #728399;
+  border-radius: 5px;
+  margin: 5px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-transition: background-color 100ms ease;
 }
