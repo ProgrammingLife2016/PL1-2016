@@ -49,6 +49,8 @@
 
 #segmentinspector p span {
     font-weight: 800;
+    font-size: 25px;
+    color: #ff0000;
 }
 
 #d3minimap {
