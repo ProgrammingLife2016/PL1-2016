@@ -119,7 +119,7 @@ public class SetupDatabase implements Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int THRESHOLD : THRESHOLDS) {
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);

@@ -485,6 +485,7 @@ public class BubbleDispatcher {
         segmentsWithParents[node.getId()-1][2] += containsIn.length() != 0 ? containsIn.toString() : "NULL";
         segmentsWithParents[node.getId()-1][3] = node.getData();
         segmentsWithParents[node.getId()-1][4] = node.getGenomes().toString();
+        int x = 0;
     }
 
     private Node getEndSegment(Node node) {
