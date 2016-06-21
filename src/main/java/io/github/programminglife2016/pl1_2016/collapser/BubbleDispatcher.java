@@ -170,7 +170,9 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-        return listAsNodeCollection(filtered);
+
+        BubbleAligner bubbleAligner = new BubbleAligner(filtered);
+        return listAsNodeCollection(bubbleAligner.align());
     }
 
     private void addBacklinks(NodeCollection nodeCollection) {
@@ -485,7 +487,6 @@ public class BubbleDispatcher {
         segmentsWithParents[node.getId()-1][2] += containsIn.length() != 0 ? containsIn.toString() : "NULL";
         segmentsWithParents[node.getId()-1][3] = node.getData();
         segmentsWithParents[node.getId()-1][4] = node.getGenomes().toString();
-        int x = 0;
     }
 
     private Node getEndSegment(Node node) {

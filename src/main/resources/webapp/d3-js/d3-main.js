@@ -405,7 +405,7 @@ SegmentInspector.prototype.display = function (commonStart, differences, commonE
 var serverConnection;
 function startD3() {
     serverConnection = new ServerConnection();
-    serverConnection.loadGraph(64, 0, 100000000, 64, false);
+    serverConnection.loadGraph(ZOOM_THRESHOLDS(1), 0, 100000000, 128, false);
 }
 
 function zoomCallback() {
