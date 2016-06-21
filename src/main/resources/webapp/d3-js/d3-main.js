@@ -176,7 +176,6 @@ ServerConnection.prototype.jumpToBase = function (genome, base) {
         var translate = [-response.x * scale, -scale];
         self.svg.transition()
             .call(self.graph.zoom.translate(translate).scale(scale).event);
-
     });
 };
 
@@ -184,7 +183,9 @@ ServerConnection.prototype.jumpToGene = function (gene) {
     var self = this;
     $.getJSON("/api/metadata/genenavigate/" + gene, function (response) {
         var scale = 100;
-        var translate = [- response.x * scale, - response.y * scale];
+        // var translate = [- response.x * scale, - response.y * scale];
+        // O Kamran vergeef me van deze zonde
+        var translate = [response.x, response.y];
 
         self.graph.svg.svg.transition()
             .duration(750)

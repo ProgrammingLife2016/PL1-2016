@@ -44,14 +44,20 @@ public class MetadataGeneNavigateApiQuery implements ApiQuery {
     @Override
     public ApiAction getApiAction() {
         return args -> {
-            String str = args.get(0).replaceAll("%20", " ");
-            Seeker sk = new SegmentSeeker(nodeCollection);
-            for (Annotation annotation : nodeCollection.getAnnotations()) {
-                if (annotation.getDisplayName().equals(str)) {
-                    return sk.find("MT_H37RV_BRD_V5.ref", annotation.getStart()).toString();
-                }
-            }
-            return "";
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("x", -135282);
+            jsonObject.put("y", 900);
+            return jsonObject.toString();
         };
+//        return args -> {
+//            String str = args.get(0).replaceAll("%20", " ");
+//            Seeker sk = new SegmentSeeker(nodeCollection);
+//            for (Annotation annotation : nodeCollection.getAnnotations()) {
+//                if (annotation.getDisplayName().equals(str)) {
+//                    return sk.find("MT_H37RV_BRD_V5.ref", annotation.getStart()).toString();
+//                }
+//            }
+//            return "";
+//        };
     }
 }
