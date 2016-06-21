@@ -765,7 +765,7 @@ ol.nav ol.dropdown-menu li.placeholder:before {
     display: block;
     width: 300px;
     height: 155px;
-    background-color: rgba(123, 170, 179, 0.8);
+    background-color: rgba(123, 170, 179, 0.9);
     position: fixed;
     top: 70px;
     left: 20px;

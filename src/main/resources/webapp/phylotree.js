@@ -1538,9 +1538,7 @@ d3.layout.phylotree = function(container) {
             svg = svg_element;
             svg.selectAll("*").remove();
             svg_defs = svg.append("defs");
-            d3.select(self.container).on("click", function(d) {
-                phylotree.handle_node_click(null);
-            }, true);
+            //d3.select(self.container).on("click", function(d) {phylotree.handle_node_click(null);}, true);
         }
         return phylotree;
     }
@@ -2076,6 +2074,10 @@ d3.layout.phylotree = function(container) {
                     })
                     .on("click", function(d) {
                         phylotree.handle_node_click(d);
+                    })
+                    .on("dblclick", function(d) {
+                        console.log("Toggle collapse");
+                        phylotree.toggle_collapse(d).update();
                     });
             } else {
                 circles.remove();
