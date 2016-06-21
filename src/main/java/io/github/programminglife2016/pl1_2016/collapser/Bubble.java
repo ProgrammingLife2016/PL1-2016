@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -350,6 +351,16 @@ public class Bubble implements Node, Serializable {
     @Override
     public int getSegmentSize() {
         return startNode.getSegmentSize() + container.stream().mapToInt(Node::getSegmentSize).sum() + endNode.getSegmentSize();
+    }
+
+    @Override
+    public int mutationSize() {
+        OptionalInt mutationSize = container.stream().mapToInt(Node::getSegmentSize).max();
+        if (mutationSize.isPresent()) {
+            return mutationSize.getAsInt();
+        } else {
+            return 1;
+        }
     }
 
     private Node startSegment(Node startNode) {

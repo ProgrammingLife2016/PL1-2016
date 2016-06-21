@@ -64,7 +64,7 @@ var NODE_TYPE = function (node) {
  * @return {number}
  */
 var NODE_SIZE = function (d) {
-    return Math.log(d.segmentsize / 3) / Math.log(1.005);
+    return Math.max(100, Math.log(d.segmentsize) * 200);
 };
 /**
  * @return {string}
@@ -173,8 +173,9 @@ ServerConnection.prototype.jumpToBase = function (genome, base) {
     var self = this;
     $.getJSON("/api/metadata/navigate/" + genome + "/" + base, function (response) {
         var scale = 100;
-        var translate = [-response.x * scale, -scale];
-        self.svg.transition()
+        var translate = [-self.graph.untouchedXScale(response.x) * (scale - 1), -scale];
+        self.graph.svg.svg.transition()
+            .duration(750)
             .call(self.graph.zoom.translate(translate).scale(scale).event);
     });
 };
@@ -182,11 +183,9 @@ ServerConnection.prototype.jumpToBase = function (genome, base) {
 ServerConnection.prototype.jumpToGene = function (gene) {
     var self = this;
     $.getJSON("/api/metadata/genenavigate/" + gene, function (response) {
-        var scale = 100;
-        // var translate = [- response.x * scale, - response.y * scale];
-        // O Kamran vergeef me van deze zonde
-        var translate = [response.x, response.y];
-
+        var scale = MAX_ZOOM_LEVEL;
+        var translate = [-self.graph.untouchedXScale(response.x) * (scale - 1), -response.y];
+        console.log("new translate: " + translate);
         self.graph.svg.svg.transition()
             .duration(750)
             .call(self.graph.zoom.translate(translate).scale(scale).event);
@@ -200,6 +199,7 @@ var Graph = function(nodes, edges, annotations) {
     self.annotations = annotations;
 
     self.xScale = d3.scale.linear().domain([0, d3.max(self.edges.map(function (e) {return e.x2}))]).range([0, WIDTH]);
+    self.untouchedXScale = d3.scale.linear().domain([0, d3.max(self.edges.map(function (e) {return e.x2}))]).range([0, WIDTH]);
     self.yScale = d3.scale.linear().domain([0, d3.max(self.edges.map(function (e) {return e.y2}))]).range([HEIGHT, 0]);
     self.geneTip = new Tip(10, 0, function (gene) {return gene.displayname});
     self.zoom = d3.behavior.zoom().x(self.xScale).scaleExtent([1, MAX_ZOOM_LEVEL]).on("zoom", zoomCallback);
@@ -226,6 +226,7 @@ Graph.prototype.redraw = function () {
     } else if (t[0] < - WIDTH * (s - 1)) {
         t[0] = - WIDTH * (s - 1);
     }
+    console.log(t);
     self.zoom.translate(t);
     self.svg.positionNodes(self.svg.svgNodes, self.xScale, self.yScale);
     self.svg.positionEdges(self.svg.svgEdges, self.xScale, self.yScale);
@@ -406,7 +407,7 @@ SegmentInspector.prototype.display = function (commonStart, differences, commonE
 var serverConnection;
 function startD3() {
     serverConnection = new ServerConnection();
-    serverConnection.loadGraph(64, 0, 100000000, 64, false);
+    serverConnection.loadGraph(4096, 0, 100000000, 64, false);
 }
 
 function zoomCallback() {

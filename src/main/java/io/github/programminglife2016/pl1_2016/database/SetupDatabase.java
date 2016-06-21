@@ -187,7 +187,7 @@ public class SetupDatabase implements Database {
                 stmt.setInt(THREE, node.getX());
                 stmt.setInt(FOUR, node.getY());
                 stmt.setInt(6, node.getContainerSize());
-                stmt.setInt(7, node.getSegmentSize());
+                stmt.setInt(7, node.mutationSize());
                 stmt.addBatch();
             }
             stmt.executeBatch();

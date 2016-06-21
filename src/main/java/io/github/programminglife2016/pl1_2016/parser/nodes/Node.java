@@ -211,4 +211,6 @@ public interface Node extends Cloneable {
     Map<String, SequenceRange> getRangePerGenome();
 
     int getSegmentSize();
+
+    int mutationSize();
 }

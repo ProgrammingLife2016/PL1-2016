@@ -292,5 +292,8 @@ public class Segment implements Node, Serializable {
         return data.length();
     }
 
-
+    @Override
+    public int mutationSize() {
+        return 1;
+    }
 }
