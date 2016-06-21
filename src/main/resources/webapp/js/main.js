@@ -275,6 +275,8 @@ $(function() { // on dom ready
 
         $("#connect").click(function() {
             phyloTree.setLineageHighlighting("LIN 4"); //LIN 2
+            phyloTree.setLineageHighlighting("LIN 2"); //LIN 2
+            phyloTree.setLineageHighlighting("LIN 1"); //LIN 2
         });
 
         $("#resetHighlighting").click(function() {
@@ -370,6 +372,18 @@ $(function() { // on dom ready
         this.animationDuration = 100;
         this.bindUIEvents();
         this.fuse = undefined;
+        this.LINEAGE_COLORS = {
+            "LIN 1": "#ed00c3",
+            "LIN 2": "#0000ff",
+            "LIN 3": "#500079",
+            "LIN 4": "#ff0000",
+            "LIN 5": "#4e2c00",
+            "LIN 6": "#69ca00",
+            "LIN 7": "#ff7e00",
+            "LIN animal": "#00ff9c",
+            "LIN B": "#00ff9c",
+            "LIN CANETTII": "#00ffff"
+        };
     }
 
     function initializeData() {
@@ -494,6 +508,7 @@ $(function() { // on dom ready
             var count = 0;
             console.log("Leafs");
             console.log(response.tkkList);
+            window.parentMap = {};
             window.links
                   .filter(link => {
                       return link.source.name !== "" || link.target.name !== "";
@@ -503,21 +518,59 @@ $(function() { // on dom ready
                       || response.tkkList.indexOf(link.target.name.replaceAll("-", "_")) != -1;
                   })
                   .forEach(leaf => {
-                      console.log(leaf);
+                      if (!parentMap[leaf.source.id]) {
+                          parentMap[leaf.source.id] = 1;
+                      } else {
+                          parentMap[leaf.source.id] = parentMap[leaf.source.id] + 1;
+                      }
+                      //console.log(leaf);
                       d3.select("#tree_display")
                         .selectAll("path")
                         .filter(path => path.existing_path === leaf.existing_path)
-                        .style("stroke", "#0FF", "important");
+                        .style("stroke", phyloTree.LINEAGE_COLORS[lineage], "important");
                         // .forEach(p => console.log(p));
                   });
+            var tkk = "TKK-01-0037";
+            console.log("Parent");
+            console.log(parentMap[376]);
+            console.log(tkk);
+            for (var i = 0; i < 8; i++) {
+            Object.keys(parentMap)
+                  .filter(k => parentMap[k] !== undefined && parentMap[k] >= 2)
+                  .forEach((k, i) => {
+                      var x = window.links.find(link => link.target.id == k);
+                      if (!parentMap[x.source.id]) {
+                          parentMap[x.source.id] = 1;
+                      } else {
+                          parentMap[x.source.id] = parentMap[x.source.id] + 1;
+                      }
+                      d3.select("#tree_display")
+                          .selectAll("path")
+                          .filter(path => path.existing_path === x.existing_path)
+                          .style("stroke", phyloTree.LINEAGE_COLORS[lineage], "important");
+
+                  });
+            }
+            //console.log(window.tree.get_nodes());
+            //window.links .forEach(link => console.log(link));
+            // window.links
+            //     .filter(link => link.source.name === tkk || link.target.name === tkk)
+            //     .forEach(link => {
+            //         console.log("TKK");
+            //         console.log(link);
+            //         console.log(link.source.parent);
+            //     });
+            // window.links
+            //     .filter(link => link.source.name === tkk || link.target.name === tkk)
+            //     .forEach(leaf => {
+            //         console.log(leaf);
+            //         d3.select("#tree_display")
+            //             .selectAll("path")
+            //             .filter(path => path.existing_path === leaf.existing_path)
+            //             .style("stroke", "#F0F", "important")
+            //             .forEach(path => console.log(path));
+            //     });
         });
-        var tkk = "TKK-01-0037";
-        window.links
-            .filter(link => linl.source.name === tkk || link)
-        d3.select("#tree_display")
-            .selectAll("path")
-            .filter(path => path.existing_path === leaf.parent.existing_path)
-            .style("stroke", "#0FF", "important");
     };
 
 

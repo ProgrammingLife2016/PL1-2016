@@ -144,7 +144,7 @@ $("#select_all").on ("click", function (e) {
 });
 
 $("#select_all_internal").on ("click", function (e) {
-    tree.modify_selection (function (d) { return !d3_phylotree_is_leafnode (d.target);});
+    tree.modify_selection (function (d) { console.log(d); return !d3_phylotree_is_leafnode (d.target);});
 });
 
 $("#select_all_leaves").on ("click", function (e) {
@@ -316,7 +316,7 @@ $("#example_GVZ").on ("click", function (e) {
     tree.options ({'draw-size-bubbles' : false}, false);
     tree.font_size (14);
     tree.scale_bar_font_size (12);
-    tree.node_circle_size (4);
+    tree.node_circle_size (8);
     tree.spacing_x (16, true);
     tree.style_edges (GVZ_colorizer);
 

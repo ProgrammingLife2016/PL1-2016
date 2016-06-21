@@ -171,7 +171,7 @@ html, body {
     opacity: 0;
 }
 #viewlist, #settings {
-    opacity: 0;
+    opacity: 1;
 }
 /*      End Navigation Bar      */
 
