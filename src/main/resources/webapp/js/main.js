@@ -263,10 +263,12 @@ $(function() { // on dom ready
 
         $("#toggleSearch").click(function() {
             if ($("#toggleSearch").data("open") === "false") {
+                $("#toggleSearch i").attr("class", "fa fa-square fa-fw");
                 $("#search").stop().animate({width: 260, opacity: 1}, 400, "swing");
                 $("#toggleSearch").data("open", "true");
                 $("#search input").focus();
             } else {
+                $("#toggleSearch i").attr("class", "fa fa-square-o fa-fw");
                 //phyloTree.resetHighlighting();
                 $("#search").stop().animate({width: 0, opacity: 0}, 400, "swing");
                 $("#toggleSearch").data("open", "false");
@@ -289,6 +291,13 @@ $(function() { // on dom ready
         });
 
         $("#selectButton").click(function() {
+            if ($("#showresistance").attr("data-open") === "false") {
+                $("#showresistance").attr("data-open", "true");
+                $("#showresistance i").attr("class", "fa fa-square fa-fw");
+            } else {
+                $("#showresistance").attr("data-open", "false");
+                $("#showresistance i").attr("class", "fa fa-square-o fa-fw");
+            }
             phyloTree.setHL();
         });
     };
@@ -478,8 +487,15 @@ $(function() { // on dom ready
         });
 
         $("#showresistance").click(function() {
-            console.log("showresistance");
-            phyloTree.setHL();
+            if ($("#showresistance").attr("data-open") === "false") {
+                phyloTree.setHL();
+                $("#showresistance").attr("data-open", "true");
+                $("#showresistance i").attr("class", "fa fa-square fa-fw");
+            } else {
+                phyloTree.setHL();
+                $("#showresistance").attr("data-open", "false");
+                $("#showresistance i").attr("class", "fa fa-square-o fa-fw");
+            }
         });
 
         $("#dr").click(function() {
@@ -491,8 +507,8 @@ $(function() { // on dom ready
                 $("#dr i").attr("class", "fa fa-square-o");
                 $("#legend").height($("#legend").height() - 140);
                 d3.select("#tree_display")
-                    .selectAll("text")
-                    .style("fill", function(t) {return "#444";}, "important");
+                  .selectAll("text")
+                  .style("fill", function(t) {return "#444";}, "important");
             } else {
                 $("#dr").attr("data-open", "true");
                 $("#dr i").attr("class", "fa fa-square");
@@ -507,17 +523,16 @@ $(function() { // on dom ready
                             )
                             .append($("<p>").html(k)).insertAfter("#dr");
                     });
-                // $("#legend").prepend($("<span>").text("Drug resistance"));
                 $("#legend").height($("#legend").height() + 140);
                 $("#legend").show();
                 $.getJSON("/api/metadata/genomes/", function(response) {
                     console.log(response);
                     console.log("setHL");
                     d3.select("#tree_display")
-                    .selectAll("text")
-                    .style("fill", function(t) {
+                      .selectAll("text")
+                      .style("fill", function(t) {
                         return phyloTree.resistance[response.data[t.name.replaceAll("-", "_")]];
-                    });
+                      });
                 });
             }
         });
