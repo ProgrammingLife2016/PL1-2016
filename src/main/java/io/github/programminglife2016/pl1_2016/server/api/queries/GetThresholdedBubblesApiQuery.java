@@ -15,7 +15,7 @@ public class GetThresholdedBubblesApiQuery implements ApiQuery {
      * @param nodeCollection node collection to retrieve the data information from
      */
     public GetThresholdedBubblesApiQuery(NodeCollection nodeCollection) {
-        dispatcher = new BubbleDispatcher(nodeCollection);//, "TB328" // , "TB10"   // TB328 TB10
+        dispatcher = new BubbleDispatcher(nodeCollection, "TB328");// // , "TB10"   // TB328 TB10
     }
 
     /**

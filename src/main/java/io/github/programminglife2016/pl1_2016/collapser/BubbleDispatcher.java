@@ -172,13 +172,14 @@ public class BubbleDispatcher {
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
 
+
+
         addBacklinks(bubbleCollection);
             BubbleAligner aligner = new BubbleAligner(filtered);
             Collection<Node> temp = aligner.align();
 
         AminoMonitor am = new AminoMonitor();
         am.getMutatedAminos(bubbleCollection);
-
             return listAsNodeCollection(temp); 
     }
 

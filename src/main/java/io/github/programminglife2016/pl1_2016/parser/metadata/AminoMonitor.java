@@ -6,35 +6,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- * @author Kamran Tadzjibov on 21.06.2016.
+ * Class to find mutated amino acids in reference genome MT_H37RV_BRD_V5
  */
 public class AminoMonitor {
 
-    Map<Integer, String> segmentAmino;
 
-    public void getMutatedAminos(List<Node> bubbles) {
-        segmentAmino = new HashMap<>();
-        Map<String, String> acidsTable = initAcidsTable();
+    public Map<Integer, String> getMutatedAminos(List<Node> bubbles) {
         String startData, endData;
         String aminoName;
+        HashMap<String, String> acidsTable = initAcidsTable();
+        HashMap<Integer, String> startIdToResult = new HashMap<>();
+        int endMT;
         for (Node bubble : bubbles) {
-            if (bubble.getContainerSize() == 4
-                    || bubble.getContainerSize() ==3) {// && !bubble.getEndNode().isBubble()) {
+            if (bubble.getStartNode().getRangePerGenome().containsKey("MT_H37RV_BRD_V5.ref")
+                && (bubble.getContainerSize() == 4
+                    || bubble.getContainerSize() == 3)) {
+                endMT = bubble.getStartNode().getRangePerGenome().get("MT_H37RV_BRD_V5.ref").getEnd();
                 startData = getDeepStartData(bubble.getStartNode());
                 endData = getDeepEndData(bubble.getEndNode());
+                if (bubble.getContainerSize() == 3) {
+                    addMutationToMap(getAminoByBaseInDel(startData, endData, acidsTable, endMT),
+                            startIdToResult, bubble);
+                }
                 for (Node innerNode : bubble.getContainer()) {
-//                    if (innerNode.getLinks().contains(bubble.getEndNode())) {
-                        aminoName = getAminoByBase(startData, getDeepStartData(innerNode), endData, acidsTable);
-  //                  System.out.println(bubble.getId());
-                        if (aminoName != null) {
-                            segmentAmino.put(innerNode.getId(), aminoName);
-                        }
-//                    }
+                    aminoName = getAminoByBase(startData, getDeepStartData(innerNode), endData, acidsTable, endMT);
+                    if (aminoName != null) {
+                        addMutationToMap(aminoName, startIdToResult, bubble);
+                    }
                 }
             }
         }
-        int xbreak = 0;
+        return startIdToResult;
+    }
+
+    private void addMutationToMap(String aminoName, HashMap<Integer, String> startIdToResult, Node bubble) {
+        if(!startIdToResult.containsKey(bubble.getStartNode().getId())) {
+            startIdToResult.put(bubble.getStartNode().getId(), aminoName);
+        } else {
+            startIdToResult.put(bubble.getStartNode().getId(), startIdToResult.get(bubble.getStartNode().getId()) + " -> " + aminoName.split(": ")[1]);
+        }
     }
 
     private String getDeepEndData(Node node) {
@@ -54,23 +66,39 @@ public class AminoMonitor {
     private String getAminoByBase(String bases1,
                                   String bases2,
                                   String bases3,
-                                  Map<String, String> acidsTable) {
+                                  Map<String, String> acidsTable, int endMT) {
         String sub1 = bases1.substring(Math.max(bases1.length() - 2, 0))
                       + bases2.substring(0, 1);
         if (acidsTable.containsKey(sub1)) {
-            return acidsTable.get(sub1);
+            return (endMT - 2) + ": " + acidsTable.get(sub1);
         }
         if (bases2.length() == 1) {
             String sub2 = bases1.substring(Math.max(bases1.length() - 1, 0))
                           + bases2 + bases3.substring(0, 1);
             if (acidsTable.containsKey(sub2)) {
-                return acidsTable.get(sub2);
+                return (endMT - 1) + ": " + acidsTable.get(sub2);
             }
         }
         String sub3 = bases2.substring(Math.max(bases2.length() - 1, 0))
                       + bases3.substring(0, 2);
         if (acidsTable.containsKey(sub3)) {
-            return acidsTable.get(sub3);
+            return endMT + ": " + acidsTable.get(sub3);
+        }
+        return null;
+    }
+
+    private String getAminoByBaseInDel(String bases1,
+                                  String bases3,
+                                  Map<String, String> acidsTable, int endMT) {
+        String sub1 = bases1.substring(Math.max(bases1.length() - 2, 0))
+                      + bases3.substring(0, 1);
+        if (acidsTable.containsKey(sub1)) {
+            return (endMT - 2) + ": " + acidsTable.get(sub1);
+        }
+        String sub3 = bases1.substring(Math.max(bases1.length() - 1, 0))
+                      + bases3.substring(0, 2);
+        if (acidsTable.containsKey(sub3)) {
+            return (endMT - 1) + ": " + acidsTable.get(sub3);
         }
         return null;
     }
@@ -143,5 +171,4 @@ public class AminoMonitor {
             put("TGA","Stop codons");
         }};
     }
-
 }
