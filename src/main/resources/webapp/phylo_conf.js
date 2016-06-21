@@ -316,7 +316,7 @@ $("#example_GVZ").on ("click", function (e) {
     tree.options ({'draw-size-bubbles' : false}, false);
     tree.font_size (14);
     tree.scale_bar_font_size (12);
-    tree.node_circle_size (8);
+    tree.node_circle_size (4);
     tree.spacing_x (16, true);
     tree.style_edges (GVZ_colorizer);
 
@@ -690,11 +690,11 @@ $( document ).ready( function () {
                     });
         }
         warning_div.append ("button")
-                    .attr ("type", "button")
-                    .attr ("class", "close")
-                    .attr ("data-dismiss", "alert")
-                    .attr ("aria-hidden", "true")
-                    .html ("&times;");
+                   .attr ("type", "button")
+                   .attr ("class", "close")
+                   .attr ("data-dismiss", "alert")
+                   .attr ("aria-hidden", "true")
+                   .html ("&times;");
 
         $("#layout").on("click", function (e) {
             // tree.radial ($(this).prop ("checked")).placenodes().update ();

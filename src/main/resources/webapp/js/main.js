@@ -289,7 +289,7 @@ $(function() { // on dom ready
         });
 
         $("#selectButton").click(function() {
-            graphHandler.showPhylotree();
+            phyloTree.setHL();
         });
     };
 
@@ -385,6 +385,18 @@ $(function() { // on dom ready
             "LIN B":        "#00FF9C",
             "LIN CANETTII": "#00FFFF"
         };
+        this.resistance = {
+            "XDR":                    "#D5192B",
+            "MDR":                    "#4B1A1A",
+            "Drug-resistant (other)": "#F5E396",
+            "susceptible":            "#C9E9EE"
+        };
+        String.prototype.replaceAll = function(search, replace) {
+            if (replace === undefined) {
+                return this.toString();
+            }
+            return this.split(search).join(replace);
+        };
     }
 
     PhyloGeneticTree.prototype.loadFuse = function() {
@@ -449,7 +461,7 @@ $(function() { // on dom ready
 
             d3.select("#tree_display")
               .selectAll("text")
-              .attr("fill", function(t) {
+              .style("fill", function(t) {
                   if (nameMap[t.name] == 1) {
                       return "#F00";
                   } else {
@@ -464,42 +476,124 @@ $(function() { // on dom ready
             $("#search ul").html(items);
             return true;
         });
+
+        $("#showresistance").click(function() {
+            console.log("showresistance");
+            phyloTree.setHL();
+        });
+
+        $("#dr").click(function() {
+            console.log("Remove");
+            if ($("#dr").attr("data-open") === "true") {
+                console.log("Close");
+                $("[data-id=dr]").remove();
+                $("#dr").attr("data-open", "false");
+                $("#dr i").attr("class", "fa fa-square-o");
+                $("#legend").height($("#legend").height() - 140);
+                d3.select("#tree_display")
+                    .selectAll("text")
+                    .style("fill", function(t) {return "#444";}, "important");
+            } else {
+                $("#dr").attr("data-open", "true");
+                $("#dr i").attr("class", "fa fa-square");
+                console.log("Open");
+                Object.keys(phyloTree.resistance)
+                    .forEach(k => {
+                        $("<div>").attr("id", "legend_item")
+                            .attr("data-id", "dr")
+                            .append(
+                                $("<div>").attr("id", "color")
+                                            .css("background-color", phyloTree.resistance[k])
+                            )
+                            .append($("<p>").html(k)).insertAfter("#dr");
+                    });
+                // $("#legend").prepend($("<span>").text("Drug resistance"));
+                $("#legend").height($("#legend").height() + 140);
+                $("#legend").show();
+                $.getJSON("/api/metadata/genomes/", function(response) {
+                    console.log(response);
+                    console.log("setHL");
+                    d3.select("#tree_display")
+                    .selectAll("text")
+                    .style("fill", function(t) {
+                        return phyloTree.resistance[response.data[t.name.replaceAll("-", "_")]];
+                    });
+                });
+            }
+        });
+
+        $("#lh").click(function(){
+            if ($("#lh").attr("data-open") === "true") {
+                $("[data-id=lh]").remove();
+                $("#lh").attr("data-open", "false");
+                $("#lh i").attr("class", "fa fa-square-o");
+                $("#legend").height($("#legend").height() - 290);
+                d3.select("#tree_display")
+                  .selectAll("path")
+                  .style("stroke", function(t) {return "#999";}, "important");
+            } else {
+                $("#lh").attr("data-open", "true");
+                $("#lh i").attr("class", "fa fa-square");
+                $("#legend").height($("#legend").height() + 290);
+                Object.keys(phyloTree.LINEAGE_COLORS)
+                    .forEach(k => {
+                        $("<div>").attr("id", "legend_item")
+                            .attr("data-id", "lh")
+                            .append(
+                                $("<div>").attr("id", "color")
+                                    .css("background-color", phyloTree.LINEAGE_COLORS[k])
+                            )
+                            .append($("<p>").html(k)).insertAfter("#lh");
+                    });
+                phyloTree.setLineageHighlighting("LIN 4");
+                phyloTree.setLineageHighlighting("LIN 3");
+                phyloTree.setLineageHighlighting("LIN 2");
+                phyloTree.setLineageHighlighting("LIN 1");
+            }
+        });
     };
 
     PhyloGeneticTree.prototype.resetHighlighting = function() {
         window.tree.modify_selection (function (d) { return false;});
         d3.select("#tree_display")
           .selectAll("text")
-          .attr("fill", function(t) {return "#000";});
+            .style("fill", function(t) {return "#000";}, "important");
         d3.select("#tree_display")
           .selectAll("path")
           .style("stroke", function(p) {
               return "#999";
-          }, "important")
+          }, "important");
+    };
+
+    PhyloGeneticTree.prototype.setHL = function() {
+        console.log("Add HL");
+        if ($("#legend").attr("data-open") === "false") {
+            $("#legend").attr("data-open", "true");
+            $("#legend").fadeIn();
+        } else {
+            $("#legend").attr("data-open", "false");
+            $("#legend").fadeOut();
+        }
     };
 
     PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
-        String.prototype.replaceAll = function(search, replace) {
-            if (replace === undefined) {
-                return this.toString();
-            }
-            return this.split(search).join(replace);
-        };
+        // d3.select("#tree_display")
+        //     .selectAll("line")
+        //     .style("stroke", "#F00", "important")
+        //     .style("stroke-width", "4px")
+        //     .forEach(l => console.log(l));
+
 
         $.getJSON("/api/metadata/info/" + lineage.replace(" ", "-"), function(response) {
-            console.log("Paths");
-            console.log(window.links);
-            console.log(response.tkkList);
-            window.parentMap = {};
+            var parentMap = {};
+            window.parentMap = parentMap;
             var inLineage = (name) => response.tkkList.indexOf(name.replaceAll("-", "_")) != -1;
+            var addSelection = (id) => (parentMap[id] = !parentMap[id] ? 1 : parentMap[id] + 1);
             window.links
                   .filter(link => link.source.name !== "" || link.target.name !== "")
                   .filter(link => inLineage(link.source.name) || inLineage(link.target.name))
                   .forEach(leaf => {
-                      if (!parentMap[leaf.source.id])
-                          parentMap[leaf.source.id] = 1;
-                      else
-                          parentMap[leaf.source.id] = parentMap[leaf.source.id] + 1;
+                      addSelection(leaf.source.id);
                       d3.select("#tree_display")
                         .selectAll("path")
                         .filter(path => path.existing_path === leaf.existing_path)
@@ -511,10 +605,7 @@ $(function() { // on dom ready
                       .map(k => window.links.find(link => link.target.id == k))
                       .filter(x => x !== undefined)
                       .forEach((x, i) => {
-                          if (!parentMap[x.source.id])
-                              parentMap[x.source.id] = 1;
-                          else
-                              parentMap[x.source.id] = parentMap[x.source.id] + 1;
+                          addSelection(x.source.id);
                           d3.select("#tree_display")
                             .selectAll("path")
                             .filter(path => path.existing_path === x.existing_path)

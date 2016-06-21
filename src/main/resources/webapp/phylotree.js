@@ -664,6 +664,7 @@ d3.layout.phylotree = function(container) {
     phylotree.handle_node_click = function(node) {
         console.log("Node click");
         console.log(node);
+        if (!node) return true;
         var desc = phylotree.select_all_descendants(node, true, true);
         var tkks = desc.filter(function(desc) {return desc.name !== "";})
                        .map(function(desc) {return desc.name;});
@@ -1901,7 +1902,7 @@ d3.layout.phylotree = function(container) {
                 d.children.forEach(sel);
             }
         }
-        sel(node);
+        if (node) sel(node);
         return selection;
     }
 
@@ -1951,6 +1952,7 @@ d3.layout.phylotree = function(container) {
         if (edge_styler) {
             edge_styler(container, edge);
         }
+
 
 
         return phylotree;
@@ -2015,7 +2017,7 @@ d3.layout.phylotree = function(container) {
                     tracers.enter().append("line").style("opacity", 0).transition().style("opacity", 1);
                     tracers.attr("x1", function(d) {
                         return (d.text_align == "end" ? -1 : 1) * phylotree.node_bubble_size(node);
-                    }).attr("x2", 0).attr("y1", 0).attr("y2", 0);
+                    }).attr("x2", 0).attr("y1", 0).attr("y2", 0).attr("data-node", node);
                     tracers.transition().attr("x2", function(d) {
                         return phylotree.shift_tip(d)[0];
                     }).attr("transform", function(d) {
@@ -2185,6 +2187,7 @@ function d3_phylotree_resize_svg(tree, svg, tr) {
 }
 
 function d3_phylotree_is_leafnode(node) {
+    if (!node) return false;
     return !(node.children && node.children.length);
 }
 

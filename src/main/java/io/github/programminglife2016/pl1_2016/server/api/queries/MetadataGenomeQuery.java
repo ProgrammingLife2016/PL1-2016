@@ -1,24 +1,23 @@
 package io.github.programminglife2016.pl1_2016.server.api.queries;
+
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
-import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Specimen;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.server.api.actions.ApiAction;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.util.Collection;
 import java.util.Map;
+
 /**
  * Query that responds to /api/metadata/info/<genome> and returns a subject
  */
-public class MetadataInfoQuery implements ApiQuery {
+public class MetadataGenomeQuery implements ApiQuery {
     private Map<String, Subject> subjects;
     /**
      * Construct the ApiQuery.
      *
      * @param fdb database to retrieve the data information from
      */
-    public MetadataInfoQuery(Map<String, Subject> fdb) {
+    public MetadataGenomeQuery(Map<String, Subject> fdb) {
         this.subjects = fdb;
     }
     /**
@@ -28,7 +27,7 @@ public class MetadataInfoQuery implements ApiQuery {
      */
     @Override
     public String getQuery() {
-        return "^/api/metadata/info/(\\S+)$";
+        return "^/api/metadata/genomes/$";
     }
     /**
      * Return the action of this query.
@@ -39,23 +38,12 @@ public class MetadataInfoQuery implements ApiQuery {
     public ApiAction getApiAction() {
         return args -> {
             JSONObject resp = new JSONObject();
-            JSONObject lineage = new JSONObject();
-            lineage.put("specimen_id", args.get(0));
-            Subject subject = subjects.getOrDefault(args.get(0), new Specimen("").setLineage(""));
-            lineage.put("lineage", subject.getLineage());
-            lineage.put("gdstpattern", subject.getGdstPattern());
-
-            JSONArray tkkList = new JSONArray();
-            subjects.entrySet().stream()
-                    .filter(e -> e.getValue()
-                                  .getLineage()
-                                  .replace(" ", "-")
-                                  .equals(args.get(0)))
-                    .forEach(e -> tkkList.put(e.getValue().getNameId()));
-
+            JSONObject data = new JSONObject();
+            subjects.entrySet().forEach(s -> {
+                data.put(s.getKey(), s.getValue().getGdstPattern());
+            });
             resp.put("status", "success");
-            resp.put("subject", lineage);
-            resp.put("tkkList", tkkList);
+            resp.put("data", data);
             return resp.toString();
         };
     }

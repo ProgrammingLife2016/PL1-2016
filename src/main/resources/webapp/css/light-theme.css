@@ -760,3 +760,85 @@ ol.nav ol.dropdown-menu li.placeholder:before {
 .pane {
     overflow: scroll;
 }
+
+#legend {
+    display: none;
+    width: 300px;
+    height: 155px;
+    background-color: #7BAAB3;
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 7px;
+}
+
+#legend span {
+    display: inline-block;
+    margin: 5px 2px;
+    color: #ECF0F1;
+    padding: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#legend span:hover {
+    color: #b73732;
+    -webkit-transition: color 300ms ease;
+}
+
+#legend > div {
+   margin: 0;
+   padding: 0;
+   margin-top: 3px;
+   display: relative;
+   background-color: rgba(255, 255, 255, 0.3);
+   padding: 1px;
+   border-radius: 5px;
+}
+
+#legend #color {
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-color: #F00;
+    float: right;
+    position: relative;
+    top: 3px;
+    right: 3px;
+    border-radius: 3px;
+}
+
+#legend div p {
+   margin: 0;
+   padding: 0;
+   font-size: 15px;
+   margin-top: 2px;
+   margin-bottom: 2px;
+   margin-left: 4px;
+   width: 80%;
+   color: #ECF0F1;
+}
+
+#legend ul {
+   display: inline;
+   list-style-type: none;
+   padding: 0;
+   padding-top: 10px;
+   margin: 0;
+   position: relative;
+   min-width: 200px;
+   color: #ECF0F1;
+   outline: none;
+}
+
+#legend ul li {
+  padding: 5px;
+  background-color: #728399;
+  border-radius: 5px;
+  margin: 5px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-transition: background-color 100ms ease;
+}
