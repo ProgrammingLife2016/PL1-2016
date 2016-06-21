@@ -13,6 +13,12 @@ import java.util.Map;
 public class AminoMonitor {
 
 
+    /**
+     * Get segments of reference genome with mutated
+     * amino acid in it with base position of mutation.
+     * @param bubbles list of collapsed bubbles
+     * @return mapped segmentId to the mutation e.g. :  {1, "2: Alanine -> Proline"
+     */
     public Map<Integer, String> getMutatedAminos(List<Node> bubbles) {
         String startData, endData;
         String aminoName;

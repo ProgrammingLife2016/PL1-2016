@@ -524,4 +524,9 @@ public class BubbleDispatcher {
     public NodeCollection getOriginalCollection() {
         return originalCollection;
     }
+
+
+    public List<Node> getBubbleCollection() {
+        return bubbleCollection;
+    }
 }
