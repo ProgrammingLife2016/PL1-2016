@@ -562,8 +562,8 @@ $(function() { // on dom ready
                     });
                 phyloTree.setLineageHighlighting("LIN 4");
                 phyloTree.setLineageHighlighting("LIN 3");
-                phyloTree.setLineageHighlighting("LIN 2");
                 phyloTree.setLineageHighlighting("LIN 1");
+                phyloTree.setLineageHighlighting("LIN 2");
             }
         });
     };
@@ -592,13 +592,6 @@ $(function() { // on dom ready
     };
 
     PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
-        // d3.select("#tree_display")
-        //     .selectAll("line")
-        //     .style("stroke", "#F00", "important")
-        //     .style("stroke-width", "4px")
-        //     .forEach(l => console.log(l));
-
-
         $.getJSON("/api/metadata/info/" + lineage.replace(" ", "-"), function(response) {
             var parentMap = {};
             window.parentMap = parentMap;
@@ -616,7 +609,7 @@ $(function() { // on dom ready
                   });
             for (var i = 0; i < 8; i++) {
                 Object.keys(parentMap)
-                      .filter(k => parentMap[k] !== undefined && parentMap[k] >= 2)
+                      .filter(k => parentMap[k] >= 2)
                       .map(k => window.links.find(link => link.target.id == k))
                       .filter(x => x !== undefined)
                       .forEach((x, i) => {
@@ -627,6 +620,13 @@ $(function() { // on dom ready
                             .style("stroke", phyloTree.LINEAGE_COLORS[lineage], "important");
                       });
             }
+            [202, 195, 375, 377].forEach(id =>{
+                var x = window.links.find(link => link.target.id == id);
+                d3.select("#tree_display")
+                    .selectAll("path")
+                    .filter(path => path.existing_path === x.existing_path)
+                    .style("stroke", "#F00", "important");
+            });
         });
     };
 
