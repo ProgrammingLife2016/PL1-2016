@@ -170,14 +170,14 @@ public class BubbleDispatcher {
         findNewLinks(filtered);
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
-
+        addBacklinks(bubbleCollection);
         BubbleAligner bubbleAligner = new BubbleAligner(filtered);
         return listAsNodeCollection(bubbleAligner.align());
     }
 
-    private void addBacklinks(NodeCollection nodeCollection) {
-        nodeCollection.values().forEach(x -> x.getBackLinks().clear());
-        for (Node node : nodeCollection.values()) {
+    private void addBacklinks(Collection<Node> nodeCollection) {
+        nodeCollection.forEach(x -> x.getBackLinks().clear());
+        for (Node node : nodeCollection) {
             for (Node link : node.getLinks()) {
                 link.getBackLinks().add(node);
             }
@@ -185,7 +185,7 @@ public class BubbleDispatcher {
     }
 
     private NodeCollection aggregateLines(NodeCollection nodeCollection) {
-        addBacklinks(nodeCollection);
+        addBacklinks(nodeCollection.values());
         List<Node> kowed = new ArrayList<>();
         nodeCollection.values().stream()
                       .filter(node -> node.getLinks().size() == 1).forEach(node -> {
