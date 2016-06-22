@@ -107,20 +107,21 @@ var NODE_COLOR = function (node) {
     }
 };
 
+var BIGGIE_FACTOR = 1;
 /**
  * @return {number}
  */
 var MIN_CONTAINERSIZES = function (s) {
     if (s < 2) {
-        return 64;
+        return 64 * BIGGIE_FACTOR;
     } else if (s < 4) {
-        return 32;
+        return 32 * BIGGIE_FACTOR;
     } else if (s < 8) {
-        return 16;
+        return 16 * BIGGIE_FACTOR;
     } else if (s < 16) {
-        return 8;
+        return 8 * BIGGIE_FACTOR;
     } else if (s < 32) {
-        return 4;
+        return 4 * BIGGIE_FACTOR;
     } else {
         return 0;
     }
@@ -176,6 +177,8 @@ ServerConnection.prototype.loadGraph = function (threshold, minX, maxX, minConta
         if (redraw) {
             self.graph.replace(nodes, edges, annotations);
         } else {
+            BIGGIE_FACTOR = response.totalNodes > 10000 ? 10 : 1;
+            MAX_ZOOM_LEVEL = response.totalNodes > 10000 ? 500 : 100;
             self.previousDomain = [0, d3.max(nodes.map(function (n) {
                 return n.x
             }))];
@@ -207,7 +210,7 @@ ServerConnection.prototype.updateGraph = function () {
 ServerConnection.prototype.jumpToBase = function (genome, base) {
     var self = this;
     $.getJSON("/api/metadata/navigate/" + genome + "/" + base, function (response) {
-        var scale = 100;
+        var scale = MAX_ZOOM_LEVEL;
         var translate = [-self.graph.untouchedXScale(response.x) * (scale - 1), -scale];
         self.graph.svg.svg.transition()
             .duration(750)

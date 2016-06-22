@@ -150,6 +150,7 @@ public class FetchDatabase implements Database {
         JSONObject result = new JSONObject();
         result.put("status", "success");
         try {
+            result.put("totalNodes", fetchTotalSegments());
             result.put("nodes", fetchNodes(threshold, x1, x2, minContainerSize));
             if (threshold <= ANNOTATION_THRESHOLD) {
                 result.put("annotations", fetchAnnotations());
@@ -173,6 +174,19 @@ public class FetchDatabase implements Database {
         result.put("status", "success");
         result.put("annotations", fetchAnnotations());
         return result;
+    }
+
+    public int fetchTotalSegments() {
+        String query = "SELECT COUNT(*) FROM segments";
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public JSONObject fetchAmino(int bubbleId) {
