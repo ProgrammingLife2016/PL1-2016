@@ -644,7 +644,7 @@ $(function() { // on dom ready
             d3.select("#tree_display")
               .selectAll("path")
               .filter(path => path.existing_path === x.existing_path)
-              .style("stroke", "#00F", "important");
+              .style("stroke", "#F00", "important");
         });
     };
 
