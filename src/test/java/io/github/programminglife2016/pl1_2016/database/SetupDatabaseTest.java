@@ -74,7 +74,7 @@ public class SetupDatabaseTest {
         return specimen;
     }
 
-    @Test (expected = JSONException.class)
+    @Test (expected = NullPointerException.class)
     public void test() throws SQLException {
         Annotation annotation = new Annotation();
         annotation.setId("");

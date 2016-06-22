@@ -61,6 +61,7 @@ public class BubbleDetector {
 
 
     private List<Node> findLevelBubbles(Node startNode, Node destination) {
+
         conductedSearches.add(new SimplePair<>(startNode.getId(), destination.getId()));
         if (startNode.getId() >= destination.getId()) {
             return new ArrayList<>();
