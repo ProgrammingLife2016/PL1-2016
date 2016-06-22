@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.collapser;
 
 import io.github.programminglife2016.pl1_2016.parser.ObjectSerializer;
+import io.github.programminglife2016.pl1_2016.parser.metadata.AminoMonitor;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeMap;
@@ -171,6 +172,8 @@ public class BubbleDispatcher {
         endTime = System.nanoTime();
         System.out.println("Done relinking. time: " + ((endTime - startTime) / TIME) + " s.");
 //        addBacklinks(filtered);
+        AminoMonitor am = new AminoMonitor();
+        am.getMutatedAminos(bubbleCollection);
         return listAsNodeCollection(filtered);
     }
 
@@ -305,6 +308,7 @@ public class BubbleDispatcher {
      */
     private void findNewLinks(Collection<Node> filteredBubbles) {
         createQuickRefForRelinking();
+//        findAllParents();
         filteredBubbles.parallelStream().forEach(bubble -> {
             Node primitiveEnd = getPrimitiveEnd(bubble);
             Node prospectiveLink = getExistingAncestor(primitiveEnd,
