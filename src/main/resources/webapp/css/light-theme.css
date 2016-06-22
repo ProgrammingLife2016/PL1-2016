@@ -367,8 +367,8 @@ html, body {
    padding: 0;
    display: none;
    position: inline;
-   width: 250px;
-   height: 70px;
+   width: 12.5%;
+   height: auto;
    border-radius: 5px;
    background-color: #94AAC7;
    color: #ECf0f1;
@@ -379,7 +379,9 @@ html, body {
    z-index: 5;
    opacity: 0.95;
 }
-
+#info>ul>li>img {
+    height: 20px;
+}
 #info div {
    margin: 0;
    padding: 0;
@@ -841,5 +843,5 @@ ol.nav ol.dropdown-menu li.placeholder:before {
 
 ol.highlighted {
     height: 170px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }

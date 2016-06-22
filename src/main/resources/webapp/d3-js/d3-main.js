@@ -478,6 +478,8 @@ var serverConnection;
 function startD3() {
     getMetadata();
     serverConnection = new ServerConnection();
+    $("#info").show();
+
     serverConnection.loadGraph(4096, 0, 100000000, 64, false);
 }
 

@@ -214,6 +214,7 @@ $(function() { // on dom ready
     GraphHandler.prototype.bindUIEvents = function() {
         $(".dnaGraph").click(function() {
             $("#d3").show();
+            $("#info").show();
             $("#tree").hide();
             $("#rotation").hide();
             $("#tree").css("z-index", "1");
@@ -234,6 +235,7 @@ $(function() { // on dom ready
             $("#d3").css("z-index", "1");
             $("#options").css("z-index", "0");
             $("#search").css("display", "block");
+            $("#info").hide();
 
             this.tree_div_height = $("#tree_display").height();
             this.tree_div_width = $("#tree_display").width();
@@ -347,6 +349,8 @@ $(function() { // on dom ready
         $("#d3").css("z-index", "2");
         $("#options").css("z-index", "0");
         $("#search").css("display", "none");
+        $("#info").show();
+
     };
 
     GraphHandler.prototype.showPhylotree = function() {
@@ -359,6 +363,8 @@ $(function() { // on dom ready
         $("#options").css("z-index", "0");
         $("#search").css("display", "block");
         phyloTree.listItems();
+        $("#info").hide();
+
 
         if (this.fuse === undefined) {
             phyloTree.loadFuse();
@@ -444,7 +450,10 @@ $(function() { // on dom ready
             }
         });
         $("#results").on("click", "li", function(e) {
-            highlightGenome($(this).html());
+
+            var genome = [$(this).html()];
+            console.log(genome);
+            setPhylotreeHighlighting(genome);
         });
 
         $("#search input").on("search", function() {
