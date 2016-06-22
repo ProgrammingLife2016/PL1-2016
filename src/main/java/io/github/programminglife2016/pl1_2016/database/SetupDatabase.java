@@ -129,7 +129,7 @@ public class SetupDatabase implements Database {
             clearTable(LINK_GENOMES_TABLE);
             clearTable(PRIMITIVES_TABLE);
             clearTable("aminos");
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
             try {
                 writeSpecimen(this.splist);
                 writeAnnotations(nodes);
@@ -140,6 +140,7 @@ public class SetupDatabase implements Database {
             for (int THRESHOLD : THRESHOLDS) {
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);
+//                updateSegmentSizes(nodesToWrite, THRESHOLD);
                 try {
                     writeNodes(nodesToWrite, THRESHOLD);
                     writePrimitives(dispatcher);
@@ -174,6 +175,22 @@ public class SetupDatabase implements Database {
             }
         }
         return res;
+    }
+
+    private void updateSegmentSizes(NodeCollection nodes, int threshold) {
+        String query = "UPDATE segments SET segmentsize=? WHERE id=?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(query);
+            for (Node node : nodes.values()) {
+                stmt.setInt(1, node.mutationSize());
+                stmt.setInt(2, node.getId());
+                stmt.addBatch();
+            }
+        stmt.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -111,15 +111,15 @@ var NODE_COLOR = function (node) {
  * @return {number}
  */
 var MIN_CONTAINERSIZES = function (s) {
-    if (s < 5) {
+    if (s < 2) {
         return 64;
-    } else if (s < 10) {
+    } else if (s < 4) {
         return 32;
-    } else if (s < 20) {
+    } else if (s < 8) {
         return 16;
-    } else if (s < 40) {
+    } else if (s < 16) {
         return 8;
-    } else if (s < 60) {
+    } else if (s < 32) {
         return 4;
     } else {
         return 0;
