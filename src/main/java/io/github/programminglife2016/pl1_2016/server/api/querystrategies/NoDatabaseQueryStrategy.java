@@ -8,6 +8,8 @@ import io.github.programminglife2016.pl1_2016.server.api.queries.GetLineageApiQu
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetStaticFileApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.GetThresholdedBubblesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.IndividualSegmentDataApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataGenomeApiQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.RootIndexApiQuery;
 
@@ -35,7 +37,10 @@ public class NoDatabaseQueryStrategy implements QueryStrategy {
         apiHandler.addQuery(new ReturnAllNodesApiQuery(nodeCollection))
                   .addQuery(new GetStaticFileApiQuery())
                   .addQuery(new RootIndexApiQuery())
-                  .addQuery(new IndividualSegmentDataApiQuery(nodeCollection));
+                  .addQuery(new IndividualSegmentDataApiQuery(nodeCollection))
+                  .addQuery(new MetadataInfoApiQuery(subjects))
+                  .addQuery(new MetadataGenomeApiQuery(subjects));
+
         if (subjects != null) {
             apiHandler.addQuery(new GetThresholdedBubblesApiQuery(nodeCollection))
                       .addQuery(new GetLineageApiQuery(subjects));

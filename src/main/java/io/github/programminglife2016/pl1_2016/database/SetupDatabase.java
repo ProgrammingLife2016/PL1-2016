@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
+import io.github.programminglife2016.pl1_2016.parser.metadata.AminoMonitor;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
@@ -17,6 +18,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -87,39 +90,56 @@ public class SetupDatabase implements Database {
         PreparedStatement stmt = connection.prepareStatement(format);
 
         NodeCollection nodes = bubbleDispatcher.getOriginalCollection();
-        for (Node node : nodes.values()) {
-            String[] params = bubbleDispatcher.getAllParentsOfSegment(node);
-            stmt.setInt(1, Integer.parseInt(params[0]));
-            stmt.setString(2, params[1]);
-            stmt.setString(3, params[2]);
-            stmt.setString(4, params[3]);
-            stmt.setString(5, params[4]);
-            stmt.setString(6, params[5]);
+        bubbleDispatcher.findAllParents();
+        String[][] segmentsWithParents = bubbleDispatcher.getSegmentsWithParents();
+        for (int i = 0; i < segmentsWithParents.length; i++) {
+            String[] params = segmentsWithParents[i];
+            stmt.setInt(1, i+1);
+            stmt.setString(2, params[0]);
+            stmt.setString(3, params[1]);
+            stmt.setString(4, params[2]);
+            stmt.setString(5, params[3]);
+            stmt.setString(6, params[4]);
             stmt.addBatch();
         }
         stmt.executeBatch();
         stmt.close();
     }
 
+    private void writeAminos(List<Node> bubbles) throws SQLException {
+        String format = "INSERT INTO aminos (segid, data) VALUES (?,?)";
+        AminoMonitor am = new AminoMonitor();
+        Map<Integer, String> aminos = am.getMutatedAminos(bubbles);
+        PreparedStatement pstmt = connection.prepareStatement(format);
+        for (Map.Entry<Integer, String> amino : aminos.entrySet()) {
+            pstmt.setInt(1, amino.getKey());
+            pstmt.setString(2, amino.getValue());
+            pstmt.addBatch();
+        }
+        pstmt.executeBatch();
+        pstmt.close();
+    }
+
     public final void setup(NodeCollection nodes) {
-        if (!isSetup()) {
+//        if (!isSetup()) {
             clearTable(ANNOTATIONS_TABLE);
             clearTable(SPECIMEN_TABLE);
             clearTable(LINK_TABLE);
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
             clearTable(PRIMITIVES_TABLE);
+            clearTable("aminos");
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             try {
                 writeSpecimen(this.splist);
                 writeAnnotations(nodes);
+                writeAminos(dispatcher.getBubbleCollection());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes, dataset);
             for (int THRESHOLD : THRESHOLDS) {
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);
-                nodesToWrite.recalculatePositions();
                 try {
                     writeNodes(nodesToWrite, THRESHOLD);
                     writePrimitives(dispatcher);
@@ -127,7 +147,7 @@ public class SetupDatabase implements Database {
                     e.printStackTrace();
                 }
             }
-        }
+//        }
     }
 
     private boolean isSetup() {
@@ -166,12 +186,11 @@ public class SetupDatabase implements Database {
     @SuppressWarnings("checkstyle:magicnumber")
     private void writeNodes(NodeCollection nodes, int threshold) throws SQLException {
         PreparedStatement stmt = null;
-        String query = "INSERT INTO " + NODES_TABLE + "(id, data, x, y, isbubble, containersize) VALUES" + "(?,?,?,?,"
-                + "" + "" + "?,?) ON CONFLICT DO NOTHING";
+        String query = "INSERT INTO " + NODES_TABLE + "(id, data, x, y, isbubble, containersize, segmentsize) VALUES" + "(?,?,?,?,"
+                + "" + "" + "?,?,?) ON CONFLICT DO NOTHING";
 
         try {
             stmt = connection.prepareStatement(query);
-            int i = 0;
             for (Node node : nodes.values()) {
                 stmt.setInt(1, node.getId());
                 if (node.getStartNode().getId() == node.getEndNode().getId() && !node.getStartNode().isBubble()) {
@@ -185,13 +204,10 @@ public class SetupDatabase implements Database {
                 stmt.setInt(THREE, node.getX());
                 stmt.setInt(FOUR, node.getY());
                 stmt.setInt(6, node.getContainerSize());
+                stmt.setInt(7, node.mutationSize());
                 stmt.addBatch();
-                i++;
-
-                if (i % 1000 == 0 || i == nodes.values().size()) {
-                    stmt.executeBatch();
-                }
             }
+            stmt.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -222,22 +238,15 @@ public class SetupDatabase implements Database {
         try {
             stmt = connection.prepareStatement(query);
 
-            int i = 0;
             for (Node node : nodes.values()) {
                 for (Node link : node.getLinks()) {
                     Set<String> intersection = new HashSet<String>(node.getGenomes());
-                    System.out.println(link.getGenomes());
                     intersection.retainAll(link.getGenomes());
                     stmt.setInt(1, node.getId());
                     stmt.setInt(2, link.getId());
                     stmt.setInt(THREE, threshold);
                     stmt.setString(4, intersection.toString());
                     stmt.addBatch();
-                    i++;
-
-                    if (i % 1000 == 0) {
-                        stmt.executeBatch();
-                    }
                 }
             }
             stmt.executeBatch();

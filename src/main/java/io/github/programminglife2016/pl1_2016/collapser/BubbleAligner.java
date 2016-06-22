@@ -5,8 +5,9 @@ import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,10 @@ import java.util.stream.Collectors;
 public class BubbleAligner {
 
     private List<Node> bubbleCollection;
+    private List<Node> visited = new ArrayList<>();
+    private List<Node> mainBranch = new ArrayList<>();
+    private Map<Node, Integer> otherNodes = new HashMap<>();
+    private static final double TIME = 1000000000d;
 
     /**
      * Create instance of bubbel aligner to align the position the node in the graph.
@@ -29,10 +34,16 @@ public class BubbleAligner {
      * Smooth the bubbles by minimizing the variance in the y coordinate of the bubbles.
      * @return collection with bubbles with modified posititons.
      */
-    public Collection<Node> alignVertical() {
+    public Collection<Node> align() {
+        System.out.println("Start aligner...");
+        long startTime = System.nanoTime();
         sortByX(bubbleCollection);
+        findMainBranch(bubbleCollection);
+        alignMainBranch();
+        alignOtherNodes();
         bubbleCollection.forEach(this::setNewY);
-        modify(bubbleCollection.get(0), true);
+        long endTime = System.nanoTime();
+        System.out.println("Done aligning. time: " + ((endTime - startTime) / TIME) + " s.");
         return bubbleCollection;
     }
 
@@ -42,32 +53,71 @@ public class BubbleAligner {
         nodes.stream().sorted(comparatorByX).collect(Collectors.toList());
     }
 
-    private void modify(Node node, boolean isMainBranch) {
-        Optional<Node> optMain =
-                node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size()));
-        if (optMain.isPresent()) {
-            Node mainNode = optMain.get();
-            if (isMainBranch && node.getGenomes().size() < mainNode.getGenomes().size()) {
-                setPositions(node, mainNode);
+    private void setNewY(Node node) {
+        if (node.getLinks().size() == 1) {
+            Node next = node.getLinks().iterator().next();
+            if (!visited.contains(next)) {
+                next.setXY(next.getX(), node.getY());
+                visited.add(next);
+            }
+        }
+        else if (node.getLinks().size() > 1) {
+            List<Node> links = new ArrayList<>(node.getLinks());
+            links.retainAll(mainBranch);
+            Node main;
+            if (links.size() == 1) {
+                main = links.get(0);//node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size())).get();
+            } else {
+                main = node.getLinks().stream().max(Comparator.comparing(x -> x.getGenomes().size())).get();
+            }
+            for (Node next : node.getLinks()) {
+                if (!visited.contains(next) && next.getId() != main.getId()) {
+                    next.setXY(next.getX(), next.getY() + node.getY() - main.getY());
+                    visited.add(next);
+                }
+            }
+            if (!visited.contains(main)) {
+                main.setXY(main.getX(), node.getY());
+                visited.add(main);
             }
         }
     }
 
-    private void setPositions(Node node, Node mainNode) {
-        node.getLinks()
-                .stream()
-                .filter(next -> next.getId() != mainNode.getId()).forEach(next -> {
-            next.setXY(next.getX(), next.getY() + (node.getY() - mainNode.getY()));
-            modify(next, false);
-        });
-        mainNode.setXY(mainNode.getX(), node.getY());
-        modify(mainNode, true);
+    private void findMainBranch(Collection<Node> nodes) {
+        List<Node> startNodes = nodes.stream()
+                .filter(x -> x.getBackLinks().size() == 0).collect(Collectors.toList());
+        findMainNode(startNodes);
     }
 
-    private void setNewY(Node node) {
-        if (node.getLinks().size() == 1) {
-            Node next = node.getLinks().iterator().next();
-            next.setXY(next.getX(), node.getY());
+    private void findMainNode(Collection<Node> nodes) {
+        if (!nodes.isEmpty()) {
+            Node main = nodes.stream()
+                    //.filter(x -> x.getBackLinks().size() == 0)
+                    .max(Comparator.comparing(x -> x.getGenomes().size())).get();
+            mainBranch.add(main);
+            for (Node n : nodes) {
+                if (n.getId() != main.getId()) {
+                    otherNodes.put(n, main.getY() - n.getY());
+                }
+            }
+            findMainNode(main.getLinks());
+        }
+    }
+
+    private void alignMainBranch() {
+        int y = mainBranch.get(0).getY();
+        mainBranch.forEach(n -> {
+            n.setXY(n.getX(), y);
+            visited.add(n);
+        });
+    }
+
+    private void alignOtherNodes() {
+        int y = mainBranch.get(0).getY();
+        for (Map.Entry<Node, Integer> entry : otherNodes.entrySet()) {
+            Node next = entry.getKey();
+            next.setXY(next.getX(), y - entry.getValue());
+            visited.add(next);
         }
     }
 }

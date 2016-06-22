@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link href="https://veg.github.io/phylotree.js/phylotree.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://veg.github.io/phylotree.js/phylotree.js"></script>
+</head>
+
+<body>
+  <div>
+      <form>
+        <label>Radial layout
+        <input type = "checkbox" id = "layout" checked/>
+      </form>
+  </div>
+
+
+  <svg id = "tree_display"></svg>
+
+  <script>
+     $(function() {
+      d3.text ("340tree.rooted.TKK.nwk", function (error, newick) {
+              var tree = d3.layout.phylotree()
+                     .svg (d3.select ("#tree_display"))
+                     .radial (true);
+
+              tree (d3_phylotree_newick_parser (newick))
+                   .layout();
+
+               $("#layout").on ("click", function (e) {
+                    tree.radial ($(this).prop ("checked")).placenodes().update ();
+              });
+        });
+     });
+  </script>
+
+</body>
+</html>
+<!-- $("#select_all_leaves").on ("click", function (e) { -->
+<!--     tree.modify_selection (function (d) { return d3_phylotree_is_leafnode (d.target);}); -->
+<!-- }); -->
+
+
+<!-- $("#select_none").on ("click", function (e) { -->
+<!--     tree.modify_selection (function (d) { return false;}); -->
+<!-- }); -->
+
+<!-- $("#clear_internal").on ("click", function (e) { -->
+<!--     tree.modify_selection (function (d) { return d3_phylotree_is_leafnode (d.target) ? d.target[current_selection_name] : false;}); -->
+<!-- }); -->
+
+<!-- $("#clear_leaves").on ("click", function (e) { -->
+<!--     tree.modify_selection (function (d) { return !d3_phylotree_is_leafnode (d.target) ? d.target[current_selection_name] : false;}); -->
+<!-- }); -->
+
+
+<!-- $("#display_dengrogram").on ("click", function (e) { -->
+<!--     tree.options ({'branches' : 'step'}, true); -->
+<!-- }); -->
+
+<!-- //    phylotree.modify_selection = function (callback, attr, place, skip_refresh, mode) { -->
+
+
+<!-- $("#branch_filter").on ("input propertychange", function (e) { -->
+<!--    var filter_value = $(this).val(); -->
+
+<!--    var rx = new RegExp (filter_value,"i"); -->
+
+<!--   tree.modify_selection (function (n) { -->
+<!--     return filter_value.length && (tree.branch_name () (n.target).search (rx)) != -1; -->
+<!--    },"tag"); -->
+
+<!-- }); -->

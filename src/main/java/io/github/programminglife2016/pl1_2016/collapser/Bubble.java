@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
  * Bubble class that contains segments or nested bubbles.
  */
 public class Bubble implements Node, Serializable {
-    private static final long serialVersionUID = -5399272868997934829L;
+    private static final long serialVersionUID = -816471404366774296L;
+//    private static final long serialVersionUID = 5065334268501873327L;
     private int id;
     private int x;
     private int y;
@@ -345,6 +347,21 @@ public class Bubble implements Node, Serializable {
     @Override
     public Map<String, SequenceRange> getRangePerGenome() {
         return startSegment(startNode).getRangePerGenome();
+    }
+
+    @Override
+    public int getSegmentSize() {
+        return startNode.getSegmentSize() + container.stream().mapToInt(Node::getSegmentSize).sum() + endNode.getSegmentSize();
+    }
+
+    @Override
+    public int mutationSize() {
+        OptionalInt mutationSize = container.stream().mapToInt(Node::getSegmentSize).max();
+        if (mutationSize.isPresent()) {
+            return mutationSize.getAsInt();
+        } else {
+            return 1;
+        }
     }
 
     private Node startSegment(Node startNode) {

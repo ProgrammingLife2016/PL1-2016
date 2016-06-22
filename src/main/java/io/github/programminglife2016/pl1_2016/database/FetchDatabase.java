@@ -19,14 +19,13 @@ import java.util.Random;
  * Class for creating a database to fetch from database.
  */
 public class FetchDatabase implements Database {
-    private static final String[] SPECIMEN_COLUMNS = {"age", "sex", "hiv_status", "cohort",
-            "date_of_collection", "study_geographic_district", "specimen_type",
-            "microscopy_smear_status", "dna_isolation_single_colony_or_nonsingle_colony",
-            "phenotypic_dst_pattern", "capreomycin_10ugml", "ethambutol_75ugml",
-            "ethionamide_10ugml", "isoniazid_02ugml_or_1ugml", "kanamycin_6ugml",
-            "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml",
-            "rifampin_1ugml", "streptomycin_2ugml", "digital_spoligotype", "lineage",
-            "genotypic_dst_pattern", "tugela_ferry_vs_nontugela_ferry_xdr"};
+    private static final String[] SPECIMEN_COLUMNS = {"age", "sex", "hiv_status", "cohort", "date_of_collection",
+            "study_geographic_district", "specimen_type", "microscopy_smear_status",
+            "dna_isolation_single_colony_or_nonsingle_colony", "phenotypic_dst_pattern", "capreomycin_10ugml",
+            "ethambutol_75ugml", "ethionamide_10ugml", "isoniazid_02ugml_or_1ugml", "kanamycin_6ugml",
+            "pyrazinamide_nicotinamide_5000ugml_or_pzamgit", "ofloxacin_2ugml", "rifampin_1ugml",
+            "streptomycin_2ugml", "digital_spoligotype", "lineage", "genotypic_dst_pattern",
+            "tugela_ferry_vs_nontugela_ferry_xdr"};
     private static final int ANNOTATION_THRESHOLD = 4;
 
     /**
@@ -101,25 +100,16 @@ public class FetchDatabase implements Database {
      * @return Json array of nodes in database
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchNodes(int threshold,
-                                 int x1,
-                                 int x2,
-                                 int minContainerSize) throws SQLException {
+    private JSONArray fetchNodes(int threshold, int x1, int x2, int minContainerSize) throws SQLException {
         Statement stmt = null;
         JSONArray nodes = null;
-        String query = String.format("SELECT DISTINCT %s.* "
-                + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
-                + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id "
-                + "JOIN %s AS n2 ON n2.id = %s.to_id WHERE"
-                + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) "
-                + "OR (n2.x >= %d AND n2.x <="
-                + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to ="
-                + " %s.id) AND %s.containersize > "
-                + "%d" + " ORDER"
-                + " BY %s.id", NODES_TABLE, NODES_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
-                NODES_TABLE, LINK_TABLE, LINK_TABLE,
-                threshold, x1, x2, x1, x2, NODES_TABLE, NODES_TABLE,
-                NODES_TABLE, minContainerSize, NODES_TABLE);
+        String query = String.format("SELECT DISTINCT %s.* " + "FROM %s, (SELECT DISTINCT n1.id AS from, n2.id AS to "
+                + "" + "" + "" + "FROM " + "%s AS n1 JOIN %s ON n1.id = %s.from_id " + "JOIN %s AS n2 ON n2.id = %s"
+                + ".to_id " + "WHERE" + " %s" + ".threshold =" + " %d AND" + " ((n1.x >= %d AND n1.x <= %d) " + "OR "
+                + "(n2.x >= %d " + "AND n2.x <=" + " %d)))" + "sub " + "WHERE (sub.from = %s" + ".id OR sub.to =" + ""
+                + " %s.id) AND %s" + ".containersize > " + "%d" + " ORDER" + " BY %s.id", NODES_TABLE, NODES_TABLE,
+                NODES_TABLE, LINK_TABLE, LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2,
+                NODES_TABLE, NODES_TABLE, NODES_TABLE, minContainerSize, NODES_TABLE);
         ResultSet rs;
         try {
             stmt = connection.createStatement();
@@ -155,7 +145,7 @@ public class FetchDatabase implements Database {
      * @param items            items
      * @return JSON response.
      */
-    public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize, HashMap<Integer, 
+    public final JSONObject getNodes(int threshold, int x1, int x2, int minContainerSize, HashMap<Integer,
             ArrayList<String>> items) {
         JSONObject result = new JSONObject();
         result.put("status", "success");
@@ -185,6 +175,31 @@ public class FetchDatabase implements Database {
         return result;
     }
 
+    public JSONObject fetchAmino(int bubbleId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String query = String.format("SELECT DISTINCT id FROM %s WHERE startin LIKE '%%/%d/%%'",
+                PRIMITIVES_TABLE, bubbleId);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                query = "SELECT data FROM aminos WHERE segid = " + rs.getInt(1);
+                statement = connection.createStatement();
+                rs = statement.executeQuery(query);
+                 if (rs.next()) {
+                     jsonObject.put("data", rs.getString(1));
+                 } else {
+                     jsonObject.put("data", "no mutation in amino acids");
+                 }
+            } else {
+                jsonObject.put("data", "no mutation in amino acids");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     /**
      * Convert metadata fetched from the server to JSON.
      *
@@ -198,10 +213,33 @@ public class FetchDatabase implements Database {
         return result;
     }
 
+    public final JSONObject getMetadatas() {
+        JSONObject result = new JSONObject();
+        result.put("status", "success");
+        result.put("subjects", fetchMetadatas());
+        return result;
+    }
+
     private JSONArray fetchMetadata(String genome) {
         Statement stmt;
-        String query = String.format("select * from %s WHERE specimen_id='%s'",
-                SPECIMEN_TABLE, genome);
+        String query = String.format("select * from %s WHERE specimen_id='%s'", SPECIMEN_TABLE, genome);
+        ResultSet rs;
+        JSONArray res = null;
+        try {
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            res = convertResultSetMetadataIntoJSON(rs);
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    private JSONArray fetchMetadatas() {
+        Statement stmt;
+        String query = String.format("select * from %s", SPECIMEN_TABLE);
         ResultSet rs;
         JSONArray res = null;
         try {
@@ -279,15 +317,15 @@ public class FetchDatabase implements Database {
      * @return nodes
      * @throws SQLException thrown if SQL connection or query is not valid
      */
-    private JSONArray fetchLinks(int threshold, int x1, int x2, HashMap<Integer, ArrayList<String>> items) throws 
+    private JSONArray fetchLinks(int threshold, int x1, int x2, HashMap<Integer, ArrayList<String>> items) throws
             SQLException {
         Statement stmt = null;
         JSONArray links = null;
-        String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s" + "" 
-                + ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + "" +
+        String query = String.format("SELECT DISTINCT n1.x AS x1, n1.y AS y1, n2.x AS x2," + " n2.y AS y2, %s" + "" +
+                ".genomes" + " " + "FROM %s AS n1 JOIN %s ON n1.id = %s.from_id JOIN %s AS n2 ON n2.id = %s" + "" +
                 ".to_id " +
                 "WHERE %s" + ".threshold = %d " + "AND ((n1.x >= %d AND n1.x <= %d) OR (n2.x >= %d AND n2.x " + "<= "
-                + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE, 
+                + "%d) OR (n1.x <= %d AND n2.x >= %d))", LINK_TABLE, NODES_TABLE, LINK_TABLE, LINK_TABLE,
                 NODES_TABLE, LINK_TABLE, LINK_TABLE, threshold, x1, x2, x1, x2, x1, x2);
         ResultSet rs;
         try {
@@ -326,11 +364,11 @@ public class FetchDatabase implements Database {
     }
 
     public JSONObject fetchPrimitives(int bubbleId) {
-        String startQuery = String.format("SELECT DISTINCT data FROM %s WHERE startin LIKE '%%/%d/%%'", 
+        String startQuery = String.format("SELECT DISTINCT data FROM %s WHERE startin LIKE '%%/%d/%%'",
                 PRIMITIVES_TABLE, bubbleId);
         String endQuery = String.format("SELECT DISTINCT data FROM %s WHERE endin LIKE '%%/%d/%%'", PRIMITIVES_TABLE,
                 bubbleId);
-        String contQuery = String.format("SELECT DISTINCT data FROM %s WHERE contin LIKE '%%/%d/%%'", 
+        String contQuery = String.format("SELECT DISTINCT data FROM %s WHERE contin LIKE '%%/%d/%%'",
                 PRIMITIVES_TABLE, bubbleId);
         Statement stmt;
         JSONObject jsonObject = new JSONObject();
@@ -344,15 +382,6 @@ public class FetchDatabase implements Database {
             rs = stmt.executeQuery(endQuery);
             if (rs.next()) {
                 jsonObject.put("enddata", rs.getString(1).equals("NULL") ? "" : rs.getString(1));
-            } else {
-                String bases = "ACTG";
-                Random random = new Random();
-                String randomString = "";
-                int length = random.nextInt(50);
-                for (int i = 0; i < length; i++) {
-                    randomString += bases.charAt(random.nextInt(4));
-                }
-                jsonObject.put("enddata", randomString);
             }
 
             stmt = connection.createStatement();
@@ -360,6 +389,9 @@ public class FetchDatabase implements Database {
             JSONArray container = new JSONArray();
             while (rs.next()) {
                 container.put(rs.getString(1));
+            }
+            if (container.length() == 1) {
+                container.put("");
             }
             jsonObject.put("contdata", container);
             rs.close();

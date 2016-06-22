@@ -1,8 +1,8 @@
 package io.github.programminglife2016.pl1_2016;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
+import io.github.programminglife2016.pl1_2016.database.SetupDatabase;
 import io.github.programminglife2016.pl1_2016.parser.metadata.GFFParser;
-
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.parser.nodes.SegmentParser;
@@ -34,9 +34,10 @@ public final class Launcher {
      * @throws SQLException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, SQLException {
+        int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
-        Server server = new RestServer(queryStrategy);
+        Server server = new RestServer(port, queryStrategy);
         server.startServer();
     }
 
@@ -65,6 +66,8 @@ public final class Launcher {
         nodeCollection.setAnnotations(gffParser.getAnnotations());
         closeInputStreams(is, positions, metadata, decorations);
         if (useDatabase) {
+//            SetupDatabase setupDatabase = new SetupDatabase(dataset, subjects.values());
+//            setupDatabase.setup(nodeCollection);
             FetchDatabase fdb = new FetchDatabase(dataset);
             return new DatabaseQueryStrategy(fdb, nodeCollection, subjects);
         } else {

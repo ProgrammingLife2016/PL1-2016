@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * Data structure for representing a DNA sequence
  */
 public class Segment implements Node, Serializable {
+    private static final long serialVersionUID = 175346604306200908L;
     private int id;
     private int x;
     private int y;
@@ -287,5 +288,13 @@ public class Segment implements Node, Serializable {
         return rangePerGenome;
     }
 
+    @Override
+    public int getSegmentSize() {
+        return data.length();
+    }
 
+    @Override
+    public int mutationSize() {
+        return 1;
+    }
 }
