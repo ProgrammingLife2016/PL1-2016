@@ -23,9 +23,15 @@ function getMetadata() {
  * @return {number}
  */
 var ZOOM_THRESHOLDS = function (s) {
-    if (s < 5) {
+    if (s < 2) {
+        return 4096;
+    } else if (s < 4) {
+        return 1024;
+    } else if (s < 8) {
+        return 256;
+    } else if (s < 16) {
         return 64;
-    } else if (s < 7.5) {
+    } else if (s < 32) {
         return 16;
     } else {
         return 4;
@@ -51,6 +57,9 @@ var LINEAGE_COLORS = {
     "LIN CANETTII": "#00ffff"
 };
 
+/**
+ * @return {string}
+ */
 var DEFAULT_COLOR = function (edge) {
     if (edge.highlight && edge.highlight.length > 0) {
         if (edge.highlight.length == 2) {
@@ -70,8 +79,10 @@ var NODE_TYPE = function (node) {
             return "triangle-up";
         case 4:
             return "diamond";
-        default:
+        case 1:
             return "circle";
+        default:
+            return "cross";
     }
 };
 /**
@@ -89,8 +100,10 @@ var NODE_COLOR = function (node) {
             return "orange";
         case 4:
             return "green";
-        default:
+        case 1:
             return "pink";
+        default:
+            return "#00008B";
     }
 };
 
@@ -99,9 +112,15 @@ var NODE_COLOR = function (node) {
  */
 var MIN_CONTAINERSIZES = function (s) {
     if (s < 5) {
+        return 64;
+    } else if (s < 10) {
         return 32;
-    } else if (s < 7.5) {
+    } else if (s < 20) {
         return 16;
+    } else if (s < 40) {
+        return 8;
+    } else if (s < 60) {
+        return 4;
     } else {
         return 0;
     }
