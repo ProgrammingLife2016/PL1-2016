@@ -13,6 +13,12 @@ import java.util.Map;
 public class AminoMonitor {
 
 
+    /**
+     * Get segments of reference genome with mutated
+     * amino acid in it with base position of mutation.
+     * @param bubbles list of collapsed bubbles
+     * @return mapped segmentId to the mutation e.g. :  {1, "2: Alanine -> Proline"
+     */
     public Map<Integer, String> getMutatedAminos(List<Node> bubbles) {
         String startData, endData;
         String aminoName;
@@ -42,10 +48,11 @@ public class AminoMonitor {
     }
 
     private void addMutationToMap(String aminoName, HashMap<Integer, String> startIdToResult, Node bubble) {
-        if(!startIdToResult.containsKey(bubble.getStartNode().getId())) {
-            startIdToResult.put(bubble.getStartNode().getId(), aminoName);
+        int startId = getDeepStartId(bubble.getStartNode());
+        if(!startIdToResult.containsKey(startId)) {
+            startIdToResult.put(startId, aminoName);
         } else {
-            startIdToResult.put(bubble.getStartNode().getId(), startIdToResult.get(bubble.getStartNode().getId()) + " -> " + aminoName.split(": ")[1]);
+            startIdToResult.put(startId, startIdToResult.get(startId) + " -> " + aminoName.split(": ")[1]);
         }
     }
 
@@ -58,9 +65,16 @@ public class AminoMonitor {
 
     private String getDeepStartData(Node node) {
         if (node.isBubble()) {
-            return getDeepEndData(node.getStartNode());
+            return getDeepStartData(node.getStartNode());
         }
         return node.getData();
+    }
+
+    private int getDeepStartId(Node node) {
+        if (node.isBubble()) {
+            return getDeepStartId(node.getStartNode());
+        }
+        return node.getId();
     }
 
     private String getAminoByBase(String bases1,

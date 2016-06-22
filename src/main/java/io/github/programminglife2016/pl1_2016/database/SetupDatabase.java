@@ -1,6 +1,7 @@
 package io.github.programminglife2016.pl1_2016.database;
 
 import io.github.programminglife2016.pl1_2016.collapser.BubbleDispatcher;
+import io.github.programminglife2016.pl1_2016.parser.metadata.AminoMonitor;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.Node;
@@ -17,6 +18,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -88,12 +91,10 @@ public class SetupDatabase implements Database {
 
         NodeCollection nodes = bubbleDispatcher.getOriginalCollection();
         bubbleDispatcher.findAllParents();
-//        for (Node node : nodes.values()) {
-//            String[] params = bubbleDispatcher.getAllParentsOfSegment(node);
         String[][] segmentsWithParents = bubbleDispatcher.getSegmentsWithParents();
         for (int i = 0; i < segmentsWithParents.length; i++) {
             String[] params = segmentsWithParents[i];
-            stmt.setInt(1, i+1);//Integer.parseInt(params[0])
+            stmt.setInt(1, i+1);
             stmt.setString(2, params[0]);
             stmt.setString(3, params[1]);
             stmt.setString(4, params[2]);
@@ -105,6 +106,20 @@ public class SetupDatabase implements Database {
         stmt.close();
     }
 
+    private void writeAminos(List<Node> bubbles) throws SQLException {
+        String format = "INSERT INTO aminos (segid, data) VALUES (?,?)";
+        AminoMonitor am = new AminoMonitor();
+        Map<Integer, String> aminos = am.getMutatedAminos(bubbles);
+        PreparedStatement pstmt = connection.prepareStatement(format);
+        for (Map.Entry<Integer, String> amino : aminos.entrySet()) {
+            pstmt.setInt(1, amino.getKey());
+            pstmt.setString(2, amino.getValue());
+            pstmt.addBatch();
+        }
+        pstmt.executeBatch();
+        pstmt.close();
+    }
+
     public final void setup(NodeCollection nodes) {
 //        if (!isSetup()) {
             clearTable(ANNOTATIONS_TABLE);
@@ -113,13 +128,15 @@ public class SetupDatabase implements Database {
             clearTable(NODES_TABLE);
             clearTable(LINK_GENOMES_TABLE);
             clearTable(PRIMITIVES_TABLE);
+            clearTable("aminos");
+            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             try {
                 writeSpecimen(this.splist);
                 writeAnnotations(nodes);
+                writeAminos(dispatcher.getBubbleCollection());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            BubbleDispatcher dispatcher = new BubbleDispatcher(nodes);
             for (int THRESHOLD : THRESHOLDS) {
                 System.out.println("Writing to database nodes with threshold: " + THRESHOLD);
                 NodeCollection nodesToWrite = dispatcher.getThresholdedBubbles(THRESHOLD, false);

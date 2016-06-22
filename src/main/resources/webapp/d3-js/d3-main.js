@@ -462,7 +462,7 @@ var SegmentInspector = function () {
     self.segmentInspector = $("#segmentinspector");
 };
 
-SegmentInspector.prototype.display = function (commonStart, differences, commonEnd) {
+SegmentInspector.prototype.display = function (commonStart, differences, commonEnd, aminoMutation) {
     var self = this;
     var html = "";
     var longestDiff = d3.max(differences.map(function (d) {
@@ -471,6 +471,7 @@ SegmentInspector.prototype.display = function (commonStart, differences, commonE
     for (var i = 0; i < differences.length; i++) {
         html += "<p>" + commonStart + "<span>" + differences[i] + new Array(longestDiff - differences[i].length + 1).join("&nbsp;") + "</span>" + commonEnd;
     }
+    html += "<p>" + aminoMutation + "</p>";
     self.segmentInspector.html(html);
 };
 
@@ -675,9 +676,16 @@ function inspectSegment(node) {
     $.ajax({
         url: "/api/data/mutation/" + node.id,
         async: false,
-        success: function (response) {
-            response = JSON.parse(response);
-            segmentInspector.display("..." + response.startdata.substr(response.startdata.length - 50), response.contdata, response.enddata);
+        success: function (response1) {
+            $.ajax({
+                url: "/api/amino/" + node.id,
+                async: false,
+                success: function (response2) {
+                    response1 = JSON.parse(response1);
+                    response2 = JSON.parse(response2);
+                    segmentInspector.display("..." + response1.startdata.substr(response1.startdata.length - 50), response1.contdata, response1.enddata, response2.data);
+                }
+            });
         }
     });
 }

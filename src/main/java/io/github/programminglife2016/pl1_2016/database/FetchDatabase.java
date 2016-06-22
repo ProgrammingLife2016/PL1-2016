@@ -175,6 +175,31 @@ public class FetchDatabase implements Database {
         return result;
     }
 
+    public JSONObject fetchAmino(int bubbleId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String query = String.format("SELECT DISTINCT id FROM %s WHERE startin LIKE '%%/%d/%%'",
+                PRIMITIVES_TABLE, bubbleId);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                query = "SELECT data FROM aminos WHERE segid = " + rs.getInt(1);
+                statement = connection.createStatement();
+                rs = statement.executeQuery(query);
+                 if (rs.next()) {
+                     jsonObject.put("data", rs.getString(1));
+                 } else {
+                     jsonObject.put("data", "no mutation in amino acids");
+                 }
+            } else {
+                jsonObject.put("data", "no mutation in amino acids");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     /**
      * Convert metadata fetched from the server to JSON.
      *
