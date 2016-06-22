@@ -8,6 +8,8 @@ $(function() { // on dom ready
         startZoom: 0.1, //Zoom level at the start of the application
         nodesDir: "/api/nodes/64/0/1000000000/4", //directory at the server for the first AJAX request
     };
+    $("#legend").draggable();
+    $("#info").draggable();
 
     /*
        Start animations
@@ -523,15 +525,16 @@ $(function() { // on dom ready
                 $("#dr i").attr("class", "fa fa-square");
                 console.log("Open");
                 Object.keys(phyloTree.resistance)
-                    .forEach(k => {
-                        $("<div>").attr("id", "legend_item")
-                            .attr("data-id", "dr")
-                            .append(
-                                $("<div>").attr("id", "color")
-                                            .css("background-color", phyloTree.resistance[k])
-                            )
-                            .append($("<p>").html(k)).insertAfter("#dr");
-                    });
+                      .forEach(k => {
+                          var colordiv = $("<div>").attr("id", "color")
+                                                   .css("background-color", phyloTree.resistance[k]);
+                          var pt = $("<p>").html(k);
+                          $("<div>").attr("id", "legend_item")
+                                    .attr("data-id", "dr")
+                                    .append(colordiv)
+                                    .append(pt)
+                                    .insertAfter("#dr");
+                      });
                 $("#legend").height($("#legend").height() + 140);
                 $("#legend").show();
                 $.getJSON("/api/metadata/genomes", function(response) {
@@ -560,15 +563,16 @@ $(function() { // on dom ready
                 $("#lh i").attr("class", "fa fa-square");
                 $("#legend").height($("#legend").height() + 290);
                 Object.keys(phyloTree.LINEAGE_COLORS)
-                    .forEach(k => {
-                        $("<div>").attr("id", "legend_item")
-                            .attr("data-id", "lh")
-                            .append(
-                                $("<div>").attr("id", "color")
-                                    .css("background-color", phyloTree.LINEAGE_COLORS[k])
-                            )
-                            .append($("<p>").html(k)).insertAfter("#lh");
-                    });
+                      .forEach(k => {
+                          var colordiv = $("<div>").attr("id", "color")
+                                                   .css("background-color", phyloTree.LINEAGE_COLORS[k]);
+                          var pt = $("<p>").html(k);
+                          $("<div>").attr("id", "legend_item")
+                                    .attr("data-id", "lh")
+                                    .append(colordiv)
+                                    .append(pt)
+                                    .insertAfter("#lh");
+                      });
                 phyloTree.setLineageHighlighting("LIN 4");
                 phyloTree.setLineageHighlighting("LIN 3");
                 phyloTree.setLineageHighlighting("LIN 2");
@@ -581,7 +585,7 @@ $(function() { // on dom ready
         window.tree.modify_selection (function (d) { return false;});
         d3.select("#tree_display")
           .selectAll("text")
-            .style("fill", function(t) {return "#000";}, "important");
+          .style("fill", function(t) {return "#000";}, "important");
         d3.select("#tree_display")
           .selectAll("path")
           .style("stroke", function(p) {
@@ -601,13 +605,6 @@ $(function() { // on dom ready
     };
 
     PhyloGeneticTree.prototype.setLineageHighlighting = function(lineage) {
-        // d3.select("#tree_display")
-        //     .selectAll("line")
-        //     .style("stroke", "#F00", "important")
-        //     .style("stroke-width", "4px")
-        //     .forEach(l => console.log(l));
-
-
         $.getJSON("/api/metadata/info/" + lineage.replace(" ", "-"), function(response) {
             var parentMap = {};
             window.parentMap = parentMap;
@@ -626,7 +623,7 @@ $(function() { // on dom ready
             for (var i = 0; i < 8; i++) {
                 Object.keys(parentMap)
                       .filter(k => parentMap[k] !== undefined && parentMap[k] >= 2)
-            .map(k => window.links.find(link => link.target.id == k))
+                      .map(k => window.links.find(link => link.target.id == k))
                       .filter(x => x !== undefined)
                       .forEach((x, i) => {
                           addSelection(x.source.id);
@@ -636,6 +633,18 @@ $(function() { // on dom ready
                             .style("stroke", phyloTree.LINEAGE_COLORS[lineage], "important");
                       });
             }
+            [202, 195, 375, 377].forEach(id => {
+                var x = window.links.find(link => link.target.id == id);
+                d3.select("#tree_display")
+                  .selectAll("path")
+                  .filter(path => path.existing_path === x.existing_path)
+                  .style("stroke", "#F00", "important");
+            });
+            var x = window.links.find(link => link.target.id == 2);
+            d3.select("#tree_display")
+              .selectAll("path")
+              .filter(path => path.existing_path === x.existing_path)
+              .style("stroke", "#00F", "important");
         });
     };
 

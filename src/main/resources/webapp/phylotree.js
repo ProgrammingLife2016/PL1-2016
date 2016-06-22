@@ -668,10 +668,10 @@ d3.layout.phylotree = function(container) {
         var desc = phylotree.select_all_descendants(node, true, true);
         var tkks = desc.filter(function(desc) {return desc.name !== "";})
                        .map(function(desc) {return desc.name;});
+        phylotree.modify_selection(phylotree.select_all_descendants(node, true, true));
         setPhylotreeHighlighting(tkks);
         console.log(tkks);
         //tree.modify_selection (function (d) { return d3_phylotree_is_leafnode (d.target);});
-        phylotree.modify_selection(phylotree.select_all_descendants(node, true, true));
 
 
 
@@ -2077,6 +2077,9 @@ d3.layout.phylotree = function(container) {
                     })
                     .on("click", function(d) {
                         phylotree.handle_node_click(d);
+                    })
+                    .on("dblclick", function(d) {
+                        phylotree.toggle_collapse(d).update();
                     });
             } else {
                 circles.remove();
