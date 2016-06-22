@@ -622,7 +622,7 @@ function setTKKs() {
 }
 
 function jumpToBaseGetFromDOM() {
-    serverConnection.jumpToBase($(".tkks").chosen().val(), $("#baseindex").val());
+    serverConnection.jumpToBase($(".tkks").chosen().val().replaceAll(" ", "_").replaceAll("-", "_"), $("#baseindex").val());
 }
 
 function jumpToGeneGetFromDOM() {
