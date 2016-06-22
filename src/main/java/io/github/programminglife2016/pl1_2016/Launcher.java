@@ -34,9 +34,10 @@ public final class Launcher {
      * @throws SQLException thrown if the port is in use.
      */
     public static void main(String[] args) throws IOException, SQLException {
+        int port = Integer.parseInt(args[0]);
         String dataset = args[1];
         QueryStrategy queryStrategy = getQueryStrategy(dataset, args[2].equals("database"));
-        Server server = new RestServer(queryStrategy);
+        Server server = new RestServer(port, queryStrategy);
         server.startServer();
     }
 

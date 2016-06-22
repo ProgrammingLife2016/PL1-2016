@@ -227,16 +227,6 @@ ServerConnection.prototype.jumpToGene = function (gene) {
     });
 };
 
-ServerConnection.prototype.jumpToGene = function (gene) {
-    var self = this;
-    var scale = 100;
-    var translate = [-annopositions[gene][0] * scale, -annopositions[1] * scale];
-
-    self.graph.svg.svg.transition()
-        .duration(750)
-        .call(self.graph.zoom.translate(translate).scale(scale).event);
-}
-
 var Graph = function (nodes, edges, annotations) {
     var self = this;
     self.nodes = nodes;
@@ -279,7 +269,6 @@ Graph.prototype.redraw = function () {
     } else if (t[0] < -WIDTH * (s - 1)) {
         t[0] = -WIDTH * (s - 1);
     }
-    console.log(t);
     self.zoom.translate(t);
     self.svg.positionNodes(self.svg.svgNodes, self.xScale, self.yScale);
     self.svg.positionEdges(self.svg.svgEdges, self.xScale, self.yScale);
