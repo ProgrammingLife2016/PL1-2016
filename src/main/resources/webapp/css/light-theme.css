@@ -838,3 +838,8 @@ ol.nav ol.dropdown-menu li.placeholder:before {
   font-size: 14px;
   -webkit-transition: background-color 100ms ease;
 }
+
+ol.highlighted {
+    height: 170px;
+    overflow-y: scroll;
+}

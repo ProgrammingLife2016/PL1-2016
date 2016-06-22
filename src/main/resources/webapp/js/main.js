@@ -617,7 +617,7 @@ $(function() { // on dom ready
             for (var i = 0; i < 8; i++) {
                 Object.keys(parentMap)
                       .filter(k => parentMap[k] !== undefined && parentMap[k] >= 2)
-                      .map(k => window.links.find(link => link.target.id == k))
+            .map(k => window.links.find(link => link.target.id == k))
                       .filter(x => x !== undefined)
                       .forEach((x, i) => {
                           addSelection(x.source.id);
