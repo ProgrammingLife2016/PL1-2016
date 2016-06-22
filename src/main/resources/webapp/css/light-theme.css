@@ -568,11 +568,6 @@ html, body {
     color: #fff;
 }
 
-.button {
-    margin-top: 76px;
-}
-
-
 .title {
     font-size: 120%;
     color: #fff;
@@ -580,7 +575,7 @@ html, body {
 }
 
 #metadatasearcher > div.chosen-container.chosen-container-multi {
-    width: 160px !important;
+    width: 100% !important;
 }
 
     .search_item {
@@ -593,6 +588,7 @@ html, body {
 
 #tab2>.element {
     width: 30%;
+    height:1px;
 }
 
 #selectedTKKs {

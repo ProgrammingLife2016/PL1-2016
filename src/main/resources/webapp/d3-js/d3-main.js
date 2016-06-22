@@ -477,11 +477,11 @@ function updateCharacteristic(event, params) {
             }
 
         }
+        console.log(selectedGenomes);
         $("#selectedTKKs").find(">option").remove();
         for(var key in selectedGenomes) {
             $("#selectedTKKs").append("<option value=" + selectedGenomes[key].specimen_id  + ">" +selectedGenomes[key].specimen_id + "</option>");
         }
-        console.log(selectedGenomes.length);
 
     });
 
@@ -510,7 +510,7 @@ function setTKKs() {
                 annopositions[response.annotations[i].displayname] = [x, y];
               $(".annotations").append( "<option value=\"" + response.annotations[i].displayname + "\">" + response.annotations[i].displayname + "</option>" );
         }
-        $(".annotations").chosen({ search_contains: true, width: "65%"});
+        $(".annotations").chosen({ search_contains: true, width: "60%" });
     });
 
 
