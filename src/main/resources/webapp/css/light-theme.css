@@ -763,13 +763,14 @@ ol.nav ol.dropdown-menu li.placeholder:before {
     display: block;
     width: 300px;
     height: 155px;
-    background-color: rgba(123, 170, 179, 0.8);
+    background-color: rgba(123, 170, 179, 0.9);
     position: fixed;
     top: 70px;
     left: 20px;
     border-radius: 5px;
     margin: 0px;
     padding: 7px;
+    cursor: move;
 }
 
 #legend span {
@@ -778,12 +779,14 @@ ol.nav ol.dropdown-menu li.placeholder:before {
     color: #ECF0F1;
     padding: 5px;
     cursor: pointer;
-    width: 100%;
+    width: 96%;
+    background-color: #728399;
+    border-radius: 5px;
 }
 
 #legend span:hover {
-    color: #b73732;
-    -webkit-transition: color 300ms ease;
+    background-color: #7d88bd;
+    -webkit-transition: background-color 300ms ease;
 }
 
 #legend > div {
@@ -839,6 +842,11 @@ ol.nav ol.dropdown-menu li.placeholder:before {
   cursor: pointer;
   font-size: 14px;
   -webkit-transition: background-color 100ms ease;
+}
+
+#legend ul li:hover {
+  background-color: #7d88bd;
+  -webkit-transition: background-color 300ms ease;
 }
 
 ol.highlighted {
