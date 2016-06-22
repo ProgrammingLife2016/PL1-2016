@@ -367,8 +367,8 @@ html, body {
    padding: 0;
    display: none;
    position: inline;
-   width: 250px;
-   height: 70px;
+   width: 12.5%;
+   height: auto;
    border-radius: 5px;
    background-color: #94AAC7;
    color: #ECf0f1;
@@ -379,7 +379,9 @@ html, body {
    z-index: 5;
    opacity: 0.95;
 }
-
+#info>ul>li>img {
+    height: 20px;
+}
 #info div {
    margin: 0;
    padding: 0;
@@ -568,11 +570,6 @@ html, body {
     color: #fff;
 }
 
-.button {
-    margin-top: 76px;
-}
-
-
 .title {
     font-size: 120%;
     color: #fff;
@@ -580,7 +577,7 @@ html, body {
 }
 
 #metadatasearcher > div.chosen-container.chosen-container-multi {
-    width: 160px !important;
+    width: 100% !important;
 }
 
     .search_item {
@@ -593,6 +590,7 @@ html, body {
 
 #tab2>.element {
     width: 30%;
+    height:1px;
 }
 
 #selectedTKKs {
@@ -841,4 +839,9 @@ ol.nav ol.dropdown-menu li.placeholder:before {
   cursor: pointer;
   font-size: 14px;
   -webkit-transition: background-color 100ms ease;
+}
+
+ol.highlighted {
+    height: 170px;
+    overflow-y: auto;
 }

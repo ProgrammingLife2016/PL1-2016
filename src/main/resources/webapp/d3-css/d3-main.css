@@ -41,6 +41,7 @@
     width: 100%;
     font-family: "Courier Sans", monospace;
     font-size: 21px;
+    overflow-x: auto;
 }
 
 #segmentinspector p {

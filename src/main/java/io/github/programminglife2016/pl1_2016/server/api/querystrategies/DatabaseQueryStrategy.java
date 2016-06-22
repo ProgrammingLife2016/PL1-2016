@@ -1,7 +1,6 @@
 package io.github.programminglife2016.pl1_2016.server.api.querystrategies;
 
 import io.github.programminglife2016.pl1_2016.database.FetchDatabase;
-import io.github.programminglife2016.pl1_2016.parser.metadata.Annotation;
 import io.github.programminglife2016.pl1_2016.parser.metadata.Subject;
 import io.github.programminglife2016.pl1_2016.parser.nodes.NodeCollection;
 import io.github.programminglife2016.pl1_2016.server.api.ApiHandler;
@@ -14,7 +13,7 @@ import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataGeneNav
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataGenomeApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoAnnotationsFromDatabaseQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoApiQuery;
-import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfoFromDatabaseQuery;
+import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataInfosFromDatabaseQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.MetadataNavigateApiQuery;
 import io.github.programminglife2016.pl1_2016.server.api.queries.OptionsOfGenomesFromDatabase;
 import io.github.programminglife2016.pl1_2016.server.api.queries.ReturnAllNodesFromDatabaseApiQuery;
@@ -55,7 +54,8 @@ public class DatabaseQueryStrategy implements QueryStrategy {
                   .addQuery(new GetDataFromMutationApiQuery(fdb))
                   .addQuery(new MetadataGeneNavigateApiQuery(nodeCollection))
                   .addQuery(new MetadataGenomeApiQuery(subjects))
-                  .addQuery(new MetadataInfoApiQuery(subjects));
+                  .addQuery(new MetadataInfoApiQuery(subjects))
+                  .addQuery(new MetadataInfosFromDatabaseQuery(fdb));
         if (subjects != null) {
             apiHandler.addQuery(new GetThresholdedBubblesFromDatabaseApiQuery(fdb))
                       .addQuery(new GetLineageFromDatabaseApiQuery(fdb));

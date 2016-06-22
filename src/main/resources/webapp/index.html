@@ -56,23 +56,27 @@
             <li>
                 <a id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp; Settings</a>
                 <ul>
-                    <li><a href="#" id="toggleSearch" data-open="true"><i class="fa fa-square fa-fw" aria-hidden="true"></i>&nbsp; Search genomes</a>
+                    <li><a href="#" id="toggleSearch" data-open="true"><i class="fa fa-square fa-fw"
+                                                                          aria-hidden="true"></i>&nbsp; Search
+                        genomes</a>
                     </li>
                     <!-- <li><a href="#" id="connect">Highlight Lineages</a> </li> -->
-                    <li><a href="#" id="showresistance" data-open="true"><i class="fa fa-square fa-fw" aria-hidden="true"></i>&nbsp; Show resistance</a>
+                    <li><a href="#" id="showresistance" data-open="true"><i class="fa fa-square fa-fw"
+                                                                            aria-hidden="true"></i>&nbsp; Show
+                        resistance</a>
                     </li>
                     <!-- <li><a href="#" id="resetHighlighting">Reset highlighting</a> </li> -->
                 </ul>
             </li>
             <li>
-              <a id="selectoptions"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>&nbsp; Highlight Options</a>
+                <a id="selectoptions"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>&nbsp; Highlight Options</a>
                 <ul>
-                    <li><a href="#" id="select_all">Select All</a> </li>
-                    <li><a href="#" id="select_all_internal">Select All Internal</a> </li>
-                    <li><a href="#" id="select_all_leaves">Select All Leaves</a> </li>
-                    <li><a href="#" id="select_none">Select None</a> </li>
-                    <li><a href="#" id="clear_internal">Clear Internal</a> </li>
-                    <li><a href="#" id="clear_leaves">Clear Leaves</a> </li>
+                    <li><a href="#" id="select_all">Select All</a></li>
+                    <li><a href="#" id="select_all_internal">Select All Internal</a></li>
+                    <li><a href="#" id="select_all_leaves">Select All Leaves</a></li>
+                    <li><a href="#" id="select_none">Select None</a></li>
+                    <li><a href="#" id="clear_internal">Clear Internal</a></li>
+                    <li><a href="#" id="clear_leaves">Clear Leaves</a></li>
                 </ul>
             </li>
 
@@ -126,7 +130,6 @@
                     <li class="active"><a href="#tab1"><i class="fa fa-upload" aria-hidden="true"> </i>Jumping</a></li>
                     <li><a href="#tab2"><i class="fa fa-search" aria-hidden="true"> </i>Metadata searcher</a></li>
                     <li><a href="#tab3"><i class="fa fa-lightbulb-o" aria-hidden="true"> </i>highlighting</a></li>
-                    <li><a href="#tab4"><i class="fa fa-cog fa-fw" aria-hidden="true"> </i>additional settings</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="tab1" class="tab active">
@@ -161,7 +164,7 @@
 
                         </div>
                         <div class="element">
-                            <select id = "selectedTKKs" multiple> </select>
+                            <select id="selectedTKKs" multiple> </select>
                             <a class="button" id="highlight" href="#" onclick="highLightGenomesFromMetadata()">
                                 <div class="jump">highlight</div>
                             </a>
@@ -188,45 +191,40 @@
         </div>
     </div>
     <div id="info">
-        <!--<div id="selectedGenome">
-            <div id="color"></div>
-            <p>TKK..</p>
-        </div>
-        <div id="selectedGenome">
-            <div id="color"></div>
-            <p>TKK..</p>
-        </div>
-        <!--<p id="selectedGenome">TKK...</p>-->
         <ul>
-            <li id="3resetButton">Reset highlighting</li>
-            <li id="3selectButton">Select other genome</li>
+            <li id="SNP"><img src="https://i.imgsafe.org/a0a69a22a3.png"><span> SNP</span></li>
+            <li id="INDEL"><img src="https://i.imgsafe.org/a0a690f769.png"><span> INDEL</span></li>
+            <li id="SEQ"><img src="https://i.imgsafe.org/a0a6a2e996.png"><span> Sequence</span></li>
+            <!--<li id="MUT"><span></span></li>-->
+
         </ul>
     </div>
 
     <div class="pane" id="tree">
-      <div id="legend" data-open="true">
-        <!-- <div id="legend_item"> -->
-        <!--    <div id="color"></div> -->
-        <!--    <p>TKK..</p> -->
-        <!-- </div> -->
-        <span id="dr" data-open="false"><i class="fa fa-square-o" aria-hidden="true"></i>&nbsp; Drug Resistance</span><br>
-        <span id="lh" data-open="false"><i class="fa fa-square-o" aria-hidden="true"></i>&nbsp; Lineage</span>
-        <ul>
-            <li id="resetButton"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Reset highlighting</li>
-            <li id="selectButton"><i class="fa fa-compress" aria-hidden="true"></i>&nbsp; Hide window</li>
-        </ul>
-      </div>
+        <div id="legend" data-open="true">
+            <!-- <div id="legend_item"> -->
+            <!--    <div id="color"></div> -->
+            <!--    <p>TKK..</p> -->
+            <!-- </div> -->
+            <span id="dr" data-open="false"><i class="fa fa-square-o"
+                                               aria-hidden="true"></i>&nbsp; Drug Resistance</span><br>
+            <span id="lh" data-open="false"><i class="fa fa-square-o" aria-hidden="true"></i>&nbsp; Lineage</span>
+            <ul>
+                <li id="resetButton"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Reset highlighting</li>
+                <li id="selectButton"><i class="fa fa-compress" aria-hidden="true"></i>&nbsp; Hide window</li>
+            </ul>
+        </div>
 
-            <!-- Search tab -->
-            <div id="search">
-                <input type="search" placeholder="Search genomes..." autofocus/>
-                <div id="results" tabindex="0">
-                    <ul></ul>
-                </div>
+        <!-- Search tab -->
+        <div id="search">
+            <input type="search" placeholder="Search genomes..." autofocus/>
+            <div id="results" tabindex="0">
+                <ul></ul>
             </div>
+        </div>
 
-            <!-- Toolbar -->
-      <svg id="tree_display"></svg>
+        <!-- Toolbar -->
+        <svg id="tree_display"></svg>
     </div>
 
 </div>
